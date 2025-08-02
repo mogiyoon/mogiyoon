@@ -1,0 +1,109 @@
+/* 부모 컨테이너 스크롤 스냅 설정 */
+.scroll-snap-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+/* ✅ TotalSummaryPage 전용 스크롤 패딩 클래스 추가 */
+.summary-scroll-container {
+    scroll-padding-top: 5rem; /* 80px, 헤더 높이에 맞춰 조정 */
+}
+
+/* 스크롤이 멈출 각 섹션 설정 (나머지 CSS는 이전과 동일) */
+.scroll-snap-section {
+    scroll-snap-align: start;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f9fafb;
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+}
+
+
+/* 스크롤이 멈출 각 섹션 설정 */
+.scroll-snap-section {
+    scroll-snap-align: start;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f9fafb;
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+}
+
+.scroll-snap-section:last-child {
+    justify-content: space-between;
+}
+
+/* --- 'Fade In & Rise Up' 애니메이션 정의 --- */
+@keyframes fade-in-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- 자기소개 텍스트 애니메이션 --- */
+.fade-in-text {
+  animation: fade-in-rise 0.8s ease-out both;
+}
+.fade-in-text.delay-1 { animation-delay: 0.2s; }
+.fade-in-text.delay-2 { animation-delay: 0.4s; }
+.fade-in-text.delay-3 { animation-delay: 0.6s; }
+.fade-in-text.delay-4 { animation-delay: 0.8s; }
+.fade-in-text.delay-5 { animation-delay: 1.0s; }
+
+
+/* --- 섹션 콘텐츠를 위한 범용 애니메이션 --- */
+.content-to-animate {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.section-is-visible .content-to-animate {
+  animation: fade-in-rise 1.2s ease-out forwards;
+}
+
+
+/* --- '전체 프로젝트 요약' 섹션 스타일 --- */
+.summary-section > .min-h-screen {
+    padding: 2rem;
+}
+@media (max-width: 768px) {
+    .summary-section > .min-h-screen {
+        padding: 1rem;
+    }
+}
+
+/* ✅ 높이 관련 스타일을 모두 제거합니다. */
+.summary-content-box {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- '나의 프로젝트' 섹션 스타일 --- */
+.my-projects-box {
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- '나의 프로젝트' 카드 마우스오버 효과 --- */
+.my-projects-box .grid > div {
+    transition: all 0.3s ease-in-out;
+    border-radius: 0.75rem;
+}
+
+.my-projects-box .grid > div:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 25px 50px -12px rgba(76, 63, 219, 0.45);
+}
