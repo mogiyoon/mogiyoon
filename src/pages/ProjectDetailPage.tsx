@@ -48,7 +48,6 @@ const ProjectDetailPage: React.FC = () => {
                     await document.fonts.ready;
                     const element = document.getElementById(elementId);
                     if (!element) { resolve(null); return; }
-                    element.scrollIntoView({ block: 'center' });
                     const images = Array.from(element.getElementsByTagName('img'));
                     if (images.length > 0) {
                 await Promise.all(images.map(image => new Promise<void>((imgResolve) => {
