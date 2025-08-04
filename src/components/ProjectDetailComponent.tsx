@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectData, SummaryPart } from '../types';
+import { ProjectData } from '../types';
 
 interface ProjectDetailComponentProps {
     project: ProjectData;
@@ -11,19 +11,25 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
         e.currentTarget.src = 'https://via.placeholder.com/250x150.png?text=Image+Not+Found';
     };
 
+    // ✅ 변경된 부분: 2중으로 map을 사용하여 중첩 배열을 렌더링합니다.
     const renderSummaryParts = (id: string) => {
         const section = project.summaries.find(s => s.id === id);
         if (!section) return null;
 
-        return section.parts.map((part, index) => {
-            if (part.type === 'text') {
-                return <p key={index} className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap mb-4">{part.content}</p>;
-            }
-            if (part.type === 'image') {
-                return <img key={index} src={part.src} alt={part.alt} className="w-full rounded-lg shadow-md border my-6" crossOrigin="anonymous"/>;
-            }
-            return null;
-        });
+        // partGroup은 SummaryPart[] 타입, part는 SummaryPart 타입
+        return section.parts.map((partGroup, groupIndex) => (
+            <div key={groupIndex} className="mb-4">
+                {partGroup.map((part, partIndex) => {
+                    if (part.type === 'text') {
+                        return <p key={`${groupIndex}-${partIndex}`} className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap mb-4">{part.content}</p>;
+                    }
+                    if (part.type === 'image') {
+                        return <img key={`${groupIndex}-${partIndex}`} src={part.src} alt={part.alt} className="w-full rounded-lg shadow-md border my-6" crossOrigin="anonymous"/>;
+                    }
+                    return null;
+                })}
+            </div>
+        ));
     };
 
     return (

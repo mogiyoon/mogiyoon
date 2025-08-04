@@ -17,7 +17,7 @@ export type SummaryPart = SummaryTextPart | SummaryImagePart;
 export interface SummarySection {
   id: string;
   title: string;
-  parts: SummaryPart[];
+  parts: SummaryPart[][];
 }
 
 // 아이콘, 기능, 스크린샷 등 기타 타입

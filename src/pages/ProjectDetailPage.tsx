@@ -1,3 +1,5 @@
+// src/pages/ProjectDetailPage.tsx
+
 import React, { useRef, useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
@@ -50,15 +52,11 @@ const ProjectDetailPage: React.FC = () => {
                     if (!element) { resolve(null); return; }
                     const images = Array.from(element.getElementsByTagName('img'));
                     if (images.length > 0) {
-                await Promise.all(images.map(image => new Promise<void>((imgResolve) => {
-                    if (image.complete) {
-                        imgResolve();
-                    } else {
-                        image.onload = () => imgResolve();
-                        image.onerror = () => imgResolve();
+                        await Promise.all(images.map(image => new Promise<void>((imgResolve) => {
+                            if (image.complete) { imgResolve(); } 
+                            else { image.onload = () => imgResolve(); image.onerror = () => imgResolve(); }
+                        })));
                     }
-                })));
-            }
                     setTimeout(() => {
                         html2canvas(element, { scale: 2, logging: false, useCORS: true }).then(resolve);
                     }, 300);
@@ -67,7 +65,6 @@ const ProjectDetailPage: React.FC = () => {
         };
 
         try {
-            // ✅ 1. 가로(landscape) 방향으로 PDF 생성
             const pdf = new jsPDF('l', 'mm', 'a4');
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdf.internal.pageSize.getHeight();
@@ -89,19 +86,20 @@ const ProjectDetailPage: React.FC = () => {
                 pdf.addImage(overviewCanvas.toDataURL('image/png'), 'PNG', margin + columnWidth + columnGap, margin, columnWidth, columnWidth * ratio);
             }
 
-            // ✅ 2. 나머지 요약 섹션들을 2개씩 짝지어 페이지에 추가
-            for (let i = 0; i < project.summaries.length; i += 2) {
+            // ✅ 2. 변경된 PDF 생성 로직
+            for (const section of project.summaries) {
                 pdf.addPage();
+                
+                // 왼쪽 컬럼 (parts[0]) 캡처 및 추가
+                const leftPartId = `${section.id}-0`;
+                const leftCanvas = await getCanvasAfterImageLoad(leftPartId);
+                
+                // 오른쪽 컬럼 (parts[1])이 있는지 확인
+                const rightPartId = section.parts.length > 1 ? `${section.id}-1` : null;
 
-                const leftSectionId = project.summaries[i].id;
-                const rightSectionId = project.summaries[i + 1]?.id; // 다음 섹션이 없을 수도 있음
-
-                // 왼쪽 섹션 캡처 및 추가
-                const leftCanvas = await getCanvasAfterImageLoad(leftSectionId);
                 if (leftCanvas) {
-                    // 오른쪽 섹션이 없는 경우 (마지막 1개만 남았을 때)
-                    if (!rightSectionId) {
-                        // 페이지 중앙에 하나만 크게 배치
+                    // 오른쪽 컬럼이 없는 경우 (컬럼이 1개일 때)
+                    if (!rightPartId) {
                         const ratio = leftCanvas.height / leftCanvas.width;
                         let imgWidth = pdfWidth - (margin * 2);
                         let imgHeight = imgWidth * ratio;
@@ -115,20 +113,24 @@ const ProjectDetailPage: React.FC = () => {
                     } else {
                         // 왼쪽 컬럼에 배치
                         const ratio = leftCanvas.height / leftCanvas.width;
-                        pdf.addImage(leftCanvas.toDataURL('image/png'), 'PNG', margin, margin, columnWidth, columnWidth * ratio);
+                        let imgHeight = columnWidth * ratio;
+                        if (imgHeight > contentMaxHeight) imgHeight = contentMaxHeight;
+                        pdf.addImage(leftCanvas.toDataURL('image/png'), 'PNG', margin, margin, columnWidth, imgHeight);
                     }
                 }
 
-                // 오른쪽 섹션 캡처 및 추가 (존재할 경우)
-                if (rightSectionId) {
-                    const rightCanvas = await getCanvasAfterImageLoad(rightSectionId);
+                // 오른쪽 컬럼이 있는 경우 캡처 및 추가
+                if (rightPartId) {
+                    const rightCanvas = await getCanvasAfterImageLoad(rightPartId);
                     if (rightCanvas) {
                         const ratio = rightCanvas.height / rightCanvas.width;
-                        pdf.addImage(rightCanvas.toDataURL('image/png'), 'PNG', margin + columnWidth + columnGap, margin, columnWidth, columnWidth * ratio);
+                        let imgHeight = columnWidth * ratio;
+                        if (imgHeight > contentMaxHeight) imgHeight = contentMaxHeight;
+                        pdf.addImage(rightCanvas.toDataURL('image/png'), 'PNG', margin + columnWidth + columnGap, margin, columnWidth, imgHeight);
                     }
                 }
             }
-
+            
             pdf.save(`${project.title}-summary.pdf`);
         } catch (error) {
             console.error("PDF 생성 중 오류가 발생했습니다.", error);
