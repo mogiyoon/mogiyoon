@@ -2,10 +2,18 @@ import React from 'react';
 
 // '개요' 섹션을 위한 타입
 export interface ProjectOverview {
-  period: string;
-  introduction: string;
-  features: string;
-  techStack: string;
+  period?: string;             // 개발 기간
+  introduction?: string;       // 프로젝트 소개
+  features?: string;           // 주요 기능
+  techStack?: string[];          // 사용 기술 스택
+  environment?: string;        // 개발 환경 (예: macOS + VSCode + Node.js 등)
+  role?: string;               // 담당 역할 (예: 프론트엔드 개발, 백엔드 API 설계 등)
+  implementationDetails?: string; // 구현 기능 상세 설명
+  links?: {
+    github?: string;           // GitHub 링크
+    demo?: string;             // 배포 링크
+    notion?: string;           // 기획 문서 등 기타 링크
+  };
 }
 
 // '요약'의 각 파트를 위한 타입 (글 또는 이미지)

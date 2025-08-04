@@ -16,7 +16,7 @@ export const projects: ProjectData[] = [
         period: "2024.01 ~ 2024.03",
         introduction: "OCR 기술을 활용해 책 속의 단어를 디지털 단어장으로 만들고, 자동 생성된 시험지를 통해 효율적인 암기를 돕는 스마트 학습 보조 앱입니다.",
         features: "OCR 단어 추출, 단어장 관리, 객관식/주관식 시험지 자동 생성 및 PDF 내보내기",
-        techStack: "React Native, Redux, Google Vision API, Realm"
+        techStack: ["React Native", "Redux", "Google Vision API", "Realm"]
     },
     
     summaries: [
