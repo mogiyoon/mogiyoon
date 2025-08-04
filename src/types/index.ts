@@ -1,4 +1,3 @@
-// src/types/index.ts
 import React from 'react';
 
 // 개별 기능에 대한 타입 정의
@@ -43,4 +42,11 @@ export interface ProjectData {
         url: string;
     };
     developmentProcess?: DevelopmentStep[];
+    
+    // --- 요약 탭을 위한 필드 추가 ---
+    summary_overview: string;
+    summary_development: string;
+    summary_troubleshooting: string;
+    summary_results: string;
+    summary_retrospective: string;
 }

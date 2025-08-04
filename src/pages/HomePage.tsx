@@ -1,20 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PortfolioCard from '../components/PortfolioCard';
 import { projects } from '../data/projects';
-import { projectTotal } from '../data/projectTotal';
 import './HomePage.css';
-import TotalProjectCard from '../components/TotalProjectCard';
 
 const HomePage: React.FC = () => {
     // 각 섹션을 참조하기 위한 ref
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const infoSectionRef = useRef<HTMLDivElement>(null);
-    const summarySectionRef = useRef<HTMLDivElement>(null);
     const projectsSectionRef = useRef<HTMLDivElement>(null);
 
     // 각 섹션의 노출 여부를 저장하는 상태
     const [isInfoVisible, setInfoVisible] = useState(false);
-    const [isSummaryVisible, setSummaryVisible] = useState(false);
     const [isProjectsVisible, setProjectsVisible] = useState(false);
 
     // 연락처 및 링크 정보
@@ -59,20 +55,16 @@ const HomePage: React.FC = () => {
         };
 
         const infoObserver = createObserver(setInfoVisible);
-        const summaryObserver = createObserver(setSummaryVisible);
         const projectsObserver = createObserver(setProjectsVisible);
 
         const currentInfoRef = infoSectionRef.current;
-        const currentSummaryRef = summarySectionRef.current;
         const currentProjectsRef = projectsSectionRef.current;
 
         if (currentInfoRef) infoObserver.observe(currentInfoRef);
-        if (currentSummaryRef) summaryObserver.observe(currentSummaryRef);
         if (currentProjectsRef) projectsObserver.observe(currentProjectsRef);
 
         return () => {
             if (currentInfoRef) infoObserver.unobserve(currentInfoRef);
-            if (currentSummaryRef) summaryObserver.unobserve(currentSummaryRef);
             if (currentProjectsRef) projectsObserver.unobserve(currentProjectsRef);
         };
     }, []);
@@ -101,27 +93,6 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
             </section>
-
-            {/* --- 전체 프로젝트 요약 섹션 --- */}
-            {projectTotal && (
-                <section className={`scroll-snap-section summary-section ${isSummaryVisible ? 'section-is-visible' : ''}`}>
-                    <div ref={summarySectionRef} className="min-h-screen flex items-center justify-center p-4 sm:p-8 md:p-12">
-                        <div className="summary-content-box content-to-animate bg-white shadow-xl rounded-2xl p-6 sm:p-10">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center">
-                                전체 프로젝트 요약
-                            </h2>
-                            <div className="flex justify-center items-center h-full">
-                                <div className="w-full h-full">
-                                    <TotalProjectCard
-                                        project={projectTotal}
-                                        className="w-full h-full"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            )}
 
             {/* --- 나의 프로젝트 섹션 --- */}
             <section className={`scroll-snap-section ${isProjectsVisible ? 'section-is-visible' : ''}`}>
