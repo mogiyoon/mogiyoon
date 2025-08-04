@@ -82,7 +82,7 @@ const HomePage: React.FC = () => {
                             풀스택 개발자 <span className="font-bold">노기윤</span>입니다.
                         </p>
                         <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mb-2 fade-in-text delay-3">
-                            저는 문제 해결 과정에서 다양한 관점으로 접근하여 해결하는 것을 선호합니다.
+                            전직 초등교사로서 다양한 도메인에 대해 열린 태도로 학습하고 융합하는 것을 선호합니다.
                         </p>
                         <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mt-12 fade-in-text delay-4">
                             이곳은 제가 열정을 담아 개발한 프로젝트들을 소개하는 공간입니다.

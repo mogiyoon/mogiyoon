@@ -1,52 +1,49 @@
 import React from 'react';
 
-// 개별 기능에 대한 타입 정의
-export interface Feature {
-    name: string;
-    description: string;
-    icon: React.FC<React.SVGProps<SVGSVGElement>>; // SVG 아이콘 컴포넌트 타입
+// '개요' 섹션을 위한 타입
+export interface ProjectOverview {
+  period: string;
+  introduction: string;
+  features: string;
+  techStack: string;
 }
 
-// 스크린샷 이미지에 대한 타입 정의
-export interface Screenshot {
-    title: string;
-    src: string;
+// '요약'의 각 파트를 위한 타입 (글 또는 이미지)
+type SummaryTextPart = { type: 'text'; content: string; };
+type SummaryImagePart = { type: 'image'; src: string; alt: string; };
+export type SummaryPart = SummaryTextPart | SummaryImagePart;
+
+// '개요'를 제외한 '요약' 섹션 타입
+export interface SummarySection {
+  id: string;
+  title: string;
+  parts: SummaryPart[];
 }
 
-// 기술 스택 항목에 대한 타입 정의 (예: Core, State Management 등)
-export interface TechStackItem {
-    category: string;
-    items: string[];
-}
+// 아이콘, 기능, 스크린샷 등 기타 타입
+export type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
+export interface Feature { name: string; description: string; icon: IconType; }
+export interface Screenshot { title: string; src: string; }
+export interface TechStack { category: string; items: string[]; }
+export interface DevelopmentStep { title: string; content: string; }
 
-// 개발 과정의 각 단계를 위한 타입을 새로 정의합니다.
-export interface DevelopmentStep {
-  title: '문제 파악' | '접근 방식/가설' | '구현/해결' | '트러블 슈팅/회고';
-  content: string; // 각 단계에 대한 상세 설명
-}
-
-
-// 전체 프로젝트 데이터에 대한 타입 정의
+// 최종 프로젝트 데이터 타입
 export interface ProjectData {
-    id: string; // 프로젝트 고유 ID
-    title: string;
-    subtitle: string;
-    demoGifSrc: string; // 데모 GIF 이미지 경로
-    introduction: string;
-    description: string;
-    features: Feature[];
-    screenshots: Screenshot[];
-    techStack: TechStackItem[];
-    license: {
-        name: string;
-        url: string;
-    };
-    developmentProcess?: DevelopmentStep[];
-    
-    // --- 요약 탭을 위한 필드 추가 ---
-    summary_overview: string;
-    summary_development: string;
-    summary_troubleshooting: string;
-    summary_results: string;
-    summary_retrospective: string;
+  id: string;
+  title: string;
+  subtitle: string;
+  demoGifSrc: string;
+  description: string;
+  features: Feature[];
+  screenshots: Screenshot[];
+  techStack: TechStack[];
+  developmentProcess?: DevelopmentStep[];
+  license: {
+    name: string;
+    url: string;
+  };
+
+  // 확장성을 위해 수정된 부분
+  overview: ProjectOverview;
+  summaries: SummarySection[];
 }
