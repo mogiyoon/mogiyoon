@@ -2,6 +2,7 @@ import React from 'react';
 
 // '개요' 섹션을 위한 타입
 export interface ProjectOverview {
+  projectType?: string;        // 프로젝트 타입
   period?: string;             // 개발 기간
   introduction?: string;       // 프로젝트 소개
   features?: string;           // 주요 기능
@@ -19,7 +20,8 @@ export interface ProjectOverview {
 // '요약'의 각 파트를 위한 타입 (글 또는 이미지)
 type SummaryTextPart = { type: 'text'; content: string; };
 type SummaryImagePart = { type: 'image'; src: string; alt: string; };
-export type SummaryPart = SummaryTextPart | SummaryImagePart;
+type SummaryLinkPart = { type: 'link'; label: string; href: string };
+export type SummaryPart = SummaryTextPart | SummaryImagePart | SummaryLinkPart;
 
 // '개요'를 제외한 '요약' 섹션 타입
 export interface SummarySection {

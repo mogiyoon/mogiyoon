@@ -9,30 +9,45 @@ export const projects: ProjectData[] = [
     id: "test-maker",
     title: "Test Maker",
     subtitle: "나만의 단어장, 나만의 시험지",
-    demoGifSrc: "https://placehold.co/300x500/cccccc/333333?text=App+Demo+GIF",
+    demoGifSrc: "/images/TestMakerGif.gif",
     description: `학생이나 어학 공부를 하는 사람들은 종종 책에 있는 단어를 노트에 옮겨 적고, 외우고, 스스로 시험 보는 과정을 반복합니다. Test Maker는 이 지루하고 비효율적인 과정을 기술로 해결합니다.\n\n카메라로 찍기만 하면 텍스트가 단어장으로, 단어장은 다시 시험지로 자동 변환되어 사용자는 오롯이 '학습'에만 집중할 수 있습니다.`,
     
     overview: {
-        period: "2024.01 ~ 2024.03",
-        introduction: "OCR 기술을 활용해 책 속의 단어를 디지털 단어장으로 만들고, 자동 생성된 시험지를 통해 효율적인 암기를 돕는 스마트 학습 보조 앱입니다.",
-        features: "OCR 단어 추출, 단어장 관리, 객관식/주관식 시험지 자동 생성 및 PDF 내보내기",
-        techStack: ["React Native", "Redux", "Google Vision API", "Realm"]
+        projectType: "개인 프로젝트",
+        period: "2024.11 ~ 2025.02",
+        introduction: "문제를 직접 만들고 테스트할 수 있는 프로그램",
+        features: "OCR 단어 추출, 단어장 관리, 객관식/주관식 시험지 자동 생성 및 내보내기",
+        techStack: ["React Native", "Google Vision API", "Redux",],
+        links: {
+            github: "https://github.com/mogiyoon/Test_Maker"
+        }
     },
     
     summaries: [
         {
             id: 'development',
-            title: '구현 기능',
+            title: '구현 기능 및 개발 과정',
             // ✅ 변경된 부분: parts를 2차원 배열로 수정
             parts: [
                 // PDF 왼쪽 컬럼에 들어갈 내용
                 [
+                    { type: 'image', src: '/images/overview/MakerOcr.png', alt: '프로젝트 아키텍처 다이어그램' },
                     { type: 'text', content: `React Native를 기반으로 Google Vision API를 연동하여 핵심 기능인 OCR 단어 추출을 구현했습니다. Redux로 상태를 관리하고, Realm과 AsyncStorage를 사용해 사용자의 단어장 데이터를 로컬에 안전하게 저장합니다.` },
-                    { type: 'image', src: 'https://placehold.co/600x300/e2e8f0/4a5568?text=Architecture+Diagram', alt: '프로젝트 아키텍처 다이어그램' }
                 ],
                 // PDF 오른쪽 컬럼에 들어갈 내용
                 [
-                    { type: 'text', content: `Vision Camera로 카메라 기능을 제어하고, 사용자가 직접 단어를 편집하고 시험 유형을 선택하는 등 다양한 커스텀 기능을 제공합니다. 또한, 생성된 시험지를 PDF나 이미지로 내보내는 기능을 구현하여 학습 자료의 활용도를 높였습니다.` }
+                    { type: 'image', src: '/images/overview/MakerWordEdit.png', alt: '프로젝트 아키텍처 다이어그램' },
+                    { type: 'text', content: `설정해둔 특수 기호를 활용하여 텍스트를 순회하며 낱말과 뜻을 추출합니다.` },
+                    { type: 'text', content: `'-' 기호를 사용하여 단어의 카테고리 위계를 구분합니다.` },
+                ],
+                [
+                    { type: 'image', src: '/images/overview/TestWordPage.png', alt: '프로젝트 아키텍처 다이어그램' },
+                    { type: 'text', content: `특정 카테고리에 포함된 단어를 선택하면 전역 변수에 저장되며 테스트 가능합니다.` },
+                ],
+                [
+                    { type: 'image', src: '/images/overview/TestTesting.png', alt: '프로젝트 아키텍처 다이어그램' },
+                    { type: 'text', content: `테스트는 객관식과 주관식 두 방식으로 선택 가능합니다.` },
+                    { type: 'text', content: `틀린 단어에 대해 오답 목록이 제공되며, 객관식 형태로 단어시험 내보내기가 가능합니다.` },
                 ]
             ]
         },
@@ -42,31 +57,42 @@ export const projects: ProjectData[] = [
             // ✅ 변경된 부분: 홑 컬럼만 사용할 경우에도 2차원 배열 구조를 유지
             parts: [
                 [
-                    { type: 'text', content: `개발 초기, OCR 인식률이 낮고 특히 한글과 영어가 혼용된 텍스트에서 오류가 잦았습니다. 이를 해결하기 위해 이미지 전처리 로직(흑백 전환, 대비 강화)을 추가하고, Google Vision API의 언어 힌트 옵션을 동적으로 설정하여 인식 정확도를 85% 이상으로 끌어올렸습니다.` },
-                    { type: 'text', content: `또한, 대량의 단어장을 관리할 때 발생하던 성능 저하 문제는 데이터베이스 쿼리를 최적화하고 가상화 리스트(VirtualizedList)를 적용하여 해결했습니다.` }
+                    { type: 'image', src: '/images/overview/TroubleShooting.png', alt: '프로젝트 아키텍처 다이어그램' },
                 ],
                 [
-                    { type: 'text', content: `개발 초기, OCR 인식률이 낮고 특히 한글과 영어가 혼용된 텍스트에서 오류가 잦았습니다. 이를 해결하기 위해 이미지 전처리 로직(흑백 전환, 대비 강화)을 추가하고, Google Vision API의 언어 힌트 옵션을 동적으로 설정하여 인식 정확도를 85% 이상으로 끌어올렸습니다.` },
-                    { type: 'text', content: `또한, 대량의 단어장을 관리할 때 발생하던 성능 저하 문제는 데이터베이스 쿼리를 최적화하고 가상화 리스트(VirtualizedList)를 적용하여 해결했습니다.` }
+                    { type: 'text', content: `문제 상황: 카테고리에 위계를 추가하여 카테고리가 중첩되는 자료 형태로 변경됐고,  따라서 기존의 자료 탐색 구조를 사용할 수 없었습니다.` },
+                    { type: 'text', content: `해결 과정: 폴더 구조에서 착안한 트리 구조를 적용했고, 단어 탐색 함수를 재귀 함수로 구현했습니다.` },
+                    { type: 'text', content: `결과:  하위 카테고리의 깊이에 관련없이 탐색이 가능합니다.` },
                 ]
             ]
         },
         {
             id: 'results',
-            title: '프로젝트 결과',
+            title: '결과 및 회고',
             parts: [
-                [{ type: 'text', content: `앱 출시 후 구글 플레이 스토어에서 1,000회 이상의 다운로드를 기록했으며, 사용자 평점 4.5점을 달성했습니다.` }],
-                [{ type: 'text', content: `앱 출시 후 구글 플레이 스토어에서 1,000회 이상의 다운로드를 기록했으며, 사용자 평점 4.5점을 달성했습니다.` }]
+                [
+                    { type: 'text', content: `결과` },
+                    { type: 'text', content: `\tReact Native 활용하여 안드로이드, IOS 모두 구현` },
+                    { type: 'text', content: `\t단어 데이터는 트리, 오답 데이터는 힙 자료 구조를 사용하여 구현` },
+                    { type: 'text', content: `\tGoogle Vision Api를 활용` },
+                ],
+                [
+                    { type: 'text', content: `회고` },
+                    { type: 'text', content: `\tNPM에서 필요한 컴포넌트 라이브러리(그리드)를 찾지 못해 직접 구현하고 NPM에 배포` },
+                    { type: 'link', label: 'mogiyoon-react-native-simple-grid', href: `https://www.npmjs.com/package/mogiyoon-react-native-simple-grid` },
+                    { type: 'text', content: `\t자료구조를 활용한 프로그램 구현` },
+                    { type: 'text', content: `\tType Script에 대한 이해도 향상` },
+                    { type: 'text', content: `\t전역 상태 관리 및 로컬 스토리지, 로컬 DB에 대한 이해 및 적용` },
+                ],
             ]
         },
         {
-            id: 'retrospective',
-            title: '회고',
+            id: 'blank',
+            title: '감사합니다.',
             parts: [
-                [{ type: 'text', content: `이번 프로젝트를 통해 React Native 환경에서 네이티브 모듈(카메라, 로컬 DB)과 외부 API를 연동하는 실무 경험을 쌓을 수 있었습니다.` }],
-                [{ type: 'text', content: `이번 프로젝트를 통해 React Native 환경에서 네이티브 모듈(카메라, 로컬 DB)과 외부 API를 연동하는 실무 경험을 쌓을 수 있었습니다.` }]
             ]
         }
+        
     ],
 
     features: [ { name: "📸 스마트 OCR 단어 추출", description: "카메라로 책이나 문서를 촬영하면, 광학 문자 인식(OCR) 기술을 통해 원하는 단어와 그 의미를 자동으로 추출하여 단어장에 추가합니다.", icon: CameraIcon } ],
