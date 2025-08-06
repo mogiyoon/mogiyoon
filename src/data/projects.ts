@@ -10,7 +10,7 @@ export const projects: ProjectData[] = [
     id: "test-maker",
     title: "Test Maker",
     subtitle: "나만의 단어장, 나만의 시험지",
-    demoGifSrc: testMakerImageLink + "/TestMakerGif.gif",
+    demoGifSrc: testMakerImageLink + "/appGif.gif",
     description: `학생이나 어학 공부를 하는 사람들은 종종 책에 있는 단어를 노트에 옮겨 적고, 외우고, 스스로 시험 보는 과정을 반복합니다. Test Maker는 이 지루하고 비효율적인 과정을 기술로 해결합니다.\n\n카메라로 찍기만 하면 텍스트가 단어장으로, 단어장은 다시 시험지로 자동 변환되어 사용자는 오롯이 '학습'에만 집중할 수 있습니다.`,
     
     overview: {
@@ -97,7 +97,7 @@ export const projects: ProjectData[] = [
     ],
 
     features: [ { name: "📸 스마트 OCR 단어 추출", description: "카메라로 책이나 문서를 촬영하면, 광학 문자 인식(OCR) 기술을 통해 원하는 단어와 그 의미를 자동으로 추출하여 단어장에 추가합니다.", icon: CameraIcon } ],
-    screenshots: [ { title: "Main Screen", src: "https://placehold.co/300x550/f0f0f0/333?text=Main" } ],
+    screenshots: [ { title: "Icon", src: testMakerImageLink + "/Icon.png" } ],
     techStack: [ { category: "Core", items: ["React Native"] } ],
     developmentProcess: [ { title: "문제 파악", content: "기존 단어 암기 방식의 비효율성을 발견하고, 이를 기술로 자동화하여 학습 효율을 높이는 것을 목표로 설정했습니다." } ],
     license: { name: "MIT", url: "https://opensource.org/licenses/MIT" },

@@ -102,7 +102,7 @@ const HomePage: React.FC = () => {
                         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center flex-shrink-0">
                             나의 프로젝트
                         </h2>
-                        <div className="flex-grow overflow-y-auto">
+                        <div className="flex-grow overflow-y-auto p-10">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 {projects.map((project) => (
                                     <div key={project.id}>
