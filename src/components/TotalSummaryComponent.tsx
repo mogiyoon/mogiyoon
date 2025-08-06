@@ -34,7 +34,7 @@ const renderSummaryPart = (part: SummaryPart, index: number) => {
             href={part.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-blue-600 underline hover:text-blue-800 transition-colors break-all"
+            className="inline-block text-blue-600 underline hover:text-blue-800 transition-colors break-words"
           >
             {part.label}
           </a>
@@ -133,7 +133,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
                     href={project.overview.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline text-blue-600"
+                    className="underline text-blue-600 break-words"
                   >
                     {project.overview.links.github}
                   </a>
@@ -149,7 +149,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
                     href={project.overview.links.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline text-blue-600"
+                    className="underline text-blue-600 break-words"
                   >
                     {project.overview.links.demo}
                   </a>
@@ -165,7 +165,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
                     href={project.overview.links.notion}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline text-blue-600"
+                    className="underline text-blue-600 break-words"
                   >
                     {project.overview.links.notion}
                   </a>
