@@ -10,8 +10,8 @@ import {
   VideoIcon,
 } from "../assets/icons";
 
-const testMakerImageLink = "/images/testMaker/";
-const rechoImageLink = "/images/recho/";
+const testMakerImageLink = "/images/testMaker";
+const rechoImageLink = "/images/recho";
 
 export const projects: ProjectData[] = [
   //--------------------------------Test Maker--------------------------------
