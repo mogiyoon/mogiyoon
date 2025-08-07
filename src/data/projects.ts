@@ -2,7 +2,13 @@
 
 import { ProjectData } from "../types";
 // 아이콘 경로는 실제 프로젝트에 맞게 수정해주세요.
-import { CameraIcon, CommunityIcon, MarketIcon, ShortFormIcon, VideoIcon } from "../assets/icons";
+import {
+  CameraIcon,
+  CommunityIcon,
+  MarketIcon,
+  ShortFormIcon,
+  VideoIcon,
+} from "../assets/icons";
 
 const testMakerImageLink = "/images/testMaker/";
 const rechoImageLink = "/images/recho/";
@@ -101,7 +107,7 @@ export const projects: ProjectData[] = [
           [
             {
               type: "text",
-              content: `문제 상황: 카테고리에 위계를 추가하여 카테고리가 중첩되는 자료 형태로 변경됐고,  따라서 기존의 자료 탐색 구조를 사용할 수 없었습니다.`,
+              content: `문제 상황: 카테고리에 위계를 추가하여 카테고리가 중첩되는 자료 형태로 변경됐고, 따라서 기존의 자료 탐색 구조를 사용할 수 없었습니다.`,
             },
             {
               type: "text",
@@ -109,7 +115,7 @@ export const projects: ProjectData[] = [
             },
             {
               type: "text",
-              content: `결과:  하위 카테고리의 깊이에 관련없이 탐색이 가능합니다.`,
+              content: `결과: 하위 카테고리의 깊이에 관련없이 탐색이 가능합니다.`,
             },
           ],
         ],
@@ -190,6 +196,7 @@ export const projects: ProjectData[] = [
       period: "2025.06 ~ 2025.07",
       introduction: "음악인들이 소통할 수 있는 커뮤니티 플랫폼",
       features: "커뮤니티, 합주 모집, 악기 중고 거래, 숏폼 기능",
+      architecture: rechoImageLink + "/overview/architecture.png",
       techStack: [
         "Nest.js",
         "React",
@@ -198,12 +205,9 @@ export const projects: ProjectData[] = [
         "AWS",
         "PostgreSQL",
       ],
-      environment: "macOS + VSCode + Node.js + PostgreSQL + AWS EC2",
-      role: "백엔드, 프론트엔드, ERD 및 API 설계, ffmpeg 활용, AWS 서버 구축",
-      implementationDetails:
-        "웹과 앱 통합 구조를 위해 React Native와 웹뷰를 사용하고, 서버에서는 ffmpeg로 영상 처리 및 스트리밍을 구현",
+      role: "백엔드, 프론트엔드, ERD 설계, ffmpeg 활용, AWS 서버 구축",
       links: {
-        github: undefined,
+        github: "https://github.com/JungleTeam5/Recho",
         demo: "https://recho.cloud",
         notion: undefined,
       },
@@ -216,22 +220,178 @@ export const projects: ProjectData[] = [
         parts: [
           [
             {
-              type: "text",
-              content: `React Native 앱에서 웹뷰를 통해 합주 편집 기능을 구현하였습니다.`,
+              type: "image",
+              alt: "비디오 편집 로직",
+              src: rechoImageLink + `/overview/videoLogic.png`,
             },
             {
               type: "text",
-              content: `Nest.js와 PostgreSQL 기반 백엔드에서 사용자, 게시글, 영상 등의 데이터를 관리합니다.`,
+              content: `ffmpeg를 활용한 비디오 편집 로직 구현`,
+            },
+            {
+              type: "text",
+              content: `짧은 길이 비디오 기준으로 비디오 병합`,
+            },
+            {
+              type: "text",
+              content: `이퀄라이저로 주파수별 dB 조절 기능 구현`,
+            },
+          ],
+          [
+            {
+              type: "image",
+              alt: "컴포넌트 리팩토링 및 로그인 정보 전역 상태 관리",
+              src: rechoImageLink + "/overview/componentRefactoring.png",
+            },
+            {
+              type: "text",
+              content: `합주 기능(비디오 재생+녹화), 비디오 편집 화면, 비디오 병합 로직 연결`,
+            },
+            {
+              type: "text",
+              content: `각 페이지별 컴포넌트를 공통 컴포넌트로 리팩토링`,
+            },
+            {
+              type: "text",
+              content: `jwt 중심으로 로그인 정보 전역 상태 관리`,
+            },
+          ],
+          [
+            {
+              type: "image",
+              alt: "CRUD 구현",
+              src: rechoImageLink + "/overview/crudImplement.png",
+            },
+            {
+              type: "text",
+              content: `합주 세션 모집 게시판 및 중고 거래 게시판 구현`,
+            },
+            {
+              type: "text",
+              content: `합주, 세션, 지원자 관계를 글, 댓글, 대댓글 관계에서 착안하여 DB 구조 설계`,
+            },
+            {
+              type: "text",
+              content: `다만 지원자만 별도의 모듈로 분리하여 관리`,
+            },
+          ],
+          [
+            {
+              type: "image",
+              alt: "좋아요, 댓글 리팩토링",
+              src: rechoImageLink + "/overview/likeReply.png",
+            },
+            {
+              type: "text",
+              content: `기존의 좋아요와 댓글은 각 게시판 모듈별로 관리됨`,
+            },
+            {
+              type: "text",
+              content: `추후 좋아요 및 댓글 기능 추가, 알람 기능 도입 등 유지/보수 및 확장성 면에서 부적합하다고 생각`,
+            },
+            {
+              type: "text",
+              content: `좋아요, 댓글을 각각 통합된 모듈로 리팩토링`,
+            },
+          ],
+          [
+            {
+              type: "image",
+              alt: "서버 구축",
+              src: rechoImageLink + "/overview/changedArchitecture.png",
+            },
+            {
+              type: "text",
+              content: `오토스케일링, 보안을 고려한 서버 구조 재설계`,
+            },
+            {
+              type: "text",
+              content: `VPC 및 Application Load Balancer 활용`,
+            },
+            {
+              type: "text",
+              content: `React가 정적 파일 및 SPA 임을 고려하여 S3를 통해 프론트 배포`,
+            },
+          ],
+          [
+            {
+              type: "image",
+              alt: "이슈 클로즈",
+              src: rechoImageLink + "/overview/issueClose.png",
+            },
+            {
+              type: "text",
+              content: `45개의 이슈 클로즈 중 17개의 이슈 클로즈`,
+            },
+            {
+              type: "text",
+              content: `코드 품질 향상 및 사용자 경험 개선`,
+            },
+          ],
+        ],
+      },
+      {
+        id: "troubleshooting",
+        title: "트러블 슈팅",
+        parts: [
+          [
+            {
+              type: "image",
+              src: rechoImageLink + "/overview/TroubleShooting1.png",
+              alt: "프로젝트 아키텍처 다이어그램",
             },
           ],
           [
             {
               type: "text",
-              content: `ffmpeg를 활용해 서버에서 영상 병합, 오디오 싱크 처리 등의 미디어 처리 기능을 수행합니다.`,
+              content: `문제 상황: 합주 기능을 구현하기 위해 카메라 녹화와 영상 재생을 동시에 해야함.`,
             },
             {
               type: "text",
-              content: `AWS EC2, S3, CloudFront 등을 활용하여 안정적인 영상 업로드 및 배포 환경을 구성했습니다.`,
+              content: `문제 해결 과정
+
+\t1. mixWithOthers: 'mix' 설정 → 실패
+\t\t- React Native Video 컴포넌트에서 해당 옵션을 설정했지만 작동하지 않음.
+\t\t- 이유: iOS의 기본 오디오 세션 정책상, mixWithOthers 기능이 비활성화되어 있으며, 이를 활성화하려면 네이티브 코드 수정이 필요함.
+
+\t2. 네이티브 모듈에 mixWithOthers 브릿지 추가 → 실패
+\t\t- VisionCamera 라이브러리에는 관련 기능이 있으나, Video 라이브러리에는 존재하지 않음.
+\t\t- 직접 브릿지를 연결해도 효과가 없었음.
+
+\t3. 비디오 라이브러리 네이티브 코드에 옵션 추가 → 실패
+\t\t- 직접 mixWithOthers 관련 설정을 Video 라이브러리에 추가했으나, 여전히 작동하지 않음.
+
+\t4. disableAudioSessionManagement: true 설정 → 성공
+\t\t- 라이브러리 내부의 옵션 중 disableAudioSessionManagement: true 설정을 발견함.
+\t\t- 이 옵션을 활성화하자 비디오와 카메라 오디오가 동시에 작동함.
+`,
+            },
+            {
+              type: "text",
+              content: `결과: 카메라 녹화 및 영상 재생이 가능해짐. 라이브러리 내부의 코드의 중요성을 깨닫게 됨 `,
+            },
+          ],
+          [
+            {
+              type: "image",
+              src: rechoImageLink + "/overview/TroubleShooting2.png",
+              alt: "프로젝트 아키텍처 다이어그램",
+            },
+          ],
+          [
+            {
+              type: "text",
+              content: `문제 상황: 영상과 이미지의 로딩 속도가 느림.`,
+            },
+            {
+              type: "text",
+              content: `해결 과정
+\t- 영상과 이미지를 저장/캐싱 하는 방식을 고민함.
+\t- S3 버킷에서 영상/이미지 데이터를 직접 로드하는 초기 방식에서 클라우드 프론트의 CDN을 활용하여 영상/이미지 캐싱`,
+            },
+            {
+              type: "text",
+              content: `결과: 평균 응답 속도가 2배 정도 빨라짐.`,
             },
           ],
         ],
@@ -244,15 +404,19 @@ export const projects: ProjectData[] = [
             { type: "text", content: `결과` },
             {
               type: "text",
-              content: `\t음악인을 위한 기능 중심 커뮤니티 플랫폼 완성`,
+              content: `\tresponse DTO를 활용한 응답 형식 일관성 유지 및 응답 최적화`,
             },
             {
               type: "text",
-              content: `\t웹/앱 환경을 통합한 구조로 제작`,
+              content: `\tffmpeg를 활용한 영상 및 오디오 편집 방법 적용`,
             },
             {
               type: "text",
-              content: `\t영상 편집 기능을 클라이언트와 서버에서 효율적으로 분산 처리`,
+              content: `\t네이티브 코드를 활용한 네이티브 기능 실행`,
+            },
+            {
+              type: "text",
+              content: `\tCDN을 활용한 로딩 시간 단축`,
             },
           ],
           [
@@ -263,15 +427,19 @@ export const projects: ProjectData[] = [
             },
             {
               type: "text",
-              content: `\tNest.js를 통한 REST API 설계와 ERD 모델링 역량 강화`,
+              content: `\t확장성 있는 설계 및 유지/보수가 편한 코드 품질 향상에 대한 학습`,
             },
             {
               type: "text",
-              content: `\tffmpeg를 활용한 실시간 미디어 처리 로직 설계 및 적용`,
+              content: `\t영상, 오디오, 사진 편집에서 ffmpeg가 차지하는 중요성 이해`,
             },
             {
               type: "text",
-              content: `\tAWS 환경에서의 배포, 운영 경험 축적`,
+              content: `\tAWS 기반의 서버 구축을 통한 VPC, CDN, ALB 구조 정립 및 이해`,
+            },
+            {
+              type: "text",
+              content: `\tERD 설계, API 설계, 깃허브 브랜치 및 이슈 관리 등 협업 능력 향상`,
             },
           ],
         ],
@@ -341,6 +509,4 @@ export const projects: ProjectData[] = [
       url: "https://opensource.org/licenses/MIT",
     },
   },
-
-  
 ];

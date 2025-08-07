@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import PortfolioCard from '../components/PortfolioCard';
 import { projects } from '../data/projects';
 import './HomePage.css';
-import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
     // 각 섹션을 참조하기 위한 ref

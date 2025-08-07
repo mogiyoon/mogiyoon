@@ -95,12 +95,12 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
               : {project.overview.techStack.join(", ")}
             </p>
           )}
-          {project.overview.environment && (
+          {project.overview.architecture && (
             <p>
               <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 개발 환경
+                ▪️ 아키텍처
               </span>
-              : {project.overview.environment}
+              <img src={project.overview.architecture} alt='Architecture'/>
             </p>
           )}
           {project.overview.role && (
@@ -142,7 +142,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
               {project.overview.links.demo && (
                 <p>
                   <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                    ▪️ 데모
+                    ▪️ 사이트
                   </span>
                   :{" "}
                   <a
@@ -177,7 +177,6 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
       </section>
       <hr className="my-12 border-t-2 border-gray-200" />
 
-      {/* ✅ '요약' 섹션 구조 수정 */}
       {project.summaries.map((section, sectionIndex) => (
         <React.Fragment key={section.id}>
           <section id={section.id} className="mb-16 pb-8">

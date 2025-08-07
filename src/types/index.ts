@@ -7,7 +7,7 @@ export interface ProjectOverview {
   introduction?: string;       // 프로젝트 소개
   features?: string;           // 주요 기능
   techStack?: string[];          // 사용 기술 스택
-  environment?: string;        // 개발 환경 (예: macOS + VSCode + Node.js 등)
+  architecture?: string;        // 아키텍처
   role?: string;               // 담당 역할 (예: 프론트엔드 개발, 백엔드 API 설계 등)
   implementationDetails?: string; // 구현 기능 상세 설명
   links?: {
