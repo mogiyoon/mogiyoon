@@ -180,18 +180,17 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
       {project.summaries.map((section, sectionIndex) => (
         <React.Fragment key={section.id}>
           <section id={section.id} className="mb-16 pb-8">
-            <h2 className="text-4xl sm:text-5xl font-bold text-indigo-700 mb-6">
-              {section.title}
-            </h2>
             {section.parts.map((partGroup, groupIndex) => (
               <div
                 id={`${section.id}-${groupIndex}`}
                 key={groupIndex}
                 className="mb-6 pb-8 space-y-4"
               >
-                {/* 헬퍼 함수 또는 switch 문을 사용하여 각 part 타입을 렌더링합니다.
-                  이렇게 하면 'text', 'image', 'link' 타입을 모두 처리할 수 있습니다.
-                */}
+                {groupIndex === 0 && (
+                  <h2 className="text-4xl sm:text-5xl font-bold text-indigo-700 mb-6 col-span-full">
+                    {section.title}
+                  </h2>
+                )}
                 {partGroup.map((part, partIndex) =>
                   renderSummaryPart(part, partIndex)
                 )}
