@@ -404,6 +404,10 @@ export const projects: ProjectData[] = [
             { type: "text", content: `결과` },
             {
               type: "text",
+              content: `\tZustand 기반의 전역 상태 관리`,
+            },
+            {
+              type: "text",
               content: `\tresponse DTO를 활용한 응답 형식 일관성 유지 및 응답 최적화`,
             },
             {
@@ -421,6 +425,10 @@ export const projects: ProjectData[] = [
           ],
           [
             { type: "text", content: `회고` },
+            {
+              type: "text",
+              content: `\t공통 컴포넌트 중심의 설계 역량 함양`,
+            },
             {
               type: "text",
               content: `\t백엔드-프론트엔드 통합 구조 설계 및 구현 경험`,
