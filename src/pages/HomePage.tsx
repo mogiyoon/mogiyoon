@@ -70,9 +70,9 @@ const HomePage: React.FC = () => {
     }, []);
 
     return (
-        <div className="scroll-snap-container" ref={scrollContainerRef}>
+        <div ref={scrollContainerRef}>
             {/* --- 자기소개 섹션 --- */}
-            <section className="scroll-snap-section">
+            <section >
                 <div className="min-h-screen flex items-center justify-center py-16 px-4 sm:px-8">
                     <div className="max-w-4xl mx-auto text-center">
                         <p className="text-xl sm:text-2xl text-gray-600 font-medium mb-8 fade-in-text delay-1">
@@ -95,11 +95,11 @@ const HomePage: React.FC = () => {
             </section>
 
             {/* --- 나의 프로젝트 섹션 --- */}
-            <section className={`scroll-snap-section ${isProjectsVisible ? 'section-is-visible' : ''}`}>
+            <section className={` ${isProjectsVisible ? 'section-is-visible' : ''}`}>
                 <div ref={projectsSectionRef} className="min-h-screen flex items-center justify-center p-4 sm:p-8">
                     <div className="my-projects-box content-to-animate w-full h-full max-w-6xl bg-white shadow-xl rounded-2xl flex flex-col p-6 md:p-10">
                         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center flex-shrink-0">
-                            나의 프로젝트
+                            Project
                         </h2>
                         <div className="flex-grow overflow-y-auto p-10">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -115,7 +115,7 @@ const HomePage: React.FC = () => {
             </section>
 
             {/* --- 개인 정보 섹션 --- */}
-            <section className={`scroll-snap-section info-section ${isInfoVisible ? 'section-is-visible' : ''}`}>
+            <section className={`info-section ${isInfoVisible ? 'section-is-visible' : ''}`}>
                 <div ref={infoSectionRef} className="min-h-screen flex items-center justify-center p-4 sm:p-8">
                     <div className="info-content-box content-to-animate w-full max-w-4xl bg-white shadow-xl rounded-2xl p-6 md:p-10">
                         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-10 text-center">
