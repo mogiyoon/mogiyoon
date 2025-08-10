@@ -81,3 +81,39 @@ export const MarketIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.16"/>
     </svg>
 );
+
+// 퀴즈/문제 풀기 아이콘
+export const QuizIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+       className="w-6 h-6 text-indigo-600" {...props}>
+    <rect x="2" y="4" width="20" height="16" rx="2"/>
+    <path d="M8 10h8M8 14h5"/>
+    <circle cx="17.5" cy="7.5" r="1.5"/>
+  </svg>
+);
+
+// 오답노트 아이콘 (책 + × 또는 북마크 + 느낌)
+export const NoteIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+       className="w-6 h-6 text-indigo-600" {...props}>
+    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H18"/>
+    <path d="M6 8h8"/>
+    <path d="M15 18l5-5M20 18l-5-5"/>
+    <path d="M6.5 22A2.5 2.5 0 0 1 4 19.5"/>
+  </svg>
+);
+
+// 통계/진행도 아이콘
+export const StatsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+       className="w-6 h-6 text-indigo-600" {...props}>
+    <path d="M3 3v18h18"/>
+    <rect x="6" y="12" width="2" height="6" rx="1"/>
+    <rect x="10" y="8" width="2" height="10" rx="1"/>
+    <rect x="14" y="5" width="2" height="13" rx="1"/>
+    <rect x="18" y="2" width="2" height="16" rx="1"/>
+  </svg>
+);
