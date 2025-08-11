@@ -32,11 +32,9 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => 
                         {project.subtitle}
                     </p>
                     <div className="flex flex-wrap gap-2 mt-auto">
-                        {project.techStack.slice(0, 3).map((stack, index) => (
-                            <span key={index} className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                                {stack.category}
-                            </span>
-                        ))}
+                        <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                            {project.overview.projectType}
+                        </span>
                     </div>
                 </div>
             </div>

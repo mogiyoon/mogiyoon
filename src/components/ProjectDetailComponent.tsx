@@ -40,7 +40,7 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
                     <p><strong className="font-semibold w-28 inline-block whitespace-nowrap">▪️ 기간</strong>: {project.overview.period}</p>
                     <p><strong className="font-semibold w-28 inline-block whitespace-nowrap">▪️ 한 줄 소개</strong>: {project.overview.introduction}</p>
                     <p><strong className="font-semibold w-28 inline-block whitespace-nowrap">▪️ 주요 기능</strong>: {project.overview.features}</p>
-                    <p><strong className="font-semibold w-28 inline-block whitespace-nowrap">▪️ 사용 기술</strong>: {project.overview.techStack}</p>
+                    {project.overview.techStack && <p><strong className="font-semibold w-28 inline-block whitespace-nowrap">▪️ 사용 기술</strong>: {project.overview.techStack.join(", ")}</p>}
                 </div>
             </section>
             <hr className="my-12 border-t-2 border-gray-200" />
@@ -65,7 +65,7 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
 
             <section className="mb-16">
                 <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center">🛠️ 기술 스택</h2>
-                <ul className="list-disc list-inside text-lg text-gray-700 space-y-2 max-w-md mx-auto">{project.techStack.map((stack, index) => (<li key={index}><span className="font-semibold">{stack.category}</span>: {stack.items.join(', ')}</li>))}</ul>
+                <ul className="list-disc list-inside text-lg text-gray-700 space-y-2 max-w-md mx-auto">{project.techStack.map((stack, index) => (<li key={index}><span className="font-semibold">{stack.category} , </span>: {stack.items.join(', ')}</li>))}</ul>
             </section>
             <hr className="my-12 border-t-2 border-gray-200" />
 
