@@ -41,8 +41,6 @@ export const useIntersectionObserver = (
                 observer.unobserve(element);
             }
         };
-        // isVisible을 의존성 배열에 포함하여, isVisible 상태가 변경될 때마다 effect가 재실행되도록 합니다.
-        // 이는 현재 로직상 한번 true가 되면 다시 실행되지 않지만, 명시적으로 의존성을 관리하는 좋은 습관입니다.
     }, [elementRef, options, isVisible]);
 
     return isVisible;

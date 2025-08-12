@@ -20,7 +20,6 @@ const HomePage: React.FC = () => {
         blog: 'https://velog.io/@mogiyoon/posts',
     };
 
-    // 스크롤 위치 저장/복원 로직
     useEffect(() => {
         const container = scrollContainerRef.current;
         if (!container) return;
@@ -74,7 +73,7 @@ const HomePage: React.FC = () => {
             {/* --- 자기소개 섹션 --- */}
             <section >
                 <div className="min-h-screen flex items-center justify-center py-16 px-4 sm:px-8">
-                    <div className="max-w-4xl mx-auto text-center">
+                    <div className="max-w-6xl mx-auto text-center">
                         <p className="text-xl sm:text-2xl text-gray-600 font-medium mb-8 fade-in-text delay-1">
                             <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">주체성</span>과 <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">창의성</span>을 바탕으로 <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">도전</span>하는
                         </p>
@@ -97,12 +96,12 @@ const HomePage: React.FC = () => {
             {/* --- 나의 프로젝트 섹션 --- */}
             <section className={` ${isProjectsVisible ? 'section-is-visible' : ''}`}>
                 <div ref={projectsSectionRef} className="min-h-screen flex items-center justify-center p-4 sm:p-8">
-                    <div className="my-projects-box content-to-animate w-full h-full max-w-8xl bg-white shadow-xl rounded-2xl flex flex-col p-6 md:p-6">
+                    <div className="my-projects-box content-to-animate w-full h-full max-w-6xl bg-white shadow-xl rounded-2xl flex flex-col p-6 md:p-6">
                         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center flex-shrink-0">
                             Project
                         </h2>
                         <div className="flex-grow overflow-y-auto p-10">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                                 {projects.map((project) => (
                                     <div key={project.id} className='flex'> 
                                         <PortfolioCard project={project} />
@@ -117,7 +116,7 @@ const HomePage: React.FC = () => {
             {/* --- 개인 정보 섹션 --- */}
             <section className={`info-section ${isInfoVisible ? 'section-is-visible' : ''}`}>
                 <div ref={infoSectionRef} className="min-h-screen flex items-center justify-center p-4 sm:p-8">
-                    <div className="info-content-box content-to-animate w-full max-w-4xl bg-white shadow-xl rounded-2xl p-6 md:p-10">
+                    <div className="info-content-box content-to-animate w-full max-w-6xl bg-white shadow-xl rounded-2xl p-6 md:p-10">
                         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-10 text-center">
                             Contact
                         </h2>
