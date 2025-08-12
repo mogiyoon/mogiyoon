@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProjectData } from '../types';
+import type { ProjectData } from '../types';
 
 interface ProjectDetailComponentProps {
     project: ProjectData;

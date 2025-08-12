@@ -1,6 +1,5 @@
 import { CommunityIcon, MarketIcon, ShortFormIcon, VideoIcon } from '../../assets/icons';
-import { ProjectData } from '../../types';
-
+import type { ProjectData } from '../../types';
 
 const rechoImageLink = "/images/recho";
 

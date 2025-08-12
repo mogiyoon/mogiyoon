@@ -1,6 +1,6 @@
 // src/data/projects.ts
 
-import { ProjectData } from "../types";
+import type { ProjectData } from '../types';
 import { projectRecho } from './project/projectRecho';
 import { projectTeacherTest } from './project/projectTeacherTest';
 import { projectTestMaker } from './project/projectTestMaker';

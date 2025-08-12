@@ -1,5 +1,5 @@
 import { CameraIcon } from '../../assets/icons';
-import { ProjectData } from '../../types';
+import type { ProjectData } from '../../types';
 
 const testMakerImageLink = "/images/testMaker";
 

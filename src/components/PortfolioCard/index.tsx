@@ -1,7 +1,7 @@
 // src/components/PortfolioCard/index.tsx
 import React from 'react';
 import { Link } from 'react-router-dom'; // 라우터 Link 임포트
-import { ProjectData } from '../../types'; // 타입 정의 임포트
+import type { ProjectData } from '../../types';
 
 interface PortfolioCardProps {
     project: ProjectData;

@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectData, SummaryPart } from "../types"; // SummaryPart 타입도 import 합니다.
+import type { ProjectData, SummaryPart } from '../types';
 
 interface TotalSummaryComponentProps {
   project: ProjectData;

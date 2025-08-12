@@ -1,5 +1,5 @@
 import { CommunityIcon, QuizIcon, NoteIcon, StatsIcon } from '../../assets/icons';
-import { ProjectData } from '../../types';
+import type { ProjectData } from '../../types';
 
 const teacherTestImageLink = "/images/teacherTest";
 
