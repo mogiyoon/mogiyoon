@@ -68,34 +68,50 @@ const HomePage: React.FC = () => {
       {/* --- 자기소개 섹션 --- */}
       <section>
         <div className="min-h-screen flex items-center justify-center py-16 px-4 sm:px-8">
-          <div className="max-w-6xl mx-auto text-center">
-            <p className="text-xl sm:text-2xl text-gray-600 font-medium mb-8 fade-in-text delay-1">
-              <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">
-                주체성
+          <div className="max-w-4xl mx-auto text-center">
+            {/* 1, 2, 3번: 순서대로 한 줄씩 등장 */}
+            <div className="text-xl sm:text-2xl text-gray-600 font-medium mb-8 leading-relaxed">
+              <span className="fade-in-text delay-1 block">
+                초등 시절 게임 에디터 활용부터
               </span>
-              과{" "}
-              <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">
-                창의성
+              <span className="fade-in-text delay-2 block">
+                임용시험과 함께한 퀴즈 앱까지,
               </span>
-              을 바탕으로{" "}
-              <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">
-                도전
-              </span>
-              하는
-            </p>
-            <p className="text-xl sm:text-2xl text-gray-600 font-medium mb-6 fade-in-text delay-2">
-              풀스택 개발자 <span className="font-bold">노기윤</span>입니다.
-            </p>
-            <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mb-2 fade-in-text delay-3">
-              전직 초등교사로서 다양한 도메인에 대해 열린 태도로 학습하고
-              융합하는 것을 선호합니다.
-            </p>
-            <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mt-12 fade-in-text delay-4">
+            </div>
+
+            {/* 4번: 한 번에 등장하는 핵심 문구 */}
+            <div className="fade-in-text delay-3 mb-12">
+              <p className="text-xl sm:text-2xl text-gray-600 font-medium">
+                <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">
+                  아이디어
+                </span>
+                를{" "}
+                <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">
+                  실현
+                </span>
+                하고{" "}
+                <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">
+                  문제
+                </span>
+                를{" "}
+                <span className="text-3xl sm:text-4xl font-extrabold text-indigo-800 leading-tight">
+                  해결
+                </span>
+              </p>
+              <p className="text-xl sm:text-2xl text-gray-600 font-medium mt-2">
+                하는 풀스택 개발자 <span className="font-bold">노기윤</span>
+                입니다.
+              </p>
+            </div>
+
+            {/* 5번: 다섯 번째로 나타날 문장 */}
+            <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto fade-in-text delay-4">
               이곳은 제가 열정을 담아 개발한 프로젝트들을 소개하는 공간입니다.
             </p>
-            <p className="text-lg text-gray-700 leading-relaxed max-w-2xl fade-in-text delay-5">
-              각 프로젝트를 통해 저의 기술 스택과 문제 해결 능력을 확인해
-              보세요!
+
+            {/* 6번: 여섯 번째로 나타날 문장 (문제가 발생했던 부분) */}
+            <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto fade-in-text delay-5">
+              각 프로젝트를 통해 저의 기술 스택과 문제 해결 능력을 확인해 보세요!
             </p>
           </div>
         </div>
