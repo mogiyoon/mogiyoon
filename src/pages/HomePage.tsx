@@ -107,12 +107,12 @@ const HomePage: React.FC = () => {
           ref={projectsSectionRef}
           className="min-h-screen flex items-center justify-center p-4 sm:p-8"
         >
-          <div className="my-projects-box content-to-animate w-full h-full max-w-6xl bg-white shadow-xl rounded-2xl flex flex-col p-6 md:p-6">
+          <div className="my-projects-box content-to-animate w-full h-full max-w-6xl bg-white shadow-xl rounded-2xl flex flex-col p-2 md:p-4">
             <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center flex-shrink-0">
               Project
             </h2>
             <div className="flex-grow overflow-y-auto p-10">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                 {projects.map((project) => (
                   <div key={project.id} className="flex">
                     <PortfolioCard project={project} />
