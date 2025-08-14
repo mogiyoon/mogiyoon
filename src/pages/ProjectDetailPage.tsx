@@ -47,7 +47,7 @@ const ProjectDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center p-8 bg-white shadow-xl rounded-2xl">
-          <h1 className="text-4xl font-bold text-red-600 mb-4">
+          <h1 className="text-3xl font-bold text-red-600 mb-4">
             프로젝트를 찾을 수 없습니다.
           </h1>
           <Link
@@ -73,10 +73,10 @@ const ProjectDetailPage: React.FC = () => {
           className="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mb-12"
         >
           <header id="project-header" className="text-center pt-8 pb-4">
-            <h1 className="text-5xl sm:text-6xl font-extrabold text-indigo-800 mb-4">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-indigo-800 mb-4">
               {project.title}
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 font-medium">
+            <p className="text-lg sm:text-xl text-gray-600 font-medium">
               {project.subtitle}
             </p>
           </header>
@@ -96,10 +96,10 @@ const ProjectDetailPage: React.FC = () => {
           <TotalSummaryComponent project={project} />
           <hr className="my-12 border-t-2 border-gray-200" />
           <section className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-indigo-700 mb-6">
               📜 라이선스
             </h2>
-            <p className="text-lg text-gray-700">
+            <p className="text-base text-gray-700">
               이 프로젝트는{" "}
               <a
                 href={project.license.url}

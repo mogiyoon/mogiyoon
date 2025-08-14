@@ -75,7 +75,7 @@ const HomePage: React.FC = () => {
                 초등 시절 게임 에디터 활용부터
               </span>
               <span className="fade-in-text delay-2 block">
-                임용시험과 함께한 퀴즈 앱까지,
+                임용시험 합격을 함께한 퀴즈 앱까지,
               </span>
             </div>
 

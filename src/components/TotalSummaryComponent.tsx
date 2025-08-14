@@ -1,3 +1,5 @@
+// src/components/TotalSummaryComponent.tsx
+
 import React from "react";
 import type { ProjectData, SummaryPart } from '../types';
 
@@ -12,7 +14,7 @@ const renderSummaryPart = (part: SummaryPart, index: number) => {
   switch (part.type) {
     case "text":
       return (
-        <p key={index} className="text-xl text-gray-700 leading-relaxed whitespace-pre-wrap break-all">
+        <p key={index} className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap break-all">
           {part.content}
         </p>
       );
@@ -22,13 +24,13 @@ const renderSummaryPart = (part: SummaryPart, index: number) => {
           key={index}
           src={part.src}
           alt={part.alt}
-          className="w-full rounded-lg shadow-md border my-4"
+          className="w-4/5 rounded-2xl shadow-md border my-4 mx-auto"
           crossOrigin="anonymous"
         />
       );
     case "link":
       return (
-        <div key={index} className="text-xl my-2">
+        <div key={index} className="text-lg my-2">
           &nbsp;&nbsp;&nbsp;&nbsp;
           <a
             href={part.href}
@@ -50,12 +52,12 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
 }) => {
   return (
     <main className="max-w-5xl mx-auto p-4 sm:p-8 bg-white text-gray-800">
-      {/* '개요' 섹션 (변경 없음) */}
+      {/* '개요' 섹션 */}
       <section id="summary-overview" className="mb-16 pb-8">
-        <h2 className="text-4xl sm:text-5xl font-bold text-indigo-700 mb-8">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-8">
           개요
         </h2>
-        <div className="space-y-4 text-xl leading-relaxed">
+        <div className="space-y-4 text-lg leading-relaxed">
           {project.overview.projectType && (
             <p>
               <span className="font-semibold w-28 inline-block whitespace-nowrap">
@@ -100,7 +102,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
               <span className="font-semibold w-28 inline-block whitespace-nowrap">
                 ▪️ 아키텍처
               </span>
-              <img src={project.overview.architecture} alt='Architecture'/>
+              <img src={project.overview.architecture} alt='Architecture' className="w-4/5 rounded-2xl shadow-md border my-4 mx-auto"/>
             </p>
           )}
           {project.overview.role && (
@@ -187,7 +189,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
                 className="mb-6 pb-8 space-y-4"
               >
                 {groupIndex === 0 && (
-                  <h2 className="text-4xl sm:text-5xl font-bold text-indigo-700 mb-6 col-span-full">
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-6 col-span-full">
                     {section.title}
                   </h2>
                 )}
