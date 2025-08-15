@@ -64,6 +64,7 @@
 }
 
 .my-projects-box .grid > div:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 25px 50px -12px rgba(76, 63, 219, 0.45);
+    transform: translateY(-5px) scale(1.05); /* Y축 이동을 -10px에서 -5px로 줄임 */
+    box-shadow: 0 10px 20px -8px rgba(76, 63, 219, 0.25); /* 그림자를 더 연하고 부드럽게 수정 */
+    transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 추가 */
 }

@@ -21,11 +21,11 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => 
                 <img
                     src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x200/cccccc/333333?text=Project+Image"}
                     alt={`${project.title} Thumbnail`}
-                    className="w-full h-48 object-contain object-top mt-4 p-4"
+                    className="object-contain w-full h-48 object-contain object-top mt-4 p-4"
                     onError={handleImageError}
                 />
                 <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-2xl font-bold text-indigo-800 mb-2 truncate">
+                    <h3 className="text-2xl font-bold mb-2 truncate">
                         {project.title}
                     </h3>
                     <p className="text-gray-600 text-sm mb-4 flex-grow">
