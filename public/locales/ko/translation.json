@@ -15,5 +15,18 @@
   "developerIntro": "하는 풀스택 개발자 노기윤입니다.",
   "projectIntro1": "이곳은 제가 열정을 담아 개발한 프로젝트들을 소개하는 공간입니다.",
   "projectIntro2": "각 프로젝트를 통해 저의 기술 스택과 문제 해결 능력을 확인해 보세요!",
-  "projectTitle": "프로젝트"
+  
+  "projectTitle": "프로젝트",
+  "preparingProjectTitle": "준비중인 프로젝트",
+
+  "postsPreparingMessage": "기술 포스트를 준비 중입니다. 더 많은 이야기는 아래 Velog에서 확인하실 수 있습니다.",
+  "visitVelog": "Velog 방문하기",
+
+  "crazyAboutIntro1": "단순한 호기심을 넘어 깊이 파고들었던 저의 몰입의 순간들입니다.",
+  "crazyAboutIntro2": "곧 자세한 이야기를 들려드릴게요.",
+  "crazyAboutGameEditors": "게임 에디터",
+  "crazyAboutExcelMacros": "엑셀 매크로 & VBA",
+  "crazyAboutBlockCoding": "블록 코딩",
+  "crazyAboutMusicComposition": "음악 작곡",
+  "comingSoon": "준비 중"
 }

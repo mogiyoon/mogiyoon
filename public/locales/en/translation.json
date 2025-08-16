@@ -15,5 +15,18 @@
   "developerIntro": "I'm Giyoon Noh, a full-stack developer.",
   "projectIntro1": "Here I share the projects I've built with passion.",
   "projectIntro2": "See my skills and problem-solving through each project!",
-  "projectTitle": "Projects"
+
+  "projectTitle": "Projects",
+  "preparingProjectTitle": "Projects in Preparation",
+
+  "postsPreparingMessage": "This section is under construction. In the meantime, you can check out my posts on Velog below.",
+  "visitVelog": "Visit My Velog",
+
+  "crazyAboutIntro1": "Moments of deep focus that went beyond simple curiosity.",
+  "crazyAboutIntro2": "I'll be sharing the full stories soon.",
+  "crazyAboutGameEditors": "Game Editors",
+  "crazyAboutExcelMacros": "Excel Macros & VBA",
+  "crazyAboutBlockCoding": "Block Coding",
+  "crazyAboutMusicComposition": "Music Composition",
+  "comingSoon": "Coming Soon"
 }
