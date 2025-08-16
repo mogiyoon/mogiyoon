@@ -1,3 +1,5 @@
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -5,7 +7,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display:  ['Caveat', 'cursive']
+      }
+    },
   },
   plugins: [],
 }

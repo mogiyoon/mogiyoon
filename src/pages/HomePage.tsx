@@ -70,7 +70,7 @@ const HomePage: React.FC = () => {
         <div className="min-h-screen flex items-center justify-center py-16 px-4 sm:px-8">
           <div className="max-w-4xl mx-auto text-center">
             {/* 1, 2, 3번: 순서대로 한 줄씩 등장 */}
-            <div className="text-xl sm:text-2xl text-gray-600 font-medium mb-8 leading-relaxed">
+            <div className="text-lg sm:text-2xl lg:text-3xl text-gray-600 mb-8 leading-relaxed">
               <span className="fade-in-text delay-1 block">
                 초등 시절 게임 에디터 활용부터
               </span>
@@ -81,37 +81,38 @@ const HomePage: React.FC = () => {
 
             {/* 4번: 한 번에 등장하는 핵심 문구 */}
             <div className="fade-in-text delay-3 mb-12">
-              <p className="text-xl sm:text-2xl text-gray-600 font-medium">
-                <span className="text-3xl sm:text-4xl font-extrabold leading-tight">
+              <p className="text-lg sm:text-2xl lg:text-3xl text-gray-600">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
                   아이디어
                 </span>
                 를{" "}
-                <span className="text-3xl sm:text-4xl font-extrabold leading-tight">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
                   실현
                 </span>
                 하고{" "}
-                <span className="text-3xl sm:text-4xl font-extrabold leading-tight">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
                   문제
                 </span>
                 를{" "}
-                <span className="text-3xl sm:text-4xl font-extrabold leading-tight">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
                   해결
                 </span>
               </p>
-              <p className="text-xl sm:text-2xl text-gray-600 font-medium mt-2">
+              <p className="text-lg sm:text-2xl lg:text-3xl text-gray-600 mt-2">
                 하는 풀스택 개발자 <span className="font-bold">노기윤</span>
                 입니다.
               </p>
             </div>
 
             {/* 5번: 다섯 번째로 나타날 문장 */}
-            <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto fade-in-text delay-4">
+            <p className="text-xs sm:text-base lg:text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto fade-in-text delay-4">
               이곳은 제가 열정을 담아 개발한 프로젝트들을 소개하는 공간입니다.
             </p>
 
             {/* 6번: 여섯 번째로 나타날 문장 (문제가 발생했던 부분) */}
-            <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto fade-in-text delay-5">
-              각 프로젝트를 통해 저의 기술 스택과 문제 해결 능력을 확인해 보세요!
+            <p className="text-xs sm:text-base lg:text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto fade-in-text delay-5">
+              각 프로젝트를 통해 저의 기술 스택과 문제 해결 능력을 확인해
+              보세요!
             </p>
           </div>
         </div>
@@ -127,11 +128,11 @@ const HomePage: React.FC = () => {
             <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-center flex-shrink-0">
               Project
             </h2>
-            <div className="flex-grow overflow-y-auto p-6">
+            <div className="flex-grow overflow-y-auto p-4">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {projects.map((project) => (
                   <div key={project.id} className="flex">
-                    <PortfolioCard project={project} className='w-full'/>
+                    <PortfolioCard project={project} className="w-full" />
                   </div>
                 ))}
               </div>
