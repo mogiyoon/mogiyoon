@@ -17,11 +17,11 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => 
 
     return (
         <Link to={`/project/${project.id}`} className={`block ${className || ''}`}> {/* className 적용 */}
-            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col transform-gpu">
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col">
                 <img
                     src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x200/cccccc/333333?text=Project+Image"}
                     alt={`${project.title} Thumbnail`}
-                    className="object-contain w-full h-48 object-contain object-top mt-4 p-4"
+                    className="object-contain w-full h-48 object-contain object-top mt-4 p-4 isolation-auto"
                     onError={handleImageError}
                 />
                 <div className="p-6 flex flex-col flex-grow">
