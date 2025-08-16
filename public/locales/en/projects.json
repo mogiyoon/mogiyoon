@@ -52,5 +52,98 @@
       { "title": "Feature Implementation", "content": "Implemented video editing features using ffmpeg and the user community system." },
       { "title": "Deployment & Operation", "content": "Deployed the service using AWS EC2, S3, Route53, and CloudFront." }
     ]
+  },
+  "test-maker": {
+    "title": "Test Maker",
+    "subtitle": "Your Own Vocabulary, Your Own Test",
+    "description": "Students or language learners often repeat the process of copying words from books to notebooks, memorizing them, and self-testing. Test Maker solves this tedious and inefficient process with technology.\n\nSimply by taking a picture with the camera, text is converted into a vocabulary list, and the vocabulary list is automatically transformed into a test paper, allowing the user to focus solely on 'learning'.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "A program to create and take your own tests",
+      "features": "OCR word extraction, vocabulary management, automatic generation and export of multiple-choice/short-answer tests"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features & Development Process",
+        "parts": [
+          ["Based on React Native, I implemented the core feature of OCR word extraction by integrating the Google Vision API. I managed the state with Redux and safely stored user vocabulary data locally using Realm and AsyncStorage."],
+          ["It extracts words and meanings by iterating through the text using pre-set special symbols.", "The '-' symbol is used to distinguish the hierarchy of word categories."],
+          ["When words belonging to a specific category are selected, they are stored in a global variable and can be tested."],
+          ["Tests can be taken in two formats: multiple-choice and short-answer.", "A list of incorrect words is provided, and it's possible to export the vocabulary test in a multiple-choice format."]
+        ]
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "parts": [
+          [],
+          ["Problem: The data structure changed to a nested form as hierarchy was added to categories, making the existing data search structure unusable."],
+          ["Solution: I applied a tree structure inspired by folder structures and implemented the word search function as a recursive function."],
+          ["Result: Searching is now possible regardless of the depth of subcategories."]
+        ]
+      },
+      "results": {
+        "title": "Results & Retrospective",
+        "parts": [
+          ["Results", "Implemented for both Android and iOS using React Native.", "Implemented word data using a tree structure and incorrect answer data using a heap structure.", "Utilized the Google Vision API."],
+          ["Retrospective", "Couldn't find the necessary component library (grid) on NPM, so I implemented it myself and deployed it to NPM.", "Implemented the program utilizing data structures.", "Improved understanding of TypeScript.", "Understood and applied global state management, local storage, and local DB."]
+        ]
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      { "name": "📸 Smart OCR Word Extraction", "description": "When you photograph a book or document with the camera, Optical Character Recognition (OCR) technology automatically extracts the desired words and their meanings to add to your vocabulary list." }
+    ],
+    "developmentProcess": [
+      { "title": "Problem Identification", "content": "Identified the inefficiency of traditional vocabulary memorization methods and set a goal to increase learning efficiency by automating this process with technology." }
+    ]
+  },
+
+  "teacher_test": {
+    "title": "Tea Time",
+    "subtitle": "A mobile learning app for elementary school teacher certification exam preparation",
+    "description": "This is a mobile learning app for prospective teachers preparing for the elementary school teacher certification exam in South Korea. It helps users get one step closer to passing by allowing them to study the vast curriculum content in a quiz format anytime, anywhere, and systematically manage their incorrect answers. Built with Flutter, the app is designed for efficient learning of key content during commutes or spare moments.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "A mobile learning tool aimed at preparing for the elementary school teacher certification exam, providing curriculum-based questions and incorrect answer management.",
+      "features": "Curriculum/General Principles-based tests, Incorrect Answer Notes"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features & Development Process",
+        "parts": [
+          ["The main screen provides a countdown to the exam, a list of incorrect answers, and a feature to review them."],
+          ["Provides learning features for the curriculum's content organization table, achievement standards, and general principles."],
+          ["Provides a content organization table and test functions for each grade group."],
+          ["Provides a test mode for each grade group."],
+          ["In test mode, users can check their own answers."],
+          ["By copying the original text and their own answer, users can see the differences between their answer and the correct one on the main screen."],
+          ["Provides learning for curriculum achievement standards."],
+          ["Provides a learning feature for the curriculum's general principles."]
+        ]
+      },
+      "results": {
+        "title": "Results & Retrospective",
+        "parts": [
+          ["Results", "Implemented curriculum-based problem-solving feature.", "Provided automatic recording of incorrect answers and a re-learning flow.", "Backup of incorrect answer list using Firebase."],
+          ["Retrospective", "Understood the complexity of data segmentation and utilizing multi-dimensional arrays.", "Gained understanding of cross-platform app design."]
+        ]
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      { "name": "📚 Curriculum-Based Questions", "description": "Provides questions based on the curriculum (achievement standards) for all elementary grades and subjects." },
+      { "name": "✍️ Various Learning Modes", "description": "Check your skills with various learning modes such as by subject, by grade, or random." },
+      { "name": "❌ Systematic Incorrect Answer Note", "description": "Automatically records incorrect answers and allows for re-learning with explanations." },
+      { "name": "📊 Learning Statistics", "description": "Visualize overall and subject-specific correct answer rates to understand learning progress." }
+    ],
+    "developmentProcess": [
+      { "title": "Planning & Architecture Design", "content": "Designed question structure based on curriculum and modeled DB/metadata." },
+      { "title": "Feature Implementation", "content": "Implemented core learning features such as question solving, incorrect answer notes, search, and statistics." },
+      { "title": "Deployment & Operation", "content": "Prepared for App Store submission, optimized resources, and reflected user feedback." }
+    ]
   }
 }
