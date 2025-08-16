@@ -73,7 +73,7 @@ const ProjectDetailPage: React.FC = () => {
           className="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mb-12"
         >
           <header id="project-header" className="text-center pt-8 pb-4">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-indigo-800 mb-4">
+            <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
               {project.title}
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 font-medium">
