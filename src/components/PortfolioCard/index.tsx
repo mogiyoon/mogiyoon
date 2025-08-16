@@ -8,6 +8,9 @@ interface PortfolioCardProps {
     className?: string;
 }
 
+//TODO: Hover하면 사용한 기술 스택 보이게 (뒤집어짐)
+//TODO: 사이트 넘어갈 때 이펙트
+
 const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => {
     // 'projects' 네임스페이스를 사용하도록 지정합니다.
     const { t } = useTranslation('projects');
