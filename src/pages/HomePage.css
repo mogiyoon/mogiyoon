@@ -21,7 +21,6 @@
 .fade-in-text.delay-5 { animation-delay: 1.8s; }
 .fade-in-text.delay-6 { animation-delay: 2.1s; }
 
-
 /* --- 섹션 콘텐츠를 위한 범용 애니메이션 --- */
 .content-to-animate {
   opacity: 0;

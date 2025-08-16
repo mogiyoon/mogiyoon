@@ -1,21 +1,17 @@
-// src/components/TotalSummaryComponent.tsx
-
 import React from "react";
+import { useTranslation } from "react-i18next";
 import type { ProjectData, SummaryPart } from '../types';
 
 interface TotalSummaryComponentProps {
   project: ProjectData;
 }
 
-/**
- * 각 요약 파트(SummaryPart)를 렌더링하는 헬퍼 함수
- */
-const renderSummaryPart = (part: SummaryPart, index: number) => {
+const renderSummaryPart = (part: SummaryPart, index: number, t: (key: string) => string) => {
   switch (part.type) {
     case "text":
       return (
         <p key={index} className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap break-all">
-          {part.content}
+          {t(part.content || '')}
         </p>
       );
     case "image":
@@ -47,131 +43,110 @@ const renderSummaryPart = (part: SummaryPart, index: number) => {
   }
 };
 
-const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
-  project,
-}) => {
+const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project }) => {
+  const { t } = useTranslation(['projects', 'common']);
+
   return (
     <main className="max-w-5xl mx-auto p-4 sm:p-8 bg-white text-gray-800">
-      {/* '개요' 섹션 */}
       <section id="summary-overview" className="mb-16 pb-8">
         <h2 className="text-3xl sm:text-4xl font-bold mb-8">
-          개요
+          {t('projectDetail.overview', { ns: 'common' })}
         </h2>
         <div className="space-y-4 text-lg leading-relaxed">
           {project.overview.projectType && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ {project.overview.projectType}
+            <div className="flex">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t(project.overview.projectType || '')}
               </span>
-            </p>
+            </div>
           )}
           {project.overview.period && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 기간
+            <div className="flex">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t('projectDetail.period', { ns: 'common' })}
               </span>
-              : {project.overview.period}
-            </p>
+              <span>: {project.overview.period}</span>
+            </div>
           )}
           {project.overview.introduction && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 한 줄 소개
+            <div className="flex items-start">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t('projectDetail.introduction', { ns: 'common' })}
               </span>
-              : {project.overview.introduction}
-            </p>
+              <span className="flex-1">: {t(project.overview.introduction || '')}</span>
+            </div>
           )}
           {project.overview.features && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 주요 기능
+            <div className="flex items-start">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t('projectDetail.features', { ns: 'common' })}
               </span>
-              : {project.overview.features}
-            </p>
+              <span className="flex-1">: {t(project.overview.features || '')}</span>
+            </div>
           )}
           {project.overview.techStack && project.overview.techStack.length > 0 && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 사용 기술
+            <div className="flex items-start">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t('projectDetail.techStack', { ns: 'common' })}
               </span>
-              : {project.overview.techStack.join(", ")}
-            </p>
+              <span className="flex-1">: {project.overview.techStack.join(", ")}</span>
+            </div>
           )}
           {project.overview.architecture && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 아키텍처
+             <div className="flex flex-col items-start">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t('projectDetail.architecture', { ns: 'common' })}
               </span>
-              <img src={project.overview.architecture} alt='Architecture' className="w-4/5 rounded-2xl shadow-md border my-4 mx-auto"/>
-            </p>
+              <img src={project.overview.architecture} alt='Architecture' className="w-4/5 rounded-2xl shadow-md border mt-2 mx-auto"/>
+            </div>
           )}
           {project.overview.role && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 역할
+            <div className="flex items-start">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t('projectDetail.role', { ns: 'common' })}
               </span>
-              : {project.overview.role}
-            </p>
+              <span className="flex-1">: {t(project.overview.role || '')}</span>
+            </div>
           )}
           {project.overview.implementationDetails && (
-            <p>
-              <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                ▪️ 구현 기능
+            <div className="flex items-start">
+              <span className="font-semibold w-36 shrink-0">
+                ▪️ {t('projectDetail.implementationDetails', { ns: 'common' })}
               </span>
-              : {project.overview.implementationDetails}
-            </p>
+              <span className="flex-1">: {t(project.overview.implementationDetails || '')}</span>
+            </div>
           )}
-          {(project.overview.links?.github ||
-            project.overview.links?.demo ||
-            project.overview.links?.notion) && (
-            <div>
+          {(project.overview.links?.github || project.overview.links?.demo || project.overview.links?.notion) && (
+            <div className="space-y-2">
               {project.overview.links.github && (
-                <p>
-                  <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                    ▪️ GitHub
+                <div className="flex items-start">
+                  <span className="font-semibold w-36 shrink-0">
+                    ▪️ {t('projectDetail.github', { ns: 'common' })}
                   </span>
-                  :{" "}
-                  <a
-                    href={project.overview.links.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline text-blue-600 break-words"
-                  >
-                    {project.overview.links.github}
+                  <a href={project.overview.links.github} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                    : {project.overview.links.github}
                   </a>
-                </p>
+                </div>
               )}
               {project.overview.links.demo && (
-                <p>
-                  <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                    ▪️ 사이트
+                <div className="flex items-start">
+                  <span className="font-semibold w-36 shrink-0">
+                    ▪️ {t('projectDetail.website', { ns: 'common' })}
                   </span>
-                  :{" "}
-                  <a
-                    href={project.overview.links.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline text-blue-600 break-words"
-                  >
-                    {project.overview.links.demo}
+                  <a href={project.overview.links.demo} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                    : {project.overview.links.demo}
                   </a>
-                </p>
+                </div>
               )}
               {project.overview.links.notion && (
-                <p>
-                  <span className="font-semibold w-28 inline-block whitespace-nowrap">
-                    ▪️ 노션
+                <div className="flex items-start">
+                  <span className="font-semibold w-36 shrink-0">
+                    ▪️ {t('projectDetail.notion', { ns: 'common' })}
                   </span>
-                  :{" "}
-                  <a
-                    href={project.overview.links.notion}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline text-blue-600 break-words"
-                  >
-                    {project.overview.links.notion}
+                  <a href={project.overview.links.notion} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                    : {project.overview.links.notion}
                   </a>
-                </p>
+                </div>
               )}
             </div>
           )}
@@ -183,18 +158,14 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
         <React.Fragment key={section.id}>
           <section id={section.id} className="mb-16 pb-8">
             {section.parts.map((partGroup, groupIndex) => (
-              <div
-                id={`${section.id}-${groupIndex}`}
-                key={groupIndex}
-                className="mb-6 pb-8 space-y-4"
-              >
+              <div id={`${section.id}-${groupIndex}`} key={groupIndex} className="mb-6 pb-8 space-y-4">
                 {groupIndex === 0 && (
                   <h2 className="text-3xl sm:text-4xl font-bold mb-6 col-span-full">
-                    {section.title}
+                    {t(section.title || '')}
                   </h2>
                 )}
                 {partGroup.map((part, partIndex) =>
-                  renderSummaryPart(part, partIndex)
+                  renderSummaryPart(part, partIndex, t)
                 )}
               </div>
             ))}

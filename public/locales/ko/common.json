@@ -12,7 +12,8 @@
   "mainPhrase5": "문제",
   "mainPhrase6": "를",
   "mainPhrase7": "해결",
-  "developerIntro": "하는 풀스택 개발자 노기윤입니다.",
+  "mainPhrase8": "하는",
+  "developerIntro": "풀스택 개발자 노기윤입니다.",
   "projectIntro1": "이곳은 제가 열정을 담아 개발한 프로젝트들을 소개하는 공간입니다.",
   "projectIntro2": "각 프로젝트를 통해 저의 기술 스택과 문제 해결 능력을 확인해 보세요!",
   
@@ -28,5 +29,23 @@
   "crazyAboutExcelMacros": "엑셀 매크로 & VBA",
   "crazyAboutBlockCoding": "블록 코딩",
   "crazyAboutMusicComposition": "음악 작곡",
-  "comingSoon": "준비 중"
+  "comingSoon": "준비 중",
+
+  "projectDetail": {
+    "overview": "개요",
+    "period": "기간",
+    "introduction": "한 줄 소개",
+    "features": "주요 기능",
+    "techStack": "사용 기술",
+    "architecture": "아키텍처",
+    "role": "역할",
+    "implementationDetails": "구현 기능",
+    "github": "GitHub",
+    "website": "사이트",
+    "notion": "노션",
+    "projectNotFound": "프로젝트를 찾을 수 없습니다.",
+    "backToMain": "메인 페이지로",
+    "license": "라이선스",
+    "licenseText": "이 프로젝트는 <1>{{licenseName}}</1> 라이선스를 따릅니다."
+  }
 }

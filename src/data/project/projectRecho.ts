@@ -5,16 +5,16 @@ const rechoImageLink = "/images/recho";
 
 export const projectRecho: ProjectData = {
   id: "recho",
-  title: "Recho",
-  subtitle: "음악으로 나를 알리는 플랫폼",
+  title: "recho.title",
+  subtitle: "recho.subtitle",
   demoGifSrc: rechoImageLink + "/appGif.gif",
-  description: `음악인들이 자유롭게 교류하고, 합주를 함께하고, 악기 중고 거래와 숏폼 영상을 통해 자신을 표현할 수 있는 음악 커뮤니티 플랫폼입니다.\n\n스마트폰의 리소스를 활용하여 합주 영상을 직접 편집할 수 있도록 React Native 기반 앱과 웹뷰 구조로 제작하였습니다.`,
+  description: "recho.description",
 
   overview: {
-    projectType: "팀 프로젝트",
+    projectType: "recho.overview.projectType",
     period: "2025.06 ~ 2025.07",
-    introduction: "음악인들이 소통할 수 있는 커뮤니티 플랫폼",
-    features: "커뮤니티, 합주 모집, 악기 중고 거래, 숏폼 기능",
+    introduction: "recho.overview.introduction",
+    features: "recho.overview.features",
     architecture: rechoImageLink + "/overview/architecture.png",
     techStack: [
       "Nest.js",
@@ -24,7 +24,7 @@ export const projectRecho: ProjectData = {
       "AWS",
       "PostgreSQL",
     ],
-    role: "백엔드, 프론트엔드, ERD 설계, ffmpeg 활용, AWS 서버 구축",
+    role: "recho.overview.role",
     links: {
       github: "https://github.com/JungleTeam5/Recho",
       demo: "https://recho.cloud",
@@ -35,272 +35,98 @@ export const projectRecho: ProjectData = {
   summaries: [
     {
       id: "development",
-      title: "구현 기능 및 개발 과정",
+      title: "recho.summaries.development.title",
       parts: [
         [
-          {
-            type: "image",
-            alt: "비디오 편집 로직",
-            src: rechoImageLink + `/overview/videoLogic.png`,
-          },
-          {
-            type: "text",
-            content: `ffmpeg를 활용한 비디오 편집 로직 구현`,
-          },
-          {
-            type: "text",
-            content: `짧은 길이 비디오 기준으로 비디오 병합`,
-          },
-          {
-            type: "text",
-            content: `이퀄라이저로 주파수별 dB 조절 기능 구현`,
-          },
+          { type: "image", alt: "비디오 편집 로직", src: rechoImageLink + `/overview/videoLogic.png` },
+          { type: "text", content: `recho.summaries.development.parts.0.0` },
+          { type: "text", content: `recho.summaries.development.parts.0.1` },
+          { type: "text", content: `recho.summaries.development.parts.0.2` },
         ],
         [
-          {
-            type: "image",
-            alt: "컴포넌트 리팩토링 및 로그인 정보 전역 상태 관리",
-            src: rechoImageLink + "/overview/componentRefactoring.png",
-          },
-          {
-            type: "text",
-            content: `합주 기능(비디오 재생+녹화), 비디오 편집 화면, 비디오 병합 로직 연결`,
-          },
-          {
-            type: "text",
-            content: `각 페이지별 컴포넌트를 공통 컴포넌트로 리팩토링`,
-          },
-          {
-            type: "text",
-            content: `jwt 중심으로 로그인 정보 전역 상태 관리`,
-          },
+          { type: "image", alt: "컴포넌트 리팩토링 및 로그인 정보 전역 상태 관리", src: rechoImageLink + "/overview/componentRefactoring.png" },
+          { type: "text", content: `recho.summaries.development.parts.1.0` },
+          { type: "text", content: `recho.summaries.development.parts.1.1` },
+          { type: "text", content: `recho.summaries.development.parts.1.2` },
         ],
         [
-          {
-            type: "image",
-            alt: "CRUD 구현",
-            src: rechoImageLink + "/overview/crudImplement.png",
-          },
-          {
-            type: "text",
-            content: `합주 세션 모집 게시판 및 중고 거래 게시판 구현`,
-          },
-          {
-            type: "text",
-            content: `합주, 세션, 지원자 관계를 글, 댓글, 대댓글 관계에서 착안하여 DB 구조 설계`,
-          },
-          {
-            type: "text",
-            content: `다만 지원자만 별도의 모듈로 분리하여 관리`,
-          },
+          { type: "image", alt: "CRUD 구현", src: rechoImageLink + "/overview/crudImplement.png" },
+          { type: "text", content: `recho.summaries.development.parts.2.0` },
+          { type: "text", content: `recho.summaries.development.parts.2.1` },
+          { type: "text", content: `recho.summaries.development.parts.2.2` },
         ],
         [
-          {
-            type: "image",
-            alt: "좋아요, 댓글 리팩토링",
-            src: rechoImageLink + "/overview/likeReply.png",
-          },
-          {
-            type: "text",
-            content: `기존의 좋아요와 댓글은 각 게시판 모듈별로 관리됨`,
-          },
-          {
-            type: "text",
-            content: `추후 좋아요 및 댓글 기능 추가, 알람 기능 도입 등 유지/보수 및 확장성 면에서 부적합하다고 생각`,
-          },
-          {
-            type: "text",
-            content: `좋아요, 댓글을 각각 통합된 모듈로 리팩토링`,
-          },
+          { type: "image", alt: "좋아요, 댓글 리팩토링", src: rechoImageLink + "/overview/likeReply.png" },
+          { type: "text", content: `recho.summaries.development.parts.3.0` },
+          { type: "text", content: `recho.summaries.development.parts.3.1` },
+          { type: "text", content: `recho.summaries.development.parts.3.2` },
         ],
         [
-          {
-            type: "image",
-            alt: "서버 구축",
-            src: rechoImageLink + "/overview/changedArchitecture.png",
-          },
-          {
-            type: "text",
-            content: `오토스케일링, 보안을 고려한 서버 구조 재설계`,
-          },
-          {
-            type: "text",
-            content: `VPC 및 Application Load Balancer 활용`,
-          },
-          {
-            type: "text",
-            content: `React가 정적 파일 및 SPA 임을 고려하여 S3를 통해 프론트 배포`,
-          },
+          { type: "image", alt: "서버 구축", src: rechoImageLink + "/overview/changedArchitecture.png" },
+          { type: "text", content: `recho.summaries.development.parts.4.0` },
+          { type: "text", content: `recho.summaries.development.parts.4.1` },
+          { type: "text", content: `recho.summaries.development.parts.4.2` },
         ],
         [
-          {
-            type: "image",
-            alt: "이슈 클로즈",
-            src: rechoImageLink + "/overview/issueClose.png",
-          },
-          {
-            type: "text",
-            content: `45개의 이슈 클로즈 중 17개의 이슈 클로즈`,
-          },
-          {
-            type: "text",
-            content: `코드 품질 향상 및 사용자 경험 개선`,
-          },
+          { type: "image", alt: "이슈 클로즈", src: rechoImageLink + "/overview/issueClose.png" },
+          { type: "text", content: `recho.summaries.development.parts.5.0` },
+          { type: "text", content: `recho.summaries.development.parts.5.1` },
         ],
       ],
     },
     {
       id: "troubleshooting",
-      title: "트러블 슈팅",
+      title: "recho.summaries.troubleshooting.title",
       parts: [
+        [{ type: "image", src: rechoImageLink + "/overview/TroubleShooting1.png", alt: "프로젝트 아키텍처 다이어그램" }],
         [
-          {
-            type: "image",
-            src: rechoImageLink + "/overview/TroubleShooting1.png",
-            alt: "프로젝트 아키텍처 다이어그램",
-          },
+          { type: "text", content: `recho.summaries.troubleshooting.parts.1.0` },
+          { type: "text", content: `recho.summaries.troubleshooting.parts.1.1` },
+          { type: "text", content: `recho.summaries.troubleshooting.parts.1.2` },
         ],
+        [{ type: "image", src: rechoImageLink + "/overview/TroubleShooting2.png", alt: "프로젝트 아키텍처 다이어그램" }],
         [
-          {
-            type: "text",
-            content: `문제 상황: 합주 기능을 구현하기 위해 카메라 녹화와 영상 재생을 동시에 해야함.`,
-          },
-          {
-            type: "text",
-            content: `문제 해결 과정
-
-\t1. mixWithOthers: 'mix' 설정 → 실패
-\t\t- React Native Video 컴포넌트에서 해당 옵션을 설정했지만 작동하지 않음.
-\t\t- 이유: iOS의 기본 오디오 세션 정책상, mixWithOthers 기능이 비활성화되어 있으며, 이를 활성화하려면 네이티브 코드 수정이 필요함.
-
-\t2. 네이티브 모듈에 mixWithOthers 브릿지 추가 → 실패
-\t\t- VisionCamera 라이브러리에는 관련 기능이 있으나, Video 라이브러리에는 존재하지 않음.
-\t\t- 직접 브릿지를 연결해도 효과가 없었음.
-
-\t3. 비디오 라이브러리 네이티브 코드에 옵션 추가 → 실패
-\t\t- 직접 mixWithOthers 관련 설정을 Video 라이브러리에 추가했으나, 여전히 작동하지 않음.
-
-\t4. disableAudioSessionManagement: true 설정 → 성공
-\t\t- 라이브러리 내부의 옵션 중 disableAudioSessionManagement: true 설정을 발견함.
-\t\t- 이 옵션을 활성화하자 비디오와 카메라 오디오가 동시에 작동함.
-`,
-          },
-          {
-            type: "text",
-            content: `결과: 카메라 녹화 및 영상 재생이 가능해짐. 라이브러리 내부의 코드의 중요성을 깨닫게 됨 `,
-          },
-        ],
-        [
-          {
-            type: "image",
-            src: rechoImageLink + "/overview/TroubleShooting2.png",
-            alt: "프로젝트 아키텍처 다이어그램",
-          },
-        ],
-        [
-          {
-            type: "text",
-            content: `문제 상황: 영상과 이미지의 로딩 속도가 느림.`,
-          },
-          {
-            type: "text",
-            content: `해결 과정
-\t- 영상과 이미지를 저장/캐싱 하는 방식을 고민함.
-\t- S3 버킷에서 영상/이미지 데이터를 직접 로드하는 초기 방식에서 클라우드 프론트의 CDN을 활용하여 영상/이미지 캐싱`,
-          },
-          {
-            type: "text",
-            content: `결과: 평균 응답 속도가 2배 정도 빨라짐.`,
-          },
+          { type: "text", content: `recho.summaries.troubleshooting.parts.3.0` },
+          { type: "text", content: `recho.summaries.troubleshooting.parts.3.1` },
+          { type: "text", content: `recho.summaries.troubleshooting.parts.3.2` },
         ],
       ],
     },
     {
       id: "results",
-      title: "결과 및 회고",
+      title: "recho.summaries.results.title",
       parts: [
         [
-          { type: "text", content: `결과` },
-          {
-            type: "text",
-            content: `\tZustand 기반의 전역 상태 관리`,
-          },
-          {
-            type: "text",
-            content: `\tresponse DTO를 활용한 응답 형식 일관성 유지 및 응답 최적화`,
-          },
-          {
-            type: "text",
-            content: `\tffmpeg를 활용한 영상 및 오디오 편집 방법 적용`,
-          },
-          {
-            type: "text",
-            content: `\t네이티브 코드를 활용한 네이티브 기능 실행`,
-          },
-          {
-            type: "text",
-            content: `\tCDN을 활용한 로딩 시간 단축`,
-          },
+          { type: "text", content: `recho.summaries.results.parts.0.0` },
+          { type: "text", content: `recho.summaries.results.parts.0.1` },
+          { type: "text", content: `recho.summaries.results.parts.0.2` },
+          { type: "text", content: `recho.summaries.results.parts.0.3` },
+          { type: "text", content: `recho.summaries.results.parts.0.4` },
+          { type: "text", content: `recho.summaries.results.parts.0.5` },
         ],
         [
-          { type: "text", content: `회고` },
-          {
-            type: "text",
-            content: `\t공통 컴포넌트 중심의 설계 역량 함양`,
-          },
-          {
-            type: "text",
-            content: `\t백엔드-프론트엔드 통합 구조 설계 및 구현 경험`,
-          },
-          {
-            type: "text",
-            content: `\t확장성 있는 설계 및 유지/보수가 편한 코드 품질 향상에 대한 학습`,
-          },
-          {
-            type: "text",
-            content: `\t영상, 오디오, 사진 편집에서 ffmpeg가 차지하는 중요성 이해`,
-          },
-          {
-            type: "text",
-            content: `\tAWS 기반의 서버 구축을 통한 VPC, CDN, ALB 구조 정립 및 이해`,
-          },
-          {
-            type: "text",
-            content: `\tERD 설계, API 설계, 깃허브 브랜치 및 이슈 관리 등 협업 능력 향상`,
-          },
+          { type: "text", content: `recho.summaries.results.parts.1.0` },
+          { type: "text", content: `recho.summaries.results.parts.1.1` },
+          { type: "text", content: `recho.summaries.results.parts.1.2` },
+          { type: "text", content: `recho.summaries.results.parts.1.3` },
+          { type: "text", content: `recho.summaries.results.parts.1.4` },
+          { type: "text", content: `recho.summaries.results.parts.1.5` },
+          { type: "text", content: `recho.summaries.results.parts.1.6` },
         ],
       ],
     },
     {
       id: "blank",
-      title: "감사합니다.",
+      title: "recho.summaries.blank.title",
       parts: [],
     },
   ],
 
   features: [
-    {
-      name: "🎵 음악 기반 커뮤니티",
-      description:
-        "음악인들이 자유롭게 소통하고 정보를 공유할 수 있는 게시판 제공",
-      icon: CommunityIcon, // 임의 아이콘 지정 필요
-    },
-    {
-      name: "🤝 합주 영상 공유",
-      description: "합주 멤버를 모집하고, 함께 연주한 영상 클립을 공유",
-      icon: VideoIcon, // 임의 아이콘 지정 필요
-    },
-    {
-      name: "📱 숏폼 제작",
-      description: "사용자의 연주나 작업물을 짧은 영상으로 제작하고 공유",
-      icon: ShortFormIcon, // 임의 아이콘 지정 필요
-    },
-    {
-      name: "🛠 악기 중고 거래",
-      description:
-        "음악 장비와 악기를 사용자 간 중고로 거래할 수 있는 게시판 제공",
-      icon: MarketIcon, // 임의 아이콘 지정 필요
-    },
+    { name: "recho.features.0.name", description: "recho.features.0.description", icon: CommunityIcon },
+    { name: "recho.features.1.name", description: "recho.features.1.description", icon: VideoIcon },
+    { name: "recho.features.2.name", description: "recho.features.2.description", icon: ShortFormIcon },
+    { name: "recho.features.3.name", description: "recho.features.3.description", icon: MarketIcon },
   ],
 
   screenshots: [{ title: "Recho 앱 로고", src: rechoImageLink + "/Icon.svg" }],
@@ -314,18 +140,9 @@ export const projectRecho: ProjectData = {
   ],
 
   developmentProcess: [
-    {
-      title: "기획 및 구조 설계",
-      content: "음악인 대상 기능 설계 및 전체 서비스 흐름도 및 ERD 설계",
-    },
-    {
-      title: "기능 구현",
-      content: "ffmpeg를 이용한 영상 편집 기능 및 사용자 커뮤니티 시스템 구현",
-    },
-    {
-      title: "배포 및 운영",
-      content: "AWS EC2, S3, Route53, CloudFront를 이용한 서비스 배포",
-    },
+    { title: "recho.developmentProcess.0.title", content: "recho.developmentProcess.0.content" },
+    { title: "recho.developmentProcess.1.title", content: "recho.developmentProcess.1.content" },
+    { title: "recho.developmentProcess.2.title", content: "recho.developmentProcess.2.content" },
   ],
 
   license: {

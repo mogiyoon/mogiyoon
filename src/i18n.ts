@@ -4,14 +4,20 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpApi from 'i18next-http-backend';
 
 i18n
-  .use(HttpApi) // public 폴더에서 번역 파일을 불러오기 위함
-  .use(LanguageDetector) // 브라우저 언어 감지
-  .use(initReactI18next) // react-i18next 초기화
+  .use(HttpApi)
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
-    fallbackLng: 'en', // 번역 파일에 없는 언어일 경우 영어로 대체
-    debug: true, // 개발 중 디버그 메시지를 콘솔에 출력
+    ns: ['common', 'projects'], // 사용할 네임스페이스 목록
+    defaultNS: 'common', // 기본 네임스페이스
+
+    fallbackLng: 'en',
+    debug: process.env.NODE_ENV === 'development', // 개발 환경에서만 디버그 모드 활성화
     interpolation: {
-      escapeValue: false, // React는 이미 XSS 방어 기능이 있으므로 false로 설정
+      escapeValue: false,
+    },
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json', // 네임스페이스 파일을 불러올 경로
     },
   });
 

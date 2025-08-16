@@ -10,7 +10,6 @@ const ProjectsSection: React.FC = () => {
     const { t } = useTranslation();
     return (
         <div className="w-full max-w-6xl flex flex-col p-2 md:p-4 animate-fade-in">
-            {/* --- 기존 프로젝트 섹션 --- */}
             <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-center flex-shrink-0 pt-16">
                 {t('projectTitle')}
             </h2>

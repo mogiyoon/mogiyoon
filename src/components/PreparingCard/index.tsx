@@ -1,11 +1,9 @@
-// src/components/PreparingCard/index.tsx
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-// 준비 중인 프로젝트 데이터 타입을 정의합니다.
 export interface PreparingProjectData {
     id: number;
-    title: string;
+    title: string; // 이 title은 이제 번역 키가 됩니다.
 }
 
 interface PreparingCardProps {
@@ -14,9 +12,9 @@ interface PreparingCardProps {
 }
 
 const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => {
+    // 기본 네임스페이스인 'common'을 사용합니다.
     const { t } = useTranslation();
 
-    // 이미지 로드 실패 시 대체 이미지 URL
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.onerror = null;
         e.currentTarget.src = "https://placehold.co/300x300/cccccc/333333?text=Image+Not+Found";
@@ -24,21 +22,20 @@ const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => 
 
     return (
         <div className={`block ${className || ''}`}>
-            {/* 카드 전체 비율 9:16 유지, 비활성화된 느낌을 주기 위해 스타일 조정 */}
             <div className="bg-gray-50 rounded-xl shadow-lg overflow-hidden flex flex-col aspect-[9/16] border-2 border-dashed border-gray-300">
-                {/* 이미지 영역 */}
                 <div className="relative w-full aspect-square p-4">
                     <img
                         src={`https://placehold.co/300x300/e2e8f0/9ca3af?text=Coming+Soon`}
-                        alt={`${project.title} Thumbnail`}
-                        className="w-full h-full object-cover rounded-lg filter grayscale" // 그레이스케일 필터로 비활성 느낌 강조
+                        // alt 속성도 번역 처리합니다.
+                        alt={`${t(project.title)} Thumbnail`}
+                        className="w-full h-full object-cover rounded-lg filter grayscale"
                         onError={handleImageError}
                     />
                 </div>
-                {/* 컨텐츠 영역 */}
                 <div className="p-6 flex flex-col flex-grow">
                     <h3 className="text-xl font-bold mb-2 truncate text-gray-600">
-                        {project.title}
+                        {/* 준비중인 프로젝트의 제목도 t 함수로 감싸줍니다. */}
+                        {t(project.title)}
                     </h3>
                     <div className="flex flex-wrap gap-2 mt-auto">
                         <span className="bg-gray-200 text-gray-800 text-xs font-medium px-2 py-0.5 rounded-full">

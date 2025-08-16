@@ -12,6 +12,7 @@
   "mainPhrase5": "Challenges",
   "mainPhrase6": " into",
   "mainPhrase7": "Solutions",
+  "mainPhrase8": "",
   "developerIntro": "I'm Giyoon Noh, a full-stack developer.",
   "projectIntro1": "Here I share the projects I've built with passion.",
   "projectIntro2": "See my skills and problem-solving through each project!",
@@ -28,5 +29,23 @@
   "crazyAboutExcelMacros": "Excel Macros & VBA",
   "crazyAboutBlockCoding": "Block Coding",
   "crazyAboutMusicComposition": "Music Composition",
-  "comingSoon": "Coming Soon"
+  "comingSoon": "Coming Soon",
+
+  "projectDetail": {
+    "overview": "Overview",
+    "period": "Period",
+    "introduction": "Introduction",
+    "features": "Main Features",
+    "techStack": "Tech Stack",
+    "architecture": "Architecture",
+    "role": "Role",
+    "implementationDetails": "Implemented Features",
+    "github": "GitHub",
+    "website": "Website",
+    "notion": "Notion",
+    "projectNotFound": "Project Not Found.",
+    "backToMain": "Back to Main",
+    "license": "License",
+    "licenseText": "This project is licensed under the <1>{{licenseName}}</1> license."
+  }
 }
