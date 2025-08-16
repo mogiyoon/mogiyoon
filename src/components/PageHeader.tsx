@@ -26,7 +26,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, currentLanguage, 
       <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
           <Link to="/" onClick={() => setActiveTab('about')} className="flex items-center group">
             <img src="/logo.svg" alt="Mogiyoon Logo" className="h-10 w-10 mr-2 rounded-xl"/>
-            <span className="hidden sm:inline text-xl font-bold font-display">
+            <span className="hidden lg:inline text-xl font-bold font-display">
               {'Mogiyoon'.split('').map((char, index) => (
                 <span key={index} className="inline-block transition-all duration-300 opacity-0 translate-y-[-0.5em] group-hover:opacity-100 group-hover:translate-y-0" style={{ transitionDelay: `${index * 25}ms` }}>
                   {char === ' ' ? '\u00A0' : char}
@@ -41,14 +41,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, currentLanguage, 
                 key={tab.id}
                 to="/"
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex justify-center items-center w-8 h-8 sm:w-auto sm:h-auto sm:px-3 sm:py-2 text-base font-medium transition-colors duration-200 rounded-md ${
+                className={`flex justify-center items-center w-8 h-8 md:w-28 md:h-auto md:py-2 text-base font-medium transition-colors duration-200 rounded-md ${
                   activeTab === tab.id
                     ? 'text-white bg-gray-500'
                     : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
-                <span className="hidden sm:inline">{tab.label}</span>
-                <span className="sm:hidden">-</span>
+                <span className="hidden md:inline">{tab.label}</span>
+                <span className="md:hidden">-</span>
               </Link>
             ))}
           </nav>
