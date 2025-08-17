@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useTranslation, Trans } from "react-i18next"; // Trans 컴포넌트 추가
+import { useTranslation, Trans } from "react-i18next";
 import { projects } from "../data/projects";
 import TotalSummaryComponent from "../components/TotalSummaryComponent";
 
@@ -8,10 +8,10 @@ const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const project = projects.find((p) => p.id === projectId);
 
-  // 'projects'와 'common' 네임스페이스를 사용합니다.
   const { t } = useTranslation(['projects', 'common']);
-
   const contentRef = useRef<HTMLDivElement>(null);
+  
+  const [isLoaded, setIsLoaded] = useState(false);
   const [gifType, setGifType] = useState<"mobile" | "tablet">("mobile");
 
   useEffect(() => {
@@ -28,6 +28,8 @@ const ProjectDetailPage: React.FC = () => {
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.onerror = null;
     e.currentTarget.src = "https://placehold.co/250x400/cccccc/333333?text=Image+Not+Found";
+    // 에러 발생 시에도 로딩 상태를 완료로 변경하여 스켈레톤을 숨깁니다.
+    setIsLoaded(true);
   };
 
   if (!project) {
@@ -64,12 +66,19 @@ const ProjectDetailPage: React.FC = () => {
             </p>
           </header>
           <section className="my-8">
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center min-h-[400px]">
+              {!isLoaded && (
+                <div className={`bg-gray-200 animate-pulse ${gifFinalClasses} ${gifType === 'mobile' ? 'h-[444px]' : 'aspect-video'}`}></div>
+              )}
+
               <img
                 src={project.demoGifSrc}
                 alt={`${t(project.title || '', { ns: 'projects' })} App Demo`}
-                className={gifFinalClasses}
+                className={`${gifFinalClasses} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setIsLoaded(true)}
                 onError={handleImageError}
+                // 로드되기 전까지는 렌더링되지 않도록 처리
+                style={{ display: isLoaded ? 'block' : 'none' }}
               />
             </div>
           </section>

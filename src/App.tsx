@@ -33,7 +33,7 @@ const AppContent: React.FC = () => {
     if (location.pathname.startsWith('/project/')) {
       setActiveTab('projects');
     } else if (location.pathname === '/') {
-      setActiveTab('about'); 
+      // setActiveTab('about');
     }
   }, [location.pathname]);
 
