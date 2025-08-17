@@ -20,7 +20,8 @@
   "projectTitle": "프로젝트",
   "preparingProjectTitle": "준비중인 프로젝트",
 
-  "postsPreparingMessage": "기술 포스트를 준비 중입니다. 더 많은 이야기는 아래 Velog에서 확인하실 수 있습니다.",
+  "postsPreparingMessage1": "기술 포스트를 준비 중입니다.",
+  "postsPreparingMessage2": "더 많은 이야기는 아래 Velog에서 확인하실 수 있습니다.",
   "visitVelog": "Velog 방문하기",
 
   "crazyAboutIntro1": "단순한 호기심을 넘어 깊이 파고들었던 저의 몰입의 순간들입니다.",

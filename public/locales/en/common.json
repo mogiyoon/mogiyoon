@@ -20,7 +20,8 @@
   "projectTitle": "Projects",
   "preparingProjectTitle": "Projects in Preparation",
 
-  "postsPreparingMessage": "This section is under construction. In the meantime, you can check out my posts on Velog below.",
+  "postsPreparingMessage1": "This section is under construction.",
+  "postsPreparingMessage2": "In the meantime, you can check out my posts on Velog below.",
   "visitVelog": "Visit My Velog",
 
   "crazyAboutIntro1": "Moments of deep focus that went beyond simple curiosity.",

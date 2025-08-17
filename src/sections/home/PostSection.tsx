@@ -10,7 +10,8 @@ const PostsSection: React.FC = () => {
 
     return (
         <div className="animate-fade-in text-center text-lg text-gray-400 space-y-6">
-            <p>{t('postsPreparingMessage')}</p>
+            <p>{t('postsPreparingMessage1')}</p>
+            <p>{t('postsPreparingMessage2')}</p>
 
             <a
                 href={velogUrl}

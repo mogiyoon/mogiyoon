@@ -6,8 +6,6 @@ import PreparingCard from "../../components/PreparingCard"; // 새로 만든 컴
 import { projects } from "../../data/projects";
 import { preparingProjects } from "../../data/preparingProjects"; // 새로 만든 데이터 임포트
 
-//TODO: 새로고침 시 다른 탭 선택되는 것 수정하기
-
 const ProjectsSection: React.FC = () => {
     const { t } = useTranslation();
     return (
