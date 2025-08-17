@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 //TODO: 백서버 만들게되면 구현하거나, 벨로그 스크래핑
 
+
 const PostsSection: React.FC = () => {
     const { t } = useTranslation();
     const velogUrl = 'https://velog.io/@mogiyoon/posts';

@@ -1,21 +1,42 @@
 // src/App.tsx
 import React, { useEffect, useRef, useState, Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useTranslation } from 'react-i18next'; // ✅ i18next 훅 임포트
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ScrollToTop from "./components/ScrollToTop";
 import ContactModal from "./components/ContactModal";
 import PageHeader from "./components/PageHeader";
 
-const App: React.FC = () => {
+const getInitialTab = () => {
+  if (window.location.pathname.startsWith('/project/')) {
+    return 'projects';
+  }
+  return 'about';
+};
+
+
+const AppContent: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const { i18n } = useTranslation(); // ✅ i18n 객체 가져오기
-  const [activeTab, setActiveTab] = useState('about'); // ✅ activeTab 상태 관리
+  const { i18n } = useTranslation();
+  
+  // ✅ 함수를 useState에 전달하여 깜빡임 없이 초기 상태를 설정합니다.
+  const [activeTab, setActiveTab] = useState(getInitialTab);
 
   const [headerTranslate, setHeaderTranslate] = useState(0);
   const lastScrollY = useRef(0);
   const HEADER_HEIGHT = 80;
+  
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.startsWith('/project/')) {
+      setActiveTab('projects');
+    } else if (location.pathname === '/') {
+      setActiveTab('about'); 
+    }
+  }, [location.pathname]);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,33 +64,40 @@ const App: React.FC = () => {
     i18n.changeLanguage(i18n.language === 'ko' ? 'en' : 'ko');
   };
 
+return (
+    <main>
+      <div
+        style={{
+          transform: `translateY(${headerTranslate}px)`,
+          transition: "transform 0.1s linear",
+        }}
+        className="fixed top-0 left-0 right-0 z-40 bg-white shadow-md"
+      >
+        <PageHeader
+          setModalOpen={handleModalOpen}
+          currentLanguage={i18n.language}
+          onLanguageToggle={handleLanguageToggle}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+      </div>
+      
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<HomePage activeTab={activeTab} />} />
+        <Route path="/project/:projectId" element={<ProjectDetailPage />} />
+      </Routes>
+      <ContactModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+    </main>
+  );
+};
+
+
+const App: React.FC = () => {
   return (
-    // ✅ i18next 사용을 위한 Suspense 추가
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
       <Router>
-        <div
-          style={{
-            transform: `translateY(${headerTranslate}px)`,
-            transition: "transform 0.1s linear",
-          }}
-          className="fixed top-0 left-0 right-0 z-40 bg-white shadow-md"
-        >
-          {/* ✅ PageHeader에 필요한 모든 props 전달 */}
-          <PageHeader
-            setModalOpen={handleModalOpen}
-            currentLanguage={i18n.language}
-            onLanguageToggle={handleLanguageToggle}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-          />
-        </div>
-        <ScrollToTop />
-        <Routes>
-          {/* ✅ HomePage에 activeTab prop 전달 */}
-          <Route path="/" element={<HomePage activeTab={activeTab} />} />
-          <Route path="/project/:projectId" element={<ProjectDetailPage />} />
-        </Routes>
-        <ContactModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+        <AppContent />
       </Router>
     </Suspense>
   );
