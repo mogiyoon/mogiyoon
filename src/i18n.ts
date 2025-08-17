@@ -8,7 +8,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    ns: ['common', 'projects'], // 사용할 네임스페이스 목록
+    ns: ['common', 'projects, prepareProjects'], // 사용할 네임스페이스 목록
     defaultNS: 'common', // 기본 네임스페이스
 
     fallbackLng: 'en',

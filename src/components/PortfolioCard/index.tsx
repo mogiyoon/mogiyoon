@@ -43,15 +43,15 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => 
                                 className="w-full aspect-square object-cover p-4"
                                 onError={handleImageError}
                             />
-                            <div className="p-6 flex flex-col flex-grow overflow-y-auto">
+                            <div className="px-6 pb-4 flex flex-col flex-grow overflow-y-auto">
                                 <h3 className="text-2xl font-bold mb-2 truncate">
                                     {t(project.title || '')}
                                 </h3>
                                 <p className="
-                                    text-gray-600 mb-4 hidden sm:block 
+                                    text-gray-600 mb-2 hidden sm:block 
                                     text-sm h-10 
-                                    md:text-base md:h-12
-                                    line-clamp-2
+                                    md:text-base md:h-20
+                                    line-clamp-3
                                 ">
                                     {t(project.subtitle || '')}
                                 </p>

@@ -3,7 +3,8 @@ import type { PreparingProjectData } from '../components/PreparingCard';
 
 export const preparingProjects: PreparingProjectData[] = [
     {
-        id: 1,
-        title: "문서 관리 프로그램",
+        id: "document-management",
+        title: "document-management.title",
+        subtitle: "document-management.subtitle",
     },
 ];
