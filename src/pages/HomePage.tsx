@@ -27,8 +27,8 @@ const HomePage: React.FC<HomePageProps> = ({ activeTab }) => {
   };
 
   // 'projects' 탭일 때는 중앙 정렬 클래스를 제거하고, 나머지 탭에서는 유지합니다.
-  const mainClassName = activeTab === 'projects' || activeTab === 'about'
-    ? "w-full"
+  const mainClassName = activeTab === 'projects' 
+    ? "w-full" // projects 탭에서는 flex 중앙 정렬을 사용하지 않음
     : "min-h-screen flex items-center justify-center px-4 sm:px-8 py-8"; // 다른 탭에서는 기존 스타일 유지
 
   return (
