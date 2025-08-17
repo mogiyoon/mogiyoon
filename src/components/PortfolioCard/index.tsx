@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // 훅 임포트
+import { useTranslation } from 'react-i18next';
 import type { ProjectData } from '../../types';
 
 interface PortfolioCardProps {
@@ -8,12 +8,11 @@ interface PortfolioCardProps {
     className?: string;
 }
 
-//TODO: Hover하면 사용한 기술 스택 보이게 (뒤집어짐)
-//TODO: 사이트 넘어갈 때 이펙트
-
 const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => {
-    // 'projects' 네임스페이스를 사용하도록 지정합니다.
     const { t } = useTranslation('projects');
+    
+    // 1. 카드의 뒤집힘 상태를 관리하기 위한 state 추가
+    const [isFlipped, setIsFlipped] = useState(false);
 
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.onerror = null;
@@ -22,29 +21,66 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => 
 
     return (
         <Link to={`/project/${project.id}`} className={`block ${className || ''}`}>
-            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col aspect-[9/16]">
-                <img
-                    src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
-                    // alt 속성도 번역 처리합니다.
-                    alt={`${t(project.title || '')} Thumbnail`}
-                    className="w-full aspect-square object-cover p-4"
-                    onError={handleImageError}
-                />
-                <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-2xl font-bold mb-2 truncate">
-                        {/* 데이터의 키를 t 함수로 감싸 실제 텍스트를 불러옵니다. */}
-                        {/* FIX: undefined 가능성을 대비해 fallback 추가 */}
-                        {t(project.title || '')}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4 flex-grow hidden sm:block">
-                        {/* FIX: undefined 가능성을 대비해 fallback 추가 */}
-                        {t(project.subtitle || '')}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-auto">
-                        <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
-                            {/* FIX: undefined 가능성을 대비해 fallback 추가 */}
-                            {t(project.overview.projectType || '')}
-                        </span>
+            {/* 3D 효과를 위한 perspective 컨테이너 */}
+            <div
+                className="w-full aspect-[9/16]"
+                style={{ perspective: '1000px' }}
+                onMouseEnter={() => setIsFlipped(true)}
+                onMouseLeave={() => setIsFlipped(false)}
+            >
+                <div
+                    className="relative w-full h-full transition-transform duration-700"
+                    style={{
+                        transformStyle: 'preserve-3d',
+                        transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                    }}
+                >
+                    <div className="absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
+                        <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
+                            <img
+                                src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
+                                alt={`${t(project.title || '')} Thumbnail`}
+                                className="w-full aspect-square object-cover p-4"
+                                onError={handleImageError}
+                            />
+                            <div className="p-6 flex flex-col flex-grow overflow-y-auto">
+                                <h3 className="text-2xl font-bold mb-2 truncate">
+                                    {t(project.title || '')}
+                                </h3>
+                                <p className="
+                                    text-gray-600 mb-4 hidden sm:block 
+                                    text-sm h-10 
+                                    md:text-base md:h-12
+                                    line-clamp-2
+                                ">
+                                    {t(project.subtitle || '')}
+                                </p>
+                                <div className="flex flex-wrap mt-auto">
+                                    <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                                        {t(project.overview.projectType || '')}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        className="absolute w-full h-full"
+                        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                    >
+                        <div className="bg-gray-400 text-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
+                            <h4 className="text-xl font-bold mb-4">Tech Stack</h4>
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {project.overview.techStack?.map((tech) => (
+                                    <span
+                                        key={tech}
+                                        className="bg-indigo-500 text-white text-sm font-medium px-3 py-1 rounded-full"
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

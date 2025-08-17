@@ -102,7 +102,7 @@
 
   "teacher_test": {
     "title": "Tea Time",
-    "subtitle": "A mobile learning app for elementary school teacher certification exam preparation",
+    "subtitle": "Mobile Study App for the Elementary Teacher Exam",
     "description": "This is a mobile learning app for prospective teachers preparing for the elementary school teacher certification exam in South Korea. It helps users get one step closer to passing by allowing them to study the vast curriculum content in a quiz format anytime, anywhere, and systematically manage their incorrect answers. Built with Flutter, the app is designed for efficient learning of key content during commutes or spare moments.",
     "overview": {
       "projectType": "Personal Project",
