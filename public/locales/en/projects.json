@@ -1,149 +1,223 @@
 {
   "recho": {
     "title": "Recho",
-    "subtitle": "A Platform to Express Yourself Through Music",
-    "description": "A music community platform where musicians can freely interact, collaborate on ensemble performances, trade used instruments, and express themselves through short-form videos.\n\nIt was developed as a React Native-based app with a webview structure to allow users to directly edit ensemble videos using their smartphone's resources.",
+    "subtitle": "음악으로 나를 알리는 플랫폼",
+    "description": "음악인들이 자유롭게 교류하고, 합주를 함께하고, 악기 중고 거래와 숏폼 영상을 통해 자신을 표현할 수 있는 음악 커뮤니티 플랫폼입니다.\n\n스마트폰의 리소스를 활용하여 합주 영상을 직접 편집할 수 있도록 React Native 기반 앱과 웹뷰 구조로 제작하였습니다.",
     "overview": {
-      "projectType": "Team Project",
-      "introduction": "A community platform for musicians to communicate",
-      "features": "Community, Ensemble Recruitment, Used Instrument Trading, Short-form Video",
-      "role": "Backend, Frontend, ERD Design, ffmpeg Utilization, AWS Server Setup"
+      "projectType": "팀 프로젝트",
+      "introduction": "음악인들이 소통할 수 있는 커뮤니티 플랫폼",
+      "features": "커뮤니티, 합주 모집, 악기 중고 거래, 숏폼 기능",
+      "role": "백엔드, 프론트엔드, ERD 설계, ffmpeg 활용, AWS 서버 구축"
     },
     "summaries": {
       "development": {
-        "title": "Implemented Features & Development Process",
-        "parts": [
-          ["Implemented video editing logic using ffmpeg", "Merged videos based on the shortest video length", "Implemented dB adjustment per frequency with an equalizer"],
-          ["Connected ensemble feature (video playback + recording), video editing screen, and video merging logic", "Refactored components for each page into common components", "Managed global state for login information centered on JWT"],
-          ["Implemented ensemble session recruitment and used instrument trading boards", "Designed DB structure for ensemble, session, and applicant relationships inspired by post, comment, and reply structures", "Managed applicants in a separate module"],
-          ["Likes and comments were previously managed per board module", "Considered unsuitable for future maintenance/scalability, such as adding like/comment features and alarm functions", "Refactored likes and comments into integrated modules"],
-          ["Redesigned server architecture considering auto-scaling and security", "Utilized VPC and Application Load Balancer", "Deployed frontend via S3, considering React's static file and SPA nature"],
-          ["Closed 17 out of 45 issues", "Improved code quality and user experience"]
-        ]
+        "title": "구현 기능 및 개발 과정",
+        "parts": {
+          "0": {
+            "0": "ffmpeg를 활용한 비디오 편집 로직 구현",
+            "1": "짧은 길이 비디오 기준으로 비디오 병합",
+            "2": "이퀄라이저로 주파수별 dB 조절 기능 구현"
+          },
+          "1": {
+            "0": "합주 기능(비디오 재생+녹화), 비디오 편집 화면, 비디오 병합 로직 연결",
+            "1": "각 페이지별 컴포넌트를 공통 컴포넌트로 리팩토링",
+            "2": "jwt 중심으로 로그인 정보 전역 상태 관리"
+          },
+          "2": {
+            "0": "합주 세션 모집 게시판 및 중고 거래 게시판 구현",
+            "1": "합주, 세션, 지원자 관계를 글, 댓글, 대댓글 관계에서 착안하여 DB 구조 설계",
+            "2": "다만 지원자만 별도의 모듈로 분리하여 관리"
+          },
+          "3": {
+            "0": "기존의 좋아요와 댓글은 각 게시판 모듈별로 관리됨",
+            "1": "추후 좋아요 및 댓글 기능 추가, 알람 기능 도입 등 유지/보수 및 확장성 면에서 부적합하다고 생각",
+            "2": "좋아요, 댓글을 각각 통합된 모듈로 리팩토링"
+          },
+          "4": {
+            "0": "오토스케일링, 보안을 고려한 서버 구조 재설계",
+            "1": "VPC 및 Application Load Balancer 활용",
+            "2": "React가 정적 파일 및 SPA 임을 고려하여 S3를 통해 프론트 배포"
+          },
+          "5": {
+            "0": "45개의 이슈 클로즈 중 17개의 이슈 클로즈",
+            "1": "코드 품질 향상 및 사용자 경험 개선"
+          }
+        }
       },
       "troubleshooting": {
-        "title": "Troubleshooting",
-        "parts": [
-          [],
-          ["Problem: Needed to record camera and play video simultaneously for the ensemble feature.", "Resolution Process\n\n\t1. mixWithOthers: 'mix' setting → Failed\n\t\t- The option in the React Native Video component did not work.\n\t\t- Reason: iOS's default audio session policy disables mixWithOthers, requiring native code modification to enable it.\n\n\t2. Add mixWithOthers bridge to native module → Failed\n\t\t- The feature exists in the VisionCamera library but not in the Video library.\n\t\t- Directly bridging it had no effect.\n\n\t3. Add option to Video library's native code → Failed\n\t\t- Manually adding the mixWithOthers setting to the Video library still did not work.\n\n\t4. disableAudioSessionManagement: true setting → Succeeded\n\t\t- Discovered this option within the library.\n\t\t- Enabling this option allowed video and camera audio to work simultaneously.\n", "Result: Camera recording and video playback became possible. Realized the importance of understanding the library's internal code."],
-          [],
-          ["Problem: Slow loading speed for videos and images.", "Resolution Process\n\t- Considered methods for storing/caching videos and images.\n\t- Switched from directly loading from an S3 bucket to caching videos/images using CloudFront CDN.", "Result: Average response speed improved by about 2x."]
-        ]
+        "title": "트러블 슈팅",
+        "parts": {
+          "1": {
+            "0": "문제 상황: 합주 기능을 구현하기 위해 카메라 녹화와 영상 재생을 동시에 해야함.",
+            "1": "문제 해결 과정\n\n\t1. mixWithOthers: 'mix' 설정 → 실패\n\t\t- React Native Video 컴포넌트에서 해당 옵션을 설정했지만 작동하지 않음.\n\t\t- 이유: iOS의 기본 오디오 세션 정책상, mixWithOthers 기능이 비활성화되어 있으며, 이를 활성화하려면 네이티브 코드 수정이 필요함.\n\n\t2. 네이티브 모듈에 mixWithOthers 브릿지 추가 → 실패\n\t\t- VisionCamera 라이브러리에는 관련 기능이 있으나, Video 라이브러리에는 존재하지 않음.\n\t\t- 직접 브릿지를 연결해도 효과가 없었음.\n\n\t3. 비디오 라이브러리 네이티브 코드에 옵션 추가 → 실패\n\t\t- 직접 mixWithOthers 관련 설정을 Video 라이브러리에 추가했으나, 여전히 작동하지 않음.\n\n\t4. disableAudioSessionManagement: true 설정 → 성공\n\t\t- 라이브러리 내부의 옵션 중 disableAudioSessionManagement: true 설정을 발견함.\n\t\t- 이 옵션을 활성화하자 비디오와 카메라 오디오가 동시에 작동함.\n",
+            "2": "결과: 카메라 녹화 및 영상 재생이 가능해짐. 라이브러리 내부의 코드의 중요성을 깨닫게 됨 "
+          },
+          "3": {
+            "0": "문제 상황: 영상과 이미지의 로딩 속도가 느림.",
+            "1": "해결 과정\n\t- 영상과 이미지를 저장/캐싱 하는 방식을 고민함.\n\t- S3 버킷에서 영상/이미지 데이터를 직접 로드하는 초기 방식에서 클라우드 프론트의 CDN을 활용하여 영상/이미지 캐싱",
+            "2": "결과: 평균 응답 속도가 2배 정도 빨라짐."
+          }
+        }
       },
       "results": {
-        "title": "Results & Retrospective",
-        "parts": [
-          ["Results", "\tGlobal state management based on Zustand", "\tMaintained response format consistency and optimized responses using response DTOs", "\tApplied video and audio editing methods using ffmpeg", "\tExecuted native functions using native code", "\tReduced loading times using a CDN"],
-          ["Retrospective", "\tCultivated design skills centered on common components", "\tGained experience in designing and implementing an integrated backend-frontend structure", "\tLearned about scalable design and improving code quality for easier maintenance", "\tUnderstood the importance of ffmpeg in video, audio, and photo editing", "\tEstablished and understood VPC, CDN, and ALB structures through AWS-based server setup", "\tImproved collaboration skills through ERD design, API design, and GitHub branch/issue management"]
-        ]
+        "title": "결과 및 회고",
+        "parts": {
+          "0": {
+            "0": "결과",
+            "1": "\tZustand 기반의 전역 상태 관리",
+            "2": "\tresponse DTO를 활용한 응답 형식 일관성 유지 및 응답 최적화",
+            "3": "\tffmpeg를 활용한 영상 및 오디오 편집 방법 적용",
+            "4": "\t네이티브 코드를 활용한 네이티브 기능 실행",
+            "5": "\tCDN을 활용한 로딩 시간 단축"
+          },
+          "1": {
+            "0": "회고",
+            "1": "\t공통 컴포넌트 중심의 설계 역량 함양",
+            "2": "\t백엔드-프론트엔드 통합 구조 설계 및 구현 경험",
+            "3": "\t확장성 있는 설계 및 유지/보수가 편한 코드 품질 향상에 대한 학습",
+            "4": "\t영상, 오디오, 사진 편집에서 ffmpeg가 차지하는 중요성 이해",
+            "5": "\tAWS 기반의 서버 구축을 통한 VPC, CDN, ALB 구조 정립 및 이해",
+            "6": "\tERD 설계, API 설계, 깃허브 브랜치 및 이슈 관리 등 협업 능력 향상"
+          }
+        }
       },
       "blank": {
-        "title": "Thank You."
+        "title": "감사합니다."
       }
     },
     "features": [
-      { "name": "🎵 Music-Based Community", "description": "Provides a forum for musicians to communicate freely and share information." },
-      { "name": "🤝 Share Ensemble Videos", "description": "Recruit ensemble members and share video clips of your performances." },
-      { "name": "📱 Create Short-form Videos", "description": "Create and share short videos of your performances or work." },
-      { "name": "🛠 Used Instrument Trading", "description": "A marketplace for users to trade used musical equipment and instruments." }
+      { "name": "🎵 음악 기반 커뮤니티", "description": "음악인들이 자유롭게 소통하고 정보를 공유할 수 있는 게시판 제공" },
+      { "name": "🤝 합주 영상 공유", "description": "합주 멤버를 모집하고, 함께 연주한 영상 클립을 공유" },
+      { "name": "📱 숏폼 제작", "description": "사용자의 연주나 작업물을 짧은 영상으로 제작하고 공유" },
+      { "name": "🛠 악기 중고 거래", "description": "음악 장비와 악기를 사용자 간 중고로 거래할 수 있는 게시판 제공" }
     ],
     "developmentProcess": [
-      { "title": "Planning & Architecture Design", "content": "Designed features for musicians and created the overall service flowchart and ERD." },
-      { "title": "Feature Implementation", "content": "Implemented video editing features using ffmpeg and the user community system." },
-      { "title": "Deployment & Operation", "content": "Deployed the service using AWS EC2, S3, Route53, and CloudFront." }
+      { "title": "기획 및 구조 설계", "content": "음악인 대상 기능 설계 및 전체 서비스 흐름도 및 ERD 설계" },
+      { "title": "기능 구현", "content": "ffmpeg를 이용한 영상 편집 기능 및 사용자 커뮤니티 시스템 구현" },
+      { "title": "배포 및 운영", "content": "AWS EC2, S3, Route53, CloudFront를 이용한 서비스 배포" }
     ]
   },
   "test-maker": {
     "title": "Test Maker",
-    "subtitle": "Your Own Vocabulary, Your Own Test",
-    "description": "Students or language learners often repeat the process of copying words from books to notebooks, memorizing them, and self-testing. Test Maker solves this tedious and inefficient process with technology.\n\nSimply by taking a picture with the camera, text is converted into a vocabulary list, and the vocabulary list is automatically transformed into a test paper, allowing the user to focus solely on 'learning'.",
+    "subtitle": "나만의 단어장, 나만의 시험지",
+    "description": "학생이나 어학 공부를 하는 사람들은 종종 책에 있는 단어를 노트에 옮겨 적고, 외우고, 스스로 시험 보는 과정을 반복합니다. Test Maker는 이 지루하고 비효율적인 과정을 기술로 해결합니다.\n\n카메라로 찍기만 하면 텍스트가 단어장으로, 단어장은 다시 시험지로 자동 변환되어 사용자는 오롯이 '학습'에만 집중할 수 있습니다.",
     "overview": {
-      "projectType": "Personal Project",
-      "introduction": "A program to create and take your own tests",
-      "features": "OCR word extraction, vocabulary management, automatic generation and export of multiple-choice/short-answer tests"
+      "projectType": "개인 프로젝트",
+      "introduction": "문제를 직접 만들고 테스트할 수 있는 프로그램",
+      "features": "OCR 단어 추출, 단어장 관리, 객관식/주관식 시험지 자동 생성 및 내보내기"
     },
     "summaries": {
       "development": {
-        "title": "Implemented Features & Development Process",
-        "parts": [
-          ["Based on React Native, I implemented the core feature of OCR word extraction by integrating the Google Vision API. I managed the state with Redux and safely stored user vocabulary data locally using Realm and AsyncStorage."],
-          ["It extracts words and meanings by iterating through the text using pre-set special symbols.", "The '-' symbol is used to distinguish the hierarchy of word categories."],
-          ["When words belonging to a specific category are selected, they are stored in a global variable and can be tested."],
-          ["Tests can be taken in two formats: multiple-choice and short-answer.", "A list of incorrect words is provided, and it's possible to export the vocabulary test in a multiple-choice format."]
-        ]
+        "title": "구현 기능 및 개발 과정",
+        "parts": {
+          "0": {
+            "0": "React Native를 기반으로 Google Vision API를 연동하여 핵심 기능인 OCR 단어 추출을 구현했습니다. Redux로 상태를 관리하고, Realm과 AsyncStorage를 사용해 사용자의 단어장 데이터를 로컬에 안전하게 저장합니다."
+          },
+          "1": {
+            "0": "설정해둔 특수 기호를 활용하여 텍스트를 순회하며 낱말과 뜻을 추출합니다.",
+            "1": "'-' 기호를 사용하여 단어의 카테고리 위계를 구분합니다."
+          },
+          "2": {
+            "0": "특정 카테고리에 포함된 단어를 선택하면 전역 변수에 저장되며 테스트 가능합니다."
+          },
+          "3": {
+            "0": "테스트는 객관식과 주관식 두 방식으로 선택 가능합니다.",
+            "1": "틀린 단어에 대해 오답 목록이 제공되며, 객관식 형태로 단어시험 내보내기가 가능합니다."
+          }
+        }
       },
       "troubleshooting": {
-        "title": "Troubleshooting",
-        "parts": [
-          [],
-          ["Problem: The data structure changed to a nested form as hierarchy was added to categories, making the existing data search structure unusable."],
-          ["Solution: I applied a tree structure inspired by folder structures and implemented the word search function as a recursive function."],
-          ["Result: Searching is now possible regardless of the depth of subcategories."]
-        ]
+        "title": "트러블 슈팅",
+        "parts": {
+          "1": {
+            "0": "문제 상황: 카테고리에 위계를 추가하여 카테고리가 중첩되는 자료 형태로 변경됐고, 따라서 기존의 자료 탐색 구조를 사용할 수 없었습니다.",
+            "1": "해결 과정: 폴더 구조에서 착안한 트리 구조를 적용했고, 단어 탐색 함수를 재귀 함수로 구현했습니다.",
+            "2": "결과: 하위 카테고리의 깊이에 관련없이 탐색이 가능합니다."
+          }
+        }
       },
       "results": {
-        "title": "Results & Retrospective",
-        "parts": [
-          ["Results", "Implemented for both Android and iOS using React Native.", "Implemented word data using a tree structure and incorrect answer data using a heap structure.", "Utilized the Google Vision API."],
-          ["Retrospective", "Couldn't find the necessary component library (grid) on NPM, so I implemented it myself and deployed it to NPM.", "Implemented the program utilizing data structures.", "Improved understanding of TypeScript.", "Understood and applied global state management, local storage, and local DB."]
-        ]
+        "title": "결과 및 회고",
+        "parts": {
+          "0": {
+            "0": "결과",
+            "1": "React Native 활용하여 안드로이드, IOS 모두 구현",
+            "2": "단어 데이터는 트리, 오답 데이터는 힙 자료 구조를 사용하여 구현",
+            "3": "Google Vision Api를 활용"
+          },
+          "1": {
+            "0": "회고",
+            "1": "NPM에서 필요한 컴포넌트 라이브러리(그리드)를 찾지 못해 직접 구현하고 NPM에 배포",
+            "2": "자료구조를 활용한 프로그램 구현",
+            "3": "Type Script에 대한 이해도 향상",
+            "4": "전역 상태 관리 및 로컬 스토리지, 로컬 DB에 대한 이해 및 적용"
+          }
+        }
       },
       "blank": {
-        "title": "Thank You."
+        "title": "감사합니다."
       }
     },
     "features": [
-      { "name": "📸 Smart OCR Word Extraction", "description": "When you photograph a book or document with the camera, Optical Character Recognition (OCR) technology automatically extracts the desired words and their meanings to add to your vocabulary list." }
+      { "name": "📸 스마트 OCR 단어 추출", "description": "카메라로 책이나 문서를 촬영하면, 광학 문자 인식(OCR) 기술을 통해 원하는 단어와 그 의미를 자동으로 추출하여 단어장에 추가합니다." }
     ],
     "developmentProcess": [
-      { "title": "Problem Identification", "content": "Identified the inefficiency of traditional vocabulary memorization methods and set a goal to increase learning efficiency by automating this process with technology." }
+      { "title": "문제 파악", "content": "기존 단어 암기 방식의 비효율성을 발견하고, 이를 기술로 자동화하여 학습 효율을 높이는 것을 목표로 설정했습니다." }
     ]
   },
-
   "teacher_test": {
     "title": "Tea Time",
-    "subtitle": "Mobile Study App for the Elementary Teacher Exam",
-    "description": "This is a mobile learning app for prospective teachers preparing for the elementary school teacher certification exam in South Korea. It helps users get one step closer to passing by allowing them to study the vast curriculum content in a quiz format anytime, anywhere, and systematically manage their incorrect answers. Built with Flutter, the app is designed for efficient learning of key content during commutes or spare moments.",
+    "subtitle": "초등임용 대비 모바일 학습 앱",
+    "description": "대한민국 초등교사 임용 시험을 준비하는 예비 교사들을 위한 모바일 학습 앱입니다. 방대한 교육과정 내용을 언제 어디서든 퀴즈 형태로 학습하고, 틀린 문제를 체계적으로 관리하여 합격에 한 걸음 더 다가갈 수 있도록 돕습니다. Flutter로 제작된 앱으로, 이동 시간이나 자투리 시간에도 핵심 내용을 효율적으로 학습할 수 있도록 설계되었습니다.",
     "overview": {
-      "projectType": "Personal Project",
-      "introduction": "A mobile learning tool aimed at preparing for the elementary school teacher certification exam, providing curriculum-based questions and incorrect answer management.",
-      "features": "Curriculum/General Principles-based tests, Incorrect Answer Notes"
+      "projectType": "개인 프로젝트",
+      "introduction": "초등교사 임용 시험 대비를 목표로, 교육과정 기반 문제와 오답 관리를 제공하는 모바일 학습 도구",
+      "features": "교육과정/총론 기반 테스트, 오답노트"
     },
     "summaries": {
       "development": {
-        "title": "Implemented Features & Development Process",
-        "parts": [
-          ["The main screen provides a countdown to the exam, a list of incorrect answers, and a feature to review them."],
-          ["Provides learning features for the curriculum's content organization table, achievement standards, and general principles."],
-          ["Provides a content organization table and test functions for each grade group."],
-          ["Provides a test mode for each grade group."],
-          ["In test mode, users can check their own answers."],
-          ["By copying the original text and their own answer, users can see the differences between their answer and the correct one on the main screen."],
-          ["Provides learning for curriculum achievement standards."],
-          ["Provides a learning feature for the curriculum's general principles."]
-        ]
+        "title": "구현 기능 및 개발 과정",
+        "parts": {
+          "0": { "0": "메인 화면에서는 남은 시험 일수, 오답 목록 및 오답 확인 기능을 제공함." },
+          "1": { "0": "교육과정 내용체계표, 성취기준, 총론 학습 기능 제공" },
+          "2": { "0": "학년군별 내용체계표 및 시험 기능 제공" },
+          "3": { "0": "학년군별 시험 모드 제공" },
+          "4": { "0": "시험 모드에서는 자신의 정답을 확인해볼 수 있음." },
+          "5": { "0": "원문 및 자신의 정답을 복사하면 메인 화면에서 자신의 답과 정답의 다른 부분을 확인할 수 있음" },
+          "6": { "0": "교육과정 성취기준 학습 제공" },
+          "7": { "0": "교육과정 총론 학습 기능 제공" }
+        }
       },
       "results": {
-        "title": "Results & Retrospective",
-        "parts": [
-          ["Results", "Implemented curriculum-based problem-solving feature.", "Provided automatic recording of incorrect answers and a re-learning flow.", "Backup of incorrect answer list using Firebase."],
-          ["Retrospective", "Understood the complexity of data segmentation and utilizing multi-dimensional arrays.", "Gained understanding of cross-platform app design."]
-        ]
+        "title": "결과 및 회고",
+        "parts": {
+          "0": {
+            "0": "결과",
+            "1": "교육과정 기반 문제 풀기 기능 구현",
+            "2": "오답노트 자동 기록 및 재학습 흐름 제공",
+            "3": "Firebase를 활용한 오답 목록 백업"
+          },
+          "1": {
+            "0": "회고",
+            "1": "데이터 세분화 및 다차원 배열 활용의 복잡성 이해",
+            "2": "크로스 플랫폼 앱 설계에 대한 이해"
+          }
+        }
       },
       "blank": {
-        "title": "Thank You."
+        "title": "감사합니다."
       }
     },
     "features": [
-      { "name": "📚 Curriculum-Based Questions", "description": "Provides questions based on the curriculum (achievement standards) for all elementary grades and subjects." },
-      { "name": "✍️ Various Learning Modes", "description": "Check your skills with various learning modes such as by subject, by grade, or random." },
-      { "name": "❌ Systematic Incorrect Answer Note", "description": "Automatically records incorrect answers and allows for re-learning with explanations." },
-      { "name": "📊 Learning Statistics", "description": "Visualize overall and subject-specific correct answer rates to understand learning progress." }
+      { "name": "📚 교육과정 기반 문제", "description": "초등 전 학년·전 과목의 교육과정(성취기준) 기반 문제 제공" },
+      { "name": "✍️ 다양한 학습 모드", "description": "과목별·학년별·랜덤 등 다양한 학습 모드로 실력 점검" },
+      { "name": "❌ 체계적인 오답노트", "description": "틀린 문제를 자동으로 기록하고 해설과 함께 재학습 가능" },
+      { "name": "📊 학습 통계", "description": "전체 정답률·과목별 정답률 등을 시각화하여 학습 현황 파악" }
     ],
     "developmentProcess": [
-      { "title": "Planning & Architecture Design", "content": "Designed question structure based on curriculum and modeled DB/metadata." },
-      { "title": "Feature Implementation", "content": "Implemented core learning features such as question solving, incorrect answer notes, search, and statistics." },
-      { "title": "Deployment & Operation", "content": "Prepared for App Store submission, optimized resources, and reflected user feedback." }
+      { "title": "기획 및 구조 설계", "content": "교육과정 기반 문항 구조 설계 및 DB/메타데이터 모델링" },
+      { "title": "기능 구현", "content": "문항 풀기, 오답노트, 검색, 통계 등 핵심 학습 기능 구현" },
+      { "title": "배포 및 운영", "content": "앱 스토어 제출 준비, 리소스 최적화 및 사용자 피드백 반영" }
     ]
   }
 }

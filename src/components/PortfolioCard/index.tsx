@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { ProjectData } from '../../types';
 
 interface PortfolioCardProps {
     project: ProjectData;
     className?: string;
+    onClick: () => void;
 }
 
-const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => {
+const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onClick }) => {
     const { t } = useTranslation('projects');
     
     // 1. 카드의 뒤집힘 상태를 관리하기 위한 state 추가
@@ -19,8 +19,13 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => 
         e.currentTarget.src = "https://placehold.co/300x200/cccccc/333333?text=Image+Not+Found";
     };
 
+    const handleCardClick = () => {
+        onClick();
+        setIsFlipped(false);
+    }
+
     return (
-        <Link to={`/project/${project.id}`} className={`block ${className || ''}`}>
+        <div onClick={handleCardClick} className={`block cursor-pointer ${className || ''}`}>
             {/* 3D 효과를 위한 perspective 컨테이너 */}
             <div
                 className="w-full aspect-[9/16]"
@@ -84,7 +89,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className }) => 
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 

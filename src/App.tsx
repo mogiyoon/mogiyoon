@@ -7,6 +7,8 @@ import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ScrollToTop from "./components/ScrollToTop";
 import ContactModal from "./components/ContactModal";
 import PageHeader from "./components/PageHeader";
+import { AnimatePresence } from 'framer-motion';
+
 
 const getInitialTab = () => {
   if (window.location.pathname.startsWith('/project/')) {
@@ -83,10 +85,12 @@ return (
       </div>
       
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<HomePage activeTab={activeTab} />} />
-        <Route path="/project/:projectId" element={<ProjectDetailPage />} />
-      </Routes>
+      <AnimatePresence mode='wait'>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<HomePage activeTab={activeTab} />} />
+          <Route path="/project/:projectId" element={<ProjectDetailPage />} />
+        </Routes>
+      </AnimatePresence>
       <ContactModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </main>
   );
