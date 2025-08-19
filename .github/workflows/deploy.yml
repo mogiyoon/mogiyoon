@@ -47,8 +47,8 @@ jobs:
       # AWS CLI 명령어를 사용해 지정된 폴더의 내용을 S3 버킷으로 업로드합니다.
       - name: Sync files to S3 bucket
         run: |
-          aws s3 sync ./build s3://mogiyoon --delete
-        # ./build 부분: 빌드 결과물이 담긴 폴더 경로를 적어주세요. 순수 HTML 프로젝트라면 웹사이트 파일들이 있는 폴더(예: ./src 또는 ./)를 적으면 됩니다.
+          aws s3 sync ./dist s3://mogiyoon --delete
+        # ./dist 부분: 빌드 결과물이 담긴 폴더 경로를 적어주세요. 순수 HTML 프로젝트라면 웹사이트 파일들이 있는 폴더(예: ./src 또는 ./)를 적으면 됩니다.
         # <여기에-버킷-이름-입력> 부분: 실제 S3 버킷 이름으로 교체해주세요.
         # --delete 옵션: 배포하는 폴더에는 없지만 S3 버킷에는 남아있는 낡은 파일을 삭제해줍니다.
 
