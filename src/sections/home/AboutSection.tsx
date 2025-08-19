@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
-import '../../pages/homepage.css';
+import '../../pages/HomePage.css';
 import BlockCodingSlide from '../../components/BlockCodingSlide';
 
 // Slide 컴포넌트가 받을 props 타입을 정의
