@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
 import '../../pages/HomePage.css';
-import BlockCodingSlide from '../../components/BlockCodingSlide';
+import AnswerChecker from '../../components/AboutMe/AnswerChecker';
 
 // Slide 컴포넌트가 받을 props 타입을 정의
 interface SlideProps {
@@ -24,7 +24,9 @@ const Slide: React.FC<SlideProps> = ({
     triggerOnce: true,
   });
 
-  const slideClasses = `h-screen w-full flex items-center justify-center relative ${className}`;
+  const slideClasses = `h-screen w-full flex items-center justify-center relative ${className} ${
+    inView ? 'is-visible' : ''
+  }`;
 
   return (
     <section ref={ref} className={slideClasses} style={style}>
@@ -42,7 +44,6 @@ const Slide: React.FC<SlideProps> = ({
 };
 
 // AboutSection 컴포넌트
-// AboutSection 컴포넌트
 const AboutSection: React.FC = () => {
   const { t } = useTranslation();
 
@@ -50,7 +51,6 @@ const AboutSection: React.FC = () => {
     {
       className: 'bg-slate-50 text-gray-800',
       centeredContent: ( <div className="text-center text-lg sm:text-2xl lg:text-3xl leading-relaxed tracking-wide lg:tracking-wider"> <span className="block">{t('introLine1')}</span> </div> ),
-      absoluteContent: ( <div className="absolute bottom-8 right-8 lg:right-16"> <BlockCodingSlide /> </div> ),
     },
     {
       className: 'bg-slate-50 text-gray-800 relative', // Added 'relative' for positioning context
@@ -61,24 +61,23 @@ const AboutSection: React.FC = () => {
       ),
       absoluteContent: (
         <>
-          {/* Replace these placeholder URLs with your actual image paths */}
+            <div className="centered-screenshot fade-in-component delay-4 absolute top-[20%] left-[75%]">
+                <AnswerChecker/>
+            </div>
           <img
             src="/images/aboutMe/introLine2/1.png"
             alt="Descriptive alt text for image 1"
-            className="absolute top-[27%] left-[32%] transform -translate-x-1/2 -translate-y-1/2 rotate-[-20deg] opacity-100 transition-opacity duration-1000 ease-in-out border rounded-lg"
-            style={{ width: '50%' }}
+            className="centered-screenshot fade-in-component delay-1 absolute top-[35%] left-[37%] sm:top-[27%] sm:left-[37%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[70%] sm:w-[55%] lg:w-[40%]"
           />
           <img
-            src="https://picsum.photos/id/50/200/300"
+            src="/images/aboutMe/introLine2/2.png"
             alt="Descriptive alt text for image 2"
-            className="absolute bottom-1/3 right-1/4 transform translate-x-1/2 translate-y-1/2 -rotate-3 opacity-0 transition-opacity duration-1000 ease-in-out delay-500"
-            style={{ width: '12%', maxWidth: '120px' }}
+            className="centered-screenshot fade-in-component delay-2 absolute top-[63%] left-[65%] sm:top-[67%] sm:left-[68%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[40%] lg:w-[30%]"
           />
           <img
-            src="https://picsum.photos/id/60/300/220"
+            src="/images/aboutMe/introLine2/3.png"
             alt="Descriptive alt text for image 3"
-            className="absolute top-1/2 right-1/3 transform translate-x-1/2 -translate-y-1/2 rotate-2 opacity-0 transition-opacity duration-1000 ease-in-out delay-1000"
-            style={{ width: '18%', maxWidth: '180px' }}
+            className="centered-screenshot fade-in-component delay-3 absolute top-[76%] left-[37%] sm:top-[81%] sm:left-[25%] border-[1px] border-black rounded-sm md:rounded-md shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[5px_5px_5px_1px_rgba(0,0,0,0.5)]  w-[50%] sm:w-[40%] lg:w-[30%]"
           />
         </>
       ),
@@ -107,7 +106,7 @@ const AboutSection: React.FC = () => {
 
   return (
     <div className="w-full">
-      {slides.map((slide: any, index) => (
+      {slides.map((slide: SlideProps, index) => (
         <Slide
           key={index}
           className={slide.className}
