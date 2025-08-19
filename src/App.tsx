@@ -41,9 +41,15 @@ const AppContent: React.FC = () => {
 
 
   useEffect(() => {
+    const SCROLL_THRESHOLD = 20;
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const delta = currentScrollY - lastScrollY.current;
+      if (Math.abs(delta) < SCROLL_THRESHOLD) {
+        return;
+      }
+
       if (currentScrollY <= 0) {
         setHeaderTranslate(0);
         lastScrollY.current = 0;

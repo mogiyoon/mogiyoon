@@ -16,8 +16,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-/* index.css 또는 globals.css */
-html {
-  scroll-snap-type: y mandatory;
-}

@@ -1,69 +1,33 @@
-/* --- 'Fade In & Rise Up' 애니메이션 정의 --- */
-@keyframes fade-in-rise {
+@keyframes fade-in-rise-centered {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(-50%) translateY(calc(-50% + 20px));
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(-50%);
   }
 }
 
-/* --- 자기소개 텍스트 애니메이션 --- */
-.fade-in-text {
-  animation: fade-in-rise 0.8s ease-out both;
-}
-.fade-in-text.delay-1 { animation-delay: 0.2s; }
-.fade-in-text.delay-2 { animation-delay: 0.5s; }
-.fade-in-text.delay-3 { animation-delay: 1.0s; }
-.fade-in-text.delay-4 { animation-delay: 1.5s; }
-.fade-in-text.delay-5 { animation-delay: 1.8s; }
-.fade-in-text.delay-6 { animation-delay: 2.1s; }
-
-/* --- 섹션 콘텐츠를 위한 범용 애니메이션 --- */
-.content-to-animate {
+/* 2-1. 애니메이션 '시작 전' 기본 상태 설정 */
+/* 화면에 보이기 전에는 투명한 상태로 대기합니다. */
+.centered-screenshot.fade-in-component {
   opacity: 0;
-  transform: translateY(20px);
 }
 
-.section-is-visible .content-to-animate {
-  animation: fade-in-rise 1.2s ease-out forwards;
+/* 2-2. 애니메이션 '시작' 트리거 */
+/* 부모 요소에 is-visible 클래스가 붙었을 때 애니메이션을 시작합니다. */
+.is-visible .centered-screenshot.fade-in-component {
+  animation-name: fade-in-rise-centered;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
 }
 
 
-/* --- '전체 프로젝트 요약' 섹션 스타일 --- */
-.summary-section > .min-h-screen {
-    padding: 2rem;
-}
-@media (max-width: 768px) {
-    .summary-section > .min-h-screen {
-        padding: 1rem;
-    }
-}
-
-/* ✅ 높이 관련 스타일을 모두 제거합니다. */
-.summary-content-box {
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- '나의 프로젝트' 섹션 스타일 --- */
-.my-projects-box {
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- '나의 프로젝트' 카드 마우스오버 효과 --- */
-.my-projects-box .grid > div {
-    transition: all 0.3s ease-in-out;
-    border-radius: 0.75rem;
-}
-
-.my-projects-box .grid > div:hover {
-    transform: translateY(-5px) scale(1.05); /* Y축 이동을 -10px에서 -5px로 줄임 */
-    box-shadow: 0 10px 20px -8px rgba(76, 63, 219, 0.25); /* 그림자를 더 연하고 부드럽게 수정 */
-    transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 추가 */
-}
+.fade-in-component.delay-1 { animation-delay: 0.4s; }
+.fade-in-component.delay-2 { animation-delay: 0.8s; }
+.fade-in-component.delay-3 { animation-delay: 1.2s; }
+.fade-in-component.delay-4 { animation-delay: 1.6s; }
+.fade-in-component.delay-5 { animation-delay: 2.0s; }
+.fade-in-component.delay-6 { animation-delay: 2.4s; }
