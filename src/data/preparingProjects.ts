@@ -7,4 +7,9 @@ export const preparingProjects: PreparingProjectData[] = [
         title: "document-management.title",
         subtitle: "document-management.subtitle",
     },
+    {
+        id: "project-m",
+        title: "project-m.title",
+        subtitle: "project-m.subtitle",
+    }
 ];

@@ -3,5 +3,9 @@
   "document-management": {
     "title": "Document Management Program",
     "subtitle": "Manage and print multiple versions of documents"
+  },
+  "project-m": {
+    "title": "Project M",
+    "subtitle": "Integration between Game and SLM"
   }
 }
