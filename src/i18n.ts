@@ -12,7 +12,7 @@ i18n
     defaultNS: 'common', // 기본 네임스페이스
 
     fallbackLng: 'en',
-    debug: process.env.NODE_ENV === 'development', // 개발 환경에서만 디버그 모드 활성화
+    debug: import.meta.env.MODE === 'development', // 개발 환경에서만 디버그 모드 활성화
     interpolation: {
       escapeValue: false,
     },
