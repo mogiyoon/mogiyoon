@@ -41,7 +41,8 @@ const Slide: React.FC<SlideProps> = ({
   );
 };
 
-// AboutSection 컴포넌트 (수정 없음)
+// AboutSection 컴포넌트
+// AboutSection 컴포넌트
 const AboutSection: React.FC = () => {
   const { t } = useTranslation();
 
@@ -52,8 +53,35 @@ const AboutSection: React.FC = () => {
       absoluteContent: ( <div className="absolute bottom-8 right-8 lg:right-16"> <BlockCodingSlide /> </div> ),
     },
     {
-      className: 'bg-slate-50 text-gray-800',
-      centeredContent: ( <div className="text-center text-lg sm:text-2xl lg:text-3xl leading-relaxed tracking-wide lg:tracking-wider"> <span className="block">{t('introLine2')}</span> </div> ),
+      className: 'bg-slate-50 text-gray-800 relative', // Added 'relative' for positioning context
+      centeredContent: (
+        <div className="text-center text-lg sm:text-2xl lg:text-3xl leading-relaxed tracking-wide lg:tracking-wider">
+          <span className="block">{t('introLine2')}</span>
+        </div>
+      ),
+      absoluteContent: (
+        <>
+          {/* Replace these placeholder URLs with your actual image paths */}
+          <img
+            src="/images/aboutMe/introLine2/1.png"
+            alt="Descriptive alt text for image 1"
+            className="absolute top-[27%] left-[32%] transform -translate-x-1/2 -translate-y-1/2 rotate-[-20deg] opacity-100 transition-opacity duration-1000 ease-in-out border rounded-lg"
+            style={{ width: '50%' }}
+          />
+          <img
+            src="https://picsum.photos/id/50/200/300"
+            alt="Descriptive alt text for image 2"
+            className="absolute bottom-1/3 right-1/4 transform translate-x-1/2 translate-y-1/2 -rotate-3 opacity-0 transition-opacity duration-1000 ease-in-out delay-500"
+            style={{ width: '12%', maxWidth: '120px' }}
+          />
+          <img
+            src="https://picsum.photos/id/60/300/220"
+            alt="Descriptive alt text for image 3"
+            className="absolute top-1/2 right-1/3 transform translate-x-1/2 -translate-y-1/2 rotate-2 opacity-0 transition-opacity duration-1000 ease-in-out delay-1000"
+            style={{ width: '18%', maxWidth: '180px' }}
+          />
+        </>
+      ),
     },
     {
       className: 'bg-gradient-to-br from-blue-100 to-purple-100 text-gray-900',
@@ -84,7 +112,7 @@ const AboutSection: React.FC = () => {
           key={index}
           className={slide.className}
           style={slide.style}
-          centeredContent={ slide.centeredContent ? ( <div className="max-w-4xl w-full mx-auto px-4"> {slide.centeredContent} </div> ) : null }
+          centeredContent={slide.centeredContent}
           absoluteContent={slide.absoluteContent}
         />
       ))}
