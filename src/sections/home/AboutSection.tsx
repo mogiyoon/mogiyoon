@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import '../../pages/homepage.css'
+import '../../pages/HomePage.css'
 
 //TODO: 소개별로 나눠서 광고처럼 만들기
 
