@@ -1,3 +1,6 @@
+/* --- 1. 공용 애니메이션 Keyframes --- */
+
+/* 1-1. 일반 이미지용: 중앙 정렬 포함 애니메이션 */
 @keyframes fade-in-rise-centered {
   from {
     opacity: 0;
@@ -9,25 +12,74 @@
   }
 }
 
-/* 2-1. 애니메이션 '시작 전' 기본 상태 설정 */
-/* 화면에 보이기 전에는 투명한 상태로 대기합니다. */
+/* 1-2. AnswerChecker 전용: 제자리에서 떠오르는 애니메이션 (새로 추가) */
+@keyframes fade-in-rise-from-place {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* 현재 위치보다 20px 아래에서 시작 */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);   /* 자기 원래 위치로 이동 */
+  }
+}
+
+/* (이 부분은 변경사항 없습니다) */
 .centered-screenshot.fade-in-component {
   opacity: 0;
 }
-
-/* 2-2. 애니메이션 '시작' 트리거 */
-/* 부모 요소에 is-visible 클래스가 붙었을 때 애니메이션을 시작합니다. */
-.is-visible .centered-screenshot.fade-in-component {
+.is-visible .centered-screenshot.fade-in-component:not(.reveal-on-large-screen) {
   animation-name: fade-in-rise-centered;
   animation-duration: 0.8s;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
 }
+.animation-finished .centered-screenshot.fade-in-component:not(.reveal-on-large-screen) {
+  animation: none;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-50%);
+}
+.fade-in-component.delay-1 { animation-delay: 0.2s; }
+.fade-in-component.delay-2 { animation-delay: 0.6s; }
+.fade-in-component.delay-3 { animation-delay: 1.0s; }
 
+/* ----------------------------------------------------------------- */
+/* --- 3. AnswerChecker (화면 크기 반응형 애니메이션) --- */
+/* ----------------------------------------------------------------- */
 
-.fade-in-component.delay-1 { animation-delay: 0.4s; }
-.fade-in-component.delay-2 { animation-delay: 0.8s; }
-.fade-in-component.delay-3 { animation-delay: 1.2s; }
-.fade-in-component.delay-4 { animation-delay: 1.6s; }
-.fade-in-component.delay-5 { animation-delay: 2.0s; }
-.fade-in-component.delay-6 { animation-delay: 2.4s; }
+/* 3-1. 최초 등장 애니메이션 (큰 화면 전용) */
+@media (min-width: 1024px) {
+    .is-visible:not(.animation-finished) .reveal-on-large-screen {
+    animation-name: fade-in-rise-from-place;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+    animation-delay: 1.4s;
+  }
+}
+
+.animation-finished .centered-screenshot.fade-in-component.reveal-on-large-screen {
+  animation: none;
+  opacity: 1;
+}
+
+.animation-finished .reveal-on-large-screen {
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+/* 작은 화면일 때: 화면 밖 오른쪽에 숨김 (깜빡임 방지를 위해 초기 상태도 포함) */
+@media (max-width: 1023px) {
+  .reveal-on-large-screen {
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+}
+
+/* 큰 화면일 때: 원래 위치에 표시 */
+@media (min-width: 1024px) {
+  .reveal-on-large-screen {
+    /* ===💥 수정된 부분: 최종 위치 transform을 none 또는 translateY(0)으로 명확히 지정 === */
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
