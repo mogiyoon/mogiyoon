@@ -3,5 +3,9 @@
   "document-management": {
     "title": "문서 관리 프로그램",
     "subtitle": "여러 버전의 문서를 관리, 출력"
+  },
+  "project-m": {
+    "title": "프로젝트 M",
+    "subtitle": "게임과 SLM 연동"
   }
 }
