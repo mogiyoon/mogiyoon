@@ -64,11 +64,11 @@ const AboutSection: React.FC = () => {
 
   const slides = [
     {
-      className: 'bg-slate-50 text-gray-800',
+        className: 'bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 text-slate-100',
       centeredContent: ( <div className="text-center text-lg sm:text-2xl lg:text-3xl leading-relaxed tracking-wide lg:tracking-wider"> <span className="block">{t('introLine1')}</span> </div> ),
     },
     {
-      className: 'bg-gradient-to-br from-red-200 via-green-100 to-emerald-200 text-gray-800 relative', // Added 'relative' for positioning context
+      className: 'bg-gradient-to-br from-red-200 via-green-100 to-emerald-200 text-gray-800 relative',
       centeredContent: (
         <div className="text-center text-lg sm:text-2xl lg:text-3xl leading-relaxed tracking-wide lg:tracking-wider">
           <span className="block">{t('introLine2')}</span>
@@ -108,15 +108,7 @@ const AboutSection: React.FC = () => {
     {
       className: 'bg-gradient-to-tr from-yellow-50 via-red-50 to-orange-100 text-gray-800',
       centeredContent: ( <p className="text-lg sm:text-2xl lg:text-3xl mt-4 tracking-wide lg:tracking-wider"> {t('developerIntro')} </p> ),
-    },
-    {
-      className: 'text-gray-700',
-      style: {
-        backgroundColor: '#ffffff',
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E")`,
-      },
-      centeredContent: ( <div className="text-center text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto"> <p>{t('projectIntro1')}</p> <p className="mt-2">{t('projectIntro2')}</p> </div> ),
-    },
+    }
   ];
 
   return (
