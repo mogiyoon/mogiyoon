@@ -16,3 +16,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#answer-input:empty::before {
+  content: attr(data-placeholder);
+  @apply text-black; /* Tailwind 유틸은 여기서 적용 가능 */
+  pointer-events: none;
+}

@@ -65,15 +65,15 @@ const AnswerChecker: React.FC = () => {
 
       {/* 정답 입력 섹션 */}
       <div className="flex items-center mb-2">
-        <label htmlFor="answer-input" className="text-base font-medium text-gray-800 mr-2 whitespace-nowrap">정답:</label>
+        <label htmlFor="answer-input" className="text-base text-gray-800 whitespace-nowrap">정답:</label>
         {/* input 대신 contentEditable div 사용 */}
         <div
           ref={editableDivRef}
           id="answer-input"
           contentEditable="true"
-          className="flex-grow px-1 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+          className="flex-grow px-1 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-black"
           style={{ minHeight: '2.25rem', lineHeight: '1.5rem', cursor: 'text' }}
-          data-placeholder="여기에 정답을 입력하세요..."
+          data-placeholder="여기서 테스트 해보세요."
         ></div>
       </div>
 
