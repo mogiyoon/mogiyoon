@@ -8,6 +8,7 @@ import { DeveloperIntro } from '../../components/AboutMe/DeveloperIntro';
 const AboutSection: React.FC = () => {
   return (
     <div className="w-full">
+      <IntroLine/>
       <MainPhrase1to4/>
       <MainPhrase5to8/>
       <DeveloperIntro/>
