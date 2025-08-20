@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Firework } from './Firework';
 
-// 🟡 폭죽의 좌표 타입을 정의합니다.
 interface FireworkPosition {
   id: number;
   top: string;
@@ -14,9 +13,11 @@ interface FireworkPosition {
 export const DeveloperIntro: React.FC = () => {
   const { t } = useTranslation();
   const targetRef = useRef<HTMLDivElement | null>(null);
-  
-  // 🟡 폭죽의 위치를 저장할 state를 만듭니다. (초기값은 빈 배열)
   const [fireworkPositions, setFireworkPositions] = useState<FireworkPosition[]>([]);
+
+  // ✅ 1. 여기에 원하는 폭죽 개수를 설정합니다.
+  const fireworkCount = 8;
+  const fireworkInterval = 0.3; // 터지는 간격 (초)
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -27,35 +28,41 @@ export const DeveloperIntro: React.FC = () => {
 
   useEffect(() => {
     const unsubscribe = fireworkTrigger.onChange((latest) => {
-      // 🟡 값이 1에 도달하고, 현재 폭죽이 없을 때만 실행
       if (latest === 1 && fireworkPositions.length === 0) {
-        // 새로운 랜덤 좌표를 생성합니다.
-        const newPositions = Array.from({ length:4 }).map((_, index) => ({
+        const newPositions = Array.from({ length: fireworkCount }).map((_, index) => ({
           id: index,
-          // 화면 가장자리가 아닌 10% ~ 90% 사이에서 터지도록 설정
           top: `${Math.random() * 80 + 10}%`,
           left: `${Math.random() * 80 + 10}%`,
         }));
 
-        setFireworkPositions(newPositions); // 생성된 좌표를 state에 저장
+        setFireworkPositions(newPositions);
 
-        // 1.5초 후에 폭죽을 사라지게(state를 비우게) 합니다.
-        setTimeout(() => setFireworkPositions([]), 1500);
+        // ✅ 2. 폭죽 개수와 간격에 따라 사라지는 시간을 자동으로 계산합니다.
+        const lastFireworkTime = (fireworkCount - 1) * fireworkInterval * 1000;
+        const animationClearanceTime = 1500; // 마지막 폭죽 애니메이션 시간 + 여유
+        const totalTimeout = lastFireworkTime + animationClearanceTime;
+        
+        // 8개일 경우: (7 * 0.3 * 1000) + 1500 = 2100 + 1500 = 3600ms (3.6초)
+        setTimeout(() => setFireworkPositions([]), totalTimeout);
       }
     });
 
     return () => unsubscribe();
-  }, [fireworkTrigger, fireworkPositions]); // 🟡 fireworkPositions를 의존성 배열에 추가
+  }, [fireworkTrigger, fireworkPositions]);
 
   return (
-    <section ref={targetRef} className="relative"> {/* 🟡 스크롤 감지를 위해 높이 조절 */}
+    <section ref={targetRef} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className='absolute inset-0 bg-gradient-to-tr from-yellow-50 via-red-10 to-orange-100 text-gray-800 overflow-hidden'>
-
-          {/* 🟡 state에 저장된 좌표를 기반으로 폭죽을 렌더링합니다. */}
           <div className="absolute inset-0 z-0">
-            {fireworkPositions.map((pos) => (
-              <Firework key={pos.id} top={pos.top} left={pos.left} />
+            {fireworkPositions.map((pos, index) => (
+              // ✅ 3. 각 폭죽에 계산된 딜레이를 전달합니다.
+              <Firework
+                key={pos.id}
+                top={pos.top}
+                left={pos.left}
+                delay={index * fireworkInterval}
+              />
             ))}
           </div>
 
