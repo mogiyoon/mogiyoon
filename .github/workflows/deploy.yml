@@ -6,6 +6,9 @@ on:
   push:
     branches:
       - main  # 'main' 브랜치에 코드가 푸시(push)될 때마다 실행됩니다.
+  pull_request:
+    branches:
+      - main
 
 # 실제 수행될 작업(Job)들을 정의합니다.
 jobs:
@@ -31,7 +34,6 @@ jobs:
           # 본인의 S3 버킷과 CloudFront가 있는 AWS 리전으로 변경해주세요. (예: 서울은 ap-northeast-2)
           aws-region: ap-northeast-2
 
-      # 3. (선택 사항) Node.js 프로젝트 빌드
       # React, Vue, Angular 등 빌드 과정이 필요한 경우에만 이 단계를 사용하세요.
       # 순수 HTML/CSS/JS 프로젝트라면 이 'Node.js 프로젝트 빌드' 섹션 전체를 삭제해도 됩니다.
       - name: Setup Node.js environment
