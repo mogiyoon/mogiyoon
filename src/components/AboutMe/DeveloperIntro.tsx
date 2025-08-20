@@ -30,7 +30,7 @@ export const DeveloperIntro: React.FC = () => {
       // 🟡 값이 1에 도달하고, 현재 폭죽이 없을 때만 실행
       if (latest === 1 && fireworkPositions.length === 0) {
         // 새로운 랜덤 좌표를 생성합니다.
-        const newPositions = Array.from({ length:8 }).map((_, index) => ({
+        const newPositions = Array.from({ length:4 }).map((_, index) => ({
           id: index,
           // 화면 가장자리가 아닌 10% ~ 90% 사이에서 터지도록 설정
           top: `${Math.random() * 80 + 10}%`,
