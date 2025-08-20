@@ -9,12 +9,16 @@ const { t } = useTranslation();
   return (
     <section ref={targetRef} className="relative">
       <div className="sticky top-0 h-screen w-full">
-        <div className='absolute inset-0 bg-gradient-to-tr from-yellow-50 via-red-50 to-orange-100 text-gray-800'>
-        {/* 시작 콘텐츠 */}
+        <div className='absolute inset-0 bg-gradient-to-tr from-yellow-50 via-red-10 to-orange-100 text-gray-800'>
         <motion.div
           className={`absolute inset-0 z-0`}
         >
-          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg sm:text-2xl lg:text-3xl mt-4 tracking-wide lg:tracking-wider whitespace-nowrap"> {t('developerIntro')} </p>
+          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] font-bold text-2xl sm:text-3xl lg:text-4xl mt-4 tracking-wide lg:tracking-wider whitespace-nowrap"> {t('developerIntro1')} </p>
+        </motion.div>
+        <motion.div
+          className={`absolute inset-0 z-0`}
+        >
+          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] font-bold text-2xl sm:text-3xl lg:text-4xl mt-4 tracking-wide lg:tracking-wider whitespace-nowrap"> {t('developerIntro2')} </p>
         </motion.div>
         </div>
       </div>
