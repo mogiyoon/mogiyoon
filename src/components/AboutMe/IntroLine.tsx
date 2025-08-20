@@ -54,7 +54,7 @@ export const IntroLine: React.FC = () => {
             <img
                 src="/images/aboutMe/introLine1/2.png"
                 alt="image 1"
-                className="absolute top-1/2 left-1/2 -translate-x-[20%] translate-y-[35%] sm:translate-x-[30%] sm:translate-y-[10%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
+                className="absolute top-1/2 left-1/2 -translate-x-[20%] translate-y-[35%] sm:translate-x-[30%] sm:translate-y-[30%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
             />
           </motion.div>
 
