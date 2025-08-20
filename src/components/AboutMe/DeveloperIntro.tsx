@@ -7,7 +7,7 @@ const { t } = useTranslation();
   const targetRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <section ref={targetRef} className="relative h-[600vh]">
+    <section ref={targetRef} className="relative">
       <div className="sticky top-0 h-screen w-full">
         <div className='absolute inset-0 bg-gradient-to-tr from-yellow-50 via-red-50 to-orange-100 text-gray-800'>
         {/* 시작 콘텐츠 */}
