@@ -28,7 +28,12 @@ const { t } = useTranslation();
           style={{ opacity: startContentOpacity }}
           className={`absolute inset-0 z-0`}
         >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-lg sm:text-2xl lg:text-3xl text-white leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap"> {t('introLine1')} </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-white leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+                {t('introLine1')}
+            </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-white leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+                {t('introLine1-1')}
+            </div>
         </motion.div>
         
         {/* 끝 콘텐츠 */}
@@ -39,10 +44,14 @@ const { t } = useTranslation();
         </motion.div>
 
         <motion.div
-            style={{opacity: endIntroLine}}
+          style={{ opacity: endIntroLine }}
+          className={`absolute inset-0 z-0`}
         >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-lg sm:text-2xl lg:text-3xl text-black leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
-                <span className="block">{t('introLine2')}</span>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-black leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+                {t('introLine2')}
+            </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-black leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+                {t('introLine2-1')}
             </div>
         </motion.div>
 
