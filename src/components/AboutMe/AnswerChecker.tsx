@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // 정답 비교 결과를 담을 객체의 타입 정의
 interface ResultCharacter {
@@ -7,13 +8,16 @@ interface ResultCharacter {
 }
 
 const AnswerChecker: React.FC = () => {
+  // i18next의 useTranslation 훅을 사용하여 t 함수를 가져옵니다.
+  const { t } = useTranslation();
+
   // 정답 비교 결과를 저장할 state
   const [result, setResult] = useState<ResultCharacter[]>([]);
   // contentEditable div 요소에 직접 접근하기 위한 ref 생성
   const editableDivRef = useRef<HTMLDivElement>(null);
 
-  // 비교할 정답
-  const correctAnswer = '교육과정의 성격';
+  // 비교할 정답을 번역 파일에서 가져옵니다.
+  const correctAnswer = t('answerChecker.correctAnswer');
 
   // '확인' 버튼 클릭 시 실행될 함수
   const handleCheck = () => {
@@ -60,12 +64,12 @@ const AnswerChecker: React.FC = () => {
       
       {/* 문제 섹션 */}
       <div className="mb-2">
-        <h2 className="text-base text-gray-800 mb-2">문제: 교육과정의 성격</h2>
+        <h2 className="text-base text-gray-800 mb-2">{t('answerChecker.problemLabel')}: {correctAnswer}</h2>
       </div>
 
       {/* 정답 입력 섹션 */}
       <div className="flex items-center mb-2">
-        <label htmlFor="answer-input" className="text-base text-gray-800 whitespace-nowrap">정답:</label>
+        <label htmlFor="answer-input" className="text-base text-gray-800 whitespace-nowrap">{t('answerChecker.answerLabel')}:</label>
         {/* input 대신 contentEditable div 사용 */}
         <div
           ref={editableDivRef}
@@ -73,7 +77,7 @@ const AnswerChecker: React.FC = () => {
           contentEditable="true"
           className="flex-grow px-1 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-black"
           style={{ minHeight: '2.25rem', lineHeight: '1.5rem', cursor: 'text' }}
-          data-placeholder="여기서 테스트 해보세요."
+          data-placeholder={t('answerChecker.placeholder')}
         ></div>
       </div>
 
@@ -86,7 +90,7 @@ const AnswerChecker: React.FC = () => {
           onClick={handleCheck} 
           className={retroButtonClasses}
         >
-          확인
+          {t('answerChecker.checkButton')}
         </button>
         {/* 지우기 버튼에도 onMouseEnter 이벤트를 추가합니다. */}
         <button 
@@ -95,13 +99,13 @@ const AnswerChecker: React.FC = () => {
           onClick={handleClear} 
           className={retroButtonClasses}
         >
-          삭제
+          {t('answerChecker.clearButton')}
         </button>
       </div>
 
       {/* 결과 표시 섹션 */}
       <div>
-        <h3 className="text-base font-medium text-gray-700 mb-2">결과:</h3>
+        <h3 className="text-base font-medium text-gray-700 mb-2">{t('answerChecker.resultLabel')}:</h3>
         <div className="p-2 border border-gray-200 bg-gray-50 min-h-[3.5rem] flex items-center flex-wrap gap-1">
           {result.map((item, index) => (
             <span

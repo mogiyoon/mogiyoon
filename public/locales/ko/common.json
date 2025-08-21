@@ -49,5 +49,15 @@
     "backToMain": "메인 페이지로",
     "license": "라이선스",
     "licenseText": "이 프로젝트는 <1>{{licenseName}}</1> 라이선스를 따릅니다."
+  },
+
+  "answerChecker": {
+    "problemLabel": "문제",
+    "correctAnswer": "교육과정의 성격",
+    "answerLabel": "정답",
+    "placeholder": "여기서 테스트 해보세요.",
+    "checkButton": "확인",
+    "clearButton": "삭제",
+    "resultLabel": "결과"
   }
 }

@@ -49,5 +49,15 @@
     "backToMain": "Back to Main",
     "license": "License",
     "licenseText": "This project is licensed under the <1>{{licenseName}}</1> license."
+  },
+
+  "answerChecker": {
+    "problemLabel": "Problem",
+    "correctAnswer": "Curriculum",
+    "answerLabel": "Answer",
+    "placeholder": "Test it out here.",
+    "checkButton": "Check",
+    "clearButton": "Clear",
+    "resultLabel": "Result"
   }
 }
