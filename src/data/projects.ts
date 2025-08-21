@@ -1,6 +1,7 @@
 // src/data/projects.ts
 
 import type { ProjectData } from '../types';
+import { projectMrnsg } from './project/projectMrnsg';
 import { projectRecho } from './project/projectRecho';
 import { projectTeacherTest } from './project/projectTeacherTest';
 import { projectTestMaker } from './project/projectTestMaker';
@@ -10,4 +11,5 @@ export const projects: ProjectData[] = [
   projectRecho,
   projectTestMaker,
   projectTeacherTest,
+  projectMrnsg,
 ];
