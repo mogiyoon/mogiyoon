@@ -59,10 +59,8 @@ export const MainPhrase5to8: React.FC = () => {
             ))}
           </div>
 
-
-          
           <motion.div
-            className={`absolute inset-0 z-0`}
+            className={`absolute inset-0 z-20`}
             style={{ opacity: contentOpacity }}
           >
             <div className="relative z-20 flex h-full w-full items-center justify-center">
