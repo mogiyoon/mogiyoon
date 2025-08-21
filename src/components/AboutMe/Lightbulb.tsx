@@ -1,12 +1,13 @@
 // Lightbulb.tsx
-import { motion, MotionValue } from 'framer-motion';
+import { motion, MotionValue, useTransform, useMotionValue } from 'framer-motion'; // ✨ useMotionValue import
 
 interface LightbulbProps {
   top: string;
   left: string;
   size: number;
-  bulbOpacity?: MotionValue<number>; // MainPhrase1to4를 위해 optional로 유지
-  isSwitchedOn?: boolean; // MainPhrase5to8를 위한 prop
+  bulbOpacity?: MotionValue<number>;
+  isSwitchedOn?: boolean;
+  scrollOpacity?: MotionValue<number>;
 }
 
 export const Lightbulb: React.FC<LightbulbProps> = ({
@@ -15,11 +16,20 @@ export const Lightbulb: React.FC<LightbulbProps> = ({
   size,
   bulbOpacity,
   isSwitchedOn,
+  scrollOpacity,
 }) => {
-  // scrollYProgress를 사용하는지 (MainPhrase1to4) 여부 확인
   const hasScrollAnimation = bulbOpacity !== undefined;
 
-  // 전구 이미지의 on/off 상태 정의
+  // ✨ 수정 1: prop으로 받은 MotionValue가 없을 경우를 대비한 기본 MotionValue를 생성합니다.
+  const defaultOpacity = useMotionValue(0);
+
+  // ✨ 수정 2: `|| 0` 대신 `|| defaultOpacity`를 사용하여 항상 MotionValue 타입이 되도록 보장합니다.
+  const sourceOpacity = scrollOpacity || bulbOpacity || defaultOpacity;
+
+  const combinedOpacity = useTransform(sourceOpacity, (latestOpacity) => {
+    return latestOpacity * (isSwitchedOn ? 1 : 0);
+  });
+
   const imgVariants = {
     on: {
       filter: 'brightness(1.8) drop-shadow(0 0 15px rgba(255, 223, 128, 0.8))',
@@ -37,17 +47,9 @@ export const Lightbulb: React.FC<LightbulbProps> = ({
         left,
         width: size,
         height: size,
-        // 스크롤 애니메이션이 있으면 MotionValue를 직접 사용
-        opacity: hasScrollAnimation ? bulbOpacity : undefined,
+        opacity: hasScrollAnimation ? bulbOpacity : combinedOpacity,
       }}
-      // 스크롤 애니메이션이 없을 때만 (MainPhrase5to8) 초기/애니메이션 상태를 적용
-      initial={!hasScrollAnimation ? { opacity: 0, scale: 1 } : false}
-      animate={!hasScrollAnimation ? {
-        opacity: isSwitchedOn ? 1 : 0,
-      } : {}}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      {/* 1. 전구 뒤에서 빛나는 효과 (glow) */}
       <motion.div
         className="absolute inset-0 rounded-full"
         style={{
@@ -60,7 +62,6 @@ export const Lightbulb: React.FC<LightbulbProps> = ({
         transition={{ duration: 0.5, ease: 'easeInOut' }}
       />
 
-      {/* 2. 전구 이미지 자체의 밝기 조절 */}
       <motion.img
         src="/images/aboutMe/mainPhrase/light.png"
         alt="light bulb"

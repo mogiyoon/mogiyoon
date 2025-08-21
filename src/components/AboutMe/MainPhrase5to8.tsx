@@ -35,6 +35,7 @@ export const MainPhrase5to8: React.FC = () => {
   });
 
   const switchOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
+  const contentOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
 
   // 🟡 스위치 클릭 핸들러 수정
   const handleSwitchClick = () => {
@@ -43,7 +44,7 @@ export const MainPhrase5to8: React.FC = () => {
   };
 
   return (
-    <section ref={targetRef} className="relative h-[300vh]">
+    <section ref={targetRef} className="relative h-[500vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 bg-gray-800 text-white">
 
@@ -53,36 +54,44 @@ export const MainPhrase5to8: React.FC = () => {
                 key={bulb.id}
                 bulb={bulb}
                 isSwitchedOn={isSwitchedOn}
+                scrollOpacity={contentOpacity} 
               />
             ))}
           </div>
 
-          <div className="relative z-20 flex h-full w-full items-center justify-center">
-            <p
-              className="text-center text-lg sm:text-2xl lg:text-3xl tracking-wide lg:tracking-wider whitespace-nowrap"
-              style={{
-                textShadow: isSwitchedOn ? '0 0 10px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 1)' : 'none',
-                transition: 'text-shadow 0.7s ease-in-out', // 부드러운 그림자 효과 전환
-              }}
-            >
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
-                {t('mainPhrase5')}
-              </span>
-              {t('mainPhrase6')}{' '}
-              <motion.span
-                className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-yellow-300"
-                animate={{ opacity: isSwitchedOn ? 1 : 0 }}
-                transition={
-                  isSwitchedOn
-                    ? { delay: 0, duration: 0.7, ease: 'easeInOut' }
-                    : { delay: 0, duration: 0.3, ease: 'easeIn' }
-                }
+
+          
+          <motion.div
+            className={`absolute inset-0 z-0`}
+            style={{ opacity: contentOpacity }}
+          >
+            <div className="relative z-20 flex h-full w-full items-center justify-center">
+              <p
+                className="text-center text-lg sm:text-2xl lg:text-3xl tracking-wide lg:tracking-wider whitespace-nowrap"
+                style={{
+                  textShadow: isSwitchedOn ? '0 0 10px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 1)' : 'none',
+                  transition: 'text-shadow 0.7s ease-in-out', // 부드러운 그림자 효과 전환
+                }}
               >
-                {t('mainPhrase7')}
-              </motion.span>
-              {t('mainPhrase8')}
-            </p>
-          </div>
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
+                  {t('mainPhrase5')}
+                </span>
+                {t('mainPhrase6')}{' '}
+                <motion.span
+                  className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-yellow-300"
+                  animate={{ opacity: isSwitchedOn ? 1 : 0 }}
+                  transition={
+                    isSwitchedOn
+                      ? { delay: 0, duration: 0.5, ease: 'easeInOut' }
+                      : { delay: 0, duration: 0.1, ease: 'easeIn' }
+                  }
+                >
+                  {t('mainPhrase7')}
+                </motion.span>
+                {t('mainPhrase8')}
+              </p>
+            </div>
+          </motion.div>
 
           <Switch
             onClick={handleSwitchClick}

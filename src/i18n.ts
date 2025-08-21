@@ -11,6 +11,7 @@ i18n
     ns: ['common', 'projects, prepareProjects'], // 사용할 네임스페이스 목록
     defaultNS: 'common', // 기본 네임스페이스
 
+    lng: 'ko',
     fallbackLng: 'en',
     debug: import.meta.env.MODE === 'development', // 개발 환경에서만 디버그 모드 활성화
     interpolation: {

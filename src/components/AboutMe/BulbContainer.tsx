@@ -14,6 +14,7 @@ interface BulbContainerProps {
   scrollYProgress?: MotionValue<number>;
   bulb: BulbData;
   isSwitchedOn?: boolean;
+  scrollOpacity?: MotionValue<number>;
 }
 
 // 스크롤 애니메이션을 담당하는 별도의 자식 컴포넌트
@@ -37,6 +38,7 @@ export const BulbContainer: React.FC<BulbContainerProps> = ({
   scrollYProgress,
   bulb,
   isSwitchedOn,
+  scrollOpacity,
 }) => {
   // 조건에 따라 어떤 컴포넌트를 렌더링할지 결정합니다.
   // Hook 자체를 조건부로 호출하는 것이 아니라, Hook을 사용하는 컴포넌트의 렌더링을 조건부로 결정합니다.
@@ -51,6 +53,7 @@ export const BulbContainer: React.FC<BulbContainerProps> = ({
       left={bulb.left}
       size={bulb.size}
       isSwitchedOn={isSwitchedOn}
+      scrollOpacity={scrollOpacity}
     />
   );
 };
