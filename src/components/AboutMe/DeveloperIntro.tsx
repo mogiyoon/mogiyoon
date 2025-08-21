@@ -68,10 +68,7 @@ export const DeveloperIntro: React.FC = () => {
 
           {/* 텍스트 */}
           <motion.div>
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] font-bold text-2xl sm:text-3xl lg:text-4xl mt-4 tracking-wide lg:tracking-wider whitespace-nowrap"> {t('developerIntro1')} </p>
-          </motion.div>
-          <motion.div>
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] font-bold text-2xl sm:text-3xl lg:text-4xl mt-4 tracking-wide lg:tracking-wider whitespace-nowrap"> {t('developerIntro2')} </p>
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] font-bold text-2xl sm:text-3xl lg:text-4xl mt-4 tracking-wide lg:tracking-wider whitespace-nowrap"> {t('developerIntro')} </p>
           </motion.div>
         </div>
       </div>
