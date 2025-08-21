@@ -48,20 +48,18 @@ export const MainPhrase5to8: React.FC = () => {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 bg-gray-800 text-white">
 
-          <motion.div
-            className={`absolute inset-0 z-0`}
-            style={{ opacity: contentOpacity }}
-          >
-            <div className="absolute inset-0 z-10">
-              {bulbData.map((bulb) => (
-                <BulbContainer
-                  key={bulb.id}
-                  bulb={bulb}
-                  isSwitchedOn={isSwitchedOn}
-                />
-              ))}
-            </div>
-          </motion.div>
+          <div className="absolute inset-0 z-10">
+            {bulbData.map((bulb) => (
+              <BulbContainer
+                key={bulb.id}
+                bulb={bulb}
+                isSwitchedOn={isSwitchedOn}
+                scrollOpacity={contentOpacity} 
+              />
+            ))}
+          </div>
+
+
           
           <motion.div
             className={`absolute inset-0 z-0`}
@@ -84,8 +82,8 @@ export const MainPhrase5to8: React.FC = () => {
                   animate={{ opacity: isSwitchedOn ? 1 : 0 }}
                   transition={
                     isSwitchedOn
-                      ? { delay: 0, duration: 0.7, ease: 'easeInOut' }
-                      : { delay: 0, duration: 0.3, ease: 'easeIn' }
+                      ? { delay: 0, duration: 0.5, ease: 'easeInOut' }
+                      : { delay: 0, duration: 0.1, ease: 'easeIn' }
                   }
                 >
                   {t('mainPhrase7')}
