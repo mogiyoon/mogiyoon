@@ -76,17 +76,16 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
         </nav>
 
         <div className="flex items-center gap-4">
-          <button onClick={setModalOpen} className="text-gray-600 hover:text-white hover:bg-gray-500 px-5 py-2 rounded-lg transition-colors duration-300 flex items-center">
-            Contact
+          <button onClick={setModalOpen} className="text-gray-600 hover:text-white hover:bg-gray-500 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center">
+            Info
           </button>
           
-          {/* 언어 선택 드롭다운 */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!isDropdownOpen)}
-              className="text-gray-600 px-4 py-2 rounded-lg transition-colors duration-300 flex items-center hover:bg-gray-100"
+              className="text-gray-600 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center hover:bg-gray-100"
             >
-              Language
+              Lang<span className="hidden lg:inline">uage</span>&nbsp;🌐
               <svg className={`w-4 h-4 ml-1 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
             
