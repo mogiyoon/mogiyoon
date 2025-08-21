@@ -43,7 +43,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <h2 className="text-3xl sm:text-4xl font-bold mb-10 text-center">
-            Contact
+            Info
         </h2>
         <div className="flex flex-col gap-6 text-lg">
             {/* Email */}
