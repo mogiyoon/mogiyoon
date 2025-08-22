@@ -12,17 +12,15 @@ export const projectMrnsg: ProjectData = {
 
   overview: {
     projectType: "mrnsg.overview.projectType",
-    period: "2025.06 ~ 2025.07",
+    period: "2025.01",
     introduction: "mrnsg.overview.introduction",
     features: "mrnsg.overview.features",
-    architecture: mrnsgImageLink + "/overview/architecture.png",
     techStack: [
       "TypeScript",
     ],
-    role: "mrnsg.overview.role",
     links: {
-      github: "https://github.com/JungleTeam5/mrnsg",
-      demo: "https://mrnsg.cloud",
+      github: "https://github.com/mogiyoon/mogiyoon-react-native-simple-grid",
+      demo: "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid",
       notion: undefined,
     },
   },

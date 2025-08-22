@@ -156,11 +156,10 @@
     "subtitle": "React Native를 위한 간단하고 가벼운 그리드 컴포넌트",
     "description": "'Test Maker' 프로젝트 진행 중 간단한 그리드 컴포넌트가 필요했지만 NPM에서 적합한 것을 찾지 못했습니다. 이 문제를 해결하기 위해 직접 경량 그리드 라이브러리를 개발하고 배포했습니다. 개발자가 데이터와 원하는 컬럼 수만 전달하면 손쉽게 그리드 레이아웃을 만들 수 있습니다.",
     "overview": {
-      "projectType": "개인 프로젝트 (라이브러리)",
+      "projectType": "개인 프로젝트",
       "period": "2024.01",
       "introduction": "React Native 환경에서 간단하게 그리드 UI를 구현할 수 있는 라이브러리",
-      "features": "컬럼 수 지정, 데이터 매핑 렌더링, 높이 조절 옵션",
-      "role": "100% (기획, 개발, 테스트, 배포)"
+      "features": "컬럼 수 지정, 데이터 매핑 렌더링, 높이 조절 옵션"
     },
     "summaries": {
       "development": {

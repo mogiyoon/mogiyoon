@@ -156,11 +156,9 @@
     "subtitle": "A simple and lightweight grid component for React Native",
     "description": "During the 'Test Maker' project, I needed a simple grid component but couldn't find a suitable one on NPM. To solve this, I developed and published my own lightweight grid library. It allows developers to easily create a grid layout by simply passing data and the desired number of columns.",
     "overview": {
-      "projectType": "Personal Project (Library)",
-      "period": "2024.01",
+      "projectType": "Personal Project",
       "introduction": "A library to easily implement grid UI in a React Native environment.",
-      "features": "Customizable column count, Data mapping rendering, Height control options",
-      "role": "100% (Planning, Development, Testing, Deployment)"
+      "features": "Customizable column count, Data mapping rendering, Height control options"
     },
     "summaries": {
       "development": {
