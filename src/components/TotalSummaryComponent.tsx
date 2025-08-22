@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { ProjectData, SummaryPart } from '../types';
+import type { ProjectData, SummaryPart } from '../types'; // 프로젝트의 타입 정의 파일 경로
 
+// Props 타입 정의
 interface TotalSummaryComponentProps {
   project: ProjectData;
 }
 
+// 개별 콘텐츠 파트를 렌더링하는 헬퍼 함수
 const renderSummaryPart = (part: SummaryPart, index: number, t: (key: string) => string) => {
   switch (part.type) {
     case "text":
@@ -43,11 +45,27 @@ const renderSummaryPart = (part: SummaryPart, index: number, t: (key: string) =>
   }
 };
 
+// 메인 컴포넌트
 const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project }) => {
   const { t } = useTranslation(['projects', 'common']);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // 링크 복사 핸들러 함수
+  const handleCopyLink = (sectionId: string) => {
+    const urlToCopy = `${window.location.origin}${window.location.pathname}#${sectionId}`;
+    navigator.clipboard.writeText(urlToCopy)
+      .then(() => {
+        setCopiedId(sectionId);
+        setTimeout(() => setCopiedId(null), 1500); // 1.5초 후 메시지 숨김
+      })
+      .catch(err => {
+        console.error('Failed to copy link:', err);
+      });
+  };
 
   return (
     <main className="max-w-5xl mx-auto p-4 sm:p-8 bg-white text-gray-800">
+      {/* --- Overview 섹션 --- */}
       <section id="summary-overview" className="mb-16 pb-8">
         <h2 className="text-3xl sm:text-4xl font-bold mb-8">
           {t('projectDetail.overview', { ns: 'common' })}
@@ -154,15 +172,30 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project }
       </section>
       <hr className="my-12 border-t-2 border-gray-200" />
 
+      {/* --- Summaries 섹션 --- */}
       {project.summaries.map((section, sectionIndex) => (
         <React.Fragment key={section.id}>
-          <section id={section.id} className="mb-16 pb-8">
+          <section id={section.id} className="mb-16 pb-8 scroll-mt-20">
             {section.parts.map((partGroup, groupIndex) => (
               <div id={`${section.id}-${groupIndex}`} key={groupIndex} className="mb-6 pb-8 space-y-4">
                 {groupIndex === 0 && (
-                  <h2 className="text-3xl sm:text-4xl font-bold mb-6 col-span-full">
-                    {t(section.title || '')}
-                  </h2>
+                  <div className="flex items-center gap-3 mb-6">
+                    <h2 className="text-3xl sm:text-4xl font-bold">
+                      {t(section.title || '')}
+                    </h2>
+                    <button
+                      onClick={() => handleCopyLink(section.id)}
+                      title="Copy link"
+                      className="p-1 text-gray-400 hover:text-indigo-600 transition-colors"
+                    >
+                      🔗
+                    </button>
+                    {copiedId === section.id && (
+                      <span className="text-sm text-green-600">
+                        Copied!
+                      </span>
+                    )}
+                  </div>
                 )}
                 {partGroup.map((part, partIndex) =>
                   renderSummaryPart(part, partIndex, t)
