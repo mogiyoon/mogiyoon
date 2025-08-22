@@ -90,7 +90,6 @@ export const projectTestMaker: ProjectData = {
     { name: "test-maker.features.0.name", description: "test-maker.features.0.description", icon: CameraIcon },
   ],
   screenshots: [{ title: "Icon", src: testMakerImageLink + "/Icon.png" }],
-  techStack: [{ category: "Core", items: ["React Native"] }],
   developmentProcess: [
     { title: "test-maker.developmentProcess.0.title", content: "test-maker.developmentProcess.0.content" },
   ],
