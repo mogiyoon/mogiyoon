@@ -31,7 +31,7 @@ export const projectMrnsg: ProjectData = {
       title: "mrnsg.summaries.development.title",
       parts: [
         [
-          { type: "image", alt: "비디오 편집 로직", src: mrnsgImageLink + `/overview/videoLogic.png` },
+          { type: "image", alt: "비디오 편집 로직", src: mrnsgImageLink + `/overview/testMakerExample.png` },
           { type: "text", content: `mrnsg.summaries.development.parts.0.0` },
           { type: "text", content: `mrnsg.summaries.development.parts.0.1` },
           { type: "text", content: `mrnsg.summaries.development.parts.0.2` },
