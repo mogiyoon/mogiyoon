@@ -131,14 +131,6 @@ export const projectRecho: ProjectData = {
 
   screenshots: [{ title: "Recho 앱 로고", src: rechoImageLink + "/Icon.svg" }],
 
-  techStack: [
-    {
-      category: "Backend",
-      items: ["Nest.js", "PostgreSQL", "ffmpeg", "AWS"],
-    },
-    { category: "Frontend", items: ["React", "React Native", "웹뷰"] },
-  ],
-
   developmentProcess: [
     { title: "recho.developmentProcess.0.title", content: "recho.developmentProcess.0.content" },
     { title: "recho.developmentProcess.1.title", content: "recho.developmentProcess.1.content" },

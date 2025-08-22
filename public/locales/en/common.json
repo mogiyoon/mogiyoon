@@ -58,5 +58,10 @@
     "checkButton": "Check",
     "clearButton": "Clear",
     "resultLabel": "Result"
-  }
+  },
+
+  "backToMain": "Back to Main",
+  "projectNotFound": "Project Not Found",
+  "license": "License",
+  "licenseText": "Licensed under the <0>{{licenseName}}</0>."
 }

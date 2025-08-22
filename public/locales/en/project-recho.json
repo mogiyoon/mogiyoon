@@ -1,0 +1,98 @@
+{
+  "title": "Recho",
+  "subtitle": "A Platform to Express Yourself Through Music",
+  "description": "A music community platform where musicians can freely interact, collaborate on ensemble performances, trade used instruments, and express themselves through short-form videos.\n\nIt was developed as a React Native-based app with a webview structure to allow users to directly edit ensemble videos using their smartphone's resources.",
+  "overview": {
+    "projectType": "Team Project",
+    "introduction": "A community platform for musicians to communicate",
+    "features": "Community, Ensemble Recruitment, Used Instrument Trading, Short-form Video",
+    "role": "Backend, Frontend, ERD Design, ffmpeg Utilization, AWS Server Setup"
+  },
+  "summaries": {
+    "development": {
+      "title": "Implemented Features & Development Process",
+      "parts": {
+        "0": {
+          "0": "Implemented video editing logic using ffmpeg",
+          "1": "Merged videos based on the shortest video length",
+          "2": "Implemented dB adjustment per frequency with an equalizer"
+        },
+        "1": {
+          "0": "Connected ensemble feature (video playback + recording), video editing screen, and video merging logic",
+          "1": "Refactored components for each page into common components",
+          "2": "Managed global state for login information centered on JWT"
+        },
+        "2": {
+          "0": "Implemented ensemble session recruitment and used instrument trading boards",
+          "1": "Designed DB structure for ensemble, session, and applicant relationships inspired by post, comment, and reply structures",
+          "2": "Managed applicants in a separate module"
+        },
+        "3": {
+          "0": "Likes and comments were previously managed per board module",
+          "1": "Considered unsuitable for future maintenance/scalability, such as adding like/comment features and alarm functions",
+          "2": "Refactored likes and comments into integrated modules"
+        },
+        "4": {
+          "0": "Redesigned server architecture considering auto-scaling and security",
+          "1": "Utilized VPC and Application Load Balancer",
+          "2": "Deployed frontend via S3, considering React's static file and SPA nature"
+        },
+        "5": {
+          "0": "Closed 17 out of 45 issues",
+          "1": "Improved code quality and user experience"
+        }
+      }
+    },
+    "troubleshooting": {
+      "title": "Troubleshooting",
+      "parts": {
+        "1": {
+          "0": "Problem: Needed to record camera and play video simultaneously for the ensemble feature.",
+          "1": "Resolution Process\n\n\t1. mixWithOthers: 'mix' setting → Failed\n\t\t- The option in the React Native Video component did not work.\n\t\t- Reason: iOS's default audio session policy disables mixWithOthers, requiring native code modification to enable it.\n\n\t2. Add mixWithOthers bridge to native module → Failed\n\t\t- The feature exists in the VisionCamera library but not in the Video library.\n\t\t- Directly bridging it had no effect.\n\n\t3. Add option to Video library's native code → Failed\n\t\t- Manually adding the mixWithOthers setting to the Video library still did not work.\n\n\t4. disableAudioSessionManagement: true setting → Succeeded\n\t\t- Discovered this option within the library.\n\t\t- Enabling this option allowed video and camera audio to work simultaneously.\n",
+          "2": "Result: Camera recording and video playback became possible. Realized the importance of understanding the library's internal code."
+        },
+        "3": {
+          "0": "Problem: Slow loading speed for videos and images.",
+          "1": "Resolution Process\n\t- Considered methods for storing/caching videos and images.\n\t- Switched from directly loading from an S3 bucket to caching videos/images using CloudFront CDN.",
+          "2": "Result: Average response speed improved by about 2x."
+        }
+      }
+    },
+    "results": {
+      "title": "Results & Retrospective",
+      "parts": {
+        "0": {
+          "0": "Results",
+          "1": "\tGlobal state management based on Zustand",
+          "2": "\tMaintained response format consistency and optimized responses using response DTOs",
+          "3": "\tApplied video and audio editing methods using ffmpeg",
+          "4": "\tExecuted native functions using native code",
+          "5": "\tReduced loading times using a CDN"
+        },
+        "1": {
+          "0": "Retrospective",
+          "1": "\tCultivated design skills centered on common components",
+          "2": "\tGained experience in designing and implementing an integrated backend-frontend structure",
+          "3": "\tLearned about scalable design and improving code quality for easier maintenance",
+          "4": "\tUnderstood the importance of ffmpeg in video, audio, and photo editing",
+          "5": "\tEstablished and understood VPC, CDN, and ALB structures through AWS-based server setup",
+          "6": "\tImproved collaboration skills through ERD design, API design, and GitHub branch/issue management"
+        }
+      }
+    },
+    "blank": {
+      "title": "Thank You."
+    }
+  },
+  "features": [
+    { "name": "🎵 Music-Based Community", "description": "Provides a forum for musicians to communicate freely and share information." },
+    { "name": "🤝 Share Ensemble Videos", "description": "Recruit ensemble members and share video clips of your performances." },
+    { "name": "📱 Create Short-form Videos", "description": "Create and share short videos of your performances or work." },
+    { "name": "🛠 Used Instrument Trading", "description": "A marketplace for users to trade used musical equipment and instruments." }
+  ],
+  "developmentProcess": [
+    { "title": "Planning & Architecture Design", "content": "Designed features for musicians and created the overall service flowchart and ERD." },
+    { "title": "Feature Implementation", "content": "Implemented video editing features using ffmpeg and the user community system." },
+    { "title": "Deployment & Operation", "content": "Deployed the service using AWS EC2, S3, Route53, and CloudFront." }
+  ]
+}

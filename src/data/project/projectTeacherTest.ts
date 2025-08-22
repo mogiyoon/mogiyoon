@@ -98,11 +98,6 @@ export const projectTeacherTest: ProjectData = {
     { title: "통계 화면", src: teacherTestImageLink + "/screens/stats.png" },
   ],
 
-  techStack: [
-    { category: "Framework", items: ["Flutter", "Dart"] },
-    { category: "State Management / UI", items: ["Provider", "Material Design"] },
-  ],
-
   developmentProcess: [
     { title: "teacher_test.developmentProcess.0.title", content: "teacher_test.developmentProcess.0.content" },
     { title: "teacher_test.developmentProcess.1.title", content: "teacher_test.developmentProcess.1.content" },

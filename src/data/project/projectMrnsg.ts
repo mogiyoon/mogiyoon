@@ -124,14 +124,6 @@ export const projectMrnsg: ProjectData = {
 
   screenshots: [{ title: "mrnsg 앱 로고", src: mrnsgImageLink + "/Icon.svg" }],
 
-  techStack: [
-    {
-      category: "Backend",
-      items: ["Nest.js", "PostgreSQL", "ffmpeg", "AWS"],
-    },
-    { category: "Frontend", items: ["React", "React Native", "웹뷰"] },
-  ],
-
   developmentProcess: [
     { title: "mrnsg.developmentProcess.0.title", content: "mrnsg.developmentProcess.0.content" },
     { title: "mrnsg.developmentProcess.1.title", content: "mrnsg.developmentProcess.1.content" },
