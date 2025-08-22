@@ -10,6 +10,6 @@ import { projectTestMaker } from './project/projectTestMaker';
 export const projects: ProjectData[] = [
   projectRecho,
   projectTestMaker,
-  projectTeacherTest,
   projectMrnsg,
+  projectTeacherTest,
 ];
