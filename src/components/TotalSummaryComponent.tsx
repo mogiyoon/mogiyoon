@@ -18,13 +18,20 @@ const renderSummaryPart = (part: SummaryPart, index: number, t: (key: string) =>
       );
     case "image":
       return (
-        <img
-          key={index}
-          src={part.src}
-          alt={part.alt}
-          className="w-4/5 rounded-2xl shadow-md border my-4 mx-auto"
-          crossOrigin="anonymous"
-        />
+        <figure key={index} className="my-6 mx-auto text-center">
+          <img
+            src={part.src}
+            alt={part.alt}
+            className="w-4/5 rounded-xl shadow-lg border mx-auto" // 스타일 약간 수정
+            crossOrigin="anonymous"
+          />
+          {/* 캡션이 존재할 경우에만 figcaption 태그를 렌더링합니다. */}
+          {part.caption && (
+            <figcaption className="text-sm text-gray-600 mt-3">
+              {t(part.caption)}
+            </figcaption>
+          )}
+        </figure>
       );
     case "link":
       return (
