@@ -23,7 +23,11 @@ const renderSummaryPart = (part: SummaryPart, index: number, t: TFunction) => {
           <img
             src={part.src}
             alt={part.alt}
-            className="w-4/5 rounded-xl shadow-lg border mx-auto"
+            className="rounded-xl shadow-lg border mx-auto"
+            style={{
+              width: part.width ?? '80%',
+              aspectRatio: part.ratio,
+            }}
             crossOrigin="anonymous"
           />
           {part.caption && (

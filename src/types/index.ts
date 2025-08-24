@@ -1,7 +1,7 @@
 import React from 'react';
 // '요약'의 각 파트를 위한 타입 (글 또는 이미지)
 type SummaryTextPart = { type: 'text'; content: string; };
-type SummaryImagePart = { type: 'image'; src: string; alt: string; caption?: string; };
+type SummaryImagePart = { type: 'image'; src: string; alt: string; caption?: string; width?: string; ratio?: string; };
 type SummaryLinkPart = { type: 'link'; label: string; href: string };
 export type SummaryPart = SummaryTextPart | SummaryImagePart | SummaryLinkPart;
 

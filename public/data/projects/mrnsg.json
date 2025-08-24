@@ -31,7 +31,7 @@
           { "type": "text", "content": "mrnsg.summaries.development.parts.1.1" }
         ],
         [
-          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/typeScript.png" },
+          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/typeScript.png", "width": "400px" },
           { "type": "text", "content": "mrnsg.summaries.development.parts.2.0" }
         ]
       ]
