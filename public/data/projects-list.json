@@ -5,7 +5,7 @@
     "subtitle": "recho.subtitle",
     "projectType": "recho.overview.projectType",
     "screenshots": [{ "src": "/images/recho/Icon.svg", "alt": "Recho Thumbnail" }],
-    "techStack": ["React Native", "Google Vision API", "Redux"]
+    "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"]
   },
   {
     "id": "test-maker",
@@ -29,6 +29,6 @@
     "subtitle": "teacher-test.subtitle",
     "projectType": "teacher-test.overview.projectType",
     "screenshots": [{ "src": "/images/teacherTest/Icon.png", "alt": "Tea Time Thumbnail" }],
-    "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"]
+    "techStack": ["Flutter", "Provider", "Material Design", "Firebase"]
   }
 ]
