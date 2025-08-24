@@ -49,7 +49,7 @@
         "parts": {
           "1": {
             "0": "문제 상황: 합주 기능을 구현하기 위해 카메라 녹화와 영상 재생을 동시에 해야함.",
-            "1": "문제 해결 과정\n\n\t1. mixWithOthers: 'mix' 설정 → 실패\n\t\t- React Native Video 컴포넌트에서 해당 옵션을 설정했지만 작동하지 않음.\n\t\t- 이유: iOS의 기본 오디오 세션 정책상, mixWithOthers 기능이 비활성화되어 있으며, 이를 활성화하려면 네이티브 코드 수정이 필요함.\n\n\t2. 네이티브 모듈에 mixWithOthers 브릿지 추가 → 실패\n\t\t- VisionCamera 라이브러리에는 관련 기능이 있으나, Video 라이브러리에는 존재하지 않음.\n\t\t- 직접 브릿지를 연결해도 효과가 없었음.\n\n\t3. 비디오 라이브러리 네이티브 코드에 옵션 추가 → 실패\n\t\t- 직접 mixWithOthers 관련 설정을 Video 라이브러리에 추가했으나, 여전히 작동하지 않음.\n\n\t4. disableAudioSessionManagement: true 설정 → 성공\n\t\t- 라이브러리 내부의 옵션 중 disableAudioSessionManagement: true 설정을 발견함.\n\t\t- 이 옵션을 활성화하자 비디오와 카메라 오디오가 동시에 작동함.\n",
+            "1": "해결 과정\n\n\t1. mixWithOthers: 'mix' 설정 → 실패\n\t\t- React Native Video 컴포넌트에서 해당 옵션을 설정했지만 작동하지 않음.\n\t\t- 이유: iOS의 기본 오디오 세션 정책상, mixWithOthers 기능이 비활성화되어 있으며, 이를 활성화하려면 네이티브 코드 수정이 필요함.\n\n\t2. 네이티브 모듈에 mixWithOthers 브릿지 추가 → 실패\n\t\t- VisionCamera 라이브러리에는 관련 기능이 있으나, Video 라이브러리에는 존재하지 않음.\n\t\t- 직접 브릿지를 연결해도 효과가 없었음.\n\n\t3. 비디오 라이브러리 네이티브 코드에 옵션 추가 → 실패\n\t\t- 직접 mixWithOthers 관련 설정을 Video 라이브러리에 추가했으나, 여전히 작동하지 않음.\n\n\t4. disableAudioSessionManagement: true 설정 → 성공\n\t\t- 라이브러리 내부의 옵션 중 disableAudioSessionManagement: true 설정을 발견함.\n\t\t- 이 옵션을 활성화하자 비디오와 카메라 오디오가 동시에 작동함.\n",
             "2": "결과: 카메라 녹화 및 영상 재생이 가능해짐. 라이브러리 내부의 코드의 중요성을 깨닫게 됨 "
           },
           "3": {

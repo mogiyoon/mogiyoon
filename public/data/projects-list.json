@@ -24,10 +24,10 @@
     "techStack": ["TypeScript"]
   },
   {
-    "id": "teacher_test",
-    "title": "teacher_test.title",
-    "subtitle": "teacher_test.subtitle",
-    "projectType": "teacher_test.overview.projectType",
+    "id": "teacher-test",
+    "title": "teacher-test.title",
+    "subtitle": "teacher-test.subtitle",
+    "projectType": "teacher-test.overview.projectType",
     "screenshots": [{ "src": "/images/teacherTest/Icon.png", "alt": "Tea Time Thumbnail" }],
     "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"]
   }
