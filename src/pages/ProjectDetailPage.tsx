@@ -25,7 +25,7 @@ const pageTransition = {
 
 const ProjectDetailPage: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
-    const { t, i18n } = useTranslation();
+    const { t, i18n } = useTranslation([`project-${projectId}`, 'common']);
 
     const [project, setProject] = useState<ProjectData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -35,13 +35,13 @@ const ProjectDetailPage: React.FC = () => {
     useEffect(() => {
         if (!projectId) return;
 
-        const namespace = 'project-' + projectId;
+        // const namespace = 'project-' + projectId;
         const fetchData = async () => {
             setIsLoading(true);
             try {
                 const [dataResponse] = await Promise.all([
                     fetch(`/data/projects/${projectId}.json`),
-                    i18n.loadNamespaces(namespace)
+                    // i18n.loadNamespaces(namespace)
                 ]);
 
                 if (!dataResponse.ok) throw new Error('Data not found');
@@ -109,7 +109,7 @@ const ProjectDetailPage: React.FC = () => {
               <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mb-12">
                 <header id="project-header" className="text-center pt-8 pb-4">
                   <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
-                    {t(project.title, { ns: 'project-' + projectId })}
+                    {t(project.title)}
                   </h1>
                   <p className="text-lg sm:text-xl text-gray-600 font-medium">
                     {t(project.subtitle, { ns: 'project-' + projectId })}
@@ -132,7 +132,7 @@ const ProjectDetailPage: React.FC = () => {
                 </section>
                 <hr className="my-12 border-t-2 border-gray-200" />
                 
-                <TotalSummaryComponent project={project} />
+                <TotalSummaryComponent project={project} t={t} />
 
                 <hr className="my-12 border-t-2 border-gray-200" />
                 <section className="text-center">

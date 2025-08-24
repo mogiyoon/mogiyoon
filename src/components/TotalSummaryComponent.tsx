@@ -1,14 +1,15 @@
+import type { ProjectData, SummaryPart } from '../types';
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import type { ProjectData, SummaryPart } from '../types'; // 프로젝트의 타입 정의 파일 경로
+import type { TFunction } from 'i18next';
 
 // Props 타입 정의
 interface TotalSummaryComponentProps {
   project: ProjectData;
+  t: TFunction; // t 함수를 props로 받도록 수정
 }
 
 // 개별 콘텐츠 파트를 렌더링하는 헬퍼 함수
-const renderSummaryPart = (part: SummaryPart, index: number, t: (key: string) => string) => {
+const renderSummaryPart = (part: SummaryPart, index: number, t: TFunction) => {
   switch (part.type) {
     case "text":
       return (
@@ -22,10 +23,9 @@ const renderSummaryPart = (part: SummaryPart, index: number, t: (key: string) =>
           <img
             src={part.src}
             alt={part.alt}
-            className="w-4/5 rounded-xl shadow-lg border mx-auto" // 스타일 약간 수정
+            className="w-4/5 rounded-xl shadow-lg border mx-auto"
             crossOrigin="anonymous"
           />
-          {/* 캡션이 존재할 경우에만 figcaption 태그를 렌더링합니다. */}
           {part.caption && (
             <figcaption className="text-sm text-gray-600 mt-3">
               {t(part.caption)}
@@ -53,17 +53,14 @@ const renderSummaryPart = (part: SummaryPart, index: number, t: (key: string) =>
 };
 
 // 메인 컴포넌트
-const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project }) => {
-  const { t } = useTranslation(['projects', 'common']);
+const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  // 링크 복사 핸들러 함수
   const handleCopyLink = (sectionId: string) => {
     const urlToCopy = `${window.location.origin}${window.location.pathname}#${sectionId}`;
     navigator.clipboard.writeText(urlToCopy)
       .then(() => {
         setCopiedId(sectionId);
-        setTimeout(() => setCopiedId(null), 1500); // 1.5초 후 메시지 숨김
+        setTimeout(() => setCopiedId(null), 1500);
       })
       .catch(err => {
         console.error('Failed to copy link:', err);
