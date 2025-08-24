@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 import PortfolioCard from "../../components/PortfolioCard";
-import PreparingCard from "../../components/PreparingCard";
-import { projects } from "../../data/projects";
-import { preparingProjects } from "../../data/preparingProjects";
-import { motion } from 'framer-motion'; // motion import
-import { useNavigate } from 'react-router-dom';
+import PreparingCard, { type PreparingProjectData } from "../../components/PreparingCard";
+import type { ProjectSummary } from '../../types';
 
 const sectionExitAnimation = {
     opacity: 0,
@@ -14,10 +13,33 @@ const sectionExitAnimation = {
 };
 
 const ProjectsSection: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['projects', 'prepareProjects']);
     const navigate = useNavigate();
 
     const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [projects, setProjects] = useState<ProjectSummary[]>([]);
+    const [preparingProjects, setPreparingProjects] = useState<PreparingProjectData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchLists = async () => {
+            try {
+                const [projectsResponse, preparingResponse] = await Promise.all([
+                    fetch('/data/projects-list.json'),
+                    fetch('/data/preparing-projects-list.json')
+                ]);
+                const projectsData = await projectsResponse.json();
+                const preparingData = await preparingResponse.json();
+                setProjects(projectsData);
+                setPreparingProjects(preparingData);
+            } catch (error) {
+                console.error("Failed to fetch project lists:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchLists();
+    }, []);
 
     const handleCardClick = (projectId: string) => {
         setSelectedId(projectId);
@@ -27,53 +49,49 @@ const ProjectsSection: React.FC = () => {
     };
 
     const cardVariants = {
-        // custom: 각 카드의 고유 ID
         exit: (custom: string) => {
-            // 만약 이 카드가 "선택된 카드"라면
             if (custom === selectedId) {
-                // 확대되면서 사라지는 효과
                 return { scale: 1.5, opacity: 0, transition: { duration: 0.3 } };
             }
-            // 선택되지 않은 나머지 카드들은 그냥 사라지는 효과
             return { opacity: 0, transition: { duration: 0.2 } };
         }
     };
 
+    if (isLoading) {
+        return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    }
+
     return (
         <>
-            {/* 첫 번째 화면: 완료된 프로젝트 섹션 */}
             <section id="projects" className="min-h-screen flex flex-col items-center justify-center pt-20">
-                {/* 콘텐츠를 감싸는 컨테이너 */}
                 <div className="w-full max-w-6xl p-2 md:p-4 animate-fade-in">
                     <motion.h2
                         exit={sectionExitAnimation}
                         className="text-4xl sm:text-5xl font-bold mb-8 text-center">
-                        {t('projectTitle')}
+                        {t('projectTitle', { ns: 'projects' })}
                     </motion.h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                         {projects.map((project) => (
                             <motion.div
                                 key={project.id}
                                 variants={cardVariants}
-                                exit="exit" // 페이지 나갈 때 exit variant 실행
-                                custom={project.id} // variant에 현재 카드의 id 전달
+                                exit="exit"
+                                custom={project.id}
                                 className="flex"
                             >
-                                <PortfolioCard project={project} className="w-full" onClick={() => handleCardClick(project.id)}/>
+                                <PortfolioCard project={project as ProjectSummary} className="w-full" onClick={() => handleCardClick(project.id)}/>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* 두 번째 화면: 준비 중인 프로젝트 섹션 */}
             <section id="preparing-projects" className="min-h-screen flex flex-col items-center justify-center pt-16">
-                {/* 콘텐츠를 감싸는 컨테이너 */}
                 <motion.div 
                     exit={sectionExitAnimation}
                     className="w-full max-w-6xl p-2 md:p-4 animate-fade-in">
                     <h2 className="text-4xl sm:text-5xl font-bold mb-8 text-center">
-                        {t('preparingProjectTitle')}
+                        {t('preparingProjectTitle', { ns: 'prepareProjects' })}
                     </h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                         {preparingProjects.map((project) => (

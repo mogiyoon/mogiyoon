@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { ProjectData } from '../../types';
+import type { ProjectSummary } from '../../types';
 
 interface PortfolioCardProps {
-    project: ProjectData;
+    project: ProjectSummary;
     className?: string;
     onClick: () => void;
 }
@@ -45,7 +45,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                             <img
                                 src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
                                 alt={`${t(project.title || '')} Thumbnail`}
-                                className="w-full aspect-square object-cover p-4"
+                                className="w-full aspect-square object-contain p-4"
                                 onError={handleImageError}
                             />
                             <div className="px-6 pb-4 flex flex-col flex-grow overflow-y-auto">
@@ -62,7 +62,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                 </p>
                                 <div className="flex flex-wrap mt-auto">
                                     <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
-                                        {t(project.overview.projectType || '')}
+                                        {t(project.projectType || '')}
                                     </span>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                         <div className="bg-gray-400 text-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
                             <h4 className="text-xl font-bold mb-4">Tech Stack</h4>
                             <div className="flex flex-wrap justify-center gap-2">
-                                {project.overview.techStack?.map((tech) => (
+                                {project.techStack?.map((tech) => (
                                     <span
                                         key={tech}
                                         className="bg-indigo-500 text-white text-sm font-medium px-3 py-1 rounded-full"

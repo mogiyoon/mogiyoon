@@ -11,7 +11,6 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
         e.currentTarget.src = 'https://via.placeholder.com/250x150.png?text=Image+Not+Found';
     };
 
-    // ✅ 변경된 부분: 2중으로 map을 사용하여 중첩 배열을 렌더링합니다.
     const renderSummaryParts = (id: string) => {
         const section = project.summaries.find(s => s.id === id);
         if (!section) return null;
@@ -63,11 +62,11 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
             </section>
             <hr className="my-12 border-t-2 border-gray-200" />
 
-            <section className="mb-16">
+            {/* <section className="mb-16">
                 <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center">🛠️ 기술 스택</h2>
                 <ul className="list-disc list-inside text-lg text-gray-700 space-y-2 max-w-md mx-auto">{project.techStack.map((stack, index) => (<li key={index}><span className="font-semibold">{stack.category} , </span>: {stack.items.join(', ')}</li>))}</ul>
             </section>
-            <hr className="my-12 border-t-2 border-gray-200" />
+            <hr className="my-12 border-t-2 border-gray-200" /> */}
 
             {project.developmentProcess && (<section className="mb-16"><h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center">🚀 개발 과정 상세</h2><div className="space-y-10">{project.developmentProcess.map((step, index) => (<div key={index}><h3 className="text-2xl font-semibold text-gray-800 mb-4 border-l-4 border-indigo-500 pl-4">{step.title}</h3><p className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap ml-2">{step.content}</p></div>))}</div></section>)}
             <hr className="my-12 border-t-2 border-gray-200" />

@@ -1,153 +1,31 @@
 {
+  "projectTitle": "Projects",
   "recho": {
     "title": "Recho",
     "subtitle": "A Platform to Express Yourself Through Music",
-    "description": "A music community platform where musicians can freely interact, collaborate on ensemble performances, trade used instruments, and express themselves through short-form videos.\n\nIt was developed as a React Native-based app with a webview structure to allow users to directly edit ensemble videos using their smartphone's resources.",
     "overview": {
-      "projectType": "Team Project",
-      "introduction": "A community platform for musicians to communicate",
-      "features": "Community, Ensemble Recruitment, Used Instrument Trading, Short-form Video",
-      "role": "Backend, Frontend, ERD Design, ffmpeg Utilization, AWS Server Setup"
-    },
-    "summaries": {
-      "development": {
-        "title": "Implemented Features & Development Process",
-        "parts": [
-          ["Implemented video editing logic using ffmpeg", "Merged videos based on the shortest video length", "Implemented dB adjustment per frequency with an equalizer"],
-          ["Connected ensemble feature (video playback + recording), video editing screen, and video merging logic", "Refactored components for each page into common components", "Managed global state for login information centered on JWT"],
-          ["Implemented ensemble session recruitment and used instrument trading boards", "Designed DB structure for ensemble, session, and applicant relationships inspired by post, comment, and reply structures", "Managed applicants in a separate module"],
-          ["Likes and comments were previously managed per board module", "Considered unsuitable for future maintenance/scalability, such as adding like/comment features and alarm functions", "Refactored likes and comments into integrated modules"],
-          ["Redesigned server architecture considering auto-scaling and security", "Utilized VPC and Application Load Balancer", "Deployed frontend via S3, considering React's static file and SPA nature"],
-          ["Closed 17 out of 45 issues", "Improved code quality and user experience"]
-        ]
-      },
-      "troubleshooting": {
-        "title": "Troubleshooting",
-        "parts": [
-          [],
-          ["Problem: Needed to record camera and play video simultaneously for the ensemble feature.", "Resolution Process\n\n\t1. mixWithOthers: 'mix' setting → Failed\n\t\t- The option in the React Native Video component did not work.\n\t\t- Reason: iOS's default audio session policy disables mixWithOthers, requiring native code modification to enable it.\n\n\t2. Add mixWithOthers bridge to native module → Failed\n\t\t- The feature exists in the VisionCamera library but not in the Video library.\n\t\t- Directly bridging it had no effect.\n\n\t3. Add option to Video library's native code → Failed\n\t\t- Manually adding the mixWithOthers setting to the Video library still did not work.\n\n\t4. disableAudioSessionManagement: true setting → Succeeded\n\t\t- Discovered this option within the library.\n\t\t- Enabling this option allowed video and camera audio to work simultaneously.\n", "Result: Camera recording and video playback became possible. Realized the importance of understanding the library's internal code."],
-          [],
-          ["Problem: Slow loading speed for videos and images.", "Resolution Process\n\t- Considered methods for storing/caching videos and images.\n\t- Switched from directly loading from an S3 bucket to caching videos/images using CloudFront CDN.", "Result: Average response speed improved by about 2x."]
-        ]
-      },
-      "results": {
-        "title": "Results & Retrospective",
-        "parts": [
-          ["Results", "\tGlobal state management based on Zustand", "\tMaintained response format consistency and optimized responses using response DTOs", "\tApplied video and audio editing methods using ffmpeg", "\tExecuted native functions using native code", "\tReduced loading times using a CDN"],
-          ["Retrospective", "\tCultivated design skills centered on common components", "\tGained experience in designing and implementing an integrated backend-frontend structure", "\tLearned about scalable design and improving code quality for easier maintenance", "\tUnderstood the importance of ffmpeg in video, audio, and photo editing", "\tEstablished and understood VPC, CDN, and ALB structures through AWS-based server setup", "\tImproved collaboration skills through ERD design, API design, and GitHub branch/issue management"]
-        ]
-      },
-      "blank": {
-        "title": "Thank You."
-      }
-    },
-    "features": [
-      { "name": "🎵 Music-Based Community", "description": "Provides a forum for musicians to communicate freely and share information." },
-      { "name": "🤝 Share Ensemble Videos", "description": "Recruit ensemble members and share video clips of your performances." },
-      { "name": "📱 Create Short-form Videos", "description": "Create and share short videos of your performances or work." },
-      { "name": "🛠 Used Instrument Trading", "description": "A marketplace for users to trade used musical equipment and instruments." }
-    ],
-    "developmentProcess": [
-      { "title": "Planning & Architecture Design", "content": "Designed features for musicians and created the overall service flowchart and ERD." },
-      { "title": "Feature Implementation", "content": "Implemented video editing features using ffmpeg and the user community system." },
-      { "title": "Deployment & Operation", "content": "Deployed the service using AWS EC2, S3, Route53, and CloudFront." }
-    ]
+      "projectType": "Team Project"
+    }
   },
   "test-maker": {
     "title": "Test Maker",
     "subtitle": "Your Own Vocabulary, Your Own Test",
-    "description": "Students or language learners often repeat the process of copying words from books to notebooks, memorizing them, and self-testing. Test Maker solves this tedious and inefficient process with technology.\n\nSimply by taking a picture with the camera, text is converted into a vocabulary list, and the vocabulary list is automatically transformed into a test paper, allowing the user to focus solely on 'learning'.",
     "overview": {
-      "projectType": "Personal Project",
-      "introduction": "A program to create and take your own tests",
-      "features": "OCR word extraction, vocabulary management, automatic generation and export of multiple-choice/short-answer tests"
-    },
-    "summaries": {
-      "development": {
-        "title": "Implemented Features & Development Process",
-        "parts": [
-          ["Based on React Native, I implemented the core feature of OCR word extraction by integrating the Google Vision API. I managed the state with Redux and safely stored user vocabulary data locally using Realm and AsyncStorage."],
-          ["It extracts words and meanings by iterating through the text using pre-set special symbols.", "The '-' symbol is used to distinguish the hierarchy of word categories."],
-          ["When words belonging to a specific category are selected, they are stored in a global variable and can be tested."],
-          ["Tests can be taken in two formats: multiple-choice and short-answer.", "A list of incorrect words is provided, and it's possible to export the vocabulary test in a multiple-choice format."]
-        ]
-      },
-      "troubleshooting": {
-        "title": "Troubleshooting",
-        "parts": [
-          [],
-          [
-            "Problem: The data structure changed to a nested form as hierarchy was added to categories, making the existing data search structure unusable.",
-            "Resolution Process\n\t- Applied a tree structure inspired by folder structures.\n\t- Implemented the word search function as a recursive function.",
-            "Result: Searching is now possible regardless of the depth of subcategories."
-          ],
-          [],
-          []
-        ]
-      },
-      "results": {
-        "title": "Results & Retrospective",
-        "parts": [
-          ["Results", "Implemented for both Android and iOS using React Native.", "Implemented word data using a tree structure and incorrect answer data using a heap structure.", "Utilized the Google Vision API."],
-          ["Retrospective", "Couldn't find the necessary component library (grid) on NPM, so I implemented it myself and deployed it to NPM.", "Implemented the program utilizing data structures.", "Improved understanding of TypeScript.", "Understood and applied global state management, local storage, and local DB."]
-        ]
-      },
-      "blank": {
-        "title": "Thank You."
-      }
-    },
-    "features": [
-      { "name": "📸 Smart OCR Word Extraction", "description": "When you photograph a book or document with the camera, Optical Character Recognition (OCR) technology automatically extracts the desired words and their meanings to add to your vocabulary list." }
-    ],
-    "developmentProcess": [
-      { "title": "Problem Identification", "content": "Identified the inefficiency of traditional vocabulary memorization methods and set a goal to increase learning efficiency by automating this process with technology." }
-    ]
+      "projectType": "Personal Project"
+    }
   },
-
-  "teacher_test": {
+  "teacher-test": {
     "title": "Tea Time",
     "subtitle": "Mobile Study App for the Elementary Teacher Exam",
-    "description": "This is a mobile learning app for prospective teachers preparing for the elementary school teacher certification exam in South Korea. It helps users get one step closer to passing by allowing them to study the vast curriculum content in a quiz format anytime, anywhere, and systematically manage their incorrect answers. Built with Flutter, the app is designed for efficient learning of key content during commutes or spare moments.",
     "overview": {
-      "projectType": "Personal Project",
-      "introduction": "A mobile learning tool aimed at preparing for the elementary school teacher certification exam, providing curriculum-based questions and incorrect answer management.",
-      "features": "Curriculum/General Principles-based tests, Incorrect Answer Notes"
-    },
-    "summaries": {
-      "development": {
-        "title": "Implemented Features & Development Process",
-        "parts": [
-          ["The main screen provides a countdown to the exam, a list of incorrect answers, and a feature to review them."],
-          ["Provides learning features for the curriculum's content organization table, achievement standards, and general principles."],
-          ["Provides a content organization table and test functions for each grade group."],
-          ["Provides a test mode for each grade group."],
-          ["In test mode, users can check their own answers."],
-          ["By copying the original text and their own answer, users can see the differences between their answer and the correct one on the main screen."],
-          ["Provides learning for curriculum achievement standards."],
-          ["Provides a learning feature for the curriculum's general principles."]
-        ]
-      },
-      "results": {
-        "title": "Results & Retrospective",
-        "parts": [
-          ["Results", "Implemented curriculum-based problem-solving feature.", "Provided automatic recording of incorrect answers and a re-learning flow.", "Backup of incorrect answer list using Firebase."],
-          ["Retrospective", "Understood the complexity of data segmentation and utilizing multi-dimensional arrays.", "Gained understanding of cross-platform app design."]
-        ]
-      },
-      "blank": {
-        "title": "Thank You."
-      }
-    },
-    "features": [
-      { "name": "📚 Curriculum-Based Questions", "description": "Provides questions based on the curriculum (achievement standards) for all elementary grades and subjects." },
-      { "name": "✍️ Various Learning Modes", "description": "Check your skills with various learning modes such as by subject, by grade, or random." },
-      { "name": "❌ Systematic Incorrect Answer Note", "description": "Automatically records incorrect answers and allows for re-learning with explanations." },
-      { "name": "📊 Learning Statistics", "description": "Visualize overall and subject-specific correct answer rates to understand learning progress." }
-    ],
-    "developmentProcess": [
-      { "title": "Planning & Architecture Design", "content": "Designed question structure based on curriculum and modeled DB/metadata." },
-      { "title": "Feature Implementation", "content": "Implemented core learning features such as question solving, incorrect answer notes, search, and statistics." },
-      { "title": "Deployment & Operation", "content": "Prepared for App Store submission, optimized resources, and reflected user feedback." }
-    ]
+      "projectType": "Personal Project"
+    }
+  },
+  "mrnsg": {
+    "title": "mogiyoon-react-native-simple-grid",
+    "subtitle": "A simple and lightweight grid component for React Native",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
