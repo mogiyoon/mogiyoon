@@ -1,0 +1,76 @@
+{
+  "test-maker": {
+    "title": "Test Maker",
+    "subtitle": "Your Own Vocabulary, Your Own Test",
+    "description": "Students or language learners often repeat the process of copying words from books to notebooks, memorizing them, and self-testing. Test Maker solves this tedious and inefficient process with technology.\n\nSimply by taking a picture with the camera, text is converted into a vocabulary list, and the vocabulary list is automatically transformed into a test paper, allowing the user to focus solely on 'learning'.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "A program to create and take your own tests",
+      "features": "OCR word extraction, vocabulary management, automatic generation and export of multiple-choice/short-answer tests"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features & Development Process",
+        "parts": {
+          "0": {
+            "0": "Based on React Native, I implemented the core feature of OCR word extraction by integrating the Google Vision API. I managed the state with Redux and safely stored user vocabulary data locally using Realm and AsyncStorage."
+          },
+          "1": {
+            "0": "It extracts words and meanings by iterating through the text using pre-set special symbols.",
+            "1": "The '-' symbol is used to distinguish the hierarchy of word categories."
+          },
+          "2": {
+            "0": "When words belonging to a specific category are selected, they are stored in a global variable and can be tested."
+          },
+          "3": {
+            "0": "Tests can be taken in two formats: multiple-choice and short-answer.",
+            "1": "A list of incorrect words is provided, and it's possible to export the vocabulary test in a multiple-choice format."
+          }
+        }
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "parts": {
+          "1": {
+            "0": "Problem: The data structure changed to a nested form as hierarchy was added to categories, making the existing data search structure unusable.",
+            "1": "Resolution Process\n\t- Applied a tree structure inspired by folder structures.\n\t- Implemented the word search function as a recursive function.",
+            "2": "Result: Searching is now possible regardless of the depth of subcategories."
+          }
+        }
+      },
+      "results": {
+        "title": "Results & Retrospective",
+        "parts": {
+          "0": {
+            "0": "Results",
+            "1": "Implemented for both Android and iOS using React Native.",
+            "2": "Implemented word data using a tree structure and incorrect answer data using a heap structure.",
+            "3": "Utilized the Google Vision API."
+          },
+          "1": {
+            "0": "Retrospective",
+            "1": "Couldn't find the necessary component library (grid) on NPM, so I implemented it myself and deployed it to NPM.",
+            "2": "Implemented the program utilizing data structures.",
+            "3": "Improved understanding of TypeScript.",
+            "4": "Understood and applied global state management, local storage, and local DB."
+          }
+        }
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      {
+        "name": "📸 Smart OCR Word Extraction",
+        "description": "When you photograph a book or document with the camera, Optical Character Recognition (OCR) technology automatically extracts the desired words and their meanings to add to your vocabulary list."
+      }
+    ],
+    "developmentProcess": [
+      {
+        "title": "Problem Identification",
+        "content": "Identified the inefficiency of traditional vocabulary memorization methods and set a goal to increase learning efficiency by automating this process with technology."
+      }
+    ]
+  }
+}

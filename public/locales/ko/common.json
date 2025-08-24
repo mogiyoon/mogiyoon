@@ -16,6 +16,8 @@
   "mainPhrase7": "해결",
   "mainPhrase8": "하는",
   "developerIntro": "개발자 노기윤입니다.",
+  "language1": "언어",
+  "language2": "",
   
   "projectTitle": "프로젝트",
   "preparingProjectTitle": "차기 프로젝트",
@@ -58,5 +60,10 @@
     "checkButton": "확인",
     "clearButton": "삭제",
     "resultLabel": "결과"
-  }
+  },
+
+  "backToMain": "메인으로 돌아가기",
+  "projectNotFound": "프로젝트를 찾을 수 없습니다.",
+  "license": "라이선스",
+  "licenseText": "<0>{{licenseName}}</0>에 따라 라이선스가 부여되었습니다."
 }

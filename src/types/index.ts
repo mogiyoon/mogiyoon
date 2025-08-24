@@ -1,4 +1,31 @@
 import React from 'react';
+// '요약'의 각 파트를 위한 타입 (글 또는 이미지)
+type SummaryTextPart = { type: 'text'; content: string; };
+type SummaryImagePart = { type: 'image'; src: string; alt: string; caption?: string; width?: string; ratio?: string; };
+type SummaryLinkPart = { type: 'link'; label: string; href: string };
+export type SummaryPart = SummaryTextPart | SummaryImagePart | SummaryLinkPart;
+
+// '개요'를 제외한 '요약' 섹션 타입
+export interface SummarySection {
+  id: string;
+  title: string;
+  parts: SummaryPart[][];
+}
+
+// 아이콘, 기능, 스크린샷 등 기타 타입
+export type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
+export interface Feature { name: string; description: string; icon: IconType; }
+export interface Screenshot { title: string; src: string; }
+export interface DevelopmentStep { title: string; content: string; }
+
+export interface ProjectSummary {
+    id: string;
+    title: string;
+    subtitle: string;
+    projectType: string;
+    screenshots: { src: string; alt: string; }[];
+    techStack: string[];
+}
 
 // '개요' 섹션을 위한 타입
 export interface ProjectOverview {
@@ -17,26 +44,6 @@ export interface ProjectOverview {
   };
 }
 
-// '요약'의 각 파트를 위한 타입 (글 또는 이미지)
-type SummaryTextPart = { type: 'text'; content: string; };
-type SummaryImagePart = { type: 'image'; src: string; alt: string; };
-type SummaryLinkPart = { type: 'link'; label: string; href: string };
-export type SummaryPart = SummaryTextPart | SummaryImagePart | SummaryLinkPart;
-
-// '개요'를 제외한 '요약' 섹션 타입
-export interface SummarySection {
-  id: string;
-  title: string;
-  parts: SummaryPart[][];
-}
-
-// 아이콘, 기능, 스크린샷 등 기타 타입
-export type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
-export interface Feature { name: string; description: string; icon: IconType; }
-export interface Screenshot { title: string; src: string; }
-export interface TechStack { category: string; items: string[]; }
-export interface DevelopmentStep { title: string; content: string; }
-
 // 최종 프로젝트 데이터 타입
 export interface ProjectData {
   id: string;
@@ -46,7 +53,6 @@ export interface ProjectData {
   description: string;
   features: Feature[];
   screenshots: Screenshot[];
-  techStack: TechStack[];
   developmentProcess?: DevelopmentStep[];
   license: {
     name: string;
@@ -57,3 +63,4 @@ export interface ProjectData {
   overview: ProjectOverview;
   summaries: SummarySection[];
 }
+
