@@ -11,7 +11,6 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
         e.currentTarget.src = 'https://via.placeholder.com/250x150.png?text=Image+Not+Found';
     };
 
-    // ✅ 변경된 부분: 2중으로 map을 사용하여 중첩 배열을 렌더링합니다.
     const renderSummaryParts = (id: string) => {
         const section = project.summaries.find(s => s.id === id);
         if (!section) return null;
