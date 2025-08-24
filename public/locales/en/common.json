@@ -16,6 +16,8 @@
   "mainPhrase7": "Solutions",
   "mainPhrase8": "",
   "developerIntro": "I'm Giyoon Noh, a developer.",
+  "language1": "Lang",
+  "language2": "uage",
 
   "projectTitle": "PROJECT",
   "preparingProjectTitle": "UPCOMING PROJECTS",
@@ -58,5 +60,10 @@
     "checkButton": "Check",
     "clearButton": "Clear",
     "resultLabel": "Result"
-  }
+  },
+
+  "backToMain": "Back to Main",
+  "projectNotFound": "Project Not Found",
+  "license": "License",
+  "licenseText": "Licensed under the <0>{{licenseName}}</0>."
 }

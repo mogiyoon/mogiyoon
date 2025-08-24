@@ -1,0 +1,34 @@
+[
+  {
+    "id": "recho",
+    "title": "recho.title",
+    "subtitle": "recho.subtitle",
+    "projectType": "recho.overview.projectType",
+    "screenshots": [{ "src": "/images/recho/Icon.svg", "alt": "Recho Thumbnail" }],
+    "techStack": ["React Native", "Google Vision API", "Redux"]
+  },
+  {
+    "id": "test-maker",
+    "title": "test-maker.title",
+    "subtitle": "test-maker.subtitle",
+    "projectType": "test-maker.overview.projectType",
+    "screenshots": [{ "src": "/images/testMaker/Icon.png", "alt": "Test Maker Thumbnail" }],
+    "techStack": ["React Native", "Google Vision API", "Redux"]
+  },
+  {
+    "id": "mrnsg",
+    "title": "mrnsg.title",
+    "subtitle": "mrnsg.subtitle",
+    "projectType": "mrnsg.overview.projectType",
+    "screenshots": [{ "src": "/images/mrnsg/Icon.svg", "alt": "mogiyoon-react-native-simple-grid Thumbnail" }],
+    "techStack": ["TypeScript"]
+  },
+  {
+    "id": "teacher_test",
+    "title": "teacher_test.title",
+    "subtitle": "teacher_test.subtitle",
+    "projectType": "teacher_test.overview.projectType",
+    "screenshots": [{ "src": "/images/teacherTest/Icon.png", "alt": "Tea Time Thumbnail" }],
+    "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"]
+  }
+]
