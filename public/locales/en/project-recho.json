@@ -14,9 +14,9 @@
         "title": "Implemented Features & Development Process",
         "parts": {
           "0": {
-            "0": "Implemented video editing logic using ffmpeg",
-            "1": "Merged videos based on the shortest video length",
-            "2": "Implemented dB adjustment per frequency with an equalizer"
+            "subtitle": "Implemented video editing logic using ffmpeg",
+            "0": "Merged videos based on the shortest video length",
+            "1": "Implemented dB adjustment per frequency with an equalizer"
           },
           "1": {
             "0": "Connected ensemble feature (video playback + recording), video editing screen, and video merging logic",
