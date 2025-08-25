@@ -24,10 +24,10 @@
       "title": "recho.summaries.development.title",
       "parts": [
         [
+          { "type": "subtitle","id": "ffmpeg_implement","content": "recho.summaries.development.parts.0.subtitle" },
           { "type": "image", "alt": "비디오 편집 로직", "src": "/images/recho/overview/videoLogic.png" },
           { "type": "text", "content": "recho.summaries.development.parts.0.0" },
-          { "type": "text", "content": "recho.summaries.development.parts.0.1" },
-          { "type": "text", "content": "recho.summaries.development.parts.0.2" }
+          { "type": "text", "content": "recho.summaries.development.parts.0.1" }
         ],
         [
           { "type": "image", "alt": "컴포넌트 리팩토링 및 로그인 정보 전역 상태 관리", "src": "/images/recho/overview/componentRefactoring.png" },
