@@ -2,10 +2,10 @@
   "recho": {
     "title": "Recho",
     "subtitle": "A Platform to Express Yourself Through Music",
-    "description": "A music community platform where musicians can freely connect, collaborate in ensembles, trade instruments, and express themselves through short-form videos.\n\nBuilt as a React Native-based app with a webview structure, it allows users to edit ensemble videos directly on their smartphones by leveraging device resources.",
+    "description": "A music community platform where musicians can freely interact, collaborate in ensembles, trade instruments, and express themselves through short-form videos.\n\nBuilt as a React Native-based app with a webview structure, it leverages smartphone resources to allow users to directly edit ensemble videos.",
     "overview": {
       "projectType": "Team Project",
-      "introduction": "A community platform for musicians to communicate and collaborate",
+      "introduction": "A community platform for musicians to connect and communicate",
       "features": "Community, Ensemble Recruitment, Instrument Marketplace, Short-form Content",
       "role": "Backend, Frontend, ERD Design, ffmpeg Integration, AWS Infrastructure Setup"
     },
@@ -15,28 +15,34 @@
         "parts": {
           "0": {
             "subtitle": "Video Merging Logic with ffmpeg",
-            "0": "To implement the ensemble feature where two performance videos are merged, it was necessary to sync the given videos and adjust equalizers before merging. Using ffmpeg*, a filter chain was created, adjusting the equalizer based on the shorter video to produce the final edit. ffmpeg was also used later for video downscaling* to upload to S3 and to prevent conflicts with video components.",
+            "caption": "Video Editing Screen",
+            "0": "To implement the ensemble feature of merging two performance videos, it was necessary to sync the given clips and adjust the equalizer before merging. Using ffmpeg*, we created a filter chain, adjusting the equalizer based on the shorter clip to produce the edited video. Later, ffmpeg was also used for video downscaling* when uploading to S3 and to prevent conflicts with video components.",
             "1": "*ffmpeg: an open-source project for decoding and encoding video, audio, and image formats\n*Downscaling: the process of reducing the size or resolution of raw data, videos, or images"
           },
           "1": {
             "subtitle": "Component Refactoring",
-            "0": "Features implemented by different team members (video upload, simultaneous playback/recording, ffmpeg native integration, video merging and editing) had to be refactored into a connected workflow. Common components were separated for each page, specific functions were refactored, and new pages were created to reorganize related components and features. This reduced the code length per page by about 50%."
+            "caption": "Refactored Components",
+            "0": "Team members had individually implemented features (video upload, simultaneous playback/recording, ffmpeg native integration, video merging/editing) which needed to be refactored into a single connected workflow. We separated common components per page, refactored certain functions, and created new pages reorganized with related components and features. As a result, the code length per page decreased by about 50%."
           },
           "2": {
             "subtitle": "Ensemble Session Recruitment Board",
-            "0": "We needed to implement a board for recruiting members for ensembles. The author specifies instruments and headcount, and applicants can apply to a specific session. Initially, instrument parts were managed as an array within the session entity, but this risked index changes breaking the mapping when posts were edited. Therefore, we created a separate entity for instrument parts, managing them in a post–comment–reply structure to ensure consistency and concurrency."
+            "caption": "Ensemble Recruitment Board and Registration Screen",
+            "0": "A board was needed for recruiting people for ensemble sessions. The author sets the instrument and number of members, and applicants can apply to a session. Initially, instrument parts were managed as an array within the session entity, but index changes during post edits risked breaking the mapping. To solve this, we created a separate instrument part entity, managed in a post–comment–reply structure to ensure consistency and concurrency."
           },
           "3": {
             "subtitle": "Refactoring Likes and Comments Module",
-            "0": "Likes and comments were previously managed separately in each board module. This reduced scalability, since adding features like notifications required updating each module. We refactored likes and comments into standalone modules reused across boards. This reduced development overhead for features like notifications, removed cascade dependencies between posts and comments, and allowed comments to be deleted asynchronously, improving post deletion performance."
+            "caption": "Separated Likes and Comments Feature",
+            "0": "Likes and comments were previously managed separately in each board module, which reduced scalability since features like notifications had to be implemented for every module. We refactored likes and comments into standalone modules reused across boards. As a result, the development cost for notifications decreased, cascade dependencies between posts and comments were removed, and comments could be deleted asynchronously, improving post deletion performance."
           },
           "4": {
             "subtitle": "Server Architecture",
-            "0": "When designing the deployment architecture, I considered both security and scalability. By studying React Vite’s build process, I confirmed that it produces a CSR-based SPA. Since videos and images can be delivered directly from S3 without going through the backend, leveraging a CDN improved both cost efficiency and performance. Therefore, the frontend was deployed on a static hosting stack (CloudFront + S3), while the backend and database servers were deployed within a VPC using ALB, EC2, and RDBMS for security and scalability."
+            "caption": "Revised Architecture",
+            "0": "While designing the deployment architecture, I considered both security and scalability. After studying React Vite’s build process, I learned it generates a CSR-based SPA. Since videos and images can be delivered directly from S3 without passing through the backend, leveraging a CDN provided efficiency in both cost and performance. Therefore, the frontend was deployed on a static hosting stack (CloudFront + S3), while backend and database servers were deployed within a VPC using ALB, EC2, and RDBMS for security and scalability."
           },
           "5": {
             "subtitle": "Issue Closure",
-            "0": "As the project neared completion, unresolved issues had accumulated. After finishing the core features, I focused on increasing stability and completeness by prioritizing and resolving issues regardless of stack. As a result, I contributed to closing about 40% of all issues, directly improving project quality."
+            "caption": "GitHub Issue Closure",
+            "0": "As the project neared completion, unresolved issues had accumulated. After finishing the core features, I prioritized and resolved issues regardless of stack to improve project stability and completeness. As a result, I personally contributed to closing about 40% of all issues, enhancing overall project quality."
           }
         }
       },
@@ -45,15 +51,17 @@
         "parts": {
           "0": {
             "subtitle": "Implementing Video Playback and Simultaneous Recording",
-            "0": "Problem: To implement the ensemble feature, we needed to play back a video while recording with the camera at the same time.",
-            "1": "Process:\n\n\t1. mixWithOthers: set to 'mix' → failed\n\t\t- Setting this option in React Native Video did not work.\n\t\t- Reason: On iOS, the default audio session policy disables mixWithOthers, requiring native code modification.\n\n\t2. Added a mixWithOthers bridge in a native module → failed\n\t\t- VisionCamera had relevant functionality, but Video library did not.\n\t\t- Even after adding the bridge, it did not work.\n\n\t3. Modified Video library native code to include option → failed\n\t\t- Added mixWithOthers directly, but still no effect.\n\n\t4. Set disableAudioSessionManagement: true → success\n\t\t- Found an option inside the library: disableAudioSessionManagement.\n\t\t- Enabling it allowed video and camera audio to work simultaneously.\n",
-            "2": "Result: Enabled camera recording and video playback together, highlighting the importance of understanding library internals."
+            "caption": "Video Playback and Simultaneous Recording Screen",
+            "0": "Problem: To implement the ensemble feature, video playback and camera recording needed to run simultaneously.",
+            "1": "Solution Process\n\n\t1. mixWithOthers: set to 'mix' → failed\n\t\t- Setting this option in React Native Video did not work.\n\t\t- Reason: iOS default audio session policy disables mixWithOthers; enabling it requires native code modification.\n\n\t2. Added mixWithOthers bridge in a native module → failed\n\t\t- VisionCamera had this feature, but Video library did not.\n\t\t- Even after adding the bridge, it didn’t work.\n\n\t3. Modified Video library native code to add option → failed\n\t\t- Added mixWithOthers option directly but still didn’t work.\n\n\t4. Set disableAudioSessionManagement: true → success\n\t\t- Found disableAudioSessionManagement option in the library.\n\t\t- Enabling it allowed video playback and camera audio to run simultaneously.\n",
+            "2": "Result: Enabled simultaneous camera recording and video playback, highlighting the importance of understanding library internals."
           },
           "1": {
-            "subtitle": "Caching Videos and Images with CDN",
-            "0": "Problem: Video and image load speeds were slow.",
-            "1": "Process:\n\t- Considered methods to store and cache videos/images.\n\t- Switched from loading directly from S3 to leveraging CloudFront CDN caching.",
-            "2": "Result: Average response speed improved about 2x."
+            "subtitle": "Caching Images and Videos with CloudFront CDN",
+            "caption": "Using CloudFront CDN for Caching",
+            "0": "Problem: Video and image loading speed was slow.",
+            "1": "Solution Process\n\t- Explored methods to store/cache videos and images.\n\t- Switched from directly loading video/image data from S3 buckets to using CloudFront CDN caching.",
+            "2": "Result: Average response speed improved by about 2x."
           }
         }
       },
@@ -62,20 +70,20 @@
         "parts": {
           "0": {
             "0": "Results",
-            "1": "\tGlobal state management with Zustand",
-            "2": "\tConsistent and optimized response format using DTOs",
+            "1": "\tGlobal state management using Zustand",
+            "2": "\tMaintained consistency and optimized responses using DTOs",
             "3": "\tApplied ffmpeg for video and audio editing",
-            "4": "\tLeveraged native code for platform-specific functionality",
-            "5": "\tReduced load times using CDN"
+            "4": "\tLeveraged native code for platform-specific features",
+            "5": "\tReduced loading time through CDN"
           },
           "1": {
             "0": "Retrospective",
-            "1": "\tDeveloped ability to design with shared/common components",
-            "2": "\tExperience in designing and implementing integrated backend–frontend architecture",
-            "3": "\tLearned about scalable design and writing maintainable, high-quality code",
-            "4": "\tGained understanding of ffmpeg’s importance in video/audio/image editing",
-            "5": "\tLearned to design and manage AWS infrastructure (VPC, CDN, ALB)",
-            "6": "\tEnhanced collaboration skills via ERD design, API design, GitHub branch and issue management"
+            "1": "\tEnhanced ability to design with shared/common components",
+            "2": "\tExperience designing and implementing integrated backend–frontend architecture",
+            "3": "\tLearned scalable design and how to maintain high code quality",
+            "4": "\tDeepened understanding of ffmpeg’s role in video, audio, and image editing",
+            "5": "\tGained knowledge of AWS infrastructure setup (VPC, CDN, ALB)",
+            "6": "\tImproved collaboration skills through ERD design, API design, and GitHub branch/issue management"
           }
         }
       },
@@ -86,7 +94,7 @@
     "features": [
       {
         "name": "🎵 Music-based Community",
-        "description": "Provides boards where musicians can communicate and share information"
+        "description": "Boards for musicians to freely communicate and share information"
       },
       {
         "name": "🤝 Ensemble Video Sharing",
@@ -94,21 +102,21 @@
       },
       {
         "name": "📱 Short-form Creation",
-        "description": "Create and share short videos of performances or work"
+        "description": "Create and share short-form videos of performances or works"
       },
       {
         "name": "🛠 Instrument Marketplace",
-        "description": "Boards for users to trade instruments and music equipment"
+        "description": "Boards for trading instruments and music equipment between users"
       }
     ],
     "developmentProcess": [
       {
         "title": "Planning and Architecture Design",
-        "content": "Designed features for musicians and created overall service flow and ERD"
+        "content": "Designed musician-oriented features and created overall service flow and ERD"
       },
       {
         "title": "Feature Implementation",
-        "content": "Implemented video editing with ffmpeg and built user community system"
+        "content": "Implemented video editing using ffmpeg and built community features"
       },
       {
         "title": "Deployment and Operation",

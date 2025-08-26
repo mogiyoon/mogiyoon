@@ -20,22 +20,24 @@
       "title": "test-maker.summaries.development.title",
       "parts": [
         [
-          { "type": "image", "src": "/images/testMaker/overview/MakerOcr.png", "alt": "OCR 기능" },
+          { "type": "subtitle","id": "vocabulary","content": "test-maker.summaries.development.parts.0.subtitle" },
+          { "type": "image", "src": "/images/testMaker/overview/MakerOcr.png", "alt": "OCR 기능", "caption": "test-maker.summaries.development.parts.0.caption" },
           { "type": "text", "content": "test-maker.summaries.development.parts.0.0" }
         ],
         [
-          { "type": "image", "src": "/images/testMaker/overview/MakerWordEdit.png", "alt": "단어 편집" },
-          { "type": "text", "content": "test-maker.summaries.development.parts.1.0" },
-          { "type": "text", "content": "test-maker.summaries.development.parts.1.1" }
+          { "type": "subtitle","id": "category","content": "test-maker.summaries.development.parts.1.subtitle" },
+          { "type": "image", "src": "/images/testMaker/overview/MakerWordEdit.png", "alt": "단어 편집", "caption": "test-maker.summaries.development.parts.1.caption" },
+          { "type": "text", "content": "test-maker.summaries.development.parts.1.0" }
         ],
         [
-          { "type": "image", "src": "/images/testMaker/overview/TestWordPage.png", "alt": "단어장" },
+          { "type": "subtitle","id": "word_test","content": "test-maker.summaries.development.parts.2.subtitle" },
+          { "type": "image", "src": "/images/testMaker/overview/TestWordPage.png", "alt": "단어장", "caption": "test-maker.summaries.development.parts.2.caption" },
           { "type": "text", "content": "test-maker.summaries.development.parts.2.0" }
         ],
         [
-          { "type": "image", "src": "/images/testMaker/overview/TestTesting.png", "alt": "시험 기능" },
-          { "type": "text", "content": "test-maker.summaries.development.parts.3.0" },
-          { "type": "text", "content": "test-maker.summaries.development.parts.3.1" }
+          { "type": "subtitle","id": "word_test","content": "test-maker.summaries.development.parts.3.subtitle" },
+          { "type": "image", "src": "/images/testMaker/overview/TestTesting.png", "alt": "시험 기능", "caption": "test-maker.summaries.development.parts.3.caption" },
+          { "type": "text", "content": "test-maker.summaries.development.parts.3.0" }
         ]
       ]
     },
@@ -43,13 +45,14 @@
       "id": "troubleshooting",
       "title": "test-maker.summaries.troubleshooting.title",
       "parts": [
+        [{ "type": "subtitle","id": "word_test","content": "test-maker.summaries.troubleshooting.parts.0.subtitle" }],
         [
-          { "type": "image", "src": "/images/testMaker/overview/TroubleShooting.png", "alt": "트러블슈팅" }
+          { "type": "image", "src": "/images/testMaker/overview/TroubleShooting.png", "alt": "트러블슈팅", "caption": "test-maker.summaries.troubleshooting.parts.0.caption" }
         ],
         [
-          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.1.0" },
-          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.1.1" },
-          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.1.2" }
+          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.0.0" },
+          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.0.1" },
+          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.0.2" }
         ]
       ]
     },
