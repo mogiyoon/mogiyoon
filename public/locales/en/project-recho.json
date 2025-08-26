@@ -70,20 +70,20 @@
         "parts": {
           "0": {
             "0": "Results",
-            "1": "\tGlobal state management using Zustand",
-            "2": "\tMaintained consistency and optimized responses using DTOs",
-            "3": "\tApplied ffmpeg for video and audio editing",
-            "4": "\tLeveraged native code for platform-specific features",
-            "5": "\tReduced loading time through CDN"
+            "1": "Global state management using Zustand",
+            "2": "Maintained consistency and optimized responses using DTOs",
+            "3": "Applied ffmpeg for video and audio editing",
+            "4": "Leveraged native code for platform-specific features",
+            "5": "Reduced loading time through CDN"
           },
           "1": {
             "0": "Retrospective",
-            "1": "\tEnhanced ability to design with shared/common components",
-            "2": "\tExperience designing and implementing integrated backend–frontend architecture",
-            "3": "\tLearned scalable design and how to maintain high code quality",
-            "4": "\tDeepened understanding of ffmpeg’s role in video, audio, and image editing",
-            "5": "\tGained knowledge of AWS infrastructure setup (VPC, CDN, ALB)",
-            "6": "\tImproved collaboration skills through ERD design, API design, and GitHub branch/issue management"
+            "1": "Enhanced ability to design with shared/common components",
+            "2": "Experience designing and implementing integrated backend–frontend architecture",
+            "3": "Learned scalable design and how to maintain high code quality",
+            "4": "Deepened understanding of ffmpeg’s role in video, audio, and image editing",
+            "5": "Gained knowledge of AWS infrastructure setup (VPC, CDN, ALB)",
+            "6": "Improved collaboration skills through ERD design, API design, and GitHub branch/issue management"
           }
         }
       },

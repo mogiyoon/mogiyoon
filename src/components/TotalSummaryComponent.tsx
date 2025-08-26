@@ -59,8 +59,7 @@ const renderSummaryPart = (
       );
     case "link":
       return (
-        <div key={index} className="text-lg my-2">
-          &nbsp;&nbsp;&nbsp;&nbsp;
+        <div key={index} className="text-lg">
           <a
             href={part.href}
             target="_blank"
@@ -171,38 +170,34 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
                 <span className="flex-1">{t(project.overview.implementationDetails || '')}</span>
               </div>
             )}
-            {(project.overview.links?.github || project.overview.links?.demo || project.overview.links?.notion) && (
-              <div className="space-y-2">
-                {project.overview.links.github && (
-                  <div className="flex items-start">
-                    <span className="font-semibold w-40 shrink-0">
-                      ▪️ {t('projectDetail.github', { ns: 'common' })}
-                    </span>
-                    <a href={project.overview.links.github} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
-                      {project.overview.links.github}
-                    </a>
-                  </div>
-                )}
-                {project.overview.links.demo && (
-                  <div className="flex items-start">
-                    <span className="font-semibold w-40 shrink-0">
-                      ▪️ {t('projectDetail.website', { ns: 'common' })}
-                    </span>
-                    <a href={project.overview.links.demo} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
-                      {project.overview.links.demo}
-                    </a>
-                  </div>
-                )}
-                {project.overview.links.notion && (
-                  <div className="flex items-start">
-                    <span className="font-semibold w-40 shrink-0">
-                      ▪️ {t('projectDetail.notion', { ns: 'common' })}
-                    </span>
-                    <a href={project.overview.links.notion} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
-                      {project.overview.links.notion}
-                    </a>
-                  </div>
-                )}
+            {project.overview.demo && (
+              <div className="flex items-start">
+                <span className="font-semibold w-40 shrink-0">
+                  ▪️ {t('projectDetail.website', { ns: 'common' })}
+                </span>
+                <a href={project.overview.demo} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                  {project.overview.demo}
+                </a>
+              </div>
+            )}
+            {project.overview.github && (
+              <div className="flex items-start">
+                <span className="font-semibold w-40 shrink-0">
+                  ▪️ {t('projectDetail.github', { ns: 'common' })}
+                </span>
+                <a href={project.overview.github} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                  {project.overview.github}
+                </a>
+              </div>
+            )}
+            {project.overview.notion && (
+              <div className="flex items-start">
+                <span className="font-semibold w-40 shrink-0">
+                  ▪️ {t('projectDetail.notion', { ns: 'common' })}
+                </span>
+                <a href={project.overview.notion} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                  {project.overview.notion}
+                </a>
               </div>
             )}
           </div>

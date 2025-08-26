@@ -9,10 +9,7 @@
     "period": "2024.01 ~ 2024.02",
     "introduction": "teacher-test.overview.introduction",
     "features": "teacher-test.overview.features",
-    "techStack": ["Flutter", "Provider", "Material Design", "Firebase"],
-    "links": {
-      "github": null
-    }
+    "techStack": ["Flutter", "Provider", "Material Design", "Firebase"]
   },
   "summaries": [
     {

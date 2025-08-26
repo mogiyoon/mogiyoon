@@ -10,10 +10,8 @@
     "introduction": "mrnsg.overview.introduction",
     "features": "mrnsg.overview.features",
     "techStack": ["TypeScript"],
-    "links": {
-      "github": "https://github.com/mogiyoon/mogiyoon-react-native-simple-grid",
-      "demo": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid"
-    }
+    "github": "https://github.com/mogiyoon/mogiyoon-react-native-simple-grid",
+    "demo": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid"
   },
   "summaries": [
     {
@@ -59,12 +57,12 @@
       "title": "mrnsg.summaries.results.title",
       "parts": [
         [
-          { "type": "text", "content": "mrnsg.summaries.results.parts.0.0" },
+          { "type": "subtitle", "id": "result", "content": "mrnsg.summaries.results.parts.0.0" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.0.1" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.0.2" }
         ],
         [
-          { "type": "text", "content": "mrnsg.summaries.results.parts.1.0" },
+          { "type": "subtitle", "id": "retrospect", "content": "mrnsg.summaries.results.parts.1.0" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.1.1" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.1.2" }
         ]

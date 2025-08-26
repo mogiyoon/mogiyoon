@@ -42,11 +42,9 @@ export interface ProjectOverview {
   architecture?: string;        // 아키텍처
   role?: string;               // 담당 역할 (예: 프론트엔드 개발, 백엔드 API 설계 등)
   implementationDetails?: string; // 구현 기능 상세 설명
-  links?: {
-    github?: string;           // GitHub 링크
-    demo?: string;             // 배포 링크
-    notion?: string;           // 기획 문서 등 기타 링크
-  };
+  github?: string;           // GitHub 링크
+  demo?: string;             // 배포 링크
+  notion?: string;           // 기획 문서 등 기타 링크
 }
 
 // 최종 프로젝트 데이터 타입

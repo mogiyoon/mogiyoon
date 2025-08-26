@@ -50,15 +50,15 @@
         "parts": {
           "0": {
             "0": "Results",
-            "1": "\tSuccessfully developed and published the component library to NPM",
-            "2": "\tCreated a reusable component usable in other projects",
-            "3": "\tImproved understanding of TypeScript for building scalable components"
+            "1": "Successfully developed and published the component library to NPM",
+            "2": "Created a reusable component usable in other projects",
+            "3": "Improved understanding of TypeScript for building scalable components"
           },
           "1": {
             "0": "Retrospective",
-            "1": "\tExperienced the entire process of library development from planning to public release",
-            "2": "\tRealized the importance of clear documentation for library users",
-            "3": "\tLearned how to extract project-specific problems into modular, reusable solutions"
+            "1": "Experienced the entire process of library development from planning to public release",
+            "2": "Realized the importance of clear documentation for library users",
+            "3": "Learned how to extract project-specific problems into modular, reusable solutions"
           }
         }
       },

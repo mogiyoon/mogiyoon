@@ -10,9 +10,7 @@
     "introduction": "test-maker.overview.introduction",
     "features": "test-maker.overview.features",
     "techStack": ["React Native", "Google Vision API", "Redux"],
-    "links": {
-      "github": "https://github.com/mogiyoon/Test_Maker"
-    }
+    "github": "https://github.com/mogiyoon/Test_Maker"
   },
   "summaries": [
     {
@@ -61,13 +59,13 @@
       "title": "test-maker.summaries.results.title",
       "parts": [
         [
-          { "type": "text", "content": "test-maker.summaries.results.parts.0.0" },
+          { "type": "subtitle", "id": "result", "content": "test-maker.summaries.results.parts.0.0" },
           { "type": "text", "content": "test-maker.summaries.results.parts.0.1" },
           { "type": "text", "content": "test-maker.summaries.results.parts.0.2" },
           { "type": "text", "content": "test-maker.summaries.results.parts.0.3" }
         ],
         [
-          { "type": "text", "content": "test-maker.summaries.results.parts.1.0" },
+          { "type": "subtitle", "id": "retrospect", "content": "test-maker.summaries.results.parts.1.0" },
           { "type": "link", "label": "mogiyoon-react-native-simple-grid", "href": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid" },
           { "type": "text", "content": "test-maker.summaries.results.parts.1.1" },
           { "type": "text", "content": "test-maker.summaries.results.parts.1.2" },
