@@ -1,58 +1,66 @@
 {
   "test-maker": {
     "title": "Test Maker",
-    "subtitle": "Your Own Vocabulary, Your Own Test",
-    "description": "Students or language learners often repeat the process of copying words from books to notebooks, memorizing them, and self-testing. Test Maker solves this tedious and inefficient process with technology.\n\nSimply by taking a picture with the camera, text is converted into a vocabulary list, and the vocabulary list is automatically transformed into a test paper, allowing the user to focus solely on 'learning'.",
+    "subtitle": "My Own Vocabulary Book, My Own Test Paper",
+    "description": "Students or language learners often copy vocabulary from books into notebooks, memorize them, and repeatedly test themselves. Test Maker solves this tedious and inefficient process with technology.\n\nSimply take a picture with your camera, and the text is automatically converted into a vocabulary book, which can then be transformed into a test paper, allowing users to focus solely on learning.",
     "overview": {
       "projectType": "Personal Project",
-      "introduction": "A program to create and take your own tests",
-      "features": "OCR word extraction, vocabulary management, automatic generation and export of multiple-choice/short-answer tests"
+      "introduction": "An application to create and test your own vocabulary",
+      "features": "OCR vocabulary extraction, vocabulary book management, automatic generation/export of multiple-choice and short-answer tests"
     },
     "summaries": {
       "development": {
-        "title": "Implemented Features & Development Process",
+        "title": "Implemented Features and Development Process",
         "parts": {
           "0": {
-            "0": "Based on React Native, I implemented the core feature of OCR word extraction by integrating the Google Vision API. I managed the state with Redux and safely stored user vocabulary data locally using Realm and AsyncStorage."
+            "subtitle": "Vocabulary Book Creation and Management",
+            "caption": "Photo taken with camera and OCR extracted data",
+            "0": "To build a vocabulary book, OCR API data had to be extracted, managed, and stored. Among OCR APIs, I chose a model with high recognition accuracy for both Korean and English and fast conversion speed. Data received from the API was managed using Redux, ensuring type safety and easier debugging, while Realm was used for storage, managing word, meaning, category, error count, and more."
           },
           "1": {
-            "0": "It extracts words and meanings by iterating through the text using pre-set special symbols.",
-            "1": "The '-' symbol is used to distinguish the hierarchy of word categories."
+            "subtitle": "Vocabulary Category Management",
+            "caption": "Text editing and adding vocabulary screen",
+            "0": "Managing words in large/mid/small categories was inflexible and lacked scalability. A folder-like structure was considered more suitable, so I implemented categories using a tree structure combined with recursive functions."
           },
           "2": {
-            "0": "When words belonging to a specific category are selected, they are stored in a global variable and can be tested."
+            "subtitle": "Category/Word Selection Feature",
+            "caption": "Category/Word selection screen",
+            "0": "After creating a vocabulary book, features were needed for testing and feedback. Users can select words and test them in both multiple-choice and short-answer formats, then review incorrect answers. Recursive functions were applied for the selection process, with selected words managed in global state. For testing, words were randomized and queued with markers added at the end to allow continuous testing. Incorrect words were stored and tracked with Realm. This structure enabled a full cycle from word selection to testing and error review."
           },
           "3": {
-            "0": "Tests can be taken in two formats: multiple-choice and short-answer.",
-            "1": "A list of incorrect words is provided, and it's possible to export the vocabulary test in a multiple-choice format."
+            "subtitle": "Word Testing Feature",
+            "caption": "Multiple-choice/Short-answer test",
+            "0": "While implementing multiple-choice tests, answers had to be rendered in a grid format. However, React Native grid libraries on NPM were outdated or poorly documented. Therefore, I implemented my own grid component based on FlatList and published it to NPM using Create React Library. Through this, I gained insights into the NPM ecosystem and how node module libraries function internally."
           }
         }
       },
       "troubleshooting": {
         "title": "Troubleshooting",
         "parts": {
-          "1": {
-            "0": "Problem: The data structure changed to a nested form as hierarchy was added to categories, making the existing data search structure unusable.",
-            "1": "Resolution Process\n\t- Applied a tree structure inspired by folder structures.\n\t- Implemented the word search function as a recursive function.",
-            "2": "Result: Searching is now possible regardless of the depth of subcategories."
+          "0": {
+            "subtitle": "Tree Structuring of Categories",
+            "caption": "Word management screen",
+            "0": "Problem: Categories were restructured into a nested hierarchy, making the existing search structure unusable.",
+            "1": "Solution Process\n\t- Applied a tree structure inspired by folder systems.\n\t- Implemented word search with recursive functions.",
+            "2": "Result: Vocabulary could be searched regardless of subcategory depth."
           }
         }
       },
       "results": {
-        "title": "Results & Retrospective",
+        "title": "Results and Retrospective",
         "parts": {
           "0": {
             "0": "Results",
-            "1": "Implemented for both Android and iOS using React Native.",
-            "2": "Implemented word data using a tree structure and incorrect answer data using a heap structure.",
-            "3": "Utilized the Google Vision API."
+            "1": "Implemented for both Android and iOS using React Native",
+            "2": "Word data managed with tree structures, error data managed with heap structure",
+            "3": "Leveraged Google Vision API"
           },
           "1": {
             "0": "Retrospective",
-            "1": "Couldn't find the necessary component library (grid) on NPM, so I implemented it myself and deployed it to NPM.",
-            "2": "Implemented the program utilizing data structures.",
-            "3": "Improved understanding of TypeScript.",
-            "4": "Understood and applied global state management, local storage, and local DB."
+            "1": "Developed and published a custom grid component to NPM due to lack of suitable libraries",
+            "2": "Applied data structures in program implementation",
+            "3": "Improved understanding of TypeScript",
+            "4": "Learned and applied global state management, local storage, and local DB concepts"
           }
         }
       },
@@ -62,14 +70,14 @@
     },
     "features": [
       {
-        "name": "📸 Smart OCR Word Extraction",
-        "description": "When you photograph a book or document with the camera, Optical Character Recognition (OCR) technology automatically extracts the desired words and their meanings to add to your vocabulary list."
+        "name": "📸 Smart OCR Vocabulary Extraction",
+        "description": "Take a photo of books or documents, and OCR (Optical Character Recognition) automatically extracts desired words and their meanings to add to the vocabulary book."
       }
     ],
     "developmentProcess": [
       {
         "title": "Problem Identification",
-        "content": "Identified the inefficiency of traditional vocabulary memorization methods and set a goal to increase learning efficiency by automating this process with technology."
+        "content": "Recognized the inefficiency of traditional vocabulary memorization and set out to automate it with technology to improve learning efficiency."
       }
     ]
   }

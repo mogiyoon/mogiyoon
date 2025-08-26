@@ -16,8 +16,7 @@
   "mainPhrase7": "Solutions",
   "mainPhrase8": "",
   "developerIntro": "I'm Giyoon Noh, a developer.",
-  "language1": "Lang",
-  "language2": "uage",
+  "language": "Language",
 
   "projectTitle": "PROJECT",
   "preparingProjectTitle": "UPCOMING PROJECTS",
@@ -65,5 +64,8 @@
   "backToMain": "Back to Main",
   "projectNotFound": "Project Not Found",
   "license": "License",
-  "licenseText": "Licensed under the <0>{{licenseName}}</0>."
+  "licenseText": "Licensed under the <0>{{licenseName}}</0>.",
+
+  "linkCopied": "Link copied!",
+  "linkCopyFailed": "Copy failed..."
 }
