@@ -51,12 +51,42 @@ const renderSummaryPart = (
             crossOrigin="anonymous"
           />
           {part.caption && (
-            <figcaption className="text-sm text-gray-600 mt-3">
+            <figcaption className="text-sm text-gray-400 mt-3">
               {t(part.caption)}
             </figcaption>
           )}
         </figure>
       );
+case "image-group":
+  return (
+    // 💡 1. 그룹 전체의 너비를 적용하는 컨테이너
+    <div
+      key={index}
+      className="flex flex-col sm:flex-row my-6 gap-4 justify-center items-start mx-auto"
+      style={{ width: part.width ?? '100%' }}
+    >
+      {part.images.map((image, imgIndex) => (
+        <figure
+          key={imgIndex}
+          className={`text-center ${!image.width ? 'flex-1' : ''}`}
+          style={{ width: image.width }}
+        >
+          <img
+            src={image.src}
+            alt={image.alt}
+            className="rounded-xl shadow-lg border mx-auto w-full"
+            style={{ aspectRatio: image.ratio }}
+            crossOrigin="anonymous"
+          />
+          {image.caption && (
+            <figcaption className="text-sm text-gray-400 mt-3">
+              {t(image.caption)}
+            </figcaption>
+          )}
+        </figure>
+      ))}
+    </div>
+  );
     case "link":
       return (
         <div key={index} className="text-lg">
