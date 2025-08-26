@@ -1,52 +1,53 @@
 {
   "teacher-test": {
     "title": "Tea Time",
-    "subtitle": "Mobile Study App for the Elementary Teacher Exam",
-    "description": "This is a mobile learning app for prospective teachers preparing for the elementary school teacher certification exam in South Korea. It helps users get one step closer to passing by allowing them to study the vast curriculum content in a quiz format anytime, anywhere, and systematically manage their incorrect answers. Built with Flutter, the app is designed for efficient learning of key content during commutes or spare moments.",
+    "subtitle": "Mobile Learning App for Elementary Teacher Certification",
+    "description": "Tea Time is a mobile learning app designed for pre-service teachers preparing for the Korean elementary teacher certification exam. It helps candidates study the vast curriculum anytime, anywhere through quiz-based learning, while systematically managing incorrect answers to bring them closer to success. Built with Flutter, the app is designed to allow efficient learning of key content during commute times or short breaks.",
     "overview": {
       "projectType": "Personal Project",
-      "introduction": "A mobile learning tool aimed at preparing for the elementary school teacher certification exam, providing curriculum-based questions and incorrect answer management.",
-      "features": "Curriculum/General Principles-based tests, Incorrect Answer Notes"
+      "introduction": "A mobile study tool for teacher certification, providing curriculum-based questions and error management",
+      "features": "Curriculum/General Theory tests, Wrong Answer Notes"
     },
     "summaries": {
       "development": {
-        "title": "Implemented Features & Development Process",
+        "title": "Implemented Features and Development Process",
         "parts": {
           "0": {
-            "0": "The main screen provides a countdown to the exam, a list of incorrect answers, and a feature to review them."
+            "subtitle": "Main Screen Features",
+            "caption": "Main Screen",
+            "0": "The main screen was designed to motivate learning by displaying the countdown to the exam date and test results. Exam dates are calculated based on the weekday of November 1st: if it falls on a Sunday, the exam is set for the 7th; otherwise, the next Saturday is calculated from the weekday of the 1st. Wrong answers are managed in Firestore, with each incorrect question and timestamp uploaded after a test. On other devices, data is synchronized if the locally stored timestamp is outdated."
           },
           "1": {
-            "0": "Provides learning features for the curriculum's content organization table, achievement standards, and general principles."
+            "subtitle": "Curriculum Test with Multi-dimensional Arrays",
+            "caption1": "Curriculum Content Table",
+            "caption2": "Curriculum Test"
           },
           "2": {
-            "0": "Provides a content organization table and test functions for each grade group."
+            "subtitle": "Managing Multi-dimensional Arrays",
+            "caption": "Multi-dimensional Array Management",
+            "0": "To display and test the curriculum content table, each value needed to be componentized. Rendering also varied by grade cluster. To handle this, I implemented a multi-dimensional array structured as Subject > Grade Group > Domain > Category > Detail. This made function implementation simpler and allowed additional detail to be included when implementing the wrong answer notes."
           },
-          "3": { "0": "Provides a test mode for each grade group." },
-          "4": { "0": "In test mode, users can check their own answers." },
-          "5": {
-            "0": "By copying the original text and their own answer, users can see the differences between their answer and the correct one on the main screen."
-          },
-          "6": {
-            "0": "Provides learning for curriculum achievement standards."
-          },
-          "7": {
-            "0": "Provides a learning feature for the curriculum's general principles."
+          "3": {
+            "subtitle": "Answer Comparison",
+            "caption1": "Answer Checking in Test Mode",
+            "caption2": "Comparison of Original vs. User’s Answer",
+            "0": "Since identifying errors at the sentence level takes time, enabling users to see exactly where mistakes occurred helped reduce time when reviewing answers. I implemented character-by-character comparison with and without spacing considered, and highlighted incorrect parts with a red background. This significantly improved the user experience in error review."
           }
         }
       },
       "results": {
-        "title": "Results & Retrospective",
+        "title": "Results and Retrospective",
         "parts": {
           "0": {
             "0": "Results",
-            "1": "Implemented curriculum-based problem-solving feature.",
-            "2": "Provided automatic recording of incorrect answers and a re-learning flow.",
-            "3": "Backup of incorrect answer list using Firebase."
+            "1": "Implemented curriculum-based problem solving features",
+            "2": "Provided automatic wrong-answer recording and re-learning flow",
+            "3": "Backed up error lists using Firebase"
           },
           "1": {
             "0": "Retrospective",
-            "1": "Understood the complexity of data segmentation and utilizing multi-dimensional arrays.",
-            "2": "Gained understanding of cross-platform app design."
+            "1": "Gained deeper understanding of complexity in data segmentation and multi-dimensional arrays",
+            "2": "Improved knowledge of cross-platform app design"
           }
         }
       },
@@ -56,34 +57,34 @@
     },
     "features": [
       {
-        "name": "📚 Curriculum-Based Questions",
-        "description": "Provides questions based on the curriculum (achievement standards) for all elementary grades and subjects."
+        "name": "📚 Curriculum-based Questions",
+        "description": "Provides questions based on the national curriculum (achievement standards) across all grades and subjects"
       },
       {
-        "name": "✍️ Various Learning Modes",
-        "description": "Check your skills with various learning modes such as by subject, by grade, or random."
+        "name": "✍️ Diverse Learning Modes",
+        "description": "Test knowledge with subject-based, grade-based, or random modes"
       },
       {
-        "name": "❌ Systematic Incorrect Answer Note",
-        "description": "Automatically records incorrect answers and allows for re-learning with explanations."
+        "name": "❌ Systematic Wrong Answer Notes",
+        "description": "Automatically record incorrect answers with explanations for review"
       },
       {
         "name": "📊 Learning Statistics",
-        "description": "Visualize overall and subject-specific correct answer rates to understand learning progress."
+        "description": "Visualize overall and subject-specific accuracy to track progress"
       }
     ],
     "developmentProcess": [
       {
-        "title": "Planning & Architecture Design",
-        "content": "Designed question structure based on curriculum and modeled DB/metadata."
+        "title": "Planning and Architecture Design",
+        "content": "Designed question structures based on curriculum and modeled DB/metadata"
       },
       {
         "title": "Feature Implementation",
-        "content": "Implemented core learning features such as question solving, incorrect answer notes, search, and statistics."
+        "content": "Implemented core study features such as quizzes, wrong-answer notes, search, and statistics"
       },
       {
-        "title": "Deployment & Operation",
-        "content": "Prepared for App Store submission, optimized resources, and reflected user feedback."
+        "title": "Deployment and Operation",
+        "content": "Prepared for app store submission, optimized resources, and integrated user feedback"
       }
     ]
   }
