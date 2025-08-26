@@ -12,11 +12,9 @@
     "architecture": "/images/recho/overview/architecture.png",
     "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"],
     "role": "recho.overview.role",
-    "links": {
-      "github": "https://github.com/JungleTeam5/Recho",
-      "demo": "https://recho.cloud",
-      "notion": null
-    }
+    "github": "https://github.com/JungleTeam5/Recho",
+    "demo": "https://recho.cloud",
+    "notion": null
   },
   "summaries": [
     {
@@ -81,7 +79,7 @@
       "title": "recho.summaries.results.title",
       "parts": [
         [
-          { "type": "text", "content": "recho.summaries.results.parts.0.0" },
+          { "type": "subtitle", "id": "result", "content": "recho.summaries.results.parts.0.0" },
           { "type": "text", "content": "recho.summaries.results.parts.0.1" },
           { "type": "text", "content": "recho.summaries.results.parts.0.2" },
           { "type": "text", "content": "recho.summaries.results.parts.0.3" },
@@ -89,7 +87,7 @@
           { "type": "text", "content": "recho.summaries.results.parts.0.5" }
         ],
         [
-          { "type": "text", "content": "recho.summaries.results.parts.1.0" },
+          { "type": "subtitle", "id": "retrospect",  "content": "recho.summaries.results.parts.1.0" },
           { "type": "text", "content": "recho.summaries.results.parts.1.1" },
           { "type": "text", "content": "recho.summaries.results.parts.1.2" },
           { "type": "text", "content": "recho.summaries.results.parts.1.3" },
