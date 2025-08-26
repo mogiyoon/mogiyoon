@@ -25,33 +25,33 @@
       "parts": [
         [
           { "type": "subtitle","id": "ffmpeg_implement","content": "recho.summaries.development.parts.0.subtitle" },
-          { "type": "image", "alt": "비디오 편집 로직", "src": "/images/recho/overview/videoLogic.png" },
+          { "type": "image", "alt": "비디오 편집 로직", "src": "/images/recho/overview/videoLogic.png", "caption": "recho.summaries.development.parts.0.caption" },
           { "type": "text", "content": "recho.summaries.development.parts.0.0" },
           { "type": "text", "content": "recho.summaries.development.parts.0.1" }
         ],
         [
           { "type": "subtitle","id": "component_refactor","content": "recho.summaries.development.parts.1.subtitle" },
-          { "type": "image", "alt": "컴포넌트 리팩토링 및 로그인 정보 전역 상태 관리", "src": "/images/recho/overview/componentRefactoring.png" },
+          { "type": "image", "alt": "컴포넌트 리팩토링 및 로그인 정보 전역 상태 관리", "src": "/images/recho/overview/componentRefactoring.png", "caption": "recho.summaries.development.parts.1.caption" },
           { "type": "text", "content": "recho.summaries.development.parts.1.0" }
         ],
         [
           { "type": "subtitle","id": "session_crud","content": "recho.summaries.development.parts.2.subtitle" },
-          { "type": "image", "alt": "CRUD 구현", "src": "/images/recho/overview/crudImplement.png" },
+          { "type": "image", "alt": "CRUD 구현", "src": "/images/recho/overview/crudImplement.png", "caption": "recho.summaries.development.parts.2.caption" },
           { "type": "text", "content": "recho.summaries.development.parts.2.0" }
         ],
         [
           { "type": "subtitle","id": "reply_refactor","content": "recho.summaries.development.parts.3.subtitle" },
-          { "type": "image", "alt": "좋아요, 댓글 리팩토링", "src": "/images/recho/overview/likeReply.png", "width": "60%"},
+          { "type": "image", "alt": "좋아요, 댓글 리팩토링", "src": "/images/recho/overview/likeReply.png", "width": "60%", "caption": "recho.summaries.development.parts.3.caption" },
           { "type": "text", "content": "recho.summaries.development.parts.3.0" }
         ],
         [
           { "type": "subtitle","id": "server","content": "recho.summaries.development.parts.4.subtitle" },
-          { "type": "image", "alt": "서버 구축", "src": "/images/recho/overview/changedArchitecture.png" },
+          { "type": "image", "alt": "서버 구축", "src": "/images/recho/overview/changedArchitecture.png", "caption": "recho.summaries.development.parts.4.caption" },
           { "type": "text", "content": "recho.summaries.development.parts.4.0" }
         ],
         [
           { "type": "subtitle","id": "issue","content": "recho.summaries.development.parts.5.subtitle" },
-          { "type": "image", "alt": "이슈 클로즈", "src": "/images/recho/overview/issueClose.png" },
+          { "type": "image", "alt": "이슈 클로즈", "src": "/images/recho/overview/issueClose.png", "caption": "recho.summaries.development.parts.5.caption" },
           { "type": "text", "content": "recho.summaries.development.parts.5.0" }
         ]
       ]
@@ -61,14 +61,14 @@
       "title": "recho.summaries.troubleshooting.title",
       "parts": [
         [{ "type": "subtitle","id": "issue","content": "recho.summaries.troubleshooting.parts.0.subtitle" }],
-        [{ "type": "image", "src": "/images/recho/overview/TroubleShooting1.png", "alt": "프로젝트 아키텍처 다이어그램" }],
+        [{ "type": "image", "src": "/images/recho/overview/TroubleShooting1.png", "alt": "프로젝트 아키텍처 다이어그램", "caption": "recho.summaries.troubleshooting.parts.0.caption"}],
         [
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.0.0" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.0.1" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.0.2" }
         ],
         [{ "type": "subtitle","id": "issue","content": "recho.summaries.troubleshooting.parts.1.subtitle" }],
-        [{ "type": "image", "src": "/images/recho/overview/TroubleShooting2.png", "alt": "프로젝트 아키텍처 다이어그램" }],
+        [{ "type": "image", "src": "/images/recho/overview/TroubleShooting2.png", "alt": "프로젝트 아키텍처 다이어그램", "caption": "recho.summaries.troubleshooting.parts.1.caption" }],
         [
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.1.0" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.1.1" },
