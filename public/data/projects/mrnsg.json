@@ -10,10 +10,8 @@
     "introduction": "mrnsg.overview.introduction",
     "features": "mrnsg.overview.features",
     "techStack": ["TypeScript"],
-    "links": {
-      "github": "https://github.com/mogiyoon/mogiyoon-react-native-simple-grid",
-      "demo": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid"
-    }
+    "github": "https://github.com/mogiyoon/mogiyoon-react-native-simple-grid",
+    "demo": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid"
   },
   "summaries": [
     {
@@ -21,17 +19,20 @@
       "title": "mrnsg.summaries.development.title",
       "parts": [
         [
-          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/recentNpm.png" },
+          { "type": "subtitle", "id": "cause", "content": "mrnsg.summaries.development.parts.0.subtitle" },
+          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/recentNpm.png", "caption": "mrnsg.summaries.development.parts.0.caption" },
           { "type": "text", "content": "mrnsg.summaries.development.parts.0.0" }
         ],
         [
-          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/implementList.png" },
+          { "type": "subtitle", "id": "process", "content": "mrnsg.summaries.development.parts.1.subtitle" },
+          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/implementList.png", "caption": "mrnsg.summaries.development.parts.1.caption1" },
           { "type": "text", "content": "mrnsg.summaries.development.parts.1.0" },
-          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/implementRow.png" },
+          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/implementRow.png", "caption": "mrnsg.summaries.development.parts.1.caption2" },
           { "type": "text", "content": "mrnsg.summaries.development.parts.1.1" }
         ],
         [
-          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/typeScript.png", "width": "400px" },
+          { "type": "subtitle", "id": "deploy", "content": "mrnsg.summaries.development.parts.2.subtitle" },
+          { "type": "image", "alt": "npm 사진", "src": "/images/mrnsg/overview/typeScript.png", "width": "40%", "caption": "mrnsg.summaries.development.parts.2.caption" },
           { "type": "text", "content": "mrnsg.summaries.development.parts.2.0" }
         ]
       ]
@@ -41,7 +42,8 @@
       "title": "mrnsg.summaries.troubleshooting.title",
       "parts": [
         [
-          { "type": "image", "alt": "Document 사이트", "src": "/images/mrnsg/overview/TroubleShooting1.png", "caption": "mrnsg.summaries.troubleshooting.parts.0.0" },
+          { "type": "subtitle", "id": "troubleshooting", "content": "mrnsg.summaries.troubleshooting.parts.0.subtitle" },
+          { "type": "image", "alt": "Document 사이트", "src": "/images/mrnsg/overview/TroubleShooting1.png", "caption": "mrnsg.summaries.troubleshooting.parts.0.caption" },
           { "type": "text", "content": "mrnsg.summaries.troubleshooting.parts.1.0" },
           { "type": "text", "content": "mrnsg.summaries.troubleshooting.parts.1.1" },
           { "type": "link", "label": "Create React Native Library NPM", "href": "https://www.npmjs.com/package/create-react-native-library" },
@@ -55,12 +57,12 @@
       "title": "mrnsg.summaries.results.title",
       "parts": [
         [
-          { "type": "text", "content": "mrnsg.summaries.results.parts.0.0" },
+          { "type": "subtitle", "id": "result", "content": "mrnsg.summaries.results.parts.0.0" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.0.1" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.0.2" }
         ],
         [
-          { "type": "text", "content": "mrnsg.summaries.results.parts.1.0" },
+          { "type": "subtitle", "id": "retrospect", "content": "mrnsg.summaries.results.parts.1.0" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.1.1" },
           { "type": "text", "content": "mrnsg.summaries.results.parts.1.2" }
         ]
