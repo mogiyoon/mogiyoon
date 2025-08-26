@@ -1,14 +1,19 @@
 import React from 'react';
 // '요약'의 각 파트를 위한 타입 (글 또는 이미지)
 type SummaryTextPart = { type: 'text'; content: string; };
-type SummaryImagePart = { type: 'image'; src: string; alt: string; caption?: string; width?: string; ratio?: string; };
 type SummaryLinkPart = { type: 'link'; label: string; href: string };
+type SummaryImagePart = { type: 'image'; src: string; alt: string; caption?: string; width?: string; ratio?: string; };
+type SummaryImageGroupPart = {
+  type: 'image-group';
+  width?: string;
+  images: Omit<SummaryImagePart, 'type'>[];
+};
 type SummarySubtitlePart = {
   type: 'subtitle';
   id: string;      // 해시 링크를 위한 고유 ID
   content: string; // 부제목 텍스트
 };
-export type SummaryPart = SummaryTextPart | SummaryImagePart | SummaryLinkPart | SummarySubtitlePart;
+export type SummaryPart = SummaryTextPart | SummaryImagePart | SummaryImageGroupPart | SummaryLinkPart | SummarySubtitlePart;
 
 // '개요'를 제외한 '요약' 섹션 타입
 export interface SummarySection {
