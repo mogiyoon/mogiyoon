@@ -1,4 +1,5 @@
 {
+  "$schema": "./project-schema.json",
   "id": "test-maker",
   "title": "test-maker.title",
   "subtitle": "test-maker.subtitle",
@@ -10,7 +11,8 @@
     "introduction": "test-maker.overview.introduction",
     "features": "test-maker.overview.features",
     "techStack": ["React Native", "Google Vision API", "Redux"],
-    "github": "https://github.com/mogiyoon/Test_Maker"
+    "github": "https://github.com/mogiyoon/Test_Maker",
+    "demo": "https://play.google.com/store/apps/details?id=com.test_maker"
   },
   "summaries": [
     {
