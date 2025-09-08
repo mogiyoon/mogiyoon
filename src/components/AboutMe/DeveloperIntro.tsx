@@ -2,7 +2,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Firework } from './Firework';
+import { ShootingStar } from './ShootingStart';
 
 interface FireworkPosition {
   id: number;
@@ -53,11 +53,10 @@ export const DeveloperIntro: React.FC = () => {
   return (
     <section ref={targetRef} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className='absolute inset-0 bg-gradient-to-tr from-yellow-50 via-red-10 to-orange-100 text-gray-800 overflow-hidden'>
+        <div className='absolute inset-0 bg-gradient-to-b from-gray-800 from-20% via-blue-900 via-80% to-orange-700 text-white overflow-hidden'>
           <div className="absolute inset-0 z-0">
             {fireworkPositions.map((pos, index) => (
-              // ✅ 3. 각 폭죽에 계산된 딜레이를 전달합니다.
-              <Firework
+              <ShootingStar
                 key={pos.id}
                 top={pos.top}
                 left={pos.left}
