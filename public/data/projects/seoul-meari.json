@@ -1,0 +1,339 @@
+{
+  "id": "seoul-meari",
+  "title": "seoul-meari.title",
+  "subtitle": "seoul-meari.subtitle",
+  "demoGifSrc": "/images/seoulMeari/appGif.gif",
+  "description": "seoul-meari.description",
+  "overview": {
+    "projectType": "seoul-meari.overview.projectType",
+    "period": "2025.08 ~ 2025.09",
+    "introduction": "seoul-meari.overview.introduction",
+    "features": "seoul-meari.overview.features",
+    "techStack": [
+      "Nest.js",
+      "React",
+      "React Native",
+      "ffmpeg",
+      "AWS",
+      "PostgreSQL"
+    ],
+    "role": "seoul-meari.overview.role",
+    "github": "https://github.com/Seoul-Meari",
+    "demo": "https://dev.d1kkujxdgesuxm.amplifyapp.com",
+    "notion": null
+  },
+  "summaries": [
+    {
+      "id": "development",
+      "title": "seoul-meari.summaries.development.title",
+      "parts": [
+        [
+          {
+            "type": "subtitle",
+            "id": "ffmpeg_implement",
+            "content": "seoul-meari.summaries.development.parts.0.subtitle"
+          },
+          {
+            "type": "image",
+            "alt": "AR 메아리",
+            "src": "/images/seoulMeari/overview/arMeari.png",
+            "width": "35%",
+            "caption": "seoul-meari.summaries.development.parts.0.caption"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.development.parts.0.0"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "component_refactor",
+            "content": "seoul-meari.summaries.development.parts.1.subtitle"
+          },
+          {
+            "type": "image",
+            "alt": "VR 시간 여행",
+            "src": "/images/seoulMeari/overview/vrTravel.png",
+            "width": "35%",
+            "caption": "seoul-meari.summaries.development.parts.1.caption"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.development.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.development.parts.1.1"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "reply_refactor",
+            "content": "seoul-meari.summaries.development.parts.2.subtitle"
+          },
+          {
+            "type": "image",
+            "alt": "AR 도슨트",
+            "src": "/images/seoulMeari/overview/arDocent.png",
+            "width": "35%",
+            "caption": "seoul-meari.summaries.development.parts.2.caption"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.development.parts.2.0"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "session_crud",
+            "content": "seoul-meari.summaries.development.parts.3.subtitle"
+          },
+          {
+            "type": "image",
+            "alt": "도시 진단",
+            "src": "/images/seoulMeari/overview/urbanAnalyze.png",
+            "caption": "seoul-meari.summaries.development.parts.3.caption"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.development.parts.3.0"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.development.parts.3.1"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "title": "seoul-meari.summaries.troubleshooting.title",
+      "parts": [
+        [
+          {
+            "type": "subtitle",
+            "id": "issue",
+            "content": "seoul-meari.summaries.troubleshooting.parts.0.subtitle"
+          }
+        ],
+        [
+          {
+            "type": "image",
+            "src": "/images/seoulMeari/overview/TroubleShooting1.png",
+            "alt": "GPS 튐으로 인한 메시지 변화",
+            "width": "70%",
+            "caption": "seoul-meari.summaries.troubleshooting.parts.0.caption00"
+          },
+          {
+            "type": "image",
+            "src": "/images/seoulMeari/overview/TroubleShooting2.png",
+            "alt": "GPS 튐으로 인한 메시지 변화",
+            "width": "70%",
+            "caption": "seoul-meari.summaries.troubleshooting.parts.0.caption01"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.0.0"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.0.1"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.0.2"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "issue",
+            "content": "seoul-meari.summaries.troubleshooting.parts.1.subtitle"
+          }
+        ],
+        [
+          {
+            "type": "image",
+            "src": "/images/seoulMeari/overview/TroubleShooting3.png",
+            "alt": "오브젝트 관계 변경",
+            "width": "30%",
+            "caption": "seoul-meari.summaries.troubleshooting.parts.1.caption10"
+          },
+          {
+            "type": "image",
+            "src": "/images/seoulMeari/overview/TroubleShooting4.png",
+            "alt": "Pose Driver 컴포넌트 추가",
+            "width": "60%",
+            "caption": "seoul-meari.summaries.troubleshooting.parts.1.caption11"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.1.1"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.1.2"
+          },          
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.1.3"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "issue",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.subtitle"
+          }
+        ],
+        [
+          {
+            "type": "image",
+            "src": "/images/seoulMeari/overview/TroubleShooting5.png",
+            "alt": "AI 대첩 승리",
+            "width": "60%",
+            "caption": "seoul-meari.summaries.troubleshooting.parts.2.caption"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.0"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.1"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.2"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.3"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.4"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.5"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.6"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "results",
+      "title": "seoul-meari.summaries.results.title",
+      "parts": [
+        [
+          {
+            "type": "subtitle",
+            "id": "result",
+            "content": "seoul-meari.summaries.results.parts.0.0"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.0.1"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.0.2"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.0.3"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.0.4"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.0.5"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.0.6"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "retrospect",
+            "content": "seoul-meari.summaries.results.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.1.1"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.1.2"
+          },
+          {
+            "type": "text",
+            "content": "seoul-meari.summaries.results.parts.1.3"
+          }
+        ]
+      ]
+    },
+    { "id": "blank", "title": "seoul-meari.summaries.blank.title", "parts": [] }
+  ],
+  "features": [
+    {
+      "name": "seoul-meari.features.0.name",
+      "description": "seoul-meari.features.0.description",
+      "icon": "CommunityIcon"
+    },
+    {
+      "name": "seoul-meari.features.1.name",
+      "description": "seoul-meari.features.1.description",
+      "icon": "VideoIcon"
+    },
+    {
+      "name": "seoul-meari.features.2.name",
+      "description": "seoul-meari.features.2.description",
+      "icon": "ShortFormIcon"
+    },
+    {
+      "name": "seoul-meari.features.3.name",
+      "description": "seoul-meari.features.3.description",
+      "icon": "MarketIcon"
+    }
+  ],
+  "screenshots": [
+    { "title": "seoul-meari 앱 로고", "src": "/images/seoulMeari/Icon.svg" }
+  ],
+  "developmentProcess": [
+    {
+      "title": "seoul-meari.developmentProcess.0.title",
+      "content": "seoul-meari.developmentProcess.0.content"
+    },
+    {
+      "title": "seoul-meari.developmentProcess.1.title",
+      "content": "seoul-meari.developmentProcess.1.content"
+    },
+    {
+      "title": "seoul-meari.developmentProcess.2.title",
+      "content": "seoul-meari.developmentProcess.2.content"
+    }
+  ],
+  "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" }
+}
