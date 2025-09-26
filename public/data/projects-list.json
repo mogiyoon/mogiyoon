@@ -1,12 +1,20 @@
 [
   {
+    "id": "seoul-meari",
+    "title": "seoul-meari.title",
+    "subtitle": "seoul-meari.subtitle",
+    "projectType": "seoul-meari.overview.projectType",
+    "screenshots": [{ "src": "/images/seoulMeari/Icon.png", "alt": "seoul-meari Thumbnail" }],
+    "techStack": ["React", "Nest.js", "FastAPI", "Unity", "AR/VR", "AWS", "PostgreSQL"]
+  },
+  {
     "id": "recho",
     "title": "recho.title",
     "subtitle": "recho.subtitle",
     "projectType": "recho.overview.projectType",
     "screenshots": [{ "src": "/images/recho/Icon.svg", "alt": "Recho Thumbnail" }],
     "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"]
-  },
+  },  
   {
     "id": "test-maker",
     "title": "test-maker.title",

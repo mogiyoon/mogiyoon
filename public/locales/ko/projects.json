@@ -1,5 +1,12 @@
 {
   "projectTitle": "프로젝트",
+  "seoul-meari": {
+    "title": "Seoul Meari",
+    "subtitle": "시민의 일상이 도시의 미래가 되는 AR 소셜 플랫폼",
+    "overview": {
+      "projectType": "팀 프로젝트 (해커톤)"
+    }
+  },
   "recho": {
     "title": "Recho",
     "subtitle": "음악으로 나를 알리는 플랫폼",
@@ -7,7 +14,6 @@
       "projectType": "팀 프로젝트"
     }
   },
-
   "test-maker": {
     "title": "Test Maker",
     "subtitle": "나만의 단어장, 나만의 시험지",
