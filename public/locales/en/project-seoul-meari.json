@@ -1,0 +1,143 @@
+{
+  "seoul-meari": {
+    "title": "Seoul Meari",
+    "subtitle": "An MR Social Platform Where Citizens’ Daily Lives Shape the Future of the City",
+    "description": "‘Seoul Meari’ is a public service platform that collects urban data naturally through AR guestbooks left by citizens and VR historical experiences. AI then analyzes the data to proactively detect and report urban risks. The app ensures positional accuracy via GPS and runs computer vision in the background to automatically detect anomalies such as road damage and facility deterioration.",
+    "overview": {
+      "projectType": "Team Project (Hackathon)",
+      "introduction": "A social platform that combines AR guestbooks left by citizens, AI docents providing explanations, VR historical time travel, and AI-driven urban diagnostics.",
+      "features": "Spatial Echo (AR guestbook), Time Exploration (VR history), AI City Diagnosis",
+      "role": "Unity, Frontend, Backend, AR/VR Integration, AWS Server Deployment"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features & Development Process",
+        "parts": {
+          "0": {
+            "subtitle": "Spatial Echo (AR Guestbook)",
+            "caption": "A location-based social system created within the AR camera app",
+            "0": "The GPS is divided into large grids. As users move, messages corresponding to the current grid’s GPS are retrieved. Objects are spawned using a queue-based system and managed through a hash table."
+          },
+          "1": {
+            "subtitle": "Time Exploration (Landmark-based VR History)",
+            "caption": "GPS-based rendering of past landscapes and 3D objects",
+            "0": "When near a specific landmark based on GPS, past images, 3D objects, and explanations of that place are generated in VR. This allows potential for collaborations with companies and event-based spaces.",
+            "1": "Admins upload asset bundles and metadata separately to the CDN and server. The client retrieves package metadata (e.g., gyeongbokgung_v1) → downloads from CDN in parallel → caches locally → loads in-game in the order of manifest/dependencies/target bundles."
+          },
+          "2": {
+            "subtitle": "AR Docent",
+            "caption": "Photo and GPS-based multimodal explanation system",
+            "0": "Using the photo and location captured by the user, an AI docent explains the surrounding environment in context, offering intuitive AR guidance on historical significance, spatial features, and cultural meaning."
+          },
+          "3": {
+            "subtitle": "AI City Diagnosis Engine",
+            "caption": "Asynchronous background analysis of captured data for anomaly detection",
+            "0": "Original captured data (anonymized) is tagged by YOLO for potholes, cracks, tilted signs, rusted streetlights, etc. Tagged information is uploaded to the server, where the vision model detects and classifies risks. Repeated detections and duplicate reports are clustered and integrated to generate reports with confidence scores.",
+            "1": "Presigned URL-based uploads → analysis pipeline → clustering & deduplication → dashboard visualization (heatmaps, evidence images, processing status)."
+          }
+        }
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "parts": {
+          "0": {
+            "subtitle": "Message Jumps Due to GPS Drift",
+            "caption00": "Overriding the Equal Method Using ID Values",
+            "caption01": "Prevented unnecessary rendering by looking up ID values in the active message dictionary",
+            "0": "Applied smoothingFactor (e.g., 0.1) to update corrected coordinates and mitigate sudden position changes.",
+            "1": "Visibility determination, spawning, and unloading were based on corrected coordinates; the actual spawn moment still used the latest GPS for accuracy.",
+            "2": "Objects already generated were rendered using IDs and hash tables, maintaining stable rendering despite abrupt GPS fluctuations."
+          },
+          "1": {
+            "subtitle": "XR Camera Collision",
+            "caption10": "Moved Cesium’s Dynamic Camera (BG Camera) under XR Origin",
+            "caption11": "Attached a Tracked Pose Driver to capture camera movement",
+            "0": "The XR Origin’s main camera conflicted with Cesium Georeference’s Dynamic Camera, so the dynamic camera was moved under XR Origin.",
+            "1": "The main camera still displayed the real world and produced errors, so it was disabled.",
+            "2": "Although the virtual world was rendered, it did not follow device movement. Checking XR Origin revealed a Tracked Pose Driver on the Camera.",
+            "3": "The issue was solved by deleting the Main Camera and attaching the Pose Driver to the Dynamic Camera."
+          },
+          "2": {
+            "subtitle": "Abnormal Movement in Cesium World",
+            "caption": "Interaction Between Anchor/Transform and Origin Shift",
+            "0": "Location updates from GPS caused position jumps even when stationary. Since updates occurred every 10 seconds, GPS was assumed to be the cause.",
+            "1": "Suspecting excessive reflection of GPS values into Cesium Globe Anchor, both Anchor and Transform values were logged to identify the cause.",
+            "2": "The root cause turned out to be conflicts between AR and VR.",
+            "3": "Initially resolved by disabling Detect Transform Change in Cesium Globe Anchor.",
+            "4": "This prevented camera drift but stopped Anchor’s GPS values from updating.",
+            "5": "CesiumOriginShift mitigates floating-point precision issues by periodically moving the Georeference origin closer to the player when traveling far distances.",
+            "6": "However, this prevented Cesium Georeference from following the player.",
+            "7": "Therefore, the GPS initial position was set as the Georeference origin."
+          }
+        }
+      },
+      "results": {
+        "title": "Results & Future Plans",
+        "parts": {
+          "0": {
+            "0": "Results",
+            "1": "Learned various positioning technologies such as GPS, SLAM, VPS, and Cesium Georeference while attempting AR/VR integration in Unity 2022.3 LTS.",
+            "2": "Implemented Lerp-based smoothing to mitigate GPS drift, and solved XR Origin vs Cesium Dynamic Camera conflicts, gaining deeper understanding of camera system structures.",
+            "3": "Recognized the necessity of streaming parsers for large JSON data and implemented an end-to-end flow including Presigned URL uploads and analysis pipelines, bridging client-server integration.",
+            "4": "‘Seoul Meari’ is more than just a tech demo; it demonstrates how small citizen records can shape the future of the city.",
+            "5": "The echoes left behind accumulate into a collective story map, connecting past, present, and future experiences.",
+            "6": "This project envisions technology as a bridge between cities and citizens, where everyday participation contributes to both community safety and shared memories."
+          },
+          "1": {
+            "0": "Future Plans",
+            "1": "Security Reinforcement: Establish encryption and access control throughout the service.",
+            "2": "Data Anonymization: Build safe data processing pipelines with anonymization for privacy protection.",
+            "3": "Multilingual Translation: Enhance accessibility for global users with multilingual support and automated translation systems."
+          }
+        }
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      {
+        "name": "🗺️ Spatial Echo (AR Guestbook)",
+        "description": "Leave text, emojis, and drawings in AR anywhere in the city and share them at the same spot."
+      },
+      {
+        "name": "🕰️ Time Exploration (Historical AR)",
+        "description": "When landmarks are recognized, past landscapes, 3D objects, and explanations overlay the present."
+      },
+      {
+        "name": "🤖 AI City Diagnosis",
+        "description": "Analyze captured data to automatically detect risks such as potholes, cracks, and deteriorated facilities."
+      },
+      {
+        "name": "🔗 QR + WebAR Onboarding",
+        "description": "Experience instantly with a QR code without installing the app, then use it anywhere with GPS."
+      },
+      {
+        "name": "📊 Administrative Dashboard Integration",
+        "description": "Visualize risks on maps, heatmaps, and evidence images while tracking processing flows."
+      },
+      {
+        "name": "🔒 Privacy Protection",
+        "description": "Sensitive info blurring, anonymized location data, retention policies, full HTTPS, and signed URLs."
+      }
+    ],
+    "development_process": [
+      {
+        "title": "Problem Definition",
+        "content": "Shift from post-incident reporting to proactive diagnostics, redesigning motivation around ‘recording/play’."
+      },
+      {
+        "title": "Key Hypothesis Validation (PoC)",
+        "content": "Validated reproducibility of WebAR guestbooks, landmark recognition reliability, and baseline accuracy of AI risk detection."
+      },
+      {
+        "title": "Data Pipeline Construction",
+        "content": "Completed E2E flow of presigned uploads → asynchronous analysis → clustering → dashboard visualization."
+      },
+      {
+        "title": "Beta & Metrics",
+        "content": "Set KPIs including dwell time, revisit rate, risk detection precision/recall, duplicate integration rate, and administrative processing lead time."
+      }
+    ]
+  }
+}

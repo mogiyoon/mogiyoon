@@ -1,5 +1,12 @@
 {
   "projectTitle": "Projects",
+  "seoul-meari": {
+    "title": "Seoul Meari",
+    "subtitle": "An AR Social Platform Linking Citizens and the City’s Future",
+    "overview": {
+      "projectType": "Team Project (Hackathon)"
+    }
+  },
   "recho": {
     "title": "Recho",
     "subtitle": "A Platform to Express Yourself Through Music",
