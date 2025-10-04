@@ -4,7 +4,8 @@
     "subtitle": "An MR Social Platform Where Citizens’ Daily Lives Shape the Future of the City",
     "description": "‘Seoul Meari’ is a public service platform that collects urban data naturally through AR guestbooks left by citizens and VR historical experiences. AI then analyzes the data to proactively detect and report urban risks. The app ensures positional accuracy via GPS and runs computer vision in the background to automatically detect anomalies such as road damage and facility deterioration.",
     "overview": {
-      "projectType": "Team Project (Hackathon)",
+      "projectType": "Team Project",
+      "other": "Grand Prize Winner(1st) - [2025 Seoul AI Hackathon]",
       "introduction": "A social platform that combines AR guestbooks left by citizens, AI docents providing explanations, VR historical time travel, and AI-driven urban diagnostics.",
       "features": "Spatial Echo (AR guestbook), Time Exploration (VR history), AI City Diagnosis",
       "role": "Unity, Frontend, Backend, AR/VR Integration, AWS Server Deployment"

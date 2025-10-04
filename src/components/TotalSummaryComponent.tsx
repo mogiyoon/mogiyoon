@@ -139,8 +139,15 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
           <div className="space-y-4 text-lg leading-relaxed">
             {project.overview.projectType && (
               <div className="flex">
-                <span className="font-semibold w-56 shrink-0">
+                <span className="font-semibold w-100 shrink-0">
                   ▪️ {t(project.overview.projectType || '')}
+                </span>
+              </div>
+            )}
+            {project.overview.other && (
+              <div className="flex">
+                <span className="font-semibold w-100 shrink-0">
+                  ▪️ {t(project.overview.other || '')}
                 </span>
               </div>
             )}

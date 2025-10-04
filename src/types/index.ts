@@ -35,6 +35,9 @@ export interface ProjectSummary {
     projectType: string;
     screenshots: { src: string; alt: string; }[];
     techStack: string[];
+    stickerText?: string;
+    stickerColor?: string;
+    stickerIcon?: string;
 }
 
 // '개요' 섹션을 위한 타입
@@ -50,6 +53,7 @@ export interface ProjectOverview {
   github?: string;           // GitHub 링크
   demo?: string;             // 배포 링크
   notion?: string;           // 기획 문서 등 기타 링크
+  other? : string;
 }
 
 // 최종 프로젝트 데이터 타입
