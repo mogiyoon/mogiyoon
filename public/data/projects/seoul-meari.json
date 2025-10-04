@@ -6,17 +6,11 @@
   "description": "seoul-meari.description",
   "overview": {
     "projectType": "seoul-meari.overview.projectType",
+    "other": "seoul-meari.overview.other",
     "period": "2025.08 ~ 2025.09",
     "introduction": "seoul-meari.overview.introduction",
     "features": "seoul-meari.overview.features",
-    "techStack": [
-      "Nest.js",
-      "React",
-      "React Native",
-      "ffmpeg",
-      "AWS",
-      "PostgreSQL"
-    ],
+    "techStack": ["React", "Nest.js", "FastAPI", "Unity", "AR/VR", "AWS", "PostgreSQL"],
     "role": "seoul-meari.overview.role",
     "github": "https://github.com/Seoul-Meari",
     "demo": "https://dev.d1kkujxdgesuxm.amplifyapp.com",
