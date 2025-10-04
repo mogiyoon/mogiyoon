@@ -5,7 +5,9 @@
     "subtitle": "seoul-meari.subtitle",
     "projectType": "seoul-meari.overview.projectType",
     "screenshots": [{ "src": "/images/seoulMeari/Icon.png", "alt": "seoul-meari Thumbnail" }],
-    "techStack": ["React", "Nest.js", "FastAPI", "Unity", "AR/VR", "AWS", "PostgreSQL"]
+    "techStack": ["React", "Nest.js", "FastAPI", "Unity", "AR/VR", "AWS", "PostgreSQL"],
+    "stickerText": "1",
+    "stickerColor": "bg-yellow-400"
   },
   {
     "id": "recho",

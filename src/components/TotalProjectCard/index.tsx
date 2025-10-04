@@ -39,16 +39,6 @@ const TotalProjectCard: React.FC<TotalProjectCardProps> = ({ project, className 
                     <p className="text-gray-700 mb-6 leading-relaxed flex-grow">
                         {project.description}
                     </p>
-                    {/* <div className="mt-auto">
-                        <h4 className="font-semibold text-gray-700 mb-3">주요 기술 스택</h4>
-                        <div className="flex flex-wrap gap-2">
-                            {project.techStack.map((stack, index) => (
-                                <span key={index} className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-1 rounded-full">
-                                    {stack.category}
-                                </span>
-                            ))}
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </Link>
