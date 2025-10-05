@@ -18,7 +18,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
     { id: 'about', label: t('about') },
     { id: 'projects', label: t('projects') },
     { id: 'posts', label: t('posts') },
-    { id: 'crazyAbout', label: t('crazyAbout') },
+    // { id: 'crazyAbout', label: t('crazyAbout') },
   ];
 
   const handleLanguageChange = (lang: string) => {
@@ -44,7 +44,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
   }, [isDropdownOpen]);
 
   return (
-    <header className="h-20 flex items-center p-4">
+    <header className="h-20 flex items-center p-4 bg-gray-100">
       <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
         <Link to="/" onClick={() => setActiveTab('about')} className="flex items-center group">
           <img src="/logo.svg" alt="Mogiyoon Logo" className="h-10 w-10 mr-2 rounded-xl"/>
