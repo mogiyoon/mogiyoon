@@ -2,7 +2,6 @@ import React from 'react';
 import AboutSection from '../sections/home/AboutSection';
 import ProjectsSection from '../sections/home/ProjectsSection';
 import PostsSection from '../sections/home/PostSection';
-import CrazyAboutSection from '../sections/home/CrazyAboutSection';
 
 interface HomePageProps {
   activeTab: string;
@@ -19,8 +18,6 @@ const HomePage: React.FC<HomePageProps> = ({ activeTab }) => {
         return <ProjectsSection />;
       case 'posts':
         return <PostsSection />;
-      case 'crazyAbout':
-        return <CrazyAboutSection />;
       default:
         return <AboutSection />;
     }
