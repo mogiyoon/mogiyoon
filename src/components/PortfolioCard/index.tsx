@@ -53,7 +53,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                 {t(project.title || '')}
                             </h3>
                             <p className="
-                                text-gray-600 mb-2 hidden sm:block 
+                                text-gray-600 mb-2
                                 text-sm h-10 
                                 md:text-base md:h-20
                                 line-clamp-3
