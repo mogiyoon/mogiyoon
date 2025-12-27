@@ -25,7 +25,7 @@ const pageTransition = {
 
 const ProjectDetailPage: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
-    const { t, i18n } = useTranslation([`project-${projectId}`, 'common']);
+    const { t, i18n } = useTranslation([`projects/project-${projectId}`, 'common']);
 
     const [project, setProject] = useState<ProjectData | null>(null);
     const [isLoading, setIsLoading] = useState(true);

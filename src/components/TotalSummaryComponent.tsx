@@ -1,7 +1,7 @@
-import type { ProjectData, SummaryPart } from '../types';
+import type { ProjectData, SummaryPart } from "../types";
 import React, { useState } from "react";
-import type { TFunction } from 'i18next';
-import ToastNotification from './ToastNotification'; // Toast 컴포넌트 import
+import type { TFunction } from "i18next";
+import ToastNotification from "./ToastNotification"; // Toast 컴포넌트 import
 
 // Props 타입 정의
 interface TotalSummaryComponentProps {
@@ -21,8 +21,11 @@ const renderSummaryPart = (
   switch (part.type) {
     case "text":
       return (
-        <p key={index} className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap break-all">
-          {t(part.content || '')}
+        <p
+          key={index}
+          className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap break-all"
+        >
+          {t(part.content || "")}
         </p>
       );
     case "subtitle":
@@ -45,7 +48,7 @@ const renderSummaryPart = (
             alt={part.alt}
             className="rounded-xl shadow-lg border mx-auto"
             style={{
-              width: part.width ?? '80%',
+              width: part.width ?? "80%",
               aspectRatio: part.ratio,
             }}
             crossOrigin="anonymous"
@@ -57,36 +60,36 @@ const renderSummaryPart = (
           )}
         </figure>
       );
-case "image-group":
-  return (
-    // 💡 1. 그룹 전체의 너비를 적용하는 컨테이너
-    <div
-      key={index}
-      className="flex flex-col sm:flex-row my-6 gap-4 justify-center items-start mx-auto"
-      style={{ width: part.width ?? '100%' }}
-    >
-      {part.images.map((image, imgIndex) => (
-        <figure
-          key={imgIndex}
-          className={`text-center ${!image.width ? 'flex-1' : ''}`}
-          style={{ width: image.width }}
+    case "image-group":
+      return (
+        // 💡 1. 그룹 전체의 너비를 적용하는 컨테이너
+        <div
+          key={index}
+          className="flex flex-col sm:flex-row my-6 gap-4 justify-center items-start mx-auto"
+          style={{ width: part.width ?? "100%" }}
         >
-          <img
-            src={image.src}
-            alt={image.alt}
-            className="rounded-xl shadow-lg border mx-auto w-full"
-            style={{ aspectRatio: image.ratio }}
-            crossOrigin="anonymous"
-          />
-          {image.caption && (
-            <figcaption className="text-sm text-gray-400 mt-3">
-              {t(image.caption)}
-            </figcaption>
-          )}
-        </figure>
-      ))}
-    </div>
-  );
+          {part.images.map((image, imgIndex) => (
+            <figure
+              key={imgIndex}
+              className={`text-center ${!image.width ? "flex-1" : ""}`}
+              style={{ width: image.width }}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="rounded-xl shadow-lg border mx-auto w-full"
+                style={{ aspectRatio: image.ratio }}
+                crossOrigin="anonymous"
+              />
+              {image.caption && (
+                <figcaption className="text-sm text-gray-400 mt-3">
+                  {t(image.caption)}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      );
     case "link":
       return (
         <div key={index} className="text-lg">
@@ -108,23 +111,27 @@ case "image-group":
 /**
  * 메인 컴포넌트
  */
-const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t }) => {
-  const [toastMessage, setToastMessage] = useState<string>('');
+const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({
+  project,
+  t,
+}) => {
+  const [toastMessage, setToastMessage] = useState<string>("");
   const [linkCopySuccess, setLinkCopySuccess] = useState<boolean>(false);
 
   const handleCopyLink = (sectionId: string) => {
     const urlToCopy = `${window.location.origin}${window.location.pathname}#${sectionId}`;
-    navigator.clipboard.writeText(urlToCopy)
+    navigator.clipboard
+      .writeText(urlToCopy)
       .then(() => {
-        setToastMessage(t('linkCopied', { ns: 'common' }));
+        setToastMessage(t("linkCopied", { ns: "common" }));
         setLinkCopySuccess(true);
-        setTimeout(() => setToastMessage(''), 3000); // 3초 후 메시지 자동 제거
+        setTimeout(() => setToastMessage(""), 3000); // 3초 후 메시지 자동 제거
       })
-      .catch(err => {
-        console.error('Failed to copy link:', err);
-        setToastMessage(t('linkCopyFailed', { ns: 'common' }));
+      .catch((err) => {
+        console.error("Failed to copy link:", err);
+        setToastMessage(t("linkCopyFailed", { ns: "common" }));
         setLinkCopySuccess(false);
-        setTimeout(() => setToastMessage(''), 3000);
+        setTimeout(() => setToastMessage(""), 3000);
       });
   };
 
@@ -134,27 +141,27 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
         {/* --- Overview 섹션 --- */}
         <section id="summary-overview" className="mb-16 pb-8">
           <h2 className="text-3xl sm:text-4xl font-bold mb-8">
-            {t('projectDetail.overview', { ns: 'common' })}
+            {t("projectDetail.overview", { ns: "common" })}
           </h2>
           <div className="space-y-4 text-lg leading-relaxed">
-            {project.overview.projectType && (
-              <div className="flex">
-                <span className="font-semibold w-100 shrink-0">
-                  ▪️ {t(project.overview.projectType || '')}
-                </span>
-              </div>
-            )}
             {project.overview.other && (
               <div className="flex">
                 <span className="font-semibold w-100 shrink-0">
-                  ▪️ {t(project.overview.other || '')}
+                  ▪️ {t(project.overview.other || "")}
+                </span>
+              </div>
+            )}
+            {project.overview.projectType && (
+              <div className="flex">
+                <span className="font-semibold w-100 shrink-0">
+                  ▪️ {t(project.overview.projectType || "")}
                 </span>
               </div>
             )}
             {project.overview.period && (
               <div className="flex">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.period', { ns: 'common' })}
+                  ▪️ {t("projectDetail.period", { ns: "common" })}
                 </span>
                 <span>{project.overview.period}</span>
               </div>
@@ -162,57 +169,76 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
             {project.overview.introduction && (
               <div className="flex items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.introduction', { ns: 'common' })}
+                  ▪️ {t("projectDetail.introduction", { ns: "common" })}
                 </span>
-                <span className="flex-1">{t(project.overview.introduction || '')}</span>
+                <span className="flex-1">
+                  {t(project.overview.introduction || "")}
+                </span>
               </div>
             )}
             {project.overview.features && (
               <div className="flex items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.features', { ns: 'common' })}
+                  ▪️ {t("projectDetail.features", { ns: "common" })}
                 </span>
-                <span className="flex-1">{t(project.overview.features || '')}</span>
+                <span className="flex-1">
+                  {t(project.overview.features || "")}
+                </span>
               </div>
             )}
-            {project.overview.techStack && project.overview.techStack.length > 0 && (
-              <div className="flex items-start">
-                <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.techStack', { ns: 'common' })}
-                </span>
-                <span className="flex-1">{project.overview.techStack.join(", ")}</span>
-              </div>
-            )}
+            {project.overview.techStack &&
+              project.overview.techStack.length > 0 && (
+                <div className="flex items-start">
+                  <span className="font-semibold w-40 shrink-0">
+                    ▪️ {t("projectDetail.techStack", { ns: "common" })}
+                  </span>
+                  <span className="flex-1">
+                    {project.overview.techStack.join(", ")}
+                  </span>
+                </div>
+              )}
             {project.overview.architecture && (
-               <div className="flex flex-col items-start">
+              <div className="flex flex-col items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.architecture', { ns: 'common' })}
+                  ▪️ {t("projectDetail.architecture", { ns: "common" })}
                 </span>
-                <img src={project.overview.architecture} alt='Architecture' className="w-4/5 rounded-2xl shadow-md border mt-2 mx-auto"/>
+                <img
+                  src={project.overview.architecture}
+                  alt="Architecture"
+                  className="w-4/5 rounded-2xl shadow-md border mt-2 mx-auto"
+                />
               </div>
             )}
             {project.overview.role && (
               <div className="flex items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.role', { ns: 'common' })}
+                  ▪️ {t("projectDetail.role", { ns: "common" })}
                 </span>
-                <span className="flex-1">{t(project.overview.role || '')}</span>
+                <span className="flex-1">{t(project.overview.role || "")}</span>
               </div>
             )}
             {project.overview.implementationDetails && (
               <div className="flex items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.implementationDetails', { ns: 'common' })}
+                  ▪️{" "}
+                  {t("projectDetail.implementationDetails", { ns: "common" })}
                 </span>
-                <span className="flex-1">{t(project.overview.implementationDetails || '')}</span>
+                <span className="flex-1">
+                  {t(project.overview.implementationDetails || "")}
+                </span>
               </div>
             )}
             {project.overview.demo && (
               <div className="flex items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.website', { ns: 'common' })}
+                  ▪️ {t("projectDetail.website", { ns: "common" })}
                 </span>
-                <a href={project.overview.demo} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                <a
+                  href={project.overview.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 underline text-blue-600 break-all"
+                >
                   {project.overview.demo}
                 </a>
               </div>
@@ -220,9 +246,14 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
             {project.overview.github && (
               <div className="flex items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.github', { ns: 'common' })}
+                  ▪️ {t("projectDetail.github", { ns: "common" })}
                 </span>
-                <a href={project.overview.github} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                <a
+                  href={project.overview.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 underline text-blue-600 break-all"
+                >
                   {project.overview.github}
                 </a>
               </div>
@@ -230,9 +261,14 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
             {project.overview.notion && (
               <div className="flex items-start">
                 <span className="font-semibold w-40 shrink-0">
-                  ▪️ {t('projectDetail.notion', { ns: 'common' })}
+                  ▪️ {t("projectDetail.notion", { ns: "common" })}
                 </span>
-                <a href={project.overview.notion} target="_blank" rel="noopener noreferrer" className="flex-1 underline text-blue-600 break-all">
+                <a
+                  href={project.overview.notion}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 underline text-blue-600 break-all"
+                >
                   {project.overview.notion}
                 </a>
               </div>
@@ -249,7 +285,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
                 <div key={groupIndex} className="mb-6 pb-8 space-y-4">
                   {groupIndex === 0 && (
                     <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-                      {t(section.title || '')}
+                      {t(section.title || "")}
                     </h2>
                   )}
                   {partGroup.map((part, partIndex) =>
@@ -265,7 +301,11 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
         ))}
       </main>
 
-      <ToastNotification message={toastMessage} isSuccess={linkCopySuccess} show={!!toastMessage} />
+      <ToastNotification
+        message={toastMessage}
+        isSuccess={linkCopySuccess}
+        show={!!toastMessage}
+      />
     </>
   );
 };
