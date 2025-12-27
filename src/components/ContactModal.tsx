@@ -19,7 +19,7 @@ interface ContactModalProps {
 
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   const [active, setActive] = useState<ContactHoverKey | null>(null);
-  const [hyperlink, setHyperlink] = useState<string | null>(null);
+  const [hyperlink, setHyperlink] = useState<string | undefined>(undefined);
 
   // isOpen이 false이면 아무것도 렌더링하지 않음
   if (!isOpen) {
