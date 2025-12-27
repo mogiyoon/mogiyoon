@@ -7,7 +7,7 @@ interface InfoIconProps {
   activeKeyType: ContactHoverKey;
   active: ContactHoverKey | null;
   setActive: React.Dispatch<React.SetStateAction<ContactHoverKey | null>>;
-  setLink: React.Dispatch<React.SetStateAction<string | null>>;
+  setLink: React.Dispatch<React.SetStateAction<string | undefined>>;
   children: React.ReactNode;
 }
 
