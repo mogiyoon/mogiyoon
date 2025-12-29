@@ -1,4 +1,3 @@
-import { motion, useScroll, useSpring } from "framer-motion";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,13 +8,6 @@ interface InfoItem {
   period?: string;
   description?: string[];
   badge?: string;
-}
-
-interface SkillSet {
-  framework: string[];
-  language: string[];
-  db: string[];
-  infra: string[];
 }
 
 type WorkItem = {
@@ -34,33 +26,20 @@ export const MyInformation: React.FC = () => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 섹션 전체의 스크롤 진행률 추적
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // 진행 바 애니메이션 (부드럽게 보정)
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  // --- Data Definition ---
-  const educationItems = useMemo<InfoItem[]>(
-    () => [
-      {
-        title: "한국방송통신대학교 · 컴퓨터과학과",
-        period: "2025.03 - 재학중",
-      },
-      {
-        title: "제주대학교 · 초등교육학과",
-        period: "2019.03 - 2023.02",
-      },
-    ],
-    []
-  );
+  // // --- Data Definition ---
+  // const educationItems = useMemo<InfoItem[]>(
+  //   () => [
+  //     {
+  //       title: "한국방송통신대학교 · 컴퓨터과학과",
+  //       period: "2025.03 - 재학중",
+  //     },
+  //     {
+  //       title: "제주대학교 · 초등교육학과",
+  //       period: "2019.03 - 2023.02",
+  //     },
+  //   ],
+  //   []
+  // );
 
   const experienceItems = useMemo<InfoItem[]>(
     () => [
@@ -81,16 +60,6 @@ export const MyInformation: React.FC = () => {
         ],
       },
     ],
-    []
-  );
-
-  const skillsItems = useMemo<SkillSet>(
-    () => ({
-      framework: ["React", "React Native", "Nest.js", "SpringBoot"],
-      language: ["TypeScript", "C", "JAVA", "Python"],
-      db: ["PostgreSQL", "MongoDB"],
-      infra: ["AWS (EC2, S3, ALB, VPC, CloudFront)"],
-    }),
     []
   );
 
@@ -136,14 +105,60 @@ export const MyInformation: React.FC = () => {
     useState<IntroductionDataType>();
 
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    let active = false;
+    let locked = false;
+
+    // 이 섹션이 화면에 충분히 들어오면 active
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        active = entry.isIntersecting && entry.intersectionRatio >= 0.6;
+      },
+      { threshold: [0, 0.6, 1] }
+    );
+    io.observe(el);
+
+    const onWheel = (e: WheelEvent) => {
+      if (!active) return; // 이 화면 아닐 땐 아무 것도 안 함
+      if (locked) return;
+
+      e.preventDefault(); // 여기서만 기본 스크롤 막기
+      locked = true;
+
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-fullpage]")
+      );
+      const idx = sections.indexOf(el);
+      const dir = e.deltaY > 0 ? 1 : -1;
+      const target = sections[idx + dir];
+
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      // 연속 휠 방지 (트랙패드 폭주 방지)
+      window.setTimeout(() => {
+        locked = false;
+      }, 700);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("wheel", onWheel as any);
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchLists = async () => {
       try {
         const [introductionResponse] = await Promise.all([
           fetch("/data/introduction.json"),
         ]);
-        console.log('=--====-=-=-=-=-=')
         const projectsData = await introductionResponse.json();
-        console.log(projectsData)
         setIntroductionData(projectsData);
       } catch (error) {
         console.error("Failed to fetch project lists:", error);
@@ -159,33 +174,15 @@ export const MyInformation: React.FC = () => {
       {/* 배경 그라디언트 (고정) */}
       <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
 
-      {/* 상단 진행 바 (Sticky) */}
-      <div className="sticky top-0 z-50 h-1.5 w-full bg-slate-200/50 backdrop-blur-sm">
-        <motion.div
-          style={{ scaleX, transformOrigin: "0%" }}
-          className="h-full bg-slate-900"
-        />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-24">
-        {/* 메인 그리드 */}
-        {introductionData && <InfoPost items={introductionData?.work} />}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-1">
-          {/* 왼쪽 컬럼 */}
-          <div className="space-y-8">
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-8 pt-24">
+        {/* 메인 레이아웃 */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-[3fr_7fr] sm:gap-8">
+          {/* 왼쪽 컬럼 (모바일에서는 아래로) */}
+          <div className="order-2 space-y-8 sm:order-1">
             <InfoCard
-              title={t("info.experience", "경력 · 교육")}
+              title={t("info.experience", "교육 및 학력")}
               items={experienceItems}
             />
-            <InfoCard
-              title={t("info.education", "학력")}
-              items={educationItems}
-            />
-          </div>
-
-          {/* 오른쪽 컬럼 */}
-          <div className="space-y-8">
-            <SkillCard title={t("info.skills", "스킬")} skills={skillsItems} />
             <InfoCard
               title={t("info.awards", "수상 및 기타")}
               items={awardItems}
@@ -195,6 +192,11 @@ export const MyInformation: React.FC = () => {
               items={certificateItems}
             />
           </div>
+
+          {/* 오른쪽 컬럼 (모바일에서는 위로) */}
+          <div className="order-1 space-y-8 sm:order-2">
+            <InfoPost title="경력" items={introductionData?.work} />
+          </div>
         </div>
       </div>
     </section>
@@ -203,147 +205,80 @@ export const MyInformation: React.FC = () => {
 
 // --- Sub Components ---
 
-const InfoPost: React.FC<{ items: WorkItem[] }> = ({ items }) => {
-  const { t } = useTranslation('introduction');
+const InfoPost: React.FC<{ title: string; items: WorkItem[] | undefined }> = ({
+  title,
+  items,
+}) => {
+  const { t } = useTranslation(["common", "introduction"]);
 
-  return items.map((item) => (
-    <div
-      className="
-              group/mini rounded-2xl border border-slate-200 bg-white/80
-              p-5 my-5 shadow-sm backdrop-blur
-              transition-all duration-300
-            "
-    >
-      {/* 제목 줄 (항상 보임) */}
-      <h3 className="font-semibold text-slate-900 leading-snug">
-        {t(`work.${item.title}`)}
-      </h3>
+  if (!items) return;
 
-      {/* 아래로 펼쳐지는 흰 패널 */}
-      <div
-        className="
-                mt-3 overflow-hidden rounded-xl border border-slate-200/70 bg-white
-                transition-all duration-700
-                max-h-60 opacity-100 translate-y-0
-              "
-      >
-        <div className="p-4">
-          {/* period + badge */}
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0 flex-1">
-              {item.period && (
-                <p className="text-sm text-slate-500">{t(`work.${item.period}`)}</p>
-              )}
+  return (
+    <div>
+      <h2 className="mb-4 text-lg font-bold text-slate-900">{title}</h2>
+      {items.map((item) => (
+        <div
+          className="
+                    group/mini rounded-2xl border border-slate-200 bg-white/80
+                    p-5 my-5 shadow-sm backdrop-blur
+                    transition-all duration-300
+                  "
+        >
+          {/* 제목 줄 (항상 보임) */}
+          <h3 className="font-semibold text-slate-900 leading-snug">
+            {t(`work.${item.title}`, { ns: "introduction" })}
+          </h3>
+
+          {/* 아래로 펼쳐지는 흰 패널 */}
+          <div
+            className="
+                      mt-3 overflow-hidden rounded-xl border border-slate-200/70 bg-white
+                      transition-all duration-700
+                      max-h-60 opacity-100 translate-y-0
+                    "
+          >
+            <div className="p-4">
+              {/* period + badge */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="grid grid-cols-[4fr_8fr] gap-4">
+                    <p className="text-sm font-semibold text-slate-900 text-center">
+                      {t("period", { ns: "common" })}
+                    </p>
+
+                    {item.period && (
+                      <p className="text-sm text-slate-500">
+                        {t(`work.${item.period}`, { ns: "introduction" })}
+                      </p>
+                    )}
+
+                    <p className="text-sm font-semibold text-slate-900 text-center">
+                      {t("position", { ns: "common" })}
+                    </p>
+
+                    {item.position && (
+                      <p className="text-sm text-slate-500">
+                        {t(`work.${item.position}`, { ns: "introduction" })}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ))}
     </div>
-  ));
+  );
 };
 
 const InfoCard: React.FC<{
   title: string;
   items: InfoItem[];
-}> = ({ title, items }) => {
+}> = ({ title }) => {
   return (
-    <div className="group block duration-700 w-[300px] hover:w-[100%] rounded-2xl border border-slate-200 bg-white/60 p-6 shadow-sm backdrop-blur-md">
-      <h2 className="mb-4 text-lg font-bold text-slate-900">{title}</h2>
-      <div
-        className="
-        space-y-4 transition-all duration-700 ease
-        max-h-0 opacity-0 group-hover:max-h-[500px] group-hover:opacity-100 group-hover:delay-700"
-      >
-        {items.map((item) => (
-          <div
-            className="
-              group/mini rounded-2xl border border-slate-200 bg-white/80
-              p-5 shadow-sm backdrop-blur
-              transition-all duration-300
-              hover:shadow-md
-            "
-          >
-            {/* 제목 줄 (항상 보임) */}
-            <h3 className="font-semibold text-slate-900 leading-snug">
-              {item.title}
-            </h3>
-
-            {/* 아래로 펼쳐지는 흰 패널 */}
-            <div
-              className="
-                mt-3 overflow-hidden rounded-xl border border-slate-200/70 bg-white
-                transition-all duration-700
-                max-h-0 opacity-0 translate-y-1
-                group-hover/mini:max-h-60 group-hover/mini:opacity-100 group-hover/mini:translate-y-0
-              "
-            >
-              <div className="p-4">
-                {/* period + badge */}
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0 flex-1">
-                    {item.period && (
-                      <p className="text-sm text-slate-500">{item.period}</p>
-                    )}
-                  </div>
-
-                  {item.badge && (
-                    <span className="flex-shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600">
-                      {item.badge}
-                    </span>
-                  )}
-                </div>
-
-                {/* description */}
-                {item.description?.length ? (
-                  <ul className="mt-3 list-disc space-y-1 pl-4 text-sm text-slate-600">
-                    {item.description.map((desc, i) => (
-                      <li key={i}>{desc}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="group block duration-700 w-[300px] rounded-2xl border border-slate-200 bg-white/60 p-8 shadow-sm backdrop-blur-md">
+      <h2 className="text-lg font-bold text-slate-900 ">{title}</h2>
     </div>
   );
 };
-
-const SkillCard: React.FC<{
-  title: string;
-  skills: SkillSet;
-}> = ({ title, skills }) => {
-  return (
-    <div className="block rounded-2xl border border-slate-200 bg-white/60 p-6 shadow-sm backdrop-blur-md">
-      <h2 className="mb-4 text-lg font-bold text-slate-900">{title}</h2>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <SkillBlock category="Framework" items={skills.framework} />
-        <SkillBlock category="Language" items={skills.language} />
-        <SkillBlock category="Database" items={skills.db} />
-        <SkillBlock category="Infrastructure" items={skills.infra} />
-      </div>
-    </div>
-  );
-};
-
-const SkillBlock: React.FC<{ category: string; items: string[] }> = ({
-  category,
-  items,
-}) => (
-  <div className="rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
-    <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">
-      {category}
-    </p>
-    <div className="flex flex-wrap gap-2">
-      {items.map((skill) => (
-        <span
-          key={skill}
-          className="rounded-md bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200"
-        >
-          {skill}
-        </span>
-      ))}
-    </div>
-  </div>
-);
