@@ -4,6 +4,9 @@
   "posts": "기술 포스트",
   "lab": "실험실",
 
+  "period": "기간",
+  "position": "직무",
+
   "crazyAbout": "몰입",
   "introLine1": "초등학생 시절 활용한 게임 에디터부터",
   "introLine1-1": "",
@@ -19,7 +22,7 @@
   "mainPhrase8": "하는",
   "developerIntro": "개발자 노기윤입니다.",
   "language": "언어",
-  
+
   "projectTitle": "프로젝트",
   "preparingProjectTitle": "차기 프로젝트",
 
