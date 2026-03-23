@@ -12,6 +12,10 @@ export default {
         display:  ['Caveat', 'cursive']
       },
       keyframes: {
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(14px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
         'toast-in-out': { // 애니메이션 이름
           '0%': {
             transform: 'translateY(calc(100% + 1.25rem))',
@@ -29,6 +33,7 @@ export default {
       },
       animation: {
         'toast-in-out': 'toast-in-out 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+        'fade-in-up': 'fade-in-up 0.35s ease-out both',
       },
     },
   },

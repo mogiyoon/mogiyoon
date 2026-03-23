@@ -1,13 +1,122 @@
 {
   "work": {
     "deeptrade": {
-      "title": "딥트레이드테크놀러지스",
-      "period": "2025.09.27 ~",
-      "position": "프론트엔드",
-      "description": [""]
+      "title": "딥트레이드 테크놀러지스",
+      "period": "2025.09 ~ 재직중",
+      "position": "프론트엔드 개발자",
+      "projects": {
+        "pension": {
+          "name": "당신의 연금 (React Native)",
+          "highlights": [
+            {
+              "title": "API 분리 및 프리페칭 도입",
+              "problem": "메인 화면 유저 정보 API가 2~3초 소요되어 화면 전체 로딩 지연",
+              "solution": "필요 데이터만 추린 신규 API를 백엔드와 공동 설계, 무거운 API는 루트 렌더에서 백그라운드 프리페칭으로 전환",
+              "result": "메인 화면 로딩 2~3초 → 0.6초 개선"
+            },
+            {
+              "title": "테스트 코드 도입 및 강화학습 테스트 적용",
+              "problem": "일부 기능이 시각적 확인이 필요해 기존 방식으로 자동화 테스트 불가",
+              "solution": "Mock 기능 추가로 E2E(Detox) + Jest 도입, 시각 판단이 필요한 테스트에 강화학습 CNN 모델 적용",
+              "result": "주요 기능·컴포넌트 테스트 자동화, 오류 발생률 감소"
+            },
+            {
+              "title": "Tanstack Query 활용한 중복 API 제거",
+              "problem": "포커싱마다 불필요하게 재호출되는 API로 수십 회의 중복 요청 발생",
+              "solution": "Tanstack Query stale time 설정 및 mutate 후 query client로 관련 데이터 무효화, useEffect 기반 복잡한 상태 관리 코드 제거",
+              "result": "API 호출 횟수 수십 회 → 3~4회로 단축, 상태 관리 생산성 향상"
+            },
+            {
+              "title": "API Mock 테스트 기능 추가",
+              "problem": "프론트엔드 UI 상태를 임의로 변경할 수 없어 다양한 시나리오 테스트 제한",
+              "solution": "API Mock Adaptor 도입 및 사용률 80%에 해당하는 API mock 추가, 내부 주요 상태 변경 기능 구현",
+              "result": "개발 생산성 향상 및 오류 발생률 저하"
+            },
+            {
+              "title": "번들 최적화",
+              "problem": "프로덕션 빌드에 테스트 코드 로직이 포함되어 번들 크기 증가",
+              "solution": "babel.config, metro.config 활용해 빌드 시 테스트 소스를 stub 파일로 치환, console 코드 제거",
+              "result": "번들 용량 110mb → 80mb로 감소"
+            },
+            {
+              "title": "레거시 코드 정리 및 Expo 마이그레이션",
+              "problem": "구글 플레이 16kb 이슈, 레거시 라이브러리 충돌, 함수·컴포넌트 중복으로 개발 속도 저하",
+              "solution": "Expo 52 → 54 마이그레이션, 미지원 라이브러리 삭제, 주요 파일의 공통 훅·컴포넌트 분리 및 리팩토링",
+              "result": "페이지 파일 코드량 1/4로 감소, 유지보수성·가독성 향상"
+            },
+            {
+              "title": "4단계 배포 파이프라인 구축",
+              "problem": "테스트 자동화와 실시간 OTA 배포 필요성이 생겼으나 파이프라인 부재",
+              "solution": "npm 자동화 테스트, EAS 빌드·배포·OTA 채널 추가, 로컬 / 내부 테스트 / 최종 테스트 / 배포 4단계 파이프라인 구축",
+              "result": "장애·버그 대처 시간 2일 → 1시간으로 단축"
+            }
+          ]
+        }
+      }
+    },
+    "gamaSchool": {
+      "title": "가마초등학교",
+      "period": "2023.03 ~ 2025.02",
+      "position": "담임교사",
+      "projects": {}
     }
   },
-  "education": {},
-  "skill": {},
-  "award-certification": {}
+  "education": {
+    "openUniv": {
+      "title": "한국방송통신대학교",
+      "period": "2025.03 ~ 재학중",
+      "grade": "학사 (재학)",
+      "major": "컴퓨터과학과"
+    },
+    "jejuEdu": {
+      "title": "제주대학교",
+      "period": "2019.03 ~ 2023.02",
+      "grade": "학사",
+      "major": "초등교육학과"
+    }
+  },
+  "awards": {
+    "seoulAiHackathon": {
+      "title": "서울시 AI 해커톤 대상 (서울특별시장상)",
+      "period": "2025.10",
+      "description": [
+        "AR 방명록, AI 도슨트, VR 역사 체험, AI 도시 진단을 결합한 소셜 플랫폼 '서울 메아리'"
+      ]
+    },
+    "kraftonJungle": {
+      "title": "크래프톤 정글 교육 과정 이수",
+      "period": "2025.03 ~ 2025.07",
+      "description": [
+        "자료구조/알고리즘, CS 지식(메모리 관리, 네트워크, 운영체제) 학습",
+        "자료구조 구현을 통한 동작 원리에 대한 깊은 이해",
+        "미니 운영체제(Pintos) 시스템콜, 가상메모리 구현으로 코드 해석 및 추상화 능력 습득"
+      ]
+    },
+    "jejuInvention": {
+      "title": "제주지역 대학 발명 창의 대회 은상",
+      "period": "2019.11",
+      "description": [
+        "'손가락 에어백' — 물체의 상태 변화와 부피의 관계를 이용한 발명"
+      ]
+    }
+  },
+  "certificate": {
+    "sqld": {
+      "title": "SQLD",
+      "period": "2025.12"
+    },
+    "engineerInfoProc": {
+      "title": "정보처리기사",
+      "period": "필기 2024.08"
+    },
+    "teacherCert": {
+      "title": "교원자격증",
+      "period": "2023.02"
+    }
+  },
+  "skills": {
+    "framework": "프레임워크",
+    "language": "언어",
+    "infra": "개발 환경"
+  }
 }

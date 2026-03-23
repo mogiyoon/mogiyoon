@@ -7,7 +7,25 @@
   "period": "기간",
   "position": "직무",
 
-  "crazyAbout": "몰입",
+  "profile": "프로필",
+  "highlight": {
+    "problem": "문제",
+    "solution": "해결",
+    "result": "결과"
+  },
+  "profileTabs": {
+    "workSkills": "경력 & 스킬",
+    "education": "학력",
+    "awardsAndCerts": "수상 & 자격증"
+  },
+
+  "info": {
+    "workExperience": "경력",
+    "education": "교육 및 학력",
+    "awards": "수상 및 기타",
+    "certificates": "자격증"
+  },
+
   "introLine1": "초등학생 시절 활용한 게임 에디터부터",
   "introLine1-1": "",
   "introLine2": "임용시험 합격을 함께한 퀴즈 프로그램까지,",

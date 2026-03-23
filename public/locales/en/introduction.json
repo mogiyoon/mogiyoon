@@ -1,13 +1,122 @@
 {
   "work": {
     "deeptrade": {
-      "title": "DeepTradeTechnologies",
-      "period": "2025.09.27 ~",
-      "position": "Frontend",
-      "description": [""]
+      "title": "Deeptrade Technologies",
+      "period": "Sep 2025 – Present",
+      "position": "Frontend Engineer",
+      "projects": {
+        "pension": {
+          "name": "Your Pension (React Native)",
+          "highlights": [
+            {
+              "title": "API Separation & Prefetching",
+              "problem": "Main screen user info API took 2–3s, blocking the entire page load",
+              "solution": "Designed a lightweight API with the backend for main screen data, moved heavy APIs to root-level background prefetching",
+              "result": "Main screen load time: 2–3s → 0.6s"
+            },
+            {
+              "title": "E2E Testing & Reinforcement Learning Integration",
+              "problem": "Some features required visual inspection, making automated testing impossible with existing methods",
+              "solution": "Introduced E2E (Detox) + Jest via mock support; applied CNN reinforcement learning model for visually dependent test scenarios",
+              "result": "Automated tests for key features and components; reduced error rate"
+            },
+            {
+              "title": "Tanstack Query for Cache & Deduplication",
+              "problem": "APIs re-fetched on every focus event, causing dozens of redundant requests per session",
+              "solution": "Configured stale time per query, invalidated related data post-mutate via query client, removed complex useEffect-based state logic",
+              "result": "Redundant API calls: dozens → 3–4 per session; improved state management productivity"
+            },
+            {
+              "title": "API Mock Testing Feature",
+              "problem": "No way to manually change frontend UI state, severely limiting test scenario coverage",
+              "solution": "Integrated API Mock Adaptor covering 80% of API usage by log volume, added internal state control features",
+              "result": "Improved dev productivity and reduced bug occurrence rate"
+            },
+            {
+              "title": "Bundle Optimization",
+              "problem": "Test code logic was included in production builds, inflating bundle size unnecessarily",
+              "solution": "Used babel.config and metro.config to replace test sources with stub files at build time, stripped all console code",
+              "result": "Bundle size: 110mb → 80mb"
+            },
+            {
+              "title": "Legacy Code Cleanup & Expo Migration",
+              "problem": "Play Store 16kb page issue, legacy library conflicts, and duplicated code slowing development velocity",
+              "solution": "Migrated Expo 52 → 54, removed unsupported libraries, extracted shared hooks and components across key files",
+              "result": "Page-level code reduced by 75%; improved maintainability and readability"
+            },
+            {
+              "title": "4-Stage Deployment Pipeline",
+              "problem": "No automated pipeline for test execution or real-time OTA deployment as requirements grew",
+              "solution": "Added npm auto-test scripts, EAS build/deploy/OTA channels, and a 4-stage pipeline: local / internal test / final test / release",
+              "result": "Incident response time: 2 days → 1 hour"
+            }
+          ]
+        }
+      }
+    },
+    "gamaSchool": {
+      "title": "Gama Elementary School",
+      "period": "Mar 2023 – Feb 2025",
+      "position": "Homeroom Teacher",
+      "projects": {}
     }
   },
-  "education": {},
-  "skill": {},
-  "award-certification": {}
+  "education": {
+    "openUniv": {
+      "title": "Korea National Open University",
+      "period": "Mar 2025 – Present",
+      "grade": "B.S. (In progress)",
+      "major": "Computer Science"
+    },
+    "jejuEdu": {
+      "title": "Jeju National University",
+      "period": "Mar 2019 – Feb 2023",
+      "grade": "B.A.",
+      "major": "Elementary Education"
+    }
+  },
+  "awards": {
+    "seoulAiHackathon": {
+      "title": "Seoul AI Hackathon — Grand Prize (Seoul Mayor's Award)",
+      "period": "Oct 2025",
+      "description": [
+        "Social platform 'Seoul Meari' combining AR guestbook, AI docent, VR history experience, and AI city diagnosis"
+      ]
+    },
+    "kraftonJungle": {
+      "title": "Krafton Jungle Bootcamp — Completed",
+      "period": "Mar 2025 – Jul 2025",
+      "description": [
+        "Studied data structures/algorithms and CS fundamentals (memory management, networking, OS)",
+        "Gained deep understanding of data structure internals through hands-on implementation",
+        "Implemented syscalls and virtual memory in a mini OS (Pintos), developing code comprehension and abstraction skills"
+      ]
+    },
+    "jejuInvention": {
+      "title": "Jeju Regional University Invention & Creativity Contest — Silver Prize",
+      "period": "Nov 2019",
+      "description": [
+        "'Finger Airbag' — leveraging the relationship between object state changes and volume"
+      ]
+    }
+  },
+  "certificate": {
+    "sqld": {
+      "title": "SQL Developer (SQLD)",
+      "period": "Dec 2025"
+    },
+    "engineerInfoProc": {
+      "title": "Information Processing Engineer",
+      "period": "Written Exam: Aug 2024"
+    },
+    "teacherCert": {
+      "title": "Teaching Certificate",
+      "period": "Feb 2023"
+    }
+  },
+  "skills": {
+    "framework": "Framework",
+    "language": "Language",
+    "infra": "Environment"
+  }
 }
