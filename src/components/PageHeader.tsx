@@ -18,7 +18,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
     { id: 'about', label: t('about') },
     { id: 'projects', label: t('projects') },
     { id: 'posts', label: t('posts') },
-    // { id: 'crazyAbout', label: t('crazyAbout') },
+    { id: 'profile', label: t('profile') },
   ];
 
   const handleLanguageChange = (lang: string) => {
