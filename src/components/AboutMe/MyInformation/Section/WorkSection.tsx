@@ -22,7 +22,7 @@ export const WorkSection: React.FC<{ items: WorkItem[] }> = ({ items }) => {
   const w = (key: string) => t(`work.${key}`, { ns: "introduction" });
 
   const wArr = (key: string) => {
-    const v = t(`work.${key}`, { ns: "introduction", returnObjects: true });
+    const v = t(`work.${key}`, { ns: "introduction", returnObjects: true }) as string | string[];
     if (Array.isArray(v)) return v.filter(Boolean);
     if (typeof v === "string" && v.trim().length > 0) return [v];
     return [];

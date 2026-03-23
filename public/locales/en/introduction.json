@@ -10,45 +10,45 @@
           "highlights": [
             {
               "title": "API Separation & Prefetching",
-              "problem": "Main screen user info API took 2–3s, blocking the entire page load",
-              "solution": "Designed a lightweight API with the backend for main screen data, moved heavy APIs to root-level background prefetching",
-              "result": "Main screen load time: 2–3s → 0.6s"
+              "problem": "The user info API called on the main screen took 2–3 seconds, delaying the entire page load by the same amount.",
+              "solution": "Designed a lightweight API with the backend team, selecting only the data needed for the main screen.\nShifted the heavy existing API to root-level rendering so it runs as background prefetching.\nRefactored other pages that were also redundantly calling the same API.",
+              "result": "Main screen load time: 2–3s → 0.6s. Pages with redundant calls refactored to near-zero or 0.3–0.4s."
             },
             {
               "title": "E2E Testing & Reinforcement Learning Integration",
-              "problem": "Some features required visual inspection, making automated testing impossible with existing methods",
-              "solution": "Introduced E2E (Detox) + Jest via mock support; applied CNN reinforcement learning model for visually dependent test scenarios",
-              "result": "Automated tests for key features and components; reduced error rate"
+              "problem": "Some features required visual inspection, making automated testing impossible with existing methods.",
+              "solution": "Mock support made E2E testing feasible, so introduced E2E (Detox) and Jest.\nWrote test code focused on key features and components.\nFor tests requiring visual judgment, integrated a CNN model trained with reinforcement learning.",
+              "result": "Automated tests for core features and components; reduced error occurrence rate."
             },
             {
-              "title": "Tanstack Query for Cache & Deduplication",
-              "problem": "APIs re-fetched on every focus event, causing dozens of redundant requests per session",
-              "solution": "Configured stale time per query, invalidated related data post-mutate via query client, removed complex useEffect-based state logic",
-              "result": "Redundant API calls: dozens → 3–4 per session; improved state management productivity"
+              "title": "Duplicate API Removal & Cache Management with Tanstack Query",
+              "problem": "APIs fetching rarely-changing values on every focus event and APIs dependent on special states were causing dozens of redundant requests per session.",
+              "solution": "Identified APIs re-fetching on every focus and those tied only to special states.\nConfigured Tanstack Query's stale time to block unnecessary re-fetches.\nAfter mutations, used query client to mark related data as stale so it refetches only when needed.\nRemoved complex useEffect-based state management code.",
+              "result": "API calls per session: dozens → 3–4; improved state management productivity."
             },
             {
               "title": "API Mock Testing Feature",
-              "problem": "No way to manually change frontend UI state, severely limiting test scenario coverage",
-              "solution": "Integrated API Mock Adaptor covering 80% of API usage by log volume, added internal state control features",
-              "result": "Improved dev productivity and reduced bug occurrence rate"
+              "problem": "No way to arbitrarily change frontend UI state; test account limitations made diverse scenario testing impossible.",
+              "solution": "Introduced API Mock Adaptor and implemented internal state control features for key app states.\nAdded mock coverage for APIs accounting for 80% of usage by log volume.",
+              "result": "Increased dev productivity and reduced bug occurrence rate compared to previous workflow."
             },
             {
               "title": "Bundle Optimization",
-              "problem": "Test code logic was included in production builds, inflating bundle size unnecessarily",
-              "solution": "Used babel.config and metro.config to replace test sources with stub files at build time, stripped all console code",
-              "result": "Bundle size: 110mb → 80mb"
+              "problem": "Test code added to the project was being included in production builds, inflating bundle size.",
+              "solution": "Used babel.config and metro.config to automatically replace test-related source files with stub files at build time.\nRemoved console-related code and other production-unnecessary code.\nVerified optimization results using atlas and hbc map to analyze bundle output.",
+              "result": "Bundle size: 110mb → 80mb."
             },
             {
               "title": "Legacy Code Cleanup & Expo Migration",
-              "problem": "Play Store 16kb page issue, legacy library conflicts, and duplicated code slowing development velocity",
-              "solution": "Migrated Expo 52 → 54, removed unsupported libraries, extracted shared hooks and components across key files",
-              "result": "Page-level code reduced by 75%; improved maintainability and readability"
+              "problem": "Play Store 16kb page issue, legacy library conflicts, and duplicated functions/components were increasing development time.",
+              "solution": "Migrated Expo 52 → 54 to resolve the 16kb issue, removing unsupported libraries and fixing dependent code.\nExtracted repeated logic from key files into shared functions, hooks, and components via refactoring.",
+              "result": "Page-level source code reduced to 1/4; improved maintainability and readability."
             },
             {
-              "title": "4-Stage Deployment Pipeline",
-              "problem": "No automated pipeline for test execution or real-time OTA deployment as requirements grew",
-              "solution": "Added npm auto-test scripts, EAS build/deploy/OTA channels, and a 4-stage pipeline: local / internal test / final test / release",
-              "result": "Incident response time: 2 days → 1 hour"
+              "title": "Deployment Pipeline Setup",
+              "problem": "Need arose to add automated testing to the deployment process and enable real-time OTA deployment, but no pipeline existed.",
+              "solution": "Added automated test scripts via npm commands and configured EAS build and deploy.\nAdded EAS channels for OTA updates and distributed an internal test app.\nConfigured internal test builds via babel.config and metro.config to include mock features in the bundle.\nBuilt a 4-stage pipeline: local → internal test → final test → release.",
+              "result": "Incident/bug response time: 2 days (iOS App Store review cycle) → 1 hour."
             }
           ]
         }
@@ -93,7 +93,7 @@
       ]
     },
     "jejuInvention": {
-      "title": "Jeju Regional University Invention & Creativity Contest — Silver Prize",
+      "title": "Jeju Regional University Invention & Creativity Contest — Silver Prize (2nd)",
       "period": "Nov 2019",
       "description": [
         "'Finger Airbag' — leveraging the relationship between object state changes and volume"
@@ -106,8 +106,8 @@
       "period": "Dec 2025"
     },
     "engineerInfoProc": {
-      "title": "Information Processing Engineer",
-      "period": "Written Exam: Aug 2024"
+      "title": "Information Processing Engineer (Written Exam)",
+      "period": "Aug 2024"
     },
     "teacherCert": {
       "title": "Teaching Certificate",
