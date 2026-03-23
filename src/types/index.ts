@@ -76,3 +76,9 @@ export interface ProjectData {
   summaries: SummarySection[];
 }
 
+  export type ContactHoverKey = "email" | "github" | "blog";
+  export const activeKey: Record<ContactHoverKey, ContactHoverKey> = {
+    email: "email",
+    github: "github",
+    blog: "blog",
+  };
