@@ -1,13 +1,33 @@
 {
-  "work": [
+  "workExperience": [
     {
-      "title": "deeptrade.title",
-      "period": "deeptrade.period",
-      "position": "deeptrade.position",
-      "description": "deeptrade.description"
+      "id": "deeptrade",
+      "projects": [
+        { "id": "pension", "tech": ["React Native"] }
+      ]
+    },
+    {
+      "id": "gamaSchool",
+      "projects": []
     }
   ],
   "education": [
-
+    { "id": "openUniv" },
+    { "id": "jejuEdu" }
+  ],
+  "awards": [
+    { "id": "seoulAiHackathon" },
+    { "id": "kraftonJungle" },
+    { "id": "jejuInvention" }
+  ],
+  "certificates": [
+    { "id": "sqld" },
+    { "id": "engineerInfoProc" },
+    { "id": "teacherCert" }
+  ],
+  "skills": [
+    { "category": "framework", "items": ["React", "React Native"] },
+    { "category": "language", "items": ["TypeScript", "C", "Python"] },
+    { "category": "infra", "items": ["AWS EC2", "AWS S3", "AWS ALB", "AWS VPC", "AWS CloudFront"] }
   ]
 }

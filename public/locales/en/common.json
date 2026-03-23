@@ -7,6 +7,25 @@
   "period": "Period",
   "position": "Position",
 
+  "profile": "Profile",
+  "highlight": {
+    "problem": "Problem",
+    "solution": "Solution",
+    "result": "Result"
+  },
+  "profileTabs": {
+    "workSkills": "Experience & Skills",
+    "education": "Education",
+    "awardsAndCerts": "Awards & Certs"
+  },
+
+  "info": {
+    "workExperience": "Work Experience",
+    "education": "Education & Background",
+    "awards": "Awards & Other",
+    "certificates": "Certificates"
+  },
+
   "introLine1": "From using game editors",
   "introLine1-1": "back in elementary school",
   "introLine2": "To a quiz program",

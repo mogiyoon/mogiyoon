@@ -6,161 +6,161 @@ import { motion } from 'framer-motion';
 import type { ProjectData } from '../types';
 import TotalSummaryComponent from '../components/TotalSummaryComponent';
 
-// 아이콘 매핑
-// import { CommunityIcon, MarketIcon, ShortFormIcon, VideoIcon, CameraIcon, QuizIcon, NoteIcon, StatsIcon } from '../../assets/icons';
-// const iconMap: { [key: string]: React.FC<React.SVGProps<SVGSVGElement>> } = {
-//     CommunityIcon, MarketIcon, ShortFormIcon, VideoIcon, CameraIcon, QuizIcon, NoteIcon, StatsIcon
-// };
-
 const pageVariants = {
-  initial: { opacity: 0 },
-  in: { opacity: 1 },
+  initial: { opacity: 0, y: 12 },
+  in: { opacity: 1, y: 0 },
 };
 
 const pageTransition = {
   type: "tween",
-  ease: "anticipate",
-  duration: 0.1
+  ease: "easeOut",
+  duration: 0.25,
 } as const;
 
 const ProjectDetailPage: React.FC = () => {
-    const { projectId } = useParams<{ projectId: string }>();
-    const { t, i18n } = useTranslation([`projects/project-${projectId}`, 'common']);
+  const { projectId } = useParams<{ projectId: string }>();
+  const { t, i18n } = useTranslation([`projects/project-${projectId}`, 'common']);
 
-    const [project, setProject] = useState<ProjectData | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [gifType, setGifType] = useState<"mobile" | "tablet">("mobile");
+  const [project, setProject] = useState<ProjectData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [gifType, setGifType] = useState<"mobile" | "tablet">("mobile");
 
-    useEffect(() => {
-        if (!projectId) return;
+  useEffect(() => {
+    if (!projectId) return;
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const dataResponse = await fetch(`/data/projects/${projectId}.json`);
+        if (!dataResponse.ok) throw new Error('Data not found');
+        const data: ProjectData = await dataResponse.json();
+        setProject(data);
 
-        // const namespace = 'project-' + projectId;
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const [dataResponse] = await Promise.all([
-                    fetch(`/data/projects/${projectId}.json`),
-                    // i18n.loadNamespaces(namespace)
-                ]);
-
-                if (!dataResponse.ok) throw new Error('Data not found');
-                const data: ProjectData = await dataResponse.json();
-                
-                setProject(data);
-
-                if (data.demoGifSrc) {
-                    const img = new Image();
-                    img.src = data.demoGifSrc;
-                    img.onload = () => {
-                      const aspectRatio = img.width / img.height;
-                      setGifType(aspectRatio > 1 ? "tablet" : "mobile");
-                    };
-                    img.onerror = () => console.error(`Failed to detect GIF size: ${data.demoGifSrc}`);
-                }
-
-            } catch (error) {
-                console.error("Failed to load project:", error);
-                setProject(null); // 에러 발생 시 project를 null로 설정
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchData();
-    }, [projectId, i18n]);
-    
-    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-      e.currentTarget.onerror = null;
-      e.currentTarget.src = "https://placehold.co/250x400/cccccc/333333?text=Image+Not+Found";
-      setIsLoaded(true);
+        if (data.demoGifSrc) {
+          const img = new Image();
+          img.src = data.demoGifSrc;
+          img.onload = () => {
+            setGifType(img.width / img.height > 1 ? "tablet" : "mobile");
+          };
+        }
+      } catch (error) {
+        console.error("Failed to load project:", error);
+        setProject(null);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    fetchData();
+  }, [projectId, i18n]);
 
-    if (isLoading) {
-        return <div className="min-h-screen flex items-center justify-center">Loading project...</div>;
-    }
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = "https://placehold.co/250x400/cccccc/333333?text=Image+Not+Found";
+    setIsLoaded(true);
+  };
 
-    if (!project) {
-        return (
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="text-center p-8 bg-white shadow-xl rounded-2xl">
-              <h1 className="text-3xl font-bold text-red-600 mb-4">
-                {t('projectNotFound', { ns: 'common' })}
-              </h1>
-              <Link to="/" className="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg">
-                {t('backToMain', { ns: 'common' })}
-              </Link>
-            </div>
-          </div>
-        );
-    }
-
-    const baseGifClasses = "w-full max-w-xs rounded-xl shadow-lg border";
-    const gifFinalClasses = gifType === "tablet" ? `${baseGifClasses} md:max-w-none` : baseGifClasses;
-
+  if (isLoading) {
     return (
-        <motion.div
-          initial="initial"
-          animate="in"
-          variants={pageVariants}
-          transition={pageTransition}
-        >
-          <div className="min-h-screen bg-gray-50 font-inter text-gray-800">
-            <div className="p-4 sm:p-8 pt-24">
-              <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 mb-12">
-                <header id="project-header" className="text-center pt-8 pb-4">
-                  <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
-                    {t(project.title)}
-                  </h1>
-                  <p className="text-lg sm:text-xl text-gray-600 font-medium">
-                    {t(project.subtitle, { ns: 'project-' + projectId })}
-                  </p>
-                </header>
-                <section className="my-8">
-                  <div className="flex justify-center items-center min-h-[400px]">
-                    {!isLoaded && (
-                      <div className={`bg-gray-200 animate-pulse ${gifFinalClasses} ${gifType === 'mobile' ? 'h-[444px]' : 'aspect-video'}`}></div>
-                    )}
-                    <img
-                      src={project.demoGifSrc}
-                      alt={`${t(project.title, { ns: 'project-' + projectId })} App Demo`}
-                      className={`${gifFinalClasses} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                      onLoad={() => setIsLoaded(true)}
-                      onError={handleImageError}
-                      style={{ display: isLoaded ? 'block' : 'none' }}
-                    />
-                  </div>
-                </section>
-                <hr className="my-12 border-t-2 border-gray-200" />
-                
-                <TotalSummaryComponent project={project} t={t} />
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="space-y-3 text-center">
+          <div className="w-8 h-8 border-2 border-slate-900 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-slate-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
-                <hr className="my-12 border-t-2 border-gray-200" />
-                <section className="text-center">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-indigo-700 mb-6">
-                    📜 {t('license', { ns: 'common' })}
-                  </h2>
-                  <p className="text-base text-gray-700">
-                    <Trans
-                      ns="common"
-                      i18nKey="licenseText"
-                      values={{ licenseName: project.license.name }}
-                      components={[
-                        <a
-                          href={project.license.url}
-                          className="text-indigo-600 hover:underline font-semibold"
-                        />,
-                      ]}
-                    />
-                  </p>
-                </section>
-              </div>
-              <footer className="max-w-4xl mx-auto text-center py-8 text-gray-500 text-sm">
-                &copy; 2025 My Portfolio. All rights reserved.
-              </footer>
+  if (!project) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+        <div className="text-center p-10 bg-white shadow-xl rounded-3xl max-w-sm w-full">
+          <p className="text-4xl mb-4">🔍</p>
+          <h1 className="text-xl font-bold text-slate-900 mb-2">
+            {t('projectNotFound', { ns: 'common' })}
+          </h1>
+          <Link
+            to="/"
+            className="mt-6 inline-block rounded-2xl bg-slate-900 text-white px-6 py-3 text-sm font-semibold hover:bg-slate-700 transition-colors"
+          >
+            {t('backToMain', { ns: 'common' })}
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const gifMaxW = gifType === "tablet" ? "max-w-2xl" : "max-w-xs";
+
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 pt-28 pb-16">
+
+          {/* Header */}
+          <header className="text-center mb-10">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">
+              {t(project.title)}
+            </h1>
+            <p className="text-base sm:text-lg text-slate-500 max-w-xl mx-auto">
+              {t(project.subtitle, { ns: `projects/project-${projectId}` })}
+            </p>
+          </header>
+
+          {/* Demo GIF */}
+          <section className="mb-14 flex justify-center">
+            <div className={`w-full ${gifMaxW}`}>
+              {!isLoaded && (
+                <div className={`rounded-2xl bg-slate-200 animate-pulse w-full ${gifType === 'mobile' ? 'h-[444px]' : 'aspect-video'}`} />
+              )}
+              <img
+                src={project.demoGifSrc}
+                alt={`${t(project.title)} Demo`}
+                className={`w-full rounded-2xl shadow-xl border border-slate-100 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+                onLoad={() => setIsLoaded(true)}
+                onError={handleImageError}
+              />
+            </div>
+          </section>
+
+          {/* Content */}
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+            <TotalSummaryComponent project={project} t={t} />
+
+            {/* License */}
+            <div className="px-6 sm:px-10 py-8 border-t border-slate-100">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">
+                {t('license', { ns: 'common' })}
+              </p>
+              <p className="text-sm text-slate-600">
+                <Trans
+                  ns="common"
+                  i18nKey="licenseText"
+                  values={{ licenseName: project.license.name }}
+                  components={[
+                    <a
+                      href={project.license.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-900 font-semibold underline hover:no-underline"
+                    />,
+                  ]}
+                />
+              </p>
             </div>
           </div>
-        </motion.div>
-    );
+
+          <footer className="text-center mt-10 text-slate-400 text-xs">
+            © 2025 Giyoon Noh
+          </footer>
+        </div>
+      </div>
+    </motion.div>
+  );
 };
 
 export default ProjectDetailPage;
