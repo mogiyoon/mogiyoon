@@ -1,8 +1,31 @@
 {
   "about": "자기소개",
-  "projects": "나의 프로젝트",
+  "projects": "프로젝트",
   "posts": "기술 포스트",
-  "crazyAbout": "몰입",
+  "lab": "실험실",
+
+  "period": "기간",
+  "position": "직무",
+
+  "profile": "프로필",
+  "highlight": {
+    "problem": "문제",
+    "solution": "해결",
+    "result": "결과"
+  },
+  "profileTabs": {
+    "workSkills": "경력 & 스킬",
+    "education": "학력",
+    "awardsAndCerts": "수상 & 자격증"
+  },
+
+  "info": {
+    "workExperience": "경력",
+    "education": "교육 및 학력",
+    "awards": "수상 및 기타",
+    "certificates": "자격증"
+  },
+
   "introLine1": "초등학생 시절 활용한 게임 에디터부터",
   "introLine1-1": "",
   "introLine2": "임용시험 합격을 함께한 퀴즈 프로그램까지,",
@@ -15,13 +38,12 @@
   "mainPhrase6": "를",
   "mainPhrase7": "해결",
   "mainPhrase8": "하는",
-  "developerIntro1": "풀스택 개발자",
-  "developerIntro2": "노기윤입니다.",
-  
+  "developerIntro": "개발자 노기윤입니다.",
+  "language": "언어",
+
   "projectTitle": "프로젝트",
   "preparingProjectTitle": "차기 프로젝트",
 
-  "postsPreparingMessage1": "기술 포스트를 준비 중입니다.",
   "postsPreparingMessage2": "더 많은 이야기는 아래 Velog에서 확인하실 수 있습니다.",
   "visitVelog": "Velog 방문하기",
 
@@ -49,5 +71,23 @@
     "backToMain": "메인 페이지로",
     "license": "라이선스",
     "licenseText": "이 프로젝트는 <1>{{licenseName}}</1> 라이선스를 따릅니다."
-  }
+  },
+
+  "answerChecker": {
+    "problemLabel": "문제",
+    "correctAnswer": "교육과정의 성격",
+    "answerLabel": "정답",
+    "placeholder": "여기서 테스트 해보세요.",
+    "checkButton": "확인",
+    "clearButton": "삭제",
+    "resultLabel": "결과"
+  },
+
+  "backToMain": "메인으로 돌아가기",
+  "projectNotFound": "프로젝트를 찾을 수 없습니다.",
+  "license": "라이선스",
+  "licenseText": "<0>{{licenseName}}</0>에 따라 라이선스가 부여되었습니다.",
+
+  "linkCopied": "링크 복사 성공!",
+  "linkCopyFailed": "링크 복사 실패..."
 }

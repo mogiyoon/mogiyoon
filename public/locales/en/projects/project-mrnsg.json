@@ -1,0 +1,98 @@
+{
+  "mrnsg": {
+    "title": "mogiyoon-react-native-simple-grid",
+    "subtitle": "A Simple and Lightweight Grid Component for React Native",
+    "description": "While working on the 'Test Maker' project, I needed a lightweight grid component but couldn’t find a suitable one on NPM. To solve this, I developed and published my own simple grid library. Developers can easily create grid layouts by just passing in data and the desired number of columns.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "A library that enables simple grid UI implementation in React Native",
+      "features": "Column specification, data mapping rendering, adjustable height options"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features and Development Process",
+        "parts": {
+          "0": {
+            "subtitle": "Motivation",
+            "caption": "Existing grid component libraries",
+            "0": "During the 'Test Maker' project, I needed a simple grid component and searched through libraries on NPM. However, the most widely used React Native grid component hadn’t been updated in six years and was incompatible with newer versions. Other available libraries either lacked required features or had insufficient documentation. This led me to implement and publish my own lightweight library."
+          },
+          "1": {
+            "subtitle": "Development Process",
+            "caption1": "Component array creation",
+            "caption2": "Component row array creation",
+            "0": "Created a list of components first using a renderItem function that returns each component individually.",
+            "1": "Grouped components into row arrays based on column size."
+          },
+          "2": {
+            "subtitle": "Publishing",
+            "caption": "Grid component interface",
+            "0": "Developed in TypeScript for type safety, and published as a public NPM package so other developers can use it."
+          }
+        }
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "parts": {
+          "0": {
+            "subtitle": "Problem Solving Through Documentation and Library Tools",
+            "caption": "Create React Native Library documentation"
+          },
+          "1": {
+            "0": "Problem: Faced difficulties with bundling configuration and dependency setup for the first NPM release.",
+            "1": "Solution Process\n\n\t1. Studied documentation on NPM publishing processes and TypeScript library bundling.\n\t2. Utilized and analyzed Create React Native Library to complete the publishing process.",
+            "2": "Result: Gained a deeper understanding of the NPM publishing ecosystem and successfully released the package."
+          }
+        }
+      },
+      "results": {
+        "title": "Results and Retrospective",
+        "parts": {
+          "0": {
+            "0": "Results",
+            "1": "Successfully developed and published the component library to NPM",
+            "2": "Created a reusable component usable in other projects",
+            "3": "Improved understanding of TypeScript for building scalable components"
+          },
+          "1": {
+            "0": "Retrospective",
+            "1": "Experienced the entire process of library development from planning to public release",
+            "2": "Realized the importance of clear documentation for library users",
+            "3": "Learned how to extract project-specific problems into modular, reusable solutions"
+          }
+        }
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      {
+        "name": "✨ Easy to Use",
+        "description": "Generate a grid layout with minimal props such as 'data' and 'columnNumber'"
+      },
+      {
+        "name": "🔧 Customizable",
+        "description": "Options to control number of columns and maximum height"
+      },
+      {
+        "name": "⚡ Lightweight",
+        "description": "Minimal dependencies ensure the component doesn’t add overhead to projects"
+      }
+    ],
+    "developmentProcess": [
+      {
+        "title": "Problem Identification",
+        "content": "Recognized the lack of a simple and suitable grid library needed for a personal project"
+      },
+      {
+        "title": "Core Feature Implementation",
+        "content": "Developed the core logic for column-based item rendering using TypeScript and React Native components"
+      },
+      {
+        "title": "NPM Publishing",
+        "content": "Configured publishing settings and released the library on NPM registry for external use"
+      }
+    ]
+  }
+}

@@ -1,8 +1,31 @@
 {
   "about": "About Me",
-  "projects": "My Projects",
+  "projects": "Projects",
   "posts": "Posts",
-  "crazyAbout": "Crazy About",
+  "lab": "Lab",
+
+  "period": "Period",
+  "position": "Position",
+
+  "profile": "Profile",
+  "highlight": {
+    "problem": "Problem",
+    "solution": "Solution",
+    "result": "Result"
+  },
+  "profileTabs": {
+    "workSkills": "Experience & Skills",
+    "education": "Education",
+    "awardsAndCerts": "Awards & Certs"
+  },
+
+  "info": {
+    "workExperience": "Work Experience",
+    "education": "Education & Background",
+    "awards": "Awards & Other",
+    "certificates": "Certificates"
+  },
+
   "introLine1": "From using game editors",
   "introLine1-1": "back in elementary school",
   "introLine2": "To a quiz program",
@@ -15,13 +38,12 @@
   "mainPhrase6": " into",
   "mainPhrase7": "Solutions",
   "mainPhrase8": "",
-  "developerIntro1": "I'm Giyoon Noh,",
-  "developerIntro2": "a full-stack developer.",
+  "developerIntro": "I'm Giyoon Noh, a developer.",
+  "language": "Language",
 
   "projectTitle": "PROJECT",
   "preparingProjectTitle": "UPCOMING PROJECTS",
 
-  "postsPreparingMessage1": "This section is under construction.",
   "postsPreparingMessage2": "In the meantime, you can check out my posts on Velog below.",
   "visitVelog": "Visit My Velog",
 
@@ -49,5 +71,23 @@
     "backToMain": "Back to Main",
     "license": "License",
     "licenseText": "This project is licensed under the <1>{{licenseName}}</1> license."
-  }
+  },
+
+  "answerChecker": {
+    "problemLabel": "Problem",
+    "correctAnswer": "Curriculum",
+    "answerLabel": "Answer",
+    "placeholder": "Test it out here.",
+    "checkButton": "Check",
+    "clearButton": "Clear",
+    "resultLabel": "Result"
+  },
+
+  "backToMain": "Back to Main",
+  "projectNotFound": "Project Not Found",
+  "license": "License",
+  "licenseText": "Licensed under the <0>{{licenseName}}</0>.",
+
+  "linkCopied": "Link copied!",
+  "linkCopyFailed": "Copy failed..."
 }

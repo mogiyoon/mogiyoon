@@ -2,7 +2,7 @@ import React from 'react';
 import AboutSection from '../sections/home/AboutSection';
 import ProjectsSection from '../sections/home/ProjectsSection';
 import PostsSection from '../sections/home/PostSection';
-import CrazyAboutSection from '../sections/home/CrazyAboutSection';
+import ProfileSection from '../sections/home/ProfileSection';
 
 interface HomePageProps {
   activeTab: string;
@@ -19,17 +19,17 @@ const HomePage: React.FC<HomePageProps> = ({ activeTab }) => {
         return <ProjectsSection />;
       case 'posts':
         return <PostsSection />;
-      case 'crazyAbout':
-        return <CrazyAboutSection />;
+      case 'profile':
+        return <ProfileSection />;
       default:
         return <AboutSection />;
     }
   };
 
   // 'projects' 탭일 때는 중앙 정렬 클래스를 제거하고, 나머지 탭에서는 유지합니다.
-  const mainClassName = activeTab === 'projects' || activeTab === 'about' 
-    ? "w-full" // projects 탭에서는 flex 중앙 정렬을 사용하지 않음
-    : "min-h-screen flex items-center justify-center px-4 sm:px-8 py-8"; // 다른 탭에서는 기존 스타일 유지
+  const mainClassName = activeTab === 'projects' || activeTab === 'about' || activeTab === 'profile'
+    ? "w-full"
+    : "min-h-screen flex items-center justify-center px-4 sm:px-8 py-8";
 
   return (
     <main className={mainClassName}>
