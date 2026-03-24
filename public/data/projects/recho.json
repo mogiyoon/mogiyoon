@@ -13,7 +13,7 @@
     "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"],
     "role": "recho.overview.role",
     "github": "https://github.com/JungleTeam5/Recho",
-    "demo": "https://recho.cloud",
+    "demo": null,
     "notion": null
   },
   "summaries": [
