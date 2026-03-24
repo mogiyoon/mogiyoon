@@ -51,8 +51,8 @@ const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
   return (
     <div className="divide-y divide-slate-100">
       {data.map((group) => (
-        <div key={group.category} className="flex items-start gap-4 py-3 first:pt-0 last:pb-0">
-          <span className="shrink-0 w-20 pt-0.5 text-xs font-semibold uppercase tracking-widest text-slate-400">
+        <div key={group.category} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
+          <span className="shrink-0 w-24 pt-0.5 text-sm font-semibold uppercase tracking-widest text-slate-400">
             {t(`skills.${group.category}`, { defaultValue: group.category })}
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -61,7 +61,7 @@ const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
                 key={item}
                 whileHover={{ y: -2 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700 cursor-default"
+                className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-700 cursor-default"
               >
                 {item}
               </motion.span>
@@ -112,7 +112,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                   <h3 className="text-base font-bold text-slate-900">
                     {tIntro(`work.${item.id}.title`)}
                   </h3>
-                  <p className="mt-0.5 text-xs text-slate-400">
+                  <p className="mt-0.5 text-sm text-slate-400">
                     {tIntro(`work.${item.id}.position`)} · {tIntro(`work.${item.id}.period`)}
                   </p>
                 </div>
@@ -141,7 +141,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                   transition={{ duration: 0.28, ease: "easeInOut" }}
                   style={{ overflow: "hidden" }}
                 >
-                  <div className="px-6 pb-6 space-y-5">
+                  <div className="px-6 pb-7 space-y-6">
                     {projects.map((proj) => {
                       const highlights = tIntro(
                         `work.${item.id}.projects.${proj.id}.highlights`,
@@ -151,8 +151,8 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                       return (
                         <div key={proj.id}>
                           {/* Project name + tech */}
-                          <div className="flex flex-wrap items-center gap-2 mb-3">
-                            <span className="text-xs font-bold text-slate-700">
+                          <div className="flex flex-wrap items-center gap-2 mb-4">
+                            <span className="text-sm font-bold text-slate-700">
                               {tIntro(`work.${item.id}.projects.${proj.id}.name`)}
                             </span>
                             {proj.tech.map((tech) => (
@@ -168,7 +168,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                               variants={listVariants}
                               initial="hidden"
                               animate="show"
-                              className="space-y-2"
+                              className="space-y-3"
                             >
                               {highlights.map((h, i) => {
                                 const hKey = `${item.id}-${proj.id}-${i}`;
@@ -184,13 +184,13 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                     <button
                                       type="button"
                                       onClick={() => toggleHighlight(hKey)}
-                                      className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-50 transition-colors duration-150"
+                                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 transition-colors duration-150"
                                     >
                                       <div className="flex items-center gap-3 min-w-0">
-                                        <span className="shrink-0 text-[10px] font-semibold text-slate-300">
+                                        <span className="shrink-0 text-xs font-semibold text-slate-300">
                                           {String(i + 1).padStart(2, "0")}
                                         </span>
-                                        <p className="text-xs font-semibold text-slate-900 truncate">{h.title}</p>
+                                        <p className="text-sm font-semibold text-slate-900 truncate">{h.title}</p>
                                       </div>
                                       <motion.div
                                         animate={{ rotate: isHOpen ? 180 : 0 }}
@@ -214,40 +214,40 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                           transition={{ duration: 0.22, ease: "easeInOut" }}
                                           style={{ overflow: "hidden" }}
                                         >
-                                          <div className="px-4 pb-5">
+                                          <div className="px-5 pt-2 pb-6">
                                             {/* Timeline flow */}
-                                            <div className="relative pl-5">
+                                            <div className="relative pl-6">
                                               {/* Vertical connector */}
-                                              <div className="absolute left-[6px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
+                                              <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
 
                                               {/* Problem */}
-                                              <div className="relative pb-5">
-                                                <div className="absolute -left-5 top-[3px] w-3 h-3 rounded-full border-2 border-slate-300 bg-white" />
-                                                <span className="block text-[9px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
+                                              <div className="relative pb-6">
+                                                <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full border-2 border-slate-300 bg-white" />
+                                                <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
                                                   {tCommon("highlight.problem")}
                                                 </span>
-                                                <p className="text-xs text-slate-400 leading-relaxed">{h.problem}</p>
+                                                <p className="text-sm text-slate-400 leading-relaxed">{h.problem}</p>
                                               </div>
 
                                               {/* Solution */}
-                                              <div className="relative pb-5">
-                                                <div className="absolute -left-5 top-[3px] w-3 h-3 rounded-full bg-slate-600" />
-                                                <span className="block text-[9px] font-semibold uppercase tracking-widest text-slate-500 mb-1.5">
+                                              <div className="relative pb-6">
+                                                <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full bg-slate-600" />
+                                                <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-2">
                                                   {tCommon("highlight.solution")}
                                                 </span>
-                                                <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5">
-                                                  <p className="text-xs text-slate-700 leading-relaxed whitespace-pre-line">{h.solution}</p>
+                                                <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                                                  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{h.solution}</p>
                                                 </div>
                                               </div>
 
                                               {/* Result */}
                                               <div className="relative">
-                                                <div className="absolute -left-[21px] top-[3px] w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
-                                                <span className="block text-[9px] font-semibold uppercase tracking-widest text-slate-500 mb-1.5">
+                                                <div className="absolute -left-[25px] top-[4px] w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
+                                                <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-2">
                                                   {tCommon("highlight.result")}
                                                 </span>
-                                                <div className="rounded-xl bg-slate-900 px-3 py-2.5">
-                                                  <p className="text-xs font-semibold text-white leading-relaxed">{h.result}</p>
+                                                <div className="rounded-xl bg-slate-900 px-4 py-3">
+                                                  <p className="text-sm font-semibold text-white leading-relaxed">{h.result}</p>
                                                 </div>
                                               </div>
                                             </div>
@@ -304,16 +304,16 @@ const EducationTab: React.FC<{ data: EducationItem[] }> = ({ data }) => {
           variants={itemVariants}
           className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200"
         >
-          <h3 className="text-sm font-bold text-slate-900">
+          <h3 className="text-base font-bold text-slate-900">
             {t(`education.${item.id}.title`)}
           </h3>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-base text-slate-600">
             {t(`education.${item.id}.major`)}
           </p>
-          <span className="mt-2 inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-500">
+          <span className="mt-2 inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-sm text-slate-500">
             {t(`education.${item.id}.grade`)}
           </span>
-          <p className="mt-4 text-xs text-slate-400">
+          <p className="mt-4 text-sm text-slate-400">
             {t(`education.${item.id}.period`)}
           </p>
         </motion.div>
@@ -331,7 +331,7 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
     <motion.div variants={listVariants} className="space-y-8">
       {/* Awards */}
       <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
+        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-slate-400">
           {tCommon("info.awards")}
         </p>
         <div className="relative">
@@ -348,19 +348,19 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
                   <div className="absolute left-0 top-5 w-[23px] h-[23px] rounded-full border-2 border-slate-900 bg-white hidden sm:flex items-center justify-center">
                     <div className="w-2 h-2 rounded-full bg-slate-900" />
                   </div>
-                  <div className="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200">
+                  <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
-                      <h3 className="text-sm font-bold text-slate-900">
+                      <h3 className="text-base font-bold text-slate-900">
                         {t(`awards.${item.id}.title`)}
                       </h3>
-                      <span className="shrink-0 text-xs font-medium text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
+                      <span className="shrink-0 text-sm font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
                         {t(`awards.${item.id}.period`)}
                       </span>
                     </div>
                     {Array.isArray(desc) && desc.filter(Boolean).length > 0 && (
-                      <ul className="mt-3 space-y-1">
+                      <ul className="mt-4 space-y-1.5">
                         {desc.filter(Boolean).map((d, i) => (
-                          <li key={i} className="flex gap-2 text-xs text-slate-600">
+                          <li key={i} className="flex gap-2 text-sm text-slate-600">
                             <span className="shrink-0 text-slate-300 mt-0.5">—</span>
                             <span>{d}</span>
                           </li>
@@ -378,7 +378,7 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
       {/* Divider */}
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+        <span className="text-sm font-semibold uppercase tracking-widest text-slate-400">
           {tCommon("info.certificates")}
         </span>
         <div className="flex-1 h-px bg-slate-200" />
@@ -390,17 +390,17 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
           <motion.div
             key={item.id}
             variants={itemVariants}
-            className="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200"
+            className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200"
           >
             <div className="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center mb-3">
               <svg className="w-3.5 h-3.5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
             </div>
-            <h3 className="text-xs font-bold text-slate-900">
+            <h3 className="text-sm font-bold text-slate-900">
               {t(`certificate.${item.id}.title`)}
             </h3>
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="mt-2 text-sm text-slate-400">
               {t(`certificate.${item.id}.period`)}
             </p>
           </motion.div>
@@ -432,18 +432,47 @@ const ProfileSection: React.FC = () => {
 
   const handleTabChange = (tab: TabId) => {
     setActiveTab(tab);
-    contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    if (window.innerWidth >= 640) {
+      contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
     <section className="relative min-h-screen w-full">
       <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-16 pt-28">
+      {/* Mobile-only: fixed bottom tab bar */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 pb-safe">
+        <div className="flex gap-1 py-2">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => handleTabChange(tab.id)}
+              className="relative flex-1 rounded-xl px-2 py-2.5 text-xs font-semibold overflow-hidden transition-colors duration-150"
+            >
+              {activeTab === tab.id && (
+                <motion.div
+                  layoutId="activeTabBgMobile"
+                  className="absolute inset-0 bg-slate-900 rounded-xl"
+                  transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
+                />
+              )}
+              <span className={`relative z-10 transition-colors duration-150 ${activeTab === tab.id ? "text-white" : "text-slate-500"}`}>
+                {t(tab.labelKey)}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* pb-20 on mobile to avoid content hiding behind bottom tab bar */}
+      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 pb-28 sm:pb-16 pt-24 sm:pt-28">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-[3fr_7fr]">
 
-          {/* Left: tabs */}
-          <div className="order-2 sm:order-1 flex flex-col gap-2">
+          {/* Left: tabs — desktop only */}
+          <div className="hidden sm:flex sm:order-1 flex-col gap-2">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -464,11 +493,10 @@ const ProfileSection: React.FC = () => {
             ))}
           </div>
 
-          {/* Right: content */}
+          {/* Content */}
           <div
             ref={contentRef}
-            className="order-1 sm:order-2 overflow-y-auto overscroll-contain"
-            style={{ maxHeight: "calc(100vh - 180px)" }}
+            className="sm:order-2 sm:overflow-y-auto sm:overscroll-contain sm:max-h-[calc(100vh-180px)] scroll-mt-14"
           >
             <AnimatePresence mode="wait">
               <motion.div
