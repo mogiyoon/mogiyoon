@@ -13,7 +13,7 @@
     "techStack": ["React", "Nest.js", "FastAPI", "Unity", "AR/VR", "AWS", "PostgreSQL"],
     "role": "seoul-meari.overview.role",
     "github": "https://github.com/Seoul-Meari",
-    "demo": "https://dev.d1kkujxdgesuxm.amplifyapp.com",
+    "demo": null,
     "notion": null
   },
   "summaries": [
