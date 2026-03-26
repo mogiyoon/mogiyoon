@@ -439,8 +439,21 @@ const ProfileSection: React.FC = () => {
     }
   };
 
+  if (!data) {
+    return (
+      <section className="relative min-h-screen w-full">
+        <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
+      </section>
+    );
+  }
+
   return (
-    <section className="relative min-h-screen w-full">
+    <motion.section
+      className="relative w-full"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
       <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
 
       {/* Mobile-only: fixed bottom tab bar */}
@@ -467,7 +480,6 @@ const ProfileSection: React.FC = () => {
         </div>
       </div>
 
-      {/* pb-20 on mobile to avoid content hiding behind bottom tab bar */}
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 pb-28 sm:pb-16 pt-24 sm:pt-28">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-[3fr_7fr]">
 
@@ -500,16 +512,15 @@ const ProfileSection: React.FC = () => {
           >
             <AnimatePresence mode="wait">
               <motion.div
-                key={data ? activeTab : "__loading__"}
+                key={activeTab}
                 variants={contentVariants}
                 initial="hidden"
                 animate="show"
                 exit="exit"
               >
-                {!data && <p className="text-sm text-slate-400">Loading...</p>}
-                {data && activeTab === "workSkills" && <WorkSkillsTab data={data} />}
-                {data && activeTab === "education" && <EducationTab data={data.education} />}
-                {data && activeTab === "awardsAndCerts" && (
+                {activeTab === "workSkills" && <WorkSkillsTab data={data} />}
+                {activeTab === "education" && <EducationTab data={data.education} />}
+                {activeTab === "awardsAndCerts" && (
                   <AwardsAndCertsTab awards={data.awards} certs={data.certificates} />
                 )}
               </motion.div>
@@ -518,7 +529,7 @@ const ProfileSection: React.FC = () => {
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
