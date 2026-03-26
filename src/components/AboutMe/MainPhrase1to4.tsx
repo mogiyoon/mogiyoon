@@ -39,9 +39,9 @@ export const MainPhrase1to4: React.FC = () => {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className='absolute inset-0 bg-gradient-to-br from-blue-200 to-purple-200 text-gray-900'>
           {/* 시작 콘텐츠 */}
-          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg sm:text-2xl lg:text-3xl tracking-wide lg:tracking-wider whitespace-nowrap">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">{t('mainPhrase1')}</span>{t('mainPhrase2')}{' '}
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">{t('mainPhrase3')}</span>{t('mainPhrase4')}
+          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg sm:text-2xl lg:text-3xl tracking-widest whitespace-nowrap">
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">{t('mainPhrase1')}</span><span className="font-thin">{t('mainPhrase2')}</span>{' '}
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">{t('mainPhrase3')}</span><span className="font-thin">{t('mainPhrase4')}</span>
           </p>
           
           {/* 중간 콘텐츠: 노을 배경 */}
@@ -54,9 +54,9 @@ export const MainPhrase1to4: React.FC = () => {
             }}
           />
 
-          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg sm:text-2xl lg:text-3xl tracking-wide lg:tracking-wider whitespace-nowrap">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">{t('mainPhrase1')}</span>{t('mainPhrase2')}{' '}
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">{t('mainPhrase3')}</span>{t('mainPhrase4')}
+          <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg sm:text-2xl lg:text-3xl tracking-widest whitespace-nowrap">
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">{t('mainPhrase1')}</span><span className="font-thin">{t('mainPhrase2')}</span>{' '}
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">{t('mainPhrase3')}</span><span className="font-thin">{t('mainPhrase4')}</span>
           </p>
 
 

@@ -84,10 +84,10 @@ export const IntroLine: React.FC = () => {
             style={{ opacity: startContentOpacity }}
             className={`absolute inset-0 z-0`}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-white leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-white/90 font-light leading-relaxed tracking-widest whitespace-nowrap">
               {t("introLine1")}
             </div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-white leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-white/90 font-light leading-relaxed tracking-widest whitespace-nowrap">
               {t("introLine1-1")}
             </div>
           </motion.div>
@@ -102,10 +102,10 @@ export const IntroLine: React.FC = () => {
             style={{ opacity: endIntroLine }}
             className={`absolute inset-0 z-0`}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-black leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-gray-800 font-light leading-relaxed tracking-widest whitespace-nowrap">
               {t("introLine2")}
             </div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-black leading-relaxed tracking-wide lg:tracking-wider whitespace-nowrap">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-gray-800 font-light leading-relaxed tracking-widest whitespace-nowrap">
               {t("introLine2-1")}
             </div>
           </motion.div>
