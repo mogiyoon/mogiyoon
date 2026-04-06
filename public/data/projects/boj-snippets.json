@@ -1,0 +1,214 @@
+{
+  "id": "boj-snippets",
+  "title": "boj-snippets.title",
+  "subtitle": "boj-snippets.subtitle",
+  "demoGifSrc": "/images/bojSnippets/appGif.gif",
+  "description": "boj-snippets.description",
+  "overview": {
+    "projectType": "boj-snippets.overview.projectType",
+    "period": "2025.04",
+    "introduction": "boj-snippets.overview.introduction",
+    "features": "boj-snippets.overview.features",
+    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"],
+    "github": "https://github.com/mogiyoon/boj-snippets",
+    "demo": "https://chromewebstore.google.com/detail/boj-snippets-mogiyoon/omehpjefcoebjfcbiegjaaklfeelkpam",
+    "notion": null
+  },
+  "summaries": [
+    {
+      "id": "development",
+      "title": "boj-snippets.summaries.development.title",
+      "parts": [
+        [
+          {
+            "type": "subtitle",
+            "id": "motivation",
+            "content": "boj-snippets.summaries.development.parts.0.subtitle"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.development.parts.0.0"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "snippet_injection",
+            "content": "boj-snippets.summaries.development.parts.1.subtitle"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.development.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.development.parts.1.1"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "storage_structure",
+            "content": "boj-snippets.summaries.development.parts.2.subtitle"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.development.parts.2.0"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.development.parts.2.1"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "title": "boj-snippets.summaries.troubleshooting.title",
+      "parts": [
+        [
+          {
+            "type": "subtitle",
+            "id": "isolated_world",
+            "content": "boj-snippets.summaries.troubleshooting.parts.0.subtitle"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.0.0"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.0.1"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.0.2"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.0.3"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.0.4"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "chosen_library",
+            "content": "boj-snippets.summaries.troubleshooting.parts.1.subtitle"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.1.1"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "context_invalidated",
+            "content": "boj-snippets.summaries.troubleshooting.parts.2.subtitle"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.2.0"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.troubleshooting.parts.2.1"
+          }
+        ]
+      ]
+    },
+    {
+      "id": "results",
+      "title": "boj-snippets.summaries.results.title",
+      "parts": [
+        [
+          {
+            "type": "subtitle",
+            "id": "result",
+            "content": "boj-snippets.summaries.results.parts.0.0"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.results.parts.0.1"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.results.parts.0.2"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.results.parts.0.3"
+          }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "retrospect",
+            "content": "boj-snippets.summaries.results.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.results.parts.1.1"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.results.parts.1.2"
+          },
+          {
+            "type": "text",
+            "content": "boj-snippets.summaries.results.parts.1.3"
+          }
+        ]
+      ]
+    },
+    { "id": "blank", "title": "boj-snippets.summaries.blank.title", "parts": [] }
+  ],
+  "features": [
+    {
+      "name": "boj-snippets.features.0.name",
+      "description": "boj-snippets.features.0.description",
+      "icon": "CommunityIcon"
+    },
+    {
+      "name": "boj-snippets.features.1.name",
+      "description": "boj-snippets.features.1.description",
+      "icon": "VideoIcon"
+    },
+    {
+      "name": "boj-snippets.features.2.name",
+      "description": "boj-snippets.features.2.description",
+      "icon": "ShortFormIcon"
+    },
+    {
+      "name": "boj-snippets.features.3.name",
+      "description": "boj-snippets.features.3.description",
+      "icon": "MarketIcon"
+    }
+  ],
+  "screenshots": [
+    { "title": "boj-snippets 아이콘", "src": "/images/bojSnippets/Icon.png" }
+  ],
+  "developmentProcess": [
+    {
+      "title": "boj-snippets.developmentProcess.0.title",
+      "content": "boj-snippets.developmentProcess.0.content"
+    },
+    {
+      "title": "boj-snippets.developmentProcess.1.title",
+      "content": "boj-snippets.developmentProcess.1.content"
+    },
+    {
+      "title": "boj-snippets.developmentProcess.2.title",
+      "content": "boj-snippets.developmentProcess.2.content"
+    }
+  ],
+  "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" }
+}

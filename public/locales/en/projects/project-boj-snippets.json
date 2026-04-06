@@ -1,0 +1,108 @@
+{
+  "boj-snippets": {
+    "title": "BOJ Snippets Mogiyoon",
+    "subtitle": "Chrome Extension for Auto-inserting Code Snippets on BOJ",
+    "description": "A Chrome Extension built to eliminate the repetitive typing of boilerplate code when solving problems on Baekjoon Online Judge (BOJ). When you select a programming language, the corresponding boilerplate code is automatically inserted into the editor. Snippets and matching rules can be freely customized through the options page.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "A Chrome Extension that auto-inserts boilerplate code when selecting a language on BOJ submission pages",
+      "features": "Auto snippet insertion by language, manual insert button, snippet/rule customization, Chrome account sync"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features and Development Process",
+        "parts": {
+          "0": {
+            "subtitle": "Motivation",
+            "0": "Every time I solved a problem on BOJ, I had to write the same boilerplate code — ios::sync_with_stdio(false) for C++, sys.stdin.readline for Python, BufferedReader for Java, readline for JavaScript. These are unrelated to the actual solution but mandatory, and repeatedly typing them led to mistakes and wasted time."
+          },
+          "1": {
+            "subtitle": "CodeMirror Editor Code Injection",
+            "0": "BOJ's code editor is built with the CodeMirror library rather than a simple textarea, so code can only be inserted through CodeMirror's setValue() function.",
+            "1": "Since Chrome Extension Content Scripts run in an Isolated World, they can access HTML elements but not the page's JavaScript objects. The final solution was to use the chrome.scripting.executeScript API from the Background Service Worker, allowing the browser to directly execute code in the web page's context."
+          },
+          "2": {
+            "subtitle": "Storage Structure Design",
+            "0": "Snippets and language matching rules are stored in chrome.storage.sync. Snippets are managed as key-value pairs (language-code), and matching rules as an array of matchType/pattern/presetKey objects.",
+            "1": "For example, when selecting 'Python 3' on BOJ, the system iterates through rules, finds one containing 'python', and inserts the corresponding snippet into the editor. Rules and snippets can be freely added, modified, or deleted through the options page, enabling new language support without hardcoding."
+          }
+        }
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "parts": {
+          "0": {
+            "subtitle": "Isolated World + CSP Blocking",
+            "0": "Chrome Extensions and web pages share the same HTML but have isolated JavaScript variables (Isolated World). To access CodeMirror's JS object, code needed to be executed in the web page's world.",
+            "1": "Attempt 1: Injecting a <script> tag directly into the page → Blocked by BOJ's Content Security Policy (CSP).",
+            "2": "Attempt 2: Using Manifest V3's world: 'MAIN' option → Also blocked by CSP as it internally creates inline scripts.",
+            "3": "Attempt 3: Loading extension file via <script src> → CSP also blocked the chrome-extension:// protocol.",
+            "4": "Final Solution: Using chrome.scripting.executeScript with world: 'MAIN' from the Background Service Worker. Since the Chrome browser itself executes the code, it bypasses CSP restrictions."
+          },
+          "1": {
+            "subtitle": "Chosen Library Event Detection",
+            "0": "BOJ uses the Chosen UI library to style its dropdowns. The actual <select> element is hidden while Chosen displays a custom UI, making the standard change event unreliable for detecting language changes.",
+            "1": "Solution: Implemented a triple-monitoring system — (1) standard change event listener, (2) MutationObserver for DOM attribute changes, (3) polling every 500ms to check for value changes. Using all three methods ensures language changes are never missed."
+          },
+          "2": {
+            "subtitle": "Extension Context Invalidated Error",
+            "0": "During development, reloading the extension would trigger an 'Extension context invalidated' error. This occurs because the Content Script on existing pages remains connected to the previous (now defunct) extension instance.",
+            "1": "This is a development-only issue, resolved by refreshing the BOJ page after reloading the extension."
+          }
+        }
+      },
+      "results": {
+        "title": "Results and Retrospective",
+        "parts": {
+          "0": {
+            "0": "Lessons Learned",
+            "1": "Extensions and web pages live in different worlds — they share HTML but JavaScript variables are isolated. Accessing page JS objects requires bypassing through chrome.scripting.executeScript.",
+            "2": "CSP is stricter than expected — three different script injection methods were all blocked. Only the browser's native execution method passed through.",
+            "3": "Fancy dropdowns are traps — UI libraries like Chosen and Select2 often intercept default events. Never rely on a single event; use multiple detection methods for safety."
+          },
+          "1": {
+            "0": "Retrospective",
+            "1": "What started as a simple convenience project became a deep dive into Chrome Extension's security model (Isolated World, CSP) and third-party library internals (CodeMirror, Chosen).",
+            "2": "Failing three times before succeeding on the fourth attempt at code injection strengthened my ability to approach problems from multiple angles and understand browser internals.",
+            "3": "Designing the customization feature through the options page provided experience in building extensible architectures without hardcoding."
+          }
+        }
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      {
+        "name": "⚡ Auto Insert",
+        "description": "Selecting a language automatically inserts the corresponding boilerplate code into the editor"
+      },
+      {
+        "name": "🔧 Customizable",
+        "description": "Freely add, modify, or delete snippets and language matching rules through the options page"
+      },
+      {
+        "name": "🔄 Chrome Sync",
+        "description": "Settings sync across devices via chrome.storage.sync when signed into your Chrome account"
+      },
+      {
+        "name": "🛡️ CSP Bypass",
+        "description": "Operates reliably on CSP-protected sites through Background Service Worker execution"
+      }
+    ],
+    "developmentProcess": [
+      {
+        "title": "Problem Identification",
+        "content": "Recognized the inefficiency of repeatedly writing the same boilerplate code when solving problems on BOJ"
+      },
+      {
+        "title": "Core Feature Implementation",
+        "content": "Developed the mechanism for injecting code into the CodeMirror editor using Chrome Extension Manifest V3"
+      },
+      {
+        "title": "Stabilization and Release",
+        "content": "Addressed Chosen library compatibility, implemented options page, and completed chrome.storage.sync-based storage structure"
+      }
+    ]
+  }
+}
