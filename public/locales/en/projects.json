@@ -34,5 +34,12 @@
     "overview": {
       "projectType": "Personal Project"
     }
+  },
+  "boj-snippets": {
+    "title": "BOJ Snippets Mogiyoon",
+    "subtitle": "Chrome Extension for Auto-inserting Code Snippets on BOJ",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
