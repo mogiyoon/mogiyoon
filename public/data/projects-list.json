@@ -40,5 +40,13 @@
     "projectType": "teacher-test.overview.projectType",
     "screenshots": [{ "src": "/images/teacherTest/Icon.png", "alt": "Tea Time Thumbnail" }],
     "techStack": ["Flutter", "Provider", "Material Design", "Firebase"]
+  },
+  {
+    "id": "boj-snippets",
+    "title": "boj-snippets.title",
+    "subtitle": "boj-snippets.subtitle",
+    "projectType": "boj-snippets.overview.projectType",
+    "screenshots": [{ "src": "/images/bojSnippets/Icon.png", "alt": "BOJ Snippets Thumbnail" }],
+    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"]
   }
 ]
