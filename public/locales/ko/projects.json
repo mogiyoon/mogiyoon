@@ -34,5 +34,12 @@
     "overview": {
       "projectType": "개인 프로젝트"
     }
+  },
+  "boj-snippets": {
+    "title": "BOJ Snippets Mogiyoon",
+    "subtitle": "백준 문제풀이용 코드 스니펫 자동 삽입 크롬 확장프로그램",
+    "overview": {
+      "projectType": "개인 프로젝트"
+    }
   }
 }
