@@ -28,6 +28,20 @@ export interface Feature { name: string; description: string; icon: IconType; }
 export interface Screenshot { title: string; src: string; }
 export interface DevelopmentStep { title: string; content: string; }
 
+export interface ClaudeAgent {
+  name: string;
+  role: string;           // i18n key
+  permissions?: 'readonly' | 'bypassPermissions';
+}
+
+export interface ClaudeInfo {
+  method: 'direct' | 'harness' | 'orchestrator';
+  summary: string;        // i18n key — 한 줄 요약
+  agents?: ClaudeAgent[]; // 하네스 에이전트 목록 (direct에서는 생략)
+  flow?: string[];        // i18n keys — 실행 흐름 단계 (direct에서는 생략)
+  details?: string;       // i18n key — 추가 설명 (구조, 설정, 특이사항)
+}
+
 export interface ProjectSummary {
     id: string;
     title: string;
@@ -38,6 +52,7 @@ export interface ProjectSummary {
     stickerText?: string;
     stickerColor?: string;
     stickerIcon?: string;
+    claudeInfo?: ClaudeInfo;
 }
 
 // '개요' 섹션을 위한 타입
@@ -70,6 +85,7 @@ export interface ProjectData {
     name: string;
     url: string;
   };
+  claudeInfo?: ClaudeInfo;
 
   // 확장성을 위해 수정된 부분
   overview: ProjectOverview;

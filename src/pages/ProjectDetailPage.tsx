@@ -109,6 +109,14 @@ const ProjectDetailPage: React.FC = () => {
             <p className="text-base sm:text-lg text-slate-500 max-w-xl mx-auto">
               {t(project.subtitle, { ns: `projects/project-${projectId}` })}
             </p>
+            {project.claudeInfo && (
+              <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#c66240]/10">
+                <span className="w-2 h-2 rounded-full bg-[#c66240]" />
+                <span className="text-sm text-[#c66240] font-medium">
+                  {t(project.claudeInfo.summary, { ns: `projects/project-${projectId}` })}
+                </span>
+              </div>
+            )}
           </header>
 
           {/* Demo GIF */}

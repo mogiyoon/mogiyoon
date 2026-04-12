@@ -47,6 +47,10 @@
     "subtitle": "boj-snippets.subtitle",
     "projectType": "boj-snippets.overview.projectType",
     "screenshots": [{ "src": "/images/bojSnippets/Icon.png", "alt": "BOJ Snippets Thumbnail" }],
-    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"]
+    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"],
+    "claudeInfo": {
+      "method": "direct",
+      "summary": "boj-snippets.claudeInfo.summary"
+    }
   }
 ]

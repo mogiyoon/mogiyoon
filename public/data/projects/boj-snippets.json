@@ -210,5 +210,10 @@
       "content": "boj-snippets.developmentProcess.2.content"
     }
   ],
-  "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" }
+  "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" },
+  "claudeInfo": {
+    "method": "direct",
+    "summary": "boj-snippets.claudeInfo.summary",
+    "details": "boj-snippets.claudeInfo.details"
+  }
 }
