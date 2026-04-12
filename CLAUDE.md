@@ -42,3 +42,80 @@
 | 가짜 UI, 예쁜 드롭다운 | 커스텀 UI, 커스텀 드롭다운 |
 | 삽질을 했다, 발목을 잡았다 | 다수의 시도를 진행함, 제약 사항이 존재함 |
 | 3번 실패하고 4번째에 성공 | 다수의 시도 끝에 해결 |
+
+# Claude 협업 정보 프로토콜 (claudeInfo)
+
+Claude를 활용하여 개발한 프로젝트에 협업 방식을 기록하기 위한 양식.
+
+## 타입 정의 (`src/types/index.ts`)
+
+```ts
+interface ClaudeInfo {
+  method: 'direct' | 'harness' | 'orchestrator';
+  summary: string;        // i18n key — 한 줄 요약
+  agents?: ClaudeAgent[]; // 하네스 에이전트 목록 (direct에서는 생략)
+  flow?: string[];        // i18n keys — 실행 흐름 단계 (direct에서는 생략)
+  details?: string;       // i18n key — 추가 설명
+}
+```
+
+## 적용 위치
+
+### 1. `projects-list.json` (카드 뱃지 표시용)
+```json
+{
+  "id": "project-id",
+  "claudeInfo": {
+    "method": "direct",
+    "summary": "project-id.claudeInfo.summary"
+  }
+}
+```
+
+### 2. `projects/{project-id}.json` (상세 페이지용)
+```json
+{
+  "claudeInfo": {
+    "method": "direct",
+    "summary": "project-id.claudeInfo.summary",
+    "details": "project-id.claudeInfo.details"
+  }
+}
+```
+
+### 3. i18n 번역 파일 (`project-{project-id}.json`)
+```json
+{
+  "claudeInfo": {
+    "summary": "한 줄 요약",
+    "details": "상세 설명"
+  }
+}
+```
+
+## method별 사용 예시
+
+### direct — 단일 Claude 직접 사용
+```json
+{
+  "method": "direct",
+  "summary": "i18n-key",
+  "details": "i18n-key"
+}
+```
+
+### harness — 멀티에이전트 하네스 사용
+```json
+{
+  "method": "harness",
+  "summary": "i18n-key",
+  "agents": [
+    { "name": "Architect", "role": "i18n-key", "permissions": "readonly" },
+    { "name": "Coder", "role": "i18n-key", "permissions": "bypassPermissions" },
+    { "name": "Debugger", "role": "i18n-key", "permissions": "readonly" },
+    { "name": "Reviewer", "role": "i18n-key", "permissions": "readonly" }
+  ],
+  "flow": ["i18n-key-step1", "i18n-key-step2", "i18n-key-step3"],
+  "details": "i18n-key"
+}
+```

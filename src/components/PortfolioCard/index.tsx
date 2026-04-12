@@ -66,6 +66,21 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                 </span>
                             </div>
                         </div>
+                            {project.claudeInfo && (
+                                <div
+                                    className="
+                                        pointer-events-none select-none
+                                        absolute top-3 right-3
+                                        flex items-center
+                                        px-2.5 py-1
+                                        rounded-full shadow-md
+                                        bg-[#c66240]
+                                    "
+                                    aria-hidden
+                                >
+                                    <span className="text-white text-[10px] font-bold tracking-wide">Claude</span>
+                                </div>
+                            )}
                             {project.stickerText && (
                                 <div
                                 className={`
