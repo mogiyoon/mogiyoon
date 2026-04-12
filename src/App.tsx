@@ -19,9 +19,12 @@ const getInitialTab = () => {
 const AppContent: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(getInitialTab);
-  const [headerTranslate, setHeaderTranslate] = useState(0);
-  const lastScrollY = useRef(0);
   const HEADER_HEIGHT = 80;
+  const [headerTranslate, setHeaderTranslate] = useState(() =>
+    window.location.pathname === '/' ? -HEADER_HEIGHT : 0
+  );
+  const lastScrollY = useRef(0);
+  const headerRevealed = useRef(window.location.pathname !== '/');
   
   const location = useLocation();
 
@@ -44,10 +47,13 @@ const AppContent: React.FC = () => {
       }
 
       if (currentScrollY <= 0) {
-        setHeaderTranslate(0);
+        if (headerRevealed.current) {
+          setHeaderTranslate(0);
+        }
         lastScrollY.current = 0;
         return;
       }
+      headerRevealed.current = true;
       setHeaderTranslate((prev) =>
         Math.max(-HEADER_HEIGHT, Math.min(0, prev - delta))
       );
