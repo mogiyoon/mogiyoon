@@ -1,0 +1,14 @@
+tasks:
+  - id: example-task
+    title: "예시 태스크 — 실제 태스크로 교체할 것"
+    status: pending          # pending | in_progress | done | failed
+    description: |
+      이 파일은 태스크 목록 템플릿입니다.
+      실제 구현할 태스크로 교체하세요.
+    test_command: "npx tsc -b --noEmit"
+    files_to_read:
+      - src/App.tsx
+    depends_on: []
+    acceptance:
+      - "TypeScript 빌드 통과"
+      - "기존 기능 정상 동작"
