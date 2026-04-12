@@ -103,6 +103,10 @@
         "title": "Stabilization and Release",
         "content": "Addressed Chosen library compatibility, implemented options page, and completed chrome.storage.sync-based storage structure"
       }
-    ]
+    ],
+    "claudeInfo": {
+      "summary": "Built with Claude",
+      "details": "Developed from design to implementation using Claude Code CLI as a single agent. No harness was used; development was conducted through direct conversation."
+    }
   }
 }
