@@ -42,12 +42,14 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                 >
                     <div className="absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
                         <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
-                            <img
-                                src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
-                                alt={`${t(project.title || '')} Thumbnail`}
-                                className="w-full aspect-square object-contain p-4"
-                                onError={handleImageError}
-                            />
+                            <div className="p-4">
+                                <img
+                                    src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
+                                    alt={`${t(project.title || '')} Thumbnail`}
+                                    className="w-full aspect-square object-contain rounded-[3rem]"
+                                    onError={handleImageError}
+                                />
+                            </div>
                         <div className="px-6 pb-4 flex flex-col flex-grow overflow-y-auto">
                             <h3 className="text-2xl font-bold mb-2 truncate">
                                 {t(project.title || '')}
@@ -66,6 +68,21 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                 </span>
                             </div>
                         </div>
+                            {project.claudeInfo && (
+                                <div
+                                    className="
+                                        pointer-events-none select-none
+                                        absolute top-3 right-3
+                                        flex items-center
+                                        px-2.5 py-1
+                                        rounded-full shadow-md
+                                        bg-[#c66240]
+                                    "
+                                    aria-hidden
+                                >
+                                    <span className="text-white text-[10px] font-bold tracking-wide">Claude</span>
+                                </div>
+                            )}
                             {project.stickerText && (
                                 <div
                                 className={`
