@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { animation } from "../../design-tokens";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type TabId = "workSkills" | "education" | "awardsAndCerts";
@@ -28,21 +29,11 @@ type ProfileData = {
 };
 
 // ── Animation Variants ─────────────────────────────────────────────────────────
-const contentVariants: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.22, ease: "easeOut" } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.15 } },
-};
+const contentVariants: Variants = animation.content;
 
-const listVariants: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07 } },
-};
+const listVariants: Variants = animation.list.variants;
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" } },
-};
+const itemVariants: Variants = animation.list.item;
 
 // ── SkillsBlock ────────────────────────────────────────────────────────────────
 const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
@@ -52,7 +43,7 @@ const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
     <div className="divide-y divide-slate-100">
       {data.map((group) => (
         <div key={group.category} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
-          <span className="shrink-0 w-24 pt-0.5 text-sm font-semibold uppercase tracking-widest text-slate-400">
+          <span className="shrink-0 w-24 pt-0.5 text-sm font-semibold uppercase tracking-widest text-content-muted">
             {t(`skills.${group.category}`, { defaultValue: group.category })}
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -60,8 +51,8 @@ const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
               <motion.span
                 key={item}
                 whileHover={{ y: -2 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-700 cursor-default"
+                transition={animation.chipHover.transition}
+                className="inline-flex items-center rounded-full border border-line bg-surface-subtle px-3 py-1 text-sm font-medium text-content-secondary cursor-default"
               >
                 {item}
               </motion.span>
@@ -99,7 +90,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
         return (
           <div
             key={item.id}
-            className="rounded-3xl border border-slate-200 bg-white/80 shadow-sm backdrop-blur overflow-hidden"
+            className="rounded-3xl border border-line bg-surface/80 shadow-sm backdrop-blur overflow-hidden"
           >
             {/* Company header */}
             <button
@@ -109,10 +100,10 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
             >
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-content">
                     {tIntro(`work.${item.id}.title`)}
                   </h3>
-                  <p className="mt-0.5 text-sm text-slate-400">
+                  <p className="mt-0.5 text-sm text-content-muted">
                     {tIntro(`work.${item.id}.position`)} · {tIntro(`work.${item.id}.period`)}
                   </p>
                 </div>
@@ -120,7 +111,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                   <motion.div
                     animate={{ rotate: isWorkOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
-                    className="shrink-0 text-slate-400"
+                    className="shrink-0 text-content-muted"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -152,7 +143,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                         <div key={proj.id}>
                           {/* Project name + tech */}
                           <div className="flex flex-wrap items-center gap-2 mb-4">
-                            <span className="text-sm font-bold text-slate-700">
+                            <span className="text-sm font-bold text-content-secondary">
                               {tIntro(`work.${item.id}.projects.${proj.id}.name`)}
                             </span>
                             {proj.tech.map((tech) => (
@@ -178,24 +169,24 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                   <motion.div
                                     key={i}
                                     variants={itemVariants}
-                                    className="rounded-2xl border border-slate-100 bg-white overflow-hidden"
+                                    className="rounded-modal border border-line bg-surface overflow-hidden"
                                   >
                                     {/* Title row (always visible) */}
                                     <button
                                       type="button"
                                       onClick={() => toggleHighlight(hKey)}
-                                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 transition-colors duration-150"
+                                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-surface-subtle transition-colors duration-150"
                                     >
                                       <div className="flex items-center gap-3 min-w-0">
                                         <span className="shrink-0 text-xs font-semibold text-slate-300">
                                           {String(i + 1).padStart(2, "0")}
                                         </span>
-                                        <p className="text-sm font-semibold text-slate-900 truncate">{h.title}</p>
+                                        <p className="text-sm font-semibold text-content truncate">{h.title}</p>
                                       </div>
                                       <motion.div
                                         animate={{ rotate: isHOpen ? 180 : 0 }}
                                         transition={{ duration: 0.18 }}
-                                        className="shrink-0 ml-3 text-slate-400"
+                                        className="shrink-0 ml-3 text-content-muted"
                                       >
                                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -222,31 +213,31 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                               {/* Problem */}
                                               <div className="relative pb-6">
-                                                <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full border-2 border-slate-300 bg-white" />
+                                                <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
                                                 <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
                                                   {tCommon("highlight.problem")}
                                                 </span>
-                                                <p className="text-sm text-slate-400 leading-relaxed">{h.problem}</p>
+                                                <p className="text-sm text-content-muted leading-relaxed">{h.problem}</p>
                                               </div>
 
                                               {/* Solution */}
                                               <div className="relative pb-6">
                                                 <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full bg-slate-600" />
-                                                <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-2">
+                                                <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
                                                   {tCommon("highlight.solution")}
                                                 </span>
-                                                <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-                                                  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{h.solution}</p>
+                                                <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
+                                                  <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{h.solution}</p>
                                                 </div>
                                               </div>
 
                                               {/* Result */}
                                               <div className="relative">
                                                 <div className="absolute -left-[25px] top-[4px] w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
-                                                <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-2">
+                                                <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
                                                   {tCommon("highlight.result")}
                                                 </span>
-                                                <div className="rounded-xl bg-slate-900 px-4 py-3">
+                                                <div className="rounded-card bg-slate-900 px-4 py-3">
                                                   <p className="text-sm font-semibold text-white leading-relaxed">{h.result}</p>
                                                 </div>
                                               </div>
@@ -279,7 +270,7 @@ const WorkSkillsTab: React.FC<{ data: ProfileData }> = ({ data }) => {
   return (
     <div className="space-y-8">
       {/* Skills on top */}
-      <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur">
+      <div className="rounded-3xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur">
         <SkillsBlock data={data.skills} />
       </div>
 
@@ -302,18 +293,18 @@ const EducationTab: React.FC<{ data: EducationItem[] }> = ({ data }) => {
         <motion.div
           key={item.id}
           variants={itemVariants}
-          className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200"
+          className="rounded-3xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200"
         >
-          <h3 className="text-base font-bold text-slate-900">
+          <h3 className="text-base font-bold text-content">
             {t(`education.${item.id}.title`)}
           </h3>
-          <p className="mt-1 text-base text-slate-600">
+          <p className="mt-1 text-base text-content-meta">
             {t(`education.${item.id}.major`)}
           </p>
-          <span className="mt-2 inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-sm text-slate-500">
+          <span className="mt-2 inline-block rounded-full bg-surface-muted px-2.5 py-0.5 text-sm text-content-tertiary">
             {t(`education.${item.id}.grade`)}
           </span>
-          <p className="mt-4 text-sm text-slate-400">
+          <p className="mt-4 text-sm text-content-muted">
             {t(`education.${item.id}.period`)}
           </p>
         </motion.div>
@@ -331,7 +322,7 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
     <motion.div variants={listVariants} className="space-y-8">
       {/* Awards */}
       <div>
-        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-slate-400">
+        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-content-muted">
           {tCommon("info.awards")}
         </p>
         <div className="relative">
@@ -345,22 +336,22 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
 
               return (
                 <motion.div key={item.id} variants={itemVariants} className="sm:pl-8 relative">
-                  <div className="absolute left-0 top-5 w-[23px] h-[23px] rounded-full border-2 border-slate-900 bg-white hidden sm:flex items-center justify-center">
+                  <div className="absolute left-0 top-5 w-[23px] h-[23px] rounded-full border-2 border-slate-900 bg-surface hidden sm:flex items-center justify-center">
                     <div className="w-2 h-2 rounded-full bg-slate-900" />
                   </div>
-                  <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200">
+                  <div className="rounded-3xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
-                      <h3 className="text-base font-bold text-slate-900">
+                      <h3 className="text-base font-bold text-content">
                         {t(`awards.${item.id}.title`)}
                       </h3>
-                      <span className="shrink-0 text-sm font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
+                      <span className="shrink-0 text-sm font-medium text-content-muted bg-surface-muted px-3 py-1 rounded-full">
                         {t(`awards.${item.id}.period`)}
                       </span>
                     </div>
                     {Array.isArray(desc) && desc.filter(Boolean).length > 0 && (
                       <ul className="mt-4 space-y-1.5">
                         {desc.filter(Boolean).map((d, i) => (
-                          <li key={i} className="flex gap-2 text-sm text-slate-600">
+                          <li key={i} className="flex gap-2 text-sm text-content-meta">
                             <span className="shrink-0 text-slate-300 mt-0.5">—</span>
                             <span>{d}</span>
                           </li>
@@ -378,7 +369,7 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
       {/* Divider */}
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-sm font-semibold uppercase tracking-widest text-slate-400">
+        <span className="text-sm font-semibold uppercase tracking-widest text-content-muted">
           {tCommon("info.certificates")}
         </span>
         <div className="flex-1 h-px bg-slate-200" />
@@ -390,17 +381,17 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
           <motion.div
             key={item.id}
             variants={itemVariants}
-            className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200"
+            className="rounded-3xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur hover:shadow-md transition-shadow duration-200"
           >
             <div className="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center mb-3">
               <svg className="w-3.5 h-3.5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
             </div>
-            <h3 className="text-sm font-bold text-slate-900">
+            <h3 className="text-sm font-bold text-content">
               {t(`certificate.${item.id}.title`)}
             </h3>
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-content-muted">
               {t(`certificate.${item.id}.period`)}
             </p>
           </motion.div>
@@ -457,22 +448,22 @@ const ProfileSection: React.FC = () => {
       <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
 
       {/* Mobile-only: fixed bottom tab bar */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 pb-safe">
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-t border-line px-4 pb-safe">
         <div className="flex gap-1 py-2">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className="relative flex-1 rounded-xl px-2 py-2.5 text-xs font-semibold overflow-hidden transition-colors duration-150"
+              className="relative flex-1 rounded-card px-2 py-2.5 text-xs font-semibold overflow-hidden transition-colors duration-150"
             >
               {activeTab === tab.id && (
                 <motion.div
                   layoutId="activeTabBgMobile"
-                  className="absolute inset-0 bg-slate-900 rounded-xl"
+                  className="absolute inset-0 bg-slate-900 rounded-card"
                   transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
                 />
               )}
-              <span className={`relative z-10 transition-colors duration-150 ${activeTab === tab.id ? "text-white" : "text-slate-500"}`}>
+              <span className={`relative z-10 transition-colors duration-150 ${activeTab === tab.id ? "text-white" : "text-content-tertiary"}`}>
                 {t(tab.labelKey)}
               </span>
             </button>
@@ -489,16 +480,16 @@ const ProfileSection: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
-                className="relative text-left rounded-2xl px-6 py-5 text-sm font-semibold overflow-hidden transition-colors duration-150"
+                className="relative text-left rounded-modal px-6 py-5 text-sm font-semibold overflow-hidden transition-colors duration-150"
               >
                 {activeTab === tab.id && (
                   <motion.div
                     layoutId="activeTabBg"
-                    className="absolute inset-0 bg-slate-900 rounded-2xl"
+                    className="absolute inset-0 bg-slate-900 rounded-modal"
                     transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
                   />
                 )}
-                <span className={`relative z-10 transition-colors duration-150 ${activeTab === tab.id ? "text-white" : "text-slate-600 hover:text-slate-900"}`}>
+                <span className={`relative z-10 transition-colors duration-150 ${activeTab === tab.id ? "text-white" : "text-content-meta hover:text-content"}`}>
                   {t(tab.labelKey)}
                 </span>
               </button>

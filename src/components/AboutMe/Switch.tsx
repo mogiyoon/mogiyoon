@@ -1,5 +1,6 @@
 // Switch.tsx
 import { motion, MotionValue } from 'framer-motion';
+import { animation } from '../../design-tokens';
 
 interface SwitchProps {
   onClick: () => void;
@@ -16,13 +17,13 @@ export const Switch: React.FC<SwitchProps> = ({ onClick, opacity, isSwitchedOn }
       <button
         onClick={onClick}
         className={`w-20 h-10 rounded-full flex items-center p-1 transition-colors duration-300 ${
-          isSwitchedOn ? 'bg-yellow-400 justify-end' : 'bg-gray-600 justify-start'
+          isSwitchedOn ? 'bg-yellow-400 justify-end' : 'bg-slate-600 justify-start'
         } cursor-pointer`} // 🔴 disabled 스타일링 제거
       >
         <motion.div
           layout
-          className="w-8 h-8 bg-white rounded-full shadow-md"
-          transition={{ type: 'spring', stiffness: 700, damping: 30 }}
+          className="w-8 h-8 bg-surface rounded-full shadow-md"
+          transition={animation.tabSpring}
         />
       </button>
       <span className="text-white text-sm font-semibold tracking-wider">

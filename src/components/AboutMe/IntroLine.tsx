@@ -34,7 +34,7 @@ export const IntroLine: React.FC = () => {
   return (
     <section ref={targetRef} className="relative h-[2000vh]">
       <div className="sticky top-0 h-screen w-full">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 text-slate-100">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 text-slate-100">
           {/* 시작 콘텐츠 */}
           <motion.div
             style={{ opacity: startImage1 }}
@@ -43,7 +43,7 @@ export const IntroLine: React.FC = () => {
             <img
               src="/images/aboutMe/introLine1/1.png"
               alt="image 1"
-              className="absolute top-1/2 left-1/2 -translate-x-[80%] -translate-y-[130%] sm:-translate-x-[140%] sm:-translate-y-[115%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
+              className="absolute top-1/2 left-1/2 -translate-x-[80%] -translate-y-[130%] sm:-translate-x-[140%] sm:-translate-y-[115%] border-[1px] border-black rounded-card shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
             />
           </motion.div>
 
@@ -54,7 +54,7 @@ export const IntroLine: React.FC = () => {
             <img
                 src="/images/aboutMe/introLine1/2.png"
                 alt="image 1"
-                className="absolute top-1/2 left-1/2 -translate-x-[20%] translate-y-[35%] sm:translate-x-[30%] sm:translate-y-[30%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
+                className="absolute top-1/2 left-1/2 -translate-x-[20%] translate-y-[35%] sm:translate-x-[30%] sm:translate-y-[30%] border-[1px] border-black rounded-card shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
             />
           </motion.div>
 
@@ -65,7 +65,7 @@ export const IntroLine: React.FC = () => {
             <img
                 src="/images/aboutMe/introLine1/3.png"
                 alt="image 1"
-                className="absolute top-1/2 left-1/2 -translate-x-[90%] translate-y-[115%] sm:-translate-x-[100%] sm:translate-y-[50%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
+                className="absolute top-1/2 left-1/2 -translate-x-[90%] translate-y-[115%] sm:-translate-x-[100%] sm:translate-y-[50%] border-[1px] border-black rounded-card shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[32%] lg:w-[26%]"
             />
           </motion.div>
 
@@ -76,7 +76,7 @@ export const IntroLine: React.FC = () => {
             <img
                 src="/images/aboutMe/introLine1/4.png"
                 alt="image 1"
-                className="absolute top-1/2 left-1/2 translate-x-[100%] -translate-y-[145%] sm:translate-x-[15%] sm:-translate-y-[130%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[20%] sm:w-[18%] lg:w-[16%]"
+                className="absolute top-1/2 left-1/2 translate-x-[100%] -translate-y-[145%] sm:translate-x-[15%] sm:-translate-y-[130%] border-[1px] border-black rounded-card shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[20%] sm:w-[18%] lg:w-[16%]"
             />
           </motion.div>
 
@@ -95,17 +95,17 @@ export const IntroLine: React.FC = () => {
           {/* 끝 콘텐츠 */}
           <motion.div
             style={{ opacity: endBackgroundOpacity }}
-            className="absolute inset-0 z-0 bg-gradient-to-br from-red-200 via-green-100 to-emerald-200 text-gray-800"
+            className="absolute inset-0 z-0 bg-gradient-to-br from-red-200 via-green-100 to-emerald-200 text-content-strong"
           ></motion.div>
 
           <motion.div
             style={{ opacity: endIntroLine }}
             className={`absolute inset-0 z-0`}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-gray-800 font-light leading-relaxed tracking-widest whitespace-nowrap">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-content-strong font-light leading-relaxed tracking-widest whitespace-nowrap">
               {t("introLine2")}
             </div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-gray-800 font-light leading-relaxed tracking-widest whitespace-nowrap">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-content-strong font-light leading-relaxed tracking-widest whitespace-nowrap">
               {t("introLine2-1")}
             </div>
           </motion.div>
@@ -114,7 +114,7 @@ export const IntroLine: React.FC = () => {
             <img
               src="/images/aboutMe/introLine2/1.png"
               alt="image 1"
-              className="absolute top-1/2 left-1/2 -translate-x-[65%] -translate-y-[180%] sm:-translate-x-[80%] sm:-translate-y-[130%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[70%] sm:w-[55%] lg:w-[40%]"
+              className="absolute top-1/2 left-1/2 -translate-x-[65%] -translate-y-[180%] sm:-translate-x-[80%] sm:-translate-y-[130%] border-[1px] border-black rounded-card shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[70%] sm:w-[55%] lg:w-[40%]"
             />
           </motion.div>
 
@@ -122,7 +122,7 @@ export const IntroLine: React.FC = () => {
             <img
               src="/images/aboutMe/introLine2/2.png"
               alt="image 2"
-              className="absolute top-1/2 left-1/2 -translate-x-[10%] translate-y-[40%] sm:-translate-x-[10%] sm:translate-y-[50%] border-[1px] border-black rounded-xl shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[40%] lg:w-[30%]"
+              className="absolute top-1/2 left-1/2 -translate-x-[10%] translate-y-[40%] sm:-translate-x-[10%] sm:translate-y-[50%] border-[1px] border-black rounded-card shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)] w-[50%] sm:w-[40%] lg:w-[30%]"
             />
           </motion.div>
 
