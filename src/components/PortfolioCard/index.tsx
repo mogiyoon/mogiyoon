@@ -41,7 +41,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                     }}
                 >
                     <div className="absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
-                        <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
+                        <div className="bg-surface rounded-card shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
                             <div className="p-4">
                                 <img
                                     src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
@@ -55,15 +55,15 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                 {t(project.title || '')}
                             </h3>
                             <p className="
-                                text-gray-600 mb-2
-                                text-sm h-10 
+                                text-content-secondary mb-2
+                                text-sm h-10
                                 md:text-base md:h-20
                                 line-clamp-3
                             ">
                                 {t(project.subtitle || '')}
                             </p>
                             <div className="flex flex-wrap mt-auto">
-                                <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                                <span className="bg-accent-100 text-accent-700 text-xs font-medium px-2 py-0.5 rounded-full">
                                     {t(project.projectType || '')}
                                 </span>
                             </div>
@@ -152,13 +152,13 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                         className="absolute w-full h-full"
                         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                     >
-                        <div className="bg-gray-400 text-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
+                        <div className="bg-slate-800 text-white rounded-card shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
                             <h4 className="text-xl font-bold mb-4">Tech Stack</h4>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {project.techStack?.map((tech) => (
                                     <span
                                         key={tech}
-                                        className="bg-indigo-500 text-white text-sm font-medium px-3 py-1 rounded-full"
+                                        className="bg-accent-500 text-white text-sm font-medium px-3 py-1 rounded-full"
                                     >
                                         {tech}
                                     </span>

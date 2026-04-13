@@ -24,7 +24,7 @@ export const WorkExperienceCard: React.FC<{
   children,
 }) => {
   return (
-    <div className="my-5 rounded-3xl border border-slate-200 bg-white/80 shadow-sm backdrop-blur">
+    <div className="my-5 rounded-3xl border border-line bg-surface/80 shadow-sm backdrop-blur">
       {/* Header */}
       <button
         type="button"
@@ -34,19 +34,19 @@ export const WorkExperienceCard: React.FC<{
       >
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h3 className="text-lg font-bold text-slate-900">{company}</h3>
-            <p className="mt-1 text-sm font-semibold text-slate-700">{role}</p>
-            <p className="mt-1 text-sm text-slate-500">{period}</p>
+            <h3 className="text-lg font-bold text-content">{company}</h3>
+            <p className="mt-1 text-sm font-semibold text-content-secondary">{role}</p>
+            <p className="mt-1 text-sm text-content-tertiary">{period}</p>
           </div>
 
           <div className="shrink-0 text-right">
             {metaRight}
-            <p className="mt-2 text-xs text-slate-500">{isOpen ? "접기" : "자세히"}</p>
+            <p className="mt-2 text-xs text-content-tertiary">{isOpen ? "접기" : "자세히"}</p>
           </div>
         </div>
 
         {oneLiner ? (
-          <p className="mt-4 text-sm text-slate-600">{oneLiner}</p>
+          <p className="mt-4 text-sm text-content-meta">{oneLiner}</p>
         ) : null}
 
         {/* Tech chips (항상 노출 추천) */}
@@ -55,7 +55,7 @@ export const WorkExperienceCard: React.FC<{
             {tech.map((s) => (
               <span
                 key={s}
-                className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700"
+                className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-content-secondary"
               >
                 {s}
               </span>
@@ -72,9 +72,9 @@ export const WorkExperienceCard: React.FC<{
       >
         <div className="px-6 pb-6">
           {achievements?.filter(Boolean).length ? (
-            <div className="mt-2 rounded-2xl border border-slate-200/70 bg-white p-5">
-              <p className="text-sm font-bold text-slate-900">Key Achievements</p>
-              <ul className="mt-3 list-disc pl-5 text-sm text-slate-700">
+            <div className="mt-2 rounded-modal border border-line/70 bg-surface p-5">
+              <p className="text-sm font-bold text-content">Key Achievements</p>
+              <ul className="mt-3 list-disc pl-5 text-sm text-content-secondary">
                 {achievements.filter(Boolean).map((a, idx) => (
                   <li key={idx}>{a}</li>
                 ))}
