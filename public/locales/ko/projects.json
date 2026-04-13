@@ -1,5 +1,24 @@
 {
   "projectTitle": "프로젝트",
+  "aiDevKit": {
+    "title": "AI DevKit",
+    "subtitle": "프로젝트에 활용한 AI 개발 도구",
+    "skills": {
+      "title": "Skills",
+      "description": "반복 작업을 자동화하는 커스텀 스킬 모음",
+      "countLabel": "개 스킬"
+    },
+    "mcp": {
+      "title": "MCP",
+      "description": "외부 서비스와 연결하는 Model Context Protocol 서버",
+      "countLabel": "개 서버"
+    },
+    "harness": {
+      "title": "Harness",
+      "description": "멀티에이전트가 협업하는 자동 구현 루프",
+      "countLabel": "개 에이전트"
+    }
+  },
   "seoul-meari": {
     "title": "Seoul Meari",
     "subtitle": "시민의 일상이 도시의 미래가 되는 AR 소셜 플랫폼",
