@@ -434,6 +434,22 @@ const ProfileSection: React.FC = () => {
     return (
       <section className="relative min-h-screen w-full">
         <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 pt-24 sm:pt-28">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-[3fr_7fr]">
+            {/* Skeleton: tab area */}
+            <div className="hidden sm:flex sm:order-1 flex-col gap-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-14 rounded-modal bg-surface-muted animate-pulse" />
+              ))}
+            </div>
+            {/* Skeleton: content area */}
+            <div className="sm:order-2 space-y-4">
+              <div className="h-8 w-48 rounded-card bg-surface-muted animate-pulse" />
+              <div className="h-64 rounded-modal bg-surface-muted animate-pulse" />
+              <div className="h-40 rounded-modal bg-surface-muted animate-pulse" />
+            </div>
+          </div>
+        </div>
       </section>
     );
   }
