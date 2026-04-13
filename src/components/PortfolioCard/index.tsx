@@ -73,14 +73,37 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                     className="
                                         pointer-events-none select-none
                                         absolute top-3 right-3
-                                        flex items-center
-                                        px-2.5 py-1
-                                        rounded-full shadow-md
-                                        bg-[#c66240]
+                                        flex items-center gap-1.5
+                                        pl-2 pr-2.5 py-1
+                                        rounded-full
+                                        border border-white/40
+                                        bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-indigo-400/20
+                                        backdrop-blur-md
+                                        shadow-[0_0_12px_rgba(99,102,241,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]
                                     "
                                     aria-hidden
                                 >
-                                    <span className="text-white text-[10px] font-bold tracking-wide">Claude</span>
+                                    {/* sparkle icon */}
+                                    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z" fill="url(#vibe-sparkle)" />
+                                        <defs>
+                                            <linearGradient id="vibe-sparkle" x1="4" y1="2" x2="20" y2="22">
+                                                <stop stopColor="#818cf8" />
+                                                <stop offset="1" stopColor="#a78bfa" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                    <span
+                                        className="
+                                            text-[10px] font-bold tracking-wide
+                                            bg-gradient-to-r from-indigo-600 via-violet-500 to-indigo-500
+                                            bg-clip-text text-transparent
+                                        "
+                                    >
+                                        Vibe
+                                    </span>
+                                    {/* secondary sparkle dot */}
+                                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-violet-400 opacity-80" />
                                 </div>
                             )}
                             {project.stickerText && (
