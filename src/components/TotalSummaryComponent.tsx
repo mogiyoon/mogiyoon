@@ -18,7 +18,7 @@ const renderSummaryPart = (
   switch (part.type) {
     case "text":
       return (
-        <p key={index} className="text-base text-slate-700 leading-relaxed whitespace-pre-wrap">
+        <p key={index} className="text-base text-content-secondary leading-relaxed whitespace-pre-wrap">
           {t(part.content || "")}
         </p>
       );
@@ -27,7 +27,7 @@ const renderSummaryPart = (
         <div key={index} id={part.id} className="mt-8 mb-3 scroll-mt-24">
           <h3
             onClick={() => onSubtitleClick(part.id)}
-            className="text-xl font-bold text-slate-900 inline-block cursor-pointer hover:text-slate-500 transition-colors duration-150"
+            className="text-xl font-bold text-content inline-block cursor-pointer hover:text-content-tertiary transition-colors duration-150"
             title="클릭하여 링크 복사"
           >
             {t(part.content)}
@@ -40,12 +40,12 @@ const renderSummaryPart = (
           <img
             src={part.src}
             alt={part.alt}
-            className="rounded-2xl shadow-md border border-slate-100 mx-auto"
+            className="rounded-modal shadow-md border border-line mx-auto"
             style={{ width: part.width ?? "80%", aspectRatio: part.ratio }}
             crossOrigin="anonymous"
           />
           {part.caption && (
-            <figcaption className="text-sm text-slate-400 mt-3">
+            <figcaption className="text-sm text-content-muted mt-3">
               {t(part.caption)}
             </figcaption>
           )}
@@ -67,12 +67,12 @@ const renderSummaryPart = (
               <img
                 src={image.src}
                 alt={image.alt}
-                className="rounded-2xl shadow-md border border-slate-100 mx-auto w-full"
+                className="rounded-modal shadow-md border border-line mx-auto w-full"
                 style={{ aspectRatio: image.ratio }}
                 crossOrigin="anonymous"
               />
               {image.caption && (
-                <figcaption className="text-sm text-slate-400 mt-3">
+                <figcaption className="text-sm text-content-muted mt-3">
                   {t(image.caption)}
                 </figcaption>
               )}
@@ -87,7 +87,7 @@ const renderSummaryPart = (
             href={part.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 underline hover:no-underline transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-content underline hover:no-underline transition-colors"
           >
             {part.label}
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -107,10 +107,10 @@ const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> =
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className={`inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
+    className={`inline-flex items-center gap-2 rounded-modal px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
       primary
         ? "bg-slate-900 text-white hover:bg-slate-700"
-        : "border border-slate-200 bg-white text-slate-700 hover:border-slate-400 hover:bg-slate-50"
+        : "border border-line bg-surface text-content-secondary hover:border-slate-400 hover:bg-surface-subtle"
     }`}
   >
     {label}
@@ -122,9 +122,9 @@ const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> =
 
 // ── Info cell ──────────────────────────────────────────────────────────────────
 const InfoCell: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
-  <div className="rounded-2xl bg-slate-50 p-4">
-    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">{label}</p>
-    <div className="text-sm font-medium text-slate-800 leading-snug">{value}</div>
+  <div className="rounded-modal bg-surface-subtle p-4">
+    <p className="text-xs font-semibold uppercase tracking-wider text-content-muted mb-1">{label}</p>
+    <div className="text-sm font-medium text-content-strong leading-snug">{value}</div>
   </div>
 );
 
@@ -157,7 +157,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
 
         {/* ── Overview ── */}
         <section className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-content-muted mb-5">
             {t("projectDetail.overview", { ns: "common" })}
           </p>
 
@@ -188,16 +188,16 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
               <InfoCell label={t("projectDetail.role", { ns: "common" })} value={t(overview.role)} />
             )}
             {overview.other && (
-              <div className="col-span-2 sm:col-span-3 rounded-2xl bg-amber-50 border border-amber-100 p-4">
+              <div className="col-span-2 sm:col-span-3 rounded-modal bg-amber-50 border border-amber-100 p-4">
                 <p className="text-xs font-semibold uppercase tracking-wider text-amber-600 mb-1">🏆</p>
-                <p className="text-sm font-medium text-slate-800">{t(overview.other)}</p>
+                <p className="text-sm font-medium text-content-strong">{t(overview.other)}</p>
               </div>
             )}
           </div>
 
           {/* Introduction */}
           {overview.introduction && (
-            <p className="text-sm text-slate-600 leading-relaxed mb-5 px-1">
+            <p className="text-sm text-content-meta leading-relaxed mb-5 px-1">
               {t(overview.introduction)}
             </p>
           )}
@@ -205,24 +205,24 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
           {/* Features */}
           {overview.features && (
             <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-content-muted mb-2">
                 {t("projectDetail.features", { ns: "common" })}
               </p>
-              <p className="text-sm text-slate-700 px-1">{t(overview.features)}</p>
+              <p className="text-sm text-content-secondary px-1">{t(overview.features)}</p>
             </div>
           )}
 
           {/* Tech stack */}
           {overview.techStack && overview.techStack.length > 0 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-content-muted mb-2">
                 {t("projectDetail.techStack", { ns: "common" })}
               </p>
               <div className="flex flex-wrap gap-1.5 px-1">
                 {overview.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700"
+                    className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-content-secondary"
                   >
                     {tech}
                   </span>
@@ -234,19 +234,19 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
           {/* Architecture */}
           {overview.architecture && (
             <div className="mt-5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-content-muted mb-3">
                 {t("projectDetail.architecture", { ns: "common" })}
               </p>
               <img
                 src={overview.architecture}
                 alt="Architecture"
-                className="w-full rounded-2xl shadow-sm border border-slate-100"
+                className="w-full rounded-modal shadow-sm border border-line"
               />
             </div>
           )}
         </section>
 
-        <div className="border-t border-slate-100 mb-8" />
+        <div className="border-t border-line mb-8" />
 
         {/* ── Summaries ── */}
         {project.summaries.map((section, sectionIndex) => (
@@ -255,7 +255,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
               {section.parts.map((partGroup, groupIndex) => (
                 <div key={groupIndex} className="mb-6 space-y-4">
                   {groupIndex === 0 && (
-                    <h2 className="text-xl font-bold text-slate-900 mb-4">
+                    <h2 className="text-xl font-bold text-content mb-4">
                       {t(section.title || "")}
                     </h2>
                   )}
@@ -266,7 +266,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
               ))}
             </section>
             {sectionIndex < project.summaries.length - 1 && (
-              <div className="border-t border-slate-100 mb-8" />
+              <div className="border-t border-line mb-8" />
             )}
           </React.Fragment>
         ))}

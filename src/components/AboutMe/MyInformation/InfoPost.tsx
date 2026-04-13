@@ -88,7 +88,7 @@ export const InfoPost: React.FC<{ tabStatus: TabStatusType }> = ({
   if (error) {
     return (
       <div>
-        <h2 className="mb-4 text-lg font-bold text-slate-900">{title}</h2>
+        <h2 className="mb-4 text-lg font-bold text-content">{title}</h2>
         <p className="text-sm text-rose-600">{error}</p>
       </div>
     );
@@ -97,8 +97,8 @@ export const InfoPost: React.FC<{ tabStatus: TabStatusType }> = ({
   if (!data) {
     return (
       <div>
-        <h2 className="mb-4 text-lg font-bold text-slate-900">{title}</h2>
-        <p className="text-sm text-slate-500">
+        <h2 className="mb-4 text-lg font-bold text-content">{title}</h2>
+        <p className="text-sm text-content-tertiary">
           {t("loading", { ns: "common", defaultValue: "Loading..." })}
         </p>
       </div>
@@ -107,7 +107,7 @@ export const InfoPost: React.FC<{ tabStatus: TabStatusType }> = ({
 
   return (
     <div>
-      <h2 className="mb-4 text-lg font-bold text-slate-900">{title}</h2>
+      <h2 className="mb-4 text-lg font-bold text-content">{title}</h2>
 
       {tabStatus === "workExperience" && (
         <WorkSection items={data.workExperience} />

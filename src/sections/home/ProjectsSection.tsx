@@ -7,10 +7,11 @@ import PortfolioCard from "../../components/PortfolioCard";
 import PreparingCard, { type PreparingProjectData } from "../../components/PreparingCard";
 import AiDevKitCard from "../../components/AiDevKitCard";
 import type { ProjectSummary } from '../../types';
+import { durations } from '../../design-tokens';
 
 const sectionExitAnimation = {
     opacity: 0,
-    transition: { duration: 0.2 }
+    transition: { duration: durations.fast }
 };
 
 const ProjectsSection: React.FC = () => {
