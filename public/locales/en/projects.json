@@ -1,5 +1,7 @@
 {
   "projectTitle": "Projects",
+  "projectSubtitle": "Projects I've built",
+  "preparingProjectSubtitle": "Projects currently in progress",
   "aiDevKit": {
     "title": "AI DevKit",
     "subtitle": "AI development tools used in projects",
