@@ -1,5 +1,6 @@
 # Branch Management Rules
 
+- feature 브랜치는 반드시 `develop` 브랜치에서 분기한다 (`git checkout develop && git checkout -b feat/...`)
 - 기능별로 feature 브랜치를 생성한다 (예: `feat/add-boj-snippets`)
 - 커밋 명령 시 develop 브랜치로 Pull Request를 생성하는 것을 원칙으로 한다
 - PR 대상 브랜치: `develop`
