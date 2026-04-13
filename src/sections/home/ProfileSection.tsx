@@ -401,11 +401,18 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
   );
 };
 
+// ── Prefetch: 모듈 로드 시 즉시 fetch 시작 (탭 클릭 전) ──────────────────────
+let cachedData: ProfileData | null = null;
+const dataPromise = fetch("/data/introduction.json")
+  .then((r) => r.json())
+  .then((json) => { cachedData = json as ProfileData; return cachedData; })
+  .catch(console.error);
+
 // ── ProfileSection ─────────────────────────────────────────────────────────────
 const ProfileSection: React.FC = () => {
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState<TabId>("workSkills");
-  const [data, setData] = useState<ProfileData | null>(null);
+  const [data, setData] = useState<ProfileData | null>(cachedData);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const tabs: { id: TabId; labelKey: string }[] = [
@@ -415,11 +422,11 @@ const ProfileSection: React.FC = () => {
   ];
 
   useEffect(() => {
-    fetch("/data/introduction.json")
-      .then((r) => r.json())
-      .then((json) => setData(json as ProfileData))
-      .catch(console.error);
-  }, []);
+    if (data) return;
+    dataPromise.then((json) => {
+      if (json) setData(json);
+    });
+  }, [data]);
 
   const handleTabChange = (tab: TabId) => {
     setActiveTab(tab);
@@ -430,38 +437,8 @@ const ProfileSection: React.FC = () => {
     }
   };
 
-  if (!data) {
-    return (
-      <section className="relative min-h-screen w-full">
-        <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
-        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 pt-24 sm:pt-28">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-[3fr_7fr]">
-            {/* Skeleton: tab area */}
-            <div className="hidden sm:flex sm:order-1 flex-col gap-2">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-14 rounded-modal bg-surface-muted animate-pulse" />
-              ))}
-            </div>
-            {/* Skeleton: content area */}
-            <div className="sm:order-2 space-y-4">
-              <div className="h-8 w-48 rounded-card bg-surface-muted animate-pulse" />
-              <div className="h-64 rounded-modal bg-surface-muted animate-pulse" />
-              <div className="h-40 rounded-modal bg-surface-muted animate-pulse" />
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <motion.section
-      className="relative w-full"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-    >
-      <div className="fixed inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-slate-100 pointer-events-none" />
+    <section className="relative w-full min-h-screen bg-gradient-to-br from-white via-slate-50 to-slate-100">
 
       {/* Mobile-only: fixed bottom tab bar */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-t border-line px-4 pb-safe">
@@ -487,7 +464,7 @@ const ProfileSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 pb-28 sm:pb-16 pt-24 sm:pt-28">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 pb-28 sm:pb-16 pt-24 sm:pt-28">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-[3fr_7fr]">
 
           {/* Left: tabs — desktop only */}
@@ -517,6 +494,14 @@ const ProfileSection: React.FC = () => {
             ref={contentRef}
             className="sm:order-2 sm:overflow-y-auto sm:overscroll-contain sm:max-h-[calc(100vh-180px)] scroll-mt-14"
           >
+            {!data ? (
+              /* Skeleton: content only — tabs are already visible */
+              <div className="space-y-4">
+                <div className="h-8 w-48 rounded-card bg-surface-muted animate-pulse" />
+                <div className="h-64 rounded-modal bg-surface-muted animate-pulse" />
+                <div className="h-40 rounded-modal bg-surface-muted animate-pulse" />
+              </div>
+            ) : (
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -532,11 +517,12 @@ const ProfileSection: React.FC = () => {
                 )}
               </motion.div>
             </AnimatePresence>
+            )}
           </div>
 
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
