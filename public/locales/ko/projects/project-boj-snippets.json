@@ -105,7 +105,7 @@
       }
     ],
     "claudeInfo": {
-      "summary": "Claude를 활용하여 개발함",
+      "summary": "바이브 코딩으로 개발함",
       "details": "Claude Code CLI를 단일 에이전트로 활용하여 설계부터 구현까지 진행함. 하네스 없이 직접 대화 방식으로 개발을 수행함."
     }
   }
