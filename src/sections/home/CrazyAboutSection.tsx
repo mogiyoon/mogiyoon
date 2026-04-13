@@ -16,10 +16,10 @@ const CrazyAboutSection: React.FC = () => {
         <section id="crazyAbout" className="pt-20 pb-20 px-4">
             <div className="animate-fade-in text-center">
                 {/* 섹션 소개 문구 */}
-                <p className="mb-8 text-lg text-slate-400 max-w-2xl mx-auto">
+                <p className="mb-8 text-lg text-content-muted max-w-2xl mx-auto">
                     {t('crazyAboutIntro1')}
                 </p>
-                <p className="mb-16 text-lg text-slate-400 max-w-2xl mx-auto">
+                <p className="mb-16 text-lg text-content-muted max-w-2xl mx-auto">
                     {t('crazyAboutIntro2')}
                 </p>
 
@@ -30,7 +30,7 @@ const CrazyAboutSection: React.FC = () => {
                             key={index}
                             className="
                                 relative p-8 overflow-hidden
-                                bg-slate-900/50 border border-slate-800 rounded-xl
+                                bg-slate-900/50 border border-slate-800 rounded-card
                                 text-left transition-all duration-300
                                 hover:border-slate-700 hover:bg-slate-900
                             "

@@ -58,10 +58,10 @@ const ProjectDetailPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-surface-subtle">
         <div className="space-y-3 text-center">
           <div className="w-8 h-8 border-2 border-slate-900 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-slate-400">Loading...</p>
+          <p className="text-sm text-content-muted">Loading...</p>
         </div>
       </div>
     );
@@ -69,15 +69,15 @@ const ProjectDetailPage: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-        <div className="text-center p-10 bg-white shadow-xl rounded-3xl max-w-sm w-full">
+      <div className="min-h-screen flex items-center justify-center bg-surface-subtle px-4">
+        <div className="text-center p-10 bg-surface shadow-xl rounded-3xl max-w-sm w-full">
           <p className="text-4xl mb-4">🔍</p>
-          <h1 className="text-xl font-bold text-slate-900 mb-2">
+          <h1 className="text-xl font-bold text-content mb-2">
             {t('projectNotFound', { ns: 'common' })}
           </h1>
           <Link
             to="/"
-            className="mt-6 inline-block rounded-2xl bg-slate-900 text-white px-6 py-3 text-sm font-semibold hover:bg-slate-700 transition-colors"
+            className="mt-6 inline-block rounded-modal bg-slate-900 text-white px-6 py-3 text-sm font-semibold hover:bg-slate-700 transition-colors"
           >
             {t('backToMain', { ns: 'common' })}
           </Link>
@@ -100,16 +100,16 @@ const ProjectDetailPage: React.FC = () => {
 
           {/* Header */}
           <header className="text-center mb-10">
-            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-3 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-bold text-content mb-3 tracking-tight">
               {t(project.title)}
             </h1>
-            <p className="text-base sm:text-lg text-slate-500 max-w-xl mx-auto">
+            <p className="text-base sm:text-lg text-content-tertiary max-w-xl mx-auto">
               {t(project.subtitle, { ns: `projects/project-${projectId}` })}
             </p>
             {project.claudeInfo && (
-              <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-indigo-200 bg-indigo-50">
+              <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-indigo-200 bg-accent-50">
                 <span className="w-2 h-2 rounded-full bg-indigo-400" />
-                <span className="text-sm text-indigo-600 font-medium">
+                <span className="text-sm text-accent-600 font-medium">
                   {t(project.claudeInfo.summary, { ns: `projects/project-${projectId}` })}
                 </span>
               </div>
@@ -120,12 +120,12 @@ const ProjectDetailPage: React.FC = () => {
           <section className="mb-14 flex justify-center">
             <div className={`w-full ${gifMaxW}`}>
               {!isLoaded && (
-                <div className={`rounded-2xl bg-slate-200 animate-pulse w-full ${gifType === 'mobile' ? 'h-[444px]' : 'aspect-video'}`} />
+                <div className={`rounded-modal bg-slate-200 animate-pulse w-full ${gifType === 'mobile' ? 'h-[444px]' : 'aspect-video'}`} />
               )}
               <img
                 src={project.demoGifSrc}
                 alt={`${t(project.title)} Demo`}
-                className={`w-full rounded-2xl shadow-xl border border-slate-200 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+                className={`w-full rounded-modal shadow-xl border border-line transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
                 onLoad={() => setIsLoaded(true)}
                 onError={handleImageError}
               />
@@ -133,15 +133,15 @@ const ProjectDetailPage: React.FC = () => {
           </section>
 
           {/* Content */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-surface rounded-3xl shadow-sm border border-line overflow-hidden">
             <TotalSummaryComponent project={project} t={t} />
 
             {/* License */}
-            <div className="px-6 sm:px-10 py-8 border-t border-slate-200">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">
+            <div className="px-6 sm:px-10 py-8 border-t border-line">
+              <p className="text-xs font-semibold uppercase tracking-widest text-content-muted mb-2">
                 {t('license', { ns: 'common' })}
               </p>
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-content-meta">
                 <Trans
                   ns="common"
                   i18nKey="licenseText"
@@ -151,7 +151,7 @@ const ProjectDetailPage: React.FC = () => {
                       href={project.license.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-slate-900 font-semibold underline hover:no-underline"
+                      className="text-content font-semibold underline hover:no-underline"
                     />,
                   ]}
                 />
@@ -159,7 +159,7 @@ const ProjectDetailPage: React.FC = () => {
             </div>
           </div>
 
-          <footer className="text-center mt-10 text-slate-400 text-xs">
+          <footer className="text-center mt-10 text-content-muted text-xs">
             © 2025 Giyoon Noh
           </footer>
         </div>

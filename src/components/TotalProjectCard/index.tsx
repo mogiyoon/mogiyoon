@@ -16,7 +16,7 @@ const TotalProjectCard: React.FC<TotalProjectCardProps> = ({ project, className 
     return (
         // ✅ 카드 전체를 Link로 감싸줍니다.
         <Link to={`/project/${project.id}`} className={`block ${className || ''}`}>
-            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col md:flex-row">
+            <div className="bg-surface rounded-card shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden h-full flex flex-col md:flex-row">
                 
                 {/* 이미지 섹션 */}
                 <img
@@ -29,14 +29,14 @@ const TotalProjectCard: React.FC<TotalProjectCardProps> = ({ project, className 
                 {/* 콘텐츠 섹션 */}
                 <div className="w-full p-6 sm:p-8 flex flex-col flex-grow">
                     <div className="mb-6">
-                        <h3 className="text-3xl font-bold text-indigo-700 mb-2">
+                        <h3 className="text-3xl font-bold text-accent-700 mb-2">
                             {project.title}
                         </h3>
-                        <p className="text-slate-700 text-lg">
+                        <p className="text-content-secondary text-lg">
                             {project.subtitle}
                         </p>
                     </div>
-                    <p className="text-slate-700 mb-6 leading-relaxed flex-grow">
+                    <p className="text-content-secondary mb-6 leading-relaxed flex-grow">
                         {project.description}
                     </p>
                 </div>
