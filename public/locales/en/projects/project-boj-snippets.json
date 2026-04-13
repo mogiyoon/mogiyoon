@@ -105,7 +105,7 @@
       }
     ],
     "claudeInfo": {
-      "summary": "Built with Claude",
+      "summary": "Developed with Vibe Coding",
       "details": "Developed from design to implementation using Claude Code CLI as a single agent. No harness was used; development was conducted through direct conversation."
     }
   }
