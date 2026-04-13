@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { animation } from "../../design-tokens";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type TabId = "workSkills" | "education" | "awardsAndCerts";
@@ -28,21 +29,11 @@ type ProfileData = {
 };
 
 // ── Animation Variants ─────────────────────────────────────────────────────────
-const contentVariants: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.22, ease: "easeOut" } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.15 } },
-};
+const contentVariants: Variants = animation.content;
 
-const listVariants: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07 } },
-};
+const listVariants: Variants = animation.list.variants;
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" } },
-};
+const itemVariants: Variants = animation.list.item;
 
 // ── SkillsBlock ────────────────────────────────────────────────────────────────
 const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
@@ -60,7 +51,7 @@ const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
               <motion.span
                 key={item}
                 whileHover={{ y: -2 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                transition={animation.chipHover.transition}
                 className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-700 cursor-default"
               >
                 {item}
@@ -178,7 +169,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                   <motion.div
                                     key={i}
                                     variants={itemVariants}
-                                    className="rounded-2xl border border-slate-100 bg-white overflow-hidden"
+                                    className="rounded-2xl border border-slate-200 bg-white overflow-hidden"
                                   >
                                     {/* Title row (always visible) */}
                                     <button

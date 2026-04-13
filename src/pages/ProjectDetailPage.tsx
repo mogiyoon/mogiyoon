@@ -5,17 +5,14 @@ import { motion } from 'framer-motion';
 
 import type { ProjectData } from '../types';
 import TotalSummaryComponent from '../components/TotalSummaryComponent';
+import { animation } from '../design-tokens';
 
 const pageVariants = {
-  initial: { opacity: 0, y: 12 },
-  in: { opacity: 1, y: 0 },
+  initial: animation.page.initial,
+  in: animation.page.animate,
 };
 
-const pageTransition = {
-  type: "tween",
-  ease: "easeOut",
-  duration: 0.25,
-} as const;
+const pageTransition = animation.page.transition;
 
 const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -103,7 +100,7 @@ const ProjectDetailPage: React.FC = () => {
 
           {/* Header */}
           <header className="text-center mb-10">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-3 tracking-tight">
               {t(project.title)}
             </h1>
             <p className="text-base sm:text-lg text-slate-500 max-w-xl mx-auto">
@@ -128,7 +125,7 @@ const ProjectDetailPage: React.FC = () => {
               <img
                 src={project.demoGifSrc}
                 alt={`${t(project.title)} Demo`}
-                className={`w-full rounded-2xl shadow-xl border border-slate-100 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+                className={`w-full rounded-2xl shadow-xl border border-slate-200 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
                 onLoad={() => setIsLoaded(true)}
                 onError={handleImageError}
               />
@@ -136,11 +133,11 @@ const ProjectDetailPage: React.FC = () => {
           </section>
 
           {/* Content */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
             <TotalSummaryComponent project={project} t={t} />
 
             {/* License */}
-            <div className="px-6 sm:px-10 py-8 border-t border-slate-100">
+            <div className="px-6 sm:px-10 py-8 border-t border-slate-200">
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">
                 {t('license', { ns: 'common' })}
               </p>

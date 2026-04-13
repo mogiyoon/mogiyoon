@@ -125,13 +125,12 @@ const PostsSection: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="
-            inline-block px-8 py-3 
-            font-semibold text-white bg-slate-800 
-            border border-slate-700 rounded-lg 
-            hover:bg-slate-700 hover:border-slate-600
+            inline-block px-8 py-3
+            font-semibold text-white bg-slate-800
+            border border-slate-700 rounded-lg
+            hover:bg-slate-700 hover:border-slate-600 hover:shadow-lg
             focus:outline-none focus:ring-2 focus:ring-slate-500
             transition-all duration-300 ease-in-out
-            transform hover:scale-105
           "
         >
           {t('visitVelog')}

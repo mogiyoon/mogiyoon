@@ -34,7 +34,7 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
     return (
         <main className="max-w-5xl mx-auto p-4 sm:p-8 bg-white text-slate-800">
             <section className="mb-16 text-center">
-                <h2 className="text-4xl md:text-5xl font-extrabold text-indigo-700 mb-6">프로젝트 개요</h2>
+                <h2 className="text-4xl md:text-5xl font-bold text-indigo-700 mb-6">프로젝트 개요</h2>
                 <div className="text-lg md:text-xl text-slate-700 leading-relaxed max-w-3xl mx-auto text-left space-y-2">
                     <p><strong className="font-semibold w-28 inline-block whitespace-nowrap">▪️ 기간</strong>: {project.overview.period}</p>
                     <p><strong className="font-semibold w-28 inline-block whitespace-nowrap">▪️ 한 줄 소개</strong>: {project.overview.introduction}</p>
@@ -52,7 +52,7 @@ const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project
 
             <section className="mb-16">
                 <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-8 text-center">✨ 주요 기능</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">{project.features.map((feature, index) => (<div key={index} className="flex items-start bg-indigo-50 p-6 rounded-xl shadow-md">{feature.icon && <div className="w-8 h-8 text-indigo-600 flex-shrink-0"><feature.icon /></div>}<div className="ml-4"><h3 className="text-xl font-semibold text-indigo-800 mb-2">{feature.name}</h3><p className="text-slate-700">{feature.description}</p></div></div>))}</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">{project.features.map((feature, index) => (<div key={index} className="flex items-start bg-indigo-50 p-6 rounded-xl shadow-md">{feature.icon && <div className="w-8 h-8 text-indigo-600 flex-shrink-0"><feature.icon /></div>}<div className="ml-4"><h3 className="text-xl font-semibold text-indigo-700 mb-2">{feature.name}</h3><p className="text-slate-700">{feature.description}</p></div></div>))}</div>
             </section>
             <hr className="my-12 border-t-2 border-slate-200" />
 

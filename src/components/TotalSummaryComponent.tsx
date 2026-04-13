@@ -40,7 +40,7 @@ const renderSummaryPart = (
           <img
             src={part.src}
             alt={part.alt}
-            className="rounded-2xl shadow-md border border-slate-100 mx-auto"
+            className="rounded-2xl shadow-md border border-slate-200 mx-auto"
             style={{ width: part.width ?? "80%", aspectRatio: part.ratio }}
             crossOrigin="anonymous"
           />
@@ -67,7 +67,7 @@ const renderSummaryPart = (
               <img
                 src={image.src}
                 alt={image.alt}
-                className="rounded-2xl shadow-md border border-slate-100 mx-auto w-full"
+                className="rounded-2xl shadow-md border border-slate-200 mx-auto w-full"
                 style={{ aspectRatio: image.ratio }}
                 crossOrigin="anonymous"
               />
@@ -240,13 +240,13 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
               <img
                 src={overview.architecture}
                 alt="Architecture"
-                className="w-full rounded-2xl shadow-sm border border-slate-100"
+                className="w-full rounded-2xl shadow-sm border border-slate-200"
               />
             </div>
           )}
         </section>
 
-        <div className="border-t border-slate-100 mb-8" />
+        <div className="border-t border-slate-200 mb-8" />
 
         {/* ── Summaries ── */}
         {project.summaries.map((section, sectionIndex) => (
@@ -266,7 +266,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
               ))}
             </section>
             {sectionIndex < project.summaries.length - 1 && (
-              <div className="border-t border-slate-100 mb-8" />
+              <div className="border-t border-slate-200 mb-8" />
             )}
           </React.Fragment>
         ))}

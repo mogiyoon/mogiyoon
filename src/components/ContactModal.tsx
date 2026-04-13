@@ -54,7 +54,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-8 relative animate-fade-in-up"
+        className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-8 relative animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -77,7 +77,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
               key={item.key}
               href={item.href}
               {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50 transition-all duration-200 group"
+              className="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 group"
             >
               <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-white group-hover:text-slate-900 transition-all duration-200 flex-shrink-0">
                 {item.icon}
