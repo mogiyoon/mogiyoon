@@ -84,14 +84,8 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                     aria-hidden
                                 >
                                     {/* sparkle icon */}
-                                    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z" fill="url(#vibe-sparkle)" />
-                                        <defs>
-                                            <linearGradient id="vibe-sparkle" x1="4" y1="2" x2="20" y2="22">
-                                                <stop stopColor="#818cf8" />
-                                                <stop offset="1" stopColor="#a78bfa" />
-                                            </linearGradient>
-                                        </defs>
+                                    <svg className="w-3.5 h-3.5 shrink-0 drop-shadow-[0_0_2px_rgba(99,102,241,0.6)]" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z" fill="white" />
                                     </svg>
                                     <span
                                         className="
@@ -103,7 +97,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                         Vibe
                                     </span>
                                     {/* secondary sparkle dot */}
-                                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-violet-400 opacity-80" />
+                                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_3px_rgba(99,102,241,0.5)]" />
                                 </div>
                             )}
                             {project.stickerText && (
