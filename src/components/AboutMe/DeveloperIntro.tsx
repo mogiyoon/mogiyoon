@@ -53,7 +53,7 @@ export const DeveloperIntro: React.FC = () => {
   return (
     <section ref={targetRef} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className='absolute inset-0 bg-gradient-to-b from-gray-800 from-20% via-blue-900 via-80% to-orange-700 text-white overflow-hidden'>
+        <div className='absolute inset-0 bg-gradient-to-b from-slate-800 from-20% via-blue-900 via-80% to-orange-700 text-white overflow-hidden'>
           <div className="absolute inset-0 z-0">
             {fireworkPositions.map((pos, index) => (
               <ShootingStar

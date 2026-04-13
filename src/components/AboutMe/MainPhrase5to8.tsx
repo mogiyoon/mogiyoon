@@ -46,7 +46,7 @@ export const MainPhrase5to8: React.FC = () => {
   return (
     <section ref={targetRef} className="relative h-[500vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className="absolute inset-0 bg-gray-800 text-white">
+        <div className="absolute inset-0 bg-slate-800 text-white">
 
           <div className="absolute inset-0 z-10">
             {bulbData.map((bulb) => (

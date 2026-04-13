@@ -60,7 +60,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors duration-200"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors duration-200"
           aria-label="Close"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

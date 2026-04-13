@@ -16,7 +16,7 @@ export const Switch: React.FC<SwitchProps> = ({ onClick, opacity, isSwitchedOn }
       <button
         onClick={onClick}
         className={`w-20 h-10 rounded-full flex items-center p-1 transition-colors duration-300 ${
-          isSwitchedOn ? 'bg-yellow-400 justify-end' : 'bg-gray-600 justify-start'
+          isSwitchedOn ? 'bg-yellow-400 justify-end' : 'bg-slate-600 justify-start'
         } cursor-pointer`} // 🔴 disabled 스타일링 제거
       >
         <motion.div

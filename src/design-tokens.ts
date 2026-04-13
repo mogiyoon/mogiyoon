@@ -12,18 +12,16 @@ export const colors = {
   background: {
     white: '#ffffff',
     slate50: '#f8fafc',
-    gray100: '#f3f4f6',
-    gray200: '#e5e7eb',
+    slate100: '#f1f5f9',
+    slate200: '#e2e8f0',
   },
   text: {
     primary: '#0f172a',     // slate-900
+    strong: '#1e293b',      // slate-800
     secondary: '#334155',   // slate-700
+    meta: '#475569',        // slate-600
     tertiary: '#64748b',    // slate-500
     muted: '#94a3b8',       // slate-400
-    body: '#374151',        // gray-700
-    bodyAlt: '#1f2937',     // gray-800
-    meta: '#4b5563',        // gray-600
-    placeholder: '#9ca3af', // gray-400
   },
   accent: {
     indigo700: '#4338ca',
