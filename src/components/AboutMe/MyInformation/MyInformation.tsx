@@ -112,9 +112,9 @@ const InfoButton: React.FC<{ title: string; onClick: () => void }> = ({
   return (
     <button
       onClick={onClick}
-      className="group block duration-700 w-[300px] rounded-2xl border border-slate-200 bg-white/60 p-8 shadow-sm backdrop-blur-md"
+      className="group block duration-700 w-[300px] rounded-modal border border-line bg-surface/60 p-8 shadow-sm backdrop-blur-md"
     >
-      <h2 className="text-lg text-left font-bold text-slate-900">{title}</h2>
+      <h2 className="text-lg text-left font-bold text-content">{title}</h2>
     </button>
   );
 };

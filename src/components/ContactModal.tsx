@@ -54,13 +54,13 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-8 relative animate-fade-in-up"
+        className="bg-surface w-full max-w-sm rounded-modal shadow-2xl p-8 relative animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors duration-200"
+          className="absolute top-4 right-4 text-content-muted hover:text-content-secondary transition-colors duration-200"
           aria-label="Close"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,8 +68,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
           </svg>
         </button>
 
-        <h2 className="text-2xl font-bold mb-1 text-slate-900">Info</h2>
-        <p className="text-sm text-slate-400 mb-6">Giyoon Noh · Frontend Engineer</p>
+        <h2 className="text-2xl font-bold mb-1 text-content">Info</h2>
+        <p className="text-sm text-content-muted mb-6">Giyoon Noh · Frontend Engineer</p>
 
         <div className="flex flex-col gap-2">
           {links.map((item) => (
@@ -77,17 +77,17 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
               key={item.key}
               href={item.href}
               {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 group"
+              className="flex items-center gap-4 p-4 rounded-modal border border-line hover:border-line-strong hover:bg-surface-subtle transition-all duration-200 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-white group-hover:text-slate-900 transition-all duration-200 flex-shrink-0">
+              <div className="w-10 h-10 rounded-card bg-surface-muted flex items-center justify-center text-content-meta group-hover:bg-surface group-hover:text-content transition-all duration-200 flex-shrink-0">
                 {item.icon}
               </div>
               <div className="min-w-0">
-                <p className="text-xs font-medium text-slate-400">{item.label}</p>
-                <p className="text-sm font-semibold text-slate-800 truncate">{item.display}</p>
+                <p className="text-xs font-medium text-content-muted">{item.label}</p>
+                <p className="text-sm font-semibold text-content-strong truncate">{item.display}</p>
               </div>
               <svg
-                className="w-4 h-4 text-slate-300 group-hover:text-slate-500 ml-auto flex-shrink-0 transition-colors duration-200"
+                className="w-4 h-4 text-slate-300 group-hover:text-content-tertiary ml-auto flex-shrink-0 transition-colors duration-200"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

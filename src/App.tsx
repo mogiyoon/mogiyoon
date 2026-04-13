@@ -74,7 +74,7 @@ const AppContent: React.FC = () => {
           transform: `translateY(${headerTranslate}px)`,
           transition: "transform 0.1s linear",
         }}
-        className="fixed top-0 left-0 right-0 z-40 bg-white shadow-md"
+        className="fixed top-0 left-0 right-0 z-40 bg-surface shadow-md"
       >
         <PageHeader
           setModalOpen={handleModalOpen}

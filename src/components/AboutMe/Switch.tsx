@@ -22,7 +22,7 @@ export const Switch: React.FC<SwitchProps> = ({ onClick, opacity, isSwitchedOn }
       >
         <motion.div
           layout
-          className="w-8 h-8 bg-white rounded-full shadow-md"
+          className="w-8 h-8 bg-surface rounded-full shadow-md"
           transition={animation.tabSpring}
         />
       </button>

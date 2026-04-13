@@ -36,7 +36,7 @@ export const ShootingStar: React.FC<ShootingStarProps> = ({ top, left, delay }) 
       />
       {/* 별똥별의 핵 */}
       <div
-        className="absolute left-0 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-white shadow-[0_0_10px_#fff,0_0_20px_#fff]" // left-0과 top-1/2, -translate-y-1/2 추가
+        className="absolute left-0 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-surface shadow-[0_0_10px_#fff,0_0_20px_#fff]" // left-0과 top-1/2, -translate-y-1/2 추가
       />
     </motion.div>
   );
