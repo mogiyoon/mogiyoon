@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mogiyoon Design System Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* Background Surfaces */
+    --bg-white: #ffffff;
+    --bg-slate-50: #f8fafc;
+    --bg-gray-100: #f3f4f6;
+    --bg-gray-200: #e5e7eb;
+
+    /* Text */
+    --text-primary: #0f172a;    /* slate-900 */
+    --text-secondary: #334155;  /* slate-700 */
+    --text-tertiary: #64748b;   /* slate-500 */
+    --text-muted: #94a3b8;      /* slate-400 */
+
+    /* Accent */
+    --accent-700: #4338ca;      /* indigo-700 */
+    --accent-600: #4f46e5;      /* indigo-600 */
+    --accent-500: #6366f1;      /* indigo-500 */
+    --accent-100: #e0e7ff;      /* indigo-100 */
+    --accent-50: #eef2ff;       /* indigo-50 */
+    --violet-500: #8b5cf6;
+    --violet-400: #a78bfa;
+
+    /* Border */
+    --border-default: #e2e8f0;  /* slate-200 */
+    --border-strong: #cbd5e1;   /* slate-300 */
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --shadow-glow: 0 0 12px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+
+    /* Radius */
+    --radius-full: 9999px;
+    --radius-3xl: 24px;
+    --radius-2xl: 16px;
+    --radius-xl: 12px;
+    --radius-lg: 8px;
+    --radius-md: 6px;
+
+    /* Fonts */
+    --font-body: 'Noto Sans KR', sans-serif;
+    --font-latin: 'Inter', system-ui, sans-serif;
+    --font-display: 'Caveat', cursive;
+    --font-mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-slate-50);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  .container { max-width: 1152px; margin: 0 auto; padding: 48px 24px; }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--accent-600);
+    margin-bottom: 8px;
+  }
+  .subtitle { color: var(--text-tertiary); font-size: 0.875rem; margin-bottom: 48px; }
+
+  .section { margin-bottom: 56px; }
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-default);
+  }
+
+  /* Color Swatches */
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .color-swatch {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--border-default);
+    background: var(--bg-white);
+  }
+  .color-swatch .swatch-color { height: 64px; }
+  .color-swatch .swatch-info { padding: 8px 12px; }
+  .color-swatch .swatch-name { font-size: 0.75rem; font-weight: 600; color: var(--text-primary); }
+  .color-swatch .swatch-value { font-size: 0.625rem; font-family: var(--font-mono); color: var(--text-muted); }
+
+  /* Typography */
+  .type-row { margin-bottom: 20px; padding: 16px; background: var(--bg-white); border-radius: var(--radius-xl); border: 1px solid var(--border-default); }
+  .type-label { font-size: 0.625rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+  /* Component Preview */
+  .component-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .component-box {
+    background: var(--bg-white);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+  }
+  .component-box-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-lg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--accent-500); color: #fff; }
+  .btn-primary:hover { background: var(--accent-600); box-shadow: var(--shadow-lg); }
+  .btn-ghost { background: transparent; border: 1px solid var(--border-default); color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--bg-gray-100); }
+
+  /* Badge */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: var(--radius-full);
+    font-size: 0.75rem; font-weight: 600;
+  }
+  .badge-indigo { background: var(--accent-100); color: var(--accent-700); }
+  .badge-slate { background: var(--bg-gray-100); color: var(--text-secondary); border: 1px solid var(--border-default); }
+  .badge-vibe {
+    background: linear-gradient(to right, rgba(99,102,241,0.2), rgba(139,92,246,0.15), rgba(129,140,248,0.2));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.4);
+    box-shadow: var(--shadow-glow);
+    color: transparent;
+    padding: 4px 10px;
+  }
+  .badge-vibe span {
+    background: linear-gradient(to right, var(--accent-600), var(--violet-500), var(--accent-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Card Preview */
+  .card-preview {
+    background: var(--bg-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .card-preview:hover { box-shadow: var(--shadow-xl); }
+  .card-preview .card-img { height: 160px; background: linear-gradient(135deg, var(--accent-50), var(--bg-gray-100)); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.875rem; }
+  .card-preview .card-body { padding: 24px; }
+  .card-preview .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+  .card-preview .card-desc { font-size: 0.875rem; color: var(--text-tertiary); margin-bottom: 12px; line-height: 1.6; }
+
+  /* Radius Preview */
+  .radius-grid { display: flex; gap: 16px; flex-wrap: wrap; align-items: end; }
+  .radius-box { width: 64px; height: 64px; background: var(--accent-100); border: 2px solid var(--accent-500); display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-family: var(--font-mono); color: var(--accent-700); font-weight: 600; }
+
+  /* Shadow Preview */
+  .shadow-grid { display: flex; gap: 20px; flex-wrap: wrap; }
+  .shadow-box { width: 100px; height: 80px; background: var(--bg-white); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; font-size: 0.625rem; font-weight: 600; color: var(--text-muted); }
+
+  /* Spacing Preview */
+  .spacing-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .spacing-bar { height: 24px; background: var(--accent-100); border-radius: 4px; border: 1px solid var(--accent-500); }
+  .spacing-label { font-size: 0.625rem; font-family: var(--font-mono); color: var(--text-muted); min-width: 48px; }
+
+  /* Glass Card */
+  .glass-card {
+    background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.06));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    box-shadow: var(--shadow-glow);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Mogiyoon</h1>
+  <p class="subtitle">Portfolio Design System — Color, Typography, Component Catalog</p>
+
+  <!-- COLORS: Backgrounds -->
+  <div class="section">
+    <div class="section-title">Colors — Background Surfaces</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:#ffffff"></div><div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-value">#ffffff</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#f8fafc"></div><div class="swatch-info"><div class="swatch-name">Slate 50</div><div class="swatch-value">#f8fafc</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#f3f4f6"></div><div class="swatch-info"><div class="swatch-name">Gray 100</div><div class="swatch-value">#f3f4f6</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#e5e7eb"></div><div class="swatch-info"><div class="swatch-name">Gray 200</div><div class="swatch-value">#e5e7eb</div></div></div>
+    </div>
+  </div>
+
+  <!-- COLORS: Text -->
+  <div class="section">
+    <div class="section-title">Colors — Text & Content</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:#0f172a"></div><div class="swatch-info"><div class="swatch-name">Slate 900</div><div class="swatch-value">#0f172a</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#334155"></div><div class="swatch-info"><div class="swatch-name">Slate 700</div><div class="swatch-value">#334155</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#64748b"></div><div class="swatch-info"><div class="swatch-name">Slate 500</div><div class="swatch-value">#64748b</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#94a3b8"></div><div class="swatch-info"><div class="swatch-name">Slate 400</div><div class="swatch-value">#94a3b8</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#1f2937"></div><div class="swatch-info"><div class="swatch-name">Gray 800</div><div class="swatch-value">#1f2937</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#374151"></div><div class="swatch-info"><div class="swatch-name">Gray 700</div><div class="swatch-value">#374151</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#4b5563"></div><div class="swatch-info"><div class="swatch-name">Gray 600</div><div class="swatch-value">#4b5563</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#9ca3af"></div><div class="swatch-info"><div class="swatch-name">Gray 400</div><div class="swatch-value">#9ca3af</div></div></div>
+    </div>
+  </div>
+
+  <!-- COLORS: Accent -->
+  <div class="section">
+    <div class="section-title">Colors — Brand & Accent</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:#4338ca"></div><div class="swatch-info"><div class="swatch-name">Indigo 700</div><div class="swatch-value">#4338ca</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#4f46e5"></div><div class="swatch-info"><div class="swatch-name">Indigo 600</div><div class="swatch-value">#4f46e5</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#6366f1"></div><div class="swatch-info"><div class="swatch-name">Indigo 500</div><div class="swatch-value">#6366f1</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#e0e7ff"></div><div class="swatch-info"><div class="swatch-name">Indigo 100</div><div class="swatch-value">#e0e7ff</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#eef2ff"></div><div class="swatch-info"><div class="swatch-name">Indigo 50</div><div class="swatch-value">#eef2ff</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#8b5cf6"></div><div class="swatch-info"><div class="swatch-name">Violet 500</div><div class="swatch-value">#8b5cf6</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#a78bfa"></div><div class="swatch-info"><div class="swatch-name">Violet 400</div><div class="swatch-value">#a78bfa</div></div></div>
+    </div>
+  </div>
+
+  <!-- COLORS: Border -->
+  <div class="section">
+    <div class="section-title">Colors — Border & Divider</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:#e2e8f0"></div><div class="swatch-info"><div class="swatch-name">Slate 200</div><div class="swatch-value">#e2e8f0</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#cbd5e1"></div><div class="swatch-info"><div class="swatch-name">Slate 300</div><div class="swatch-value">#cbd5e1</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:rgba(255,255,255,0.4);border:1px solid #e2e8f0"></div><div class="swatch-info"><div class="swatch-name">White/40</div><div class="swatch-value">rgba(255,255,255,0.4)</div></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-row"><div class="type-label">Hero — Noto Sans KR · 3rem · 900</div><div style="font-size:3rem;font-weight:900;line-height:1.1">포트폴리오</div></div>
+    <div class="type-row"><div class="type-label">Display — Caveat · 2.25rem · 700</div><div style="font-family:'Caveat',cursive;font-size:2.25rem;font-weight:700;color:var(--accent-600)">Mogiyoon</div></div>
+    <div class="type-row"><div class="type-label">Heading 1 — Noto Sans KR · 2.25rem · 700</div><div style="font-size:2.25rem;font-weight:700">프로젝트 섹션</div></div>
+    <div class="type-row"><div class="type-label">Heading 2 — Noto Sans KR · 1.875rem · 700</div><div style="font-size:1.875rem;font-weight:700">서브 섹션 제목</div></div>
+    <div class="type-row"><div class="type-label">Heading 3 — Noto Sans KR · 1.5rem · 700</div><div style="font-size:1.5rem;font-weight:700">카드 제목</div></div>
+    <div class="type-row"><div class="type-label">Body Large — Noto Sans KR · 1.125rem · 400</div><div style="font-size:1.125rem;font-weight:400;line-height:1.6;color:var(--text-secondary)">프로젝트의 핵심 기능과 기술적 도전을 소개하는 본문 텍스트입니다.</div></div>
+    <div class="type-row"><div class="type-label">Body — Noto Sans KR · 1rem · 400</div><div style="font-size:1rem;font-weight:400;line-height:1.6;color:var(--text-secondary)">표준 본문 텍스트로 가독성이 좋은 행간을 사용합니다.</div></div>
+    <div class="type-row"><div class="type-label">Label — Noto Sans KR · 0.875rem · 600</div><div style="font-size:0.875rem;font-weight:600;color:var(--text-tertiary)">라벨 · 메타데이터</div></div>
+    <div class="type-row"><div class="type-label">Small — Noto Sans KR · 0.75rem · 600</div><div style="font-size:0.75rem;font-weight:600;color:var(--text-muted)">뱃지 텍스트 · 태그</div></div>
+    <div class="type-row"><div class="type-label">Latin — Inter · 1rem · 400</div><div style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:400;color:var(--text-secondary)">English text uses Inter for clean readability.</div></div>
+    <div class="type-row"><div class="type-label">Mono — source-code-pro · 0.875rem · 400</div><div style="font-family:source-code-pro,Menlo,Monaco,monospace;font-size:0.875rem;color:var(--text-tertiary)">const greeting = "Hello, World!";</div></div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="component-grid">
+
+      <!-- Buttons -->
+      <div class="component-box">
+        <div class="component-box-label">Buttons</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-ghost">Ghost</button>
+        </div>
+      </div>
+
+      <!-- Badges -->
+      <div class="component-box">
+        <div class="component-box-label">Badges & Chips</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <span class="badge badge-indigo">Web App</span>
+          <span class="badge badge-slate">React</span>
+          <span class="badge badge-slate">TypeScript</span>
+          <div class="badge badge-vibe" style="position:relative">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
+              <path d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z" fill="url(#prev-sparkle)" />
+              <defs><linearGradient id="prev-sparkle" x1="4" y1="2" x2="20" y2="22"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+            </svg>
+            <span>Vibe</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="component-box" style="grid-column:span 2">
+        <div class="component-box-label">Portfolio Card</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="card-preview">
+            <div class="card-img">Image Placeholder</div>
+            <div class="card-body">
+              <div class="card-title">Project Name</div>
+              <div class="card-desc">프로젝트 간략 설명이 여기에 표시됩니다.</div>
+              <span class="badge badge-indigo">Web App</span>
+            </div>
+          </div>
+          <div class="glass-card">
+            <div style="font-size:0.75rem;font-weight:600;color:var(--accent-600);margin-bottom:12px">GLASSMORPHISM CARD</div>
+            <div style="font-size:0.875rem;color:var(--text-secondary);line-height:1.6">backdrop-blur + 반투명 배경 + border-white/40 조합으로 유리 질감을 표현한다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="component-box">
+        <div class="component-box-label">Modal Preview</div>
+        <div style="background:rgba(0,0,0,0.08);border-radius:var(--radius-xl);padding:24px;display:flex;justify-content:center">
+          <div style="background:var(--bg-white);border-radius:var(--radius-2xl);box-shadow:var(--shadow-2xl);padding:24px;max-width:260px;width:100%">
+            <div style="font-size:1.125rem;font-weight:700;margin-bottom:8px">Contact</div>
+            <div style="font-size:0.875rem;color:var(--text-tertiary);margin-bottom:16px">연락처 정보가 표시됩니다.</div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tab -->
+      <div class="component-box">
+        <div class="component-box-label">Tab Navigation</div>
+        <div style="display:flex;gap:4px;background:var(--bg-gray-100);padding:4px;border-radius:var(--radius-xl)">
+          <div style="background:var(--text-primary);color:#fff;padding:6px 16px;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600">About</div>
+          <div style="color:var(--text-tertiary);padding:6px 16px;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:500">Projects</div>
+          <div style="color:var(--text-tertiary);padding:6px 16px;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:500">Posts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BORDER RADIUS -->
+  <div class="section">
+    <div class="section-title">Border Radius Scale</div>
+    <div class="radius-grid">
+      <div><div class="radius-box" style="border-radius:var(--radius-full);width:48px;height:48px">full</div></div>
+      <div><div class="radius-box" style="border-radius:var(--radius-3xl)">3xl</div></div>
+      <div><div class="radius-box" style="border-radius:var(--radius-2xl)">2xl</div></div>
+      <div><div class="radius-box" style="border-radius:var(--radius-xl)">xl</div></div>
+      <div><div class="radius-box" style="border-radius:var(--radius-lg)">lg</div></div>
+      <div><div class="radius-box" style="border-radius:var(--radius-md)">md</div></div>
+    </div>
+  </div>
+
+  <!-- SHADOWS -->
+  <div class="section">
+    <div class="section-title">Elevation & Shadows</div>
+    <div class="shadow-grid">
+      <div class="shadow-box" style="box-shadow:none;border:1px solid var(--border-default)">Flat</div>
+      <div class="shadow-box" style="box-shadow:var(--shadow-sm)">sm</div>
+      <div class="shadow-box" style="box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1)">md</div>
+      <div class="shadow-box" style="box-shadow:var(--shadow-lg)">lg</div>
+      <div class="shadow-box" style="box-shadow:var(--shadow-xl)">xl</div>
+      <div class="shadow-box" style="box-shadow:var(--shadow-2xl)">2xl</div>
+      <div class="shadow-box" style="box-shadow:var(--shadow-glow);background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.06))">glow</div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-row"><div class="spacing-label">4px</div><div class="spacing-bar" style="width:16px"></div></div>
+    <div class="spacing-row"><div class="spacing-label">8px</div><div class="spacing-bar" style="width:32px"></div></div>
+    <div class="spacing-row"><div class="spacing-label">16px (p-4)</div><div class="spacing-bar" style="width:64px"></div></div>
+    <div class="spacing-row"><div class="spacing-label">24px (p-6)</div><div class="spacing-bar" style="width:96px"></div></div>
+    <div class="spacing-row"><div class="spacing-label">32px (p-8)</div><div class="spacing-bar" style="width:128px"></div></div>
+    <div class="spacing-row"><div class="spacing-label">48px</div><div class="spacing-bar" style="width:192px"></div></div>
+    <div class="spacing-row"><div class="spacing-label">80px (pt-20)</div><div class="spacing-bar" style="width:320px"></div></div>
+  </div>
+
+</div>
+</body>
+</html>
