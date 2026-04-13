@@ -1,5 +1,24 @@
 {
   "projectTitle": "Projects",
+  "aiDevKit": {
+    "title": "AI DevKit",
+    "subtitle": "AI development tools used in projects",
+    "skills": {
+      "title": "Skills",
+      "description": "Custom skills that automate repetitive tasks",
+      "countLabel": "skills"
+    },
+    "mcp": {
+      "title": "MCP",
+      "description": "Model Context Protocol servers for external integrations",
+      "countLabel": "servers"
+    },
+    "harness": {
+      "title": "Harness",
+      "description": "Multi-agent automated implementation loop",
+      "countLabel": "agents"
+    }
+  },
   "seoul-meari": {
     "title": "Seoul Meari",
     "subtitle": "An AR Social Platform Linking Citizens and the City’s Future",
