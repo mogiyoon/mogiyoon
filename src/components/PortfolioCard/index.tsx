@@ -55,7 +55,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                 {t(project.title || '')}
                             </h3>
                             <p className="
-                                text-gray-600 mb-2
+                                text-slate-600 mb-2
                                 text-sm h-10 
                                 md:text-base md:h-20
                                 line-clamp-3
@@ -158,7 +158,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                         className="absolute w-full h-full"
                         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                     >
-                        <div className="bg-gray-400 text-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
+                        <div className="bg-slate-400 text-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
                             <h4 className="text-xl font-bold mb-4">Tech Stack</h4>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {project.techStack?.map((tech) => (

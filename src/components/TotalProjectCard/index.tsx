@@ -32,11 +32,11 @@ const TotalProjectCard: React.FC<TotalProjectCardProps> = ({ project, className 
                         <h3 className="text-3xl font-bold text-indigo-800 mb-2">
                             {project.title}
                         </h3>
-                        <p className="text-gray-600 text-lg">
+                        <p className="text-slate-600 text-lg">
                             {project.subtitle}
                         </p>
                     </div>
-                    <p className="text-gray-700 mb-6 leading-relaxed flex-grow">
+                    <p className="text-slate-700 mb-6 leading-relaxed flex-grow">
                         {project.description}
                     </p>
                 </div>

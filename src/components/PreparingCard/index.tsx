@@ -23,7 +23,7 @@ const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => 
 
     return (
         <div className={`block ${className || ''}`}>
-            <div className="bg-gray-50 rounded-xl shadow-lg overflow-hidden flex flex-col aspect-[9/16] border-2 border-dashed border-gray-300">
+            <div className="bg-slate-50 rounded-xl shadow-lg overflow-hidden flex flex-col aspect-[9/16] border-2 border-dashed border-slate-300">
                 <div className="relative w-full aspect-square p-4">
                     <img
                         src={`https://placehold.co/300x300/e2e8f0/9ca3af?text=Coming+Soon`}
@@ -39,7 +39,7 @@ const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => 
                         {t(project.title)}
                     </h3>
                     <p className="
-                        text-gray-600 mb-2 hidden sm:block 
+                        text-slate-600 mb-2 hidden sm:block 
                         text-sm h-10 
                         md:text-base md:h-20
                         line-clamp-3
@@ -47,7 +47,7 @@ const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => 
                         {t(project.subtitle || '')}
                     </p>
                     <div className="flex flex-wrap mt-auto">
-                        <span className="bg-gray-200 text-gray-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                        <span className="bg-slate-200 text-slate-800 text-xs font-medium px-2 py-0.5 rounded-full">
                             {t('comingSoon')}
                         </span>
                     </div>

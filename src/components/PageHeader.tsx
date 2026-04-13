@@ -44,7 +44,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
   }, [isDropdownOpen]);
 
   return (
-    <header className="h-20 flex items-center p-4 bg-gray-100">
+    <header className="h-20 flex items-center p-4 bg-slate-100">
       <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
         <Link to="/" onClick={() => setActiveTab('about')} className="flex items-center group">
           <img src="/logo.svg" alt="Mogiyoon Logo" className="h-10 w-10 mr-2 rounded-xl"/>
@@ -65,8 +65,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
               onClick={() => setActiveTab(tab.id)}
               className={`flex justify-center items-center w-8 h-8 md:w-28 md:h-auto md:py-2 text-base font-medium transition-colors duration-200 rounded-md ${
                 activeTab === tab.id
-                  ? 'text-white bg-gray-500'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? 'text-white bg-slate-500'
+                  : 'text-slate-600 hover:bg-slate-100'
               }`}
             >
               <span className="hidden md:inline">{tab.label}</span>
@@ -76,14 +76,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
         </nav>
 
         <div className="flex items-center gap-4">
-          <button onClick={setModalOpen} className="text-gray-600 hover:text-white hover:bg-gray-500 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center">
+          <button onClick={setModalOpen} className="text-slate-600 hover:text-white hover:bg-slate-500 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center">
             Info
           </button>
           
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!isDropdownOpen)}
-              className="text-gray-600 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center hover:bg-gray-100"
+              className="text-slate-600 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center hover:bg-slate-100"
             >
               <span className="hidden lg:inline">{t('language')}</span>&nbsp;🌐
               <svg className={`w-4 h-4 ml-1 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -93,13 +93,13 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
               <div className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5">
                 <button
                   onClick={() => handleLanguageChange('ko')}
-                  className={`block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${i18n.language.startsWith('ko') ? 'font-bold text-blue-600' : ''}`}
+                  className={`block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 ${i18n.language.startsWith('ko') ? 'font-bold text-indigo-600' : ''}`}
                 >
                   한국어
                 </button>
                 <button
                   onClick={() => handleLanguageChange('en')}
-                  className={`block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${i18n.language.startsWith('en') ? 'font-bold text-blue-600' : ''}`}
+                  className={`block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 ${i18n.language.startsWith('en') ? 'font-bold text-indigo-600' : ''}`}
                 >
                   English
                 </button>

@@ -36,13 +36,13 @@ export const InfoIcon: React.FC<InfoIconProps> = ({
             target: "_blank",
             rel: "noopener noreferrer",
           })}
-      className="flex items-center p-4 rounded-lg hover:bg-gray-100 transition-colors duration-300"
+      className="flex items-center p-4 rounded-lg hover:bg-slate-100 transition-colors duration-300"
     >
       <div className="w-8 h-8 mr-4 flex-shrink-0">
         {children}
       </div>
       <div className="min-w-0">
-        <p className="font-semibold text-gray-800">{capitalizeFirst(activeKeyType)}</p>
+        <p className="font-semibold text-slate-800">{capitalizeFirst(activeKeyType)}</p>
       </div>
     </a>
   );

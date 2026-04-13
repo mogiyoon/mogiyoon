@@ -37,7 +37,7 @@ const PostsSection: React.FC = () => {
       className="
         fixed inset-0
         flex items-center justify-center
-        text-center text-lg text-gray-400
+        text-center text-lg text-slate-400
         overflow-clip
       "
       initial="hidden"
@@ -126,10 +126,10 @@ const PostsSection: React.FC = () => {
           rel="noopener noreferrer"
           className="
             inline-block px-8 py-3 
-            font-semibold text-white bg-gray-800 
-            border border-gray-700 rounded-lg 
-            hover:bg-gray-700 hover:border-gray-600
-            focus:outline-none focus:ring-2 focus:ring-gray-500
+            font-semibold text-white bg-slate-800 
+            border border-slate-700 rounded-lg 
+            hover:bg-slate-700 hover:border-slate-600
+            focus:outline-none focus:ring-2 focus:ring-slate-500
             transition-all duration-300 ease-in-out
             transform hover:scale-105
           "
