@@ -12,7 +12,7 @@ export const EducationCard: React.FC<{
     <div className="my-6 overflow-hidden rounded-[28px] border border-slate-200 bg-white/80 shadow-sm backdrop-blur">
       {/* Top Header (조금 더 두껍게) */}
       <div className="p-6 pb-4">
-        <h3 className="text-xl font-extrabold text-slate-900 leading-snug">
+        <h3 className="text-xl font-bold text-slate-900 leading-snug">
           {title}
         </h3>
         <p className="mt-2 text-sm text-slate-500">{period}</p>

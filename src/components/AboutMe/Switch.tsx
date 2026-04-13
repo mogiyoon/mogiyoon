@@ -1,5 +1,6 @@
 // Switch.tsx
 import { motion, MotionValue } from 'framer-motion';
+import { animation } from '../../design-tokens';
 
 interface SwitchProps {
   onClick: () => void;
@@ -22,7 +23,7 @@ export const Switch: React.FC<SwitchProps> = ({ onClick, opacity, isSwitchedOn }
         <motion.div
           layout
           className="w-8 h-8 bg-white rounded-full shadow-md"
-          transition={{ type: 'spring', stiffness: 700, damping: 30 }}
+          transition={animation.tabSpring}
         />
       </button>
       <span className="text-white text-sm font-semibold tracking-wider">
