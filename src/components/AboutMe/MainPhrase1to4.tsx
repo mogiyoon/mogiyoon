@@ -37,7 +37,7 @@ export const MainPhrase1to4: React.FC = () => {
   return (
     <section ref={targetRef} className="relative h-[1600vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className='absolute inset-0 bg-gradient-to-br from-blue-200 to-purple-200 text-gray-900'>
+        <div className='absolute inset-0 bg-gradient-to-br from-blue-200 to-purple-200 text-content'>
           {/* 시작 콘텐츠 */}
           <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg sm:text-2xl lg:text-3xl tracking-widest whitespace-nowrap">
               <span className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">{t('mainPhrase1')}</span><span className="font-thin">{t('mainPhrase2')}</span>{' '}
@@ -74,7 +74,7 @@ export const MainPhrase1to4: React.FC = () => {
           {/* 끝 콘텐츠 */}
           <motion.div
             style={{ opacity: endBackgroundOpacity }}
-            className='absolute inset-0 z-30 bg-gray-800 text-white'
+            className='absolute inset-0 z-30 bg-slate-800 text-white'
           />
         </div>
       </div>

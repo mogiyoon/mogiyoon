@@ -56,26 +56,26 @@ const AnswerChecker: React.FC = () => {
   };
 
   // 레트로 버튼 스타일을 위한 Tailwind CSS 클래스
-  const retroButtonClasses = "px-1 py-1 text-base text-gray-800 bg-gray-200 border-2 border-t-gray-100 border-l-gray-100 border-b-4 border-r-4 border-gray-400 rounded-md transition-all duration-100 active:border-b-2 active:border-r-2 active:translate-x-1 active:translate-y-1";
+  const retroButtonClasses = "px-1 py-1 text-base text-content-strong bg-slate-200 border-2 border-t-slate-100 border-l-slate-100 border-b-4 border-r-4 border-slate-400 rounded-md transition-all duration-100 active:border-b-2 active:border-r-2 active:translate-x-1 active:translate-y-1";
 
   return (
     // 전체 컴포넌트를 감싸는 컨테이너
-    <div className="w-[400px] mx-auto p-2 border-2 bg-white shadow-lg font-sans sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)]">
+    <div className="w-[400px] mx-auto p-2 border-2 bg-surface shadow-lg font-sans sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)]">
       
       {/* 문제 섹션 */}
       <div className="mb-2">
-        <h2 className="text-base text-gray-800 mb-2">{t('answerChecker.problemLabel')}: {correctAnswer}</h2>
+        <h2 className="text-base text-content-strong mb-2">{t('answerChecker.problemLabel')}: {correctAnswer}</h2>
       </div>
 
       {/* 정답 입력 섹션 */}
       <div className="flex items-center mb-2">
-        <label htmlFor="answer-input" className="text-base text-gray-800 whitespace-nowrap">{t('answerChecker.answerLabel')}:</label>
+        <label htmlFor="answer-input" className="text-base text-content-strong whitespace-nowrap">{t('answerChecker.answerLabel')}:</label>
         {/* input 대신 contentEditable div 사용 */}
         <div
           ref={editableDivRef}
           id="answer-input"
           contentEditable="true"
-          className="flex-grow px-1 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-black"
+          className="flex-grow px-1 py-1 border border-line-strong shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-black"
           style={{ minHeight: '2.25rem', lineHeight: '1.5rem', cursor: 'text' }}
           data-placeholder={t('answerChecker.placeholder')}
         ></div>
@@ -105,8 +105,8 @@ const AnswerChecker: React.FC = () => {
 
       {/* 결과 표시 섹션 */}
       <div>
-        <h3 className="text-base font-medium text-gray-700 mb-2">{t('answerChecker.resultLabel')}:</h3>
-        <div className="p-2 border border-gray-200 bg-gray-50 min-h-[3.5rem] flex items-center flex-wrap gap-1">
+        <h3 className="text-base font-medium text-content-secondary mb-2">{t('answerChecker.resultLabel')}:</h3>
+        <div className="p-2 border border-line bg-surface-subtle min-h-[3.5rem] flex items-center flex-wrap gap-1">
           {result.map((item, index) => (
             <span
               key={index}

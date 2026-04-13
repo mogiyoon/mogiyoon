@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import PortfolioCard from "../../components/PortfolioCard";
 import PreparingCard, { type PreparingProjectData } from "../../components/PreparingCard";
 import type { ProjectSummary } from '../../types';
+import { durations } from '../../design-tokens';
 
 const sectionExitAnimation = {
     opacity: 0,
-    transition: { duration: 0.2 }
+    transition: { duration: durations.fast }
 };
 
 const ProjectsSection: React.FC = () => {

@@ -37,7 +37,7 @@ const PostsSection: React.FC = () => {
       className="
         fixed inset-0
         flex items-center justify-center
-        text-center text-lg text-gray-400
+        text-center text-lg text-content-muted
         overflow-clip
       "
       initial="hidden"
@@ -63,7 +63,7 @@ const PostsSection: React.FC = () => {
             bottom-[55vh] right-[35vw] lg:right-[45vw]
             w-[min(70vmin,600px)] lg:w-[min(50vmin,560px)]
             scale-[1.15]
-            rounded-xl
+            rounded-card
             shadow-[0_10px_30px_rgba(0,0,0,0.35)]
             brightness-[1.02] contrast-[1.03]
             will-change-transform
@@ -81,7 +81,7 @@ const PostsSection: React.FC = () => {
             top-[52vh] left-[67vw]
             w-[min(70vmin,600px)] lg:w-[min(50vmin,560px)]
             scale-[1.25]
-            rounded-xl
+            rounded-card
             shadow-[0_8px_24px_rgba(0,0,0,0.30)]
             opacity-95
             will-change-transform
@@ -99,7 +99,7 @@ const PostsSection: React.FC = () => {
             top-[65vh] right-[55vw] lg:right-[60vw]
             w-[min(70vmin,600px)] lg:w-[min(50vmin,560px)]
             scale-[1.25]
-            rounded-xl
+            rounded-card
             shadow-[0_8px_24px_rgba(0,0,0,0.28)]
             opacity-95
             will-change-transform
@@ -113,7 +113,7 @@ const PostsSection: React.FC = () => {
         <p
           className="
             px-5 py-2 font-bold text-black text-xl
-            rounded-lg bg-white/50 backdrop-blur-sm
+            rounded-lg bg-surface/50 backdrop-blur-sm
             shadow-[0_0_15px_rgba(255,255,255,0.2)]
           "
         >
@@ -125,13 +125,12 @@ const PostsSection: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="
-            inline-block px-8 py-3 
-            font-semibold text-white bg-gray-800 
-            border border-gray-700 rounded-lg 
-            hover:bg-gray-700 hover:border-gray-600
-            focus:outline-none focus:ring-2 focus:ring-gray-500
+            inline-block px-8 py-3
+            font-semibold text-white bg-slate-800
+            border border-slate-700 rounded-lg
+            hover:bg-slate-700 hover:border-slate-600 hover:shadow-lg
+            focus:outline-none focus:ring-2 focus:ring-slate-500
             transition-all duration-300 ease-in-out
-            transform hover:scale-105
           "
         >
           {t('visitVelog')}
