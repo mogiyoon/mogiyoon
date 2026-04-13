@@ -5,17 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  overflow-x: hidden;
-}
-
 body {
   margin: 0;
   font-family: 'Noto Sans KR', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  overscroll-behavior: none;
 }
 
 /* Hide scrollbar globally */
