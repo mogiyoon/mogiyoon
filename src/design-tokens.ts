@@ -1,11 +1,95 @@
 /**
- * Mogiyoon Design Tokens
+ * Mogiyoon Design Tokens — Single Source of Truth
  *
- * Framer Motion 애니메이션에서 사용하는 공유 값.
- * 색상/타이포/간격 등 Tailwind 기반 토큰은 DESIGN.md를 참조한다.
+ * 이 파일이 디자인 시스템의 원천이다.
+ * - tailwind.config.ts 가 이 파일에서 색상/폰트/간격/반지름을 import
+ * - 컴포넌트가 이 파일에서 animation/durations를 import
  */
 
-// ─── Animation (Framer Motion) ──────────────────────────
+// ─── Colors ─────────────────────────────────────────────
+
+export const colors = {
+  background: {
+    white: '#ffffff',
+    slate50: '#f8fafc',
+    slate100: '#f1f5f9',
+    slate200: '#e2e8f0',
+  },
+  text: {
+    primary: '#0f172a',     // slate-900
+    strong: '#1e293b',      // slate-800
+    secondary: '#334155',   // slate-700
+    meta: '#475569',        // slate-600
+    tertiary: '#64748b',    // slate-500
+    muted: '#94a3b8',       // slate-400
+  },
+  accent: {
+    indigo50: '#eef2ff',
+    indigo100: '#e0e7ff',
+    indigo500: '#6366f1',
+    indigo600: '#4f46e5',
+    indigo700: '#4338ca',
+    violet400: '#a78bfa',
+    violet500: '#8b5cf6',
+  },
+  border: {
+    default: '#e2e8f0',     // slate-200
+    strong: '#cbd5e1',      // slate-300
+  },
+} as const;
+
+// ─── Typography ─────────────────────────────────────────
+
+export const fonts = {
+  body: ['Noto Sans KR', 'sans-serif'],
+  latin: ['Inter', 'system-ui', 'sans-serif'],
+  display: ['Caveat', 'cursive'],
+  mono: ['source-code-pro', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'],
+} as const;
+
+// ─── Spacing ────────────────────────────────────────────
+
+export const spacing = {
+  section: '5rem', // 80px — pt-20
+} as const;
+
+// ─── Border Radius ──────────────────────────────────────
+
+export const radii = {
+  card: '0.75rem',   // 12px — rounded-xl
+  modal: '1rem',     // 16px — rounded-2xl
+  pill: '9999px',    // rounded-full
+} as const;
+
+// ─── Keyframes & Animation ──────────────────────────────
+
+export const keyframes = {
+  'fade-in-up': {
+    '0%': { opacity: '0', transform: 'translateY(14px)' },
+    '100%': { opacity: '1', transform: 'translateY(0)' },
+  },
+  'toast-in-out': {
+    '0%': {
+      transform: 'translateY(calc(100% + 1.25rem))',
+      opacity: '0',
+    },
+    '15%, 85%': {
+      transform: 'translateY(0)',
+      opacity: '1',
+    },
+    '100%': {
+      transform: 'translateY(calc(100% + 1.25rem))',
+      opacity: '0',
+    },
+  },
+} as const;
+
+export const tailwindAnimation = {
+  'toast-in-out': 'toast-in-out 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+  'fade-in-up': 'fade-in-up 0.35s ease-out both',
+} as const;
+
+// ─── Framer Motion ──────────────────────────────────────
 
 export const animation = {
   /** 페이지 전환 */
