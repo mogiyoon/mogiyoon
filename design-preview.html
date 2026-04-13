@@ -12,12 +12,14 @@
     /* Background Surfaces */
     --bg-white: #ffffff;
     --bg-slate-50: #f8fafc;
-    --bg-gray-100: #f3f4f6;
-    --bg-gray-200: #e5e7eb;
+    --bg-slate-100: #f1f5f9;
+    --bg-slate-200: #e2e8f0;
 
     /* Text */
     --text-primary: #0f172a;    /* slate-900 */
+    --text-strong: #1e293b;     /* slate-800 */
     --text-secondary: #334155;  /* slate-700 */
+    --text-meta: #475569;       /* slate-600 */
     --text-tertiary: #64748b;   /* slate-500 */
     --text-muted: #94a3b8;      /* slate-400 */
 
@@ -131,7 +133,7 @@
   .btn-primary { background: var(--accent-500); color: #fff; }
   .btn-primary:hover { background: var(--accent-600); box-shadow: var(--shadow-lg); }
   .btn-ghost { background: transparent; border: 1px solid var(--border-default); color: var(--text-secondary); }
-  .btn-ghost:hover { background: var(--bg-gray-100); }
+  .btn-ghost:hover { background: var(--bg-slate-100); }
 
   /* Badge */
   .badge {
@@ -140,7 +142,7 @@
     font-size: 0.75rem; font-weight: 600;
   }
   .badge-indigo { background: var(--accent-100); color: var(--accent-700); }
-  .badge-slate { background: var(--bg-gray-100); color: var(--text-secondary); border: 1px solid var(--border-default); }
+  .badge-slate { background: var(--bg-slate-100); color: var(--text-secondary); border: 1px solid var(--border-default); }
   .badge-vibe {
     background: linear-gradient(to right, rgba(99,102,241,0.2), rgba(139,92,246,0.15), rgba(129,140,248,0.2));
     backdrop-filter: blur(12px);
@@ -168,7 +170,7 @@
     transition: box-shadow 0.3s;
   }
   .card-preview:hover { box-shadow: var(--shadow-xl); }
-  .card-preview .card-img { height: 160px; background: linear-gradient(135deg, var(--accent-50), var(--bg-gray-100)); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.875rem; }
+  .card-preview .card-img { height: 160px; background: linear-gradient(135deg, var(--accent-50), var(--bg-slate-100)); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.875rem; }
   .card-preview .card-body { padding: 24px; }
   .card-preview .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
   .card-preview .card-desc { font-size: 0.875rem; color: var(--text-tertiary); margin-bottom: 12px; line-height: 1.6; }
@@ -209,8 +211,8 @@
     <div class="color-grid">
       <div class="color-swatch"><div class="swatch-color" style="background:#ffffff"></div><div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-value">#ffffff</div></div></div>
       <div class="color-swatch"><div class="swatch-color" style="background:#f8fafc"></div><div class="swatch-info"><div class="swatch-name">Slate 50</div><div class="swatch-value">#f8fafc</div></div></div>
-      <div class="color-swatch"><div class="swatch-color" style="background:#f3f4f6"></div><div class="swatch-info"><div class="swatch-name">Gray 100</div><div class="swatch-value">#f3f4f6</div></div></div>
-      <div class="color-swatch"><div class="swatch-color" style="background:#e5e7eb"></div><div class="swatch-info"><div class="swatch-name">Gray 200</div><div class="swatch-value">#e5e7eb</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#f1f5f9"></div><div class="swatch-info"><div class="swatch-name">Slate 100</div><div class="swatch-value">#f1f5f9</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#e2e8f0"></div><div class="swatch-info"><div class="swatch-name">Slate 200</div><div class="swatch-value">#e2e8f0</div></div></div>
     </div>
   </div>
 
@@ -219,13 +221,11 @@
     <div class="section-title">Colors — Text & Content</div>
     <div class="color-grid">
       <div class="color-swatch"><div class="swatch-color" style="background:#0f172a"></div><div class="swatch-info"><div class="swatch-name">Slate 900</div><div class="swatch-value">#0f172a</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#1e293b"></div><div class="swatch-info"><div class="swatch-name">Slate 800</div><div class="swatch-value">#1e293b</div></div></div>
       <div class="color-swatch"><div class="swatch-color" style="background:#334155"></div><div class="swatch-info"><div class="swatch-name">Slate 700</div><div class="swatch-value">#334155</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#475569"></div><div class="swatch-info"><div class="swatch-name">Slate 600</div><div class="swatch-value">#475569</div></div></div>
       <div class="color-swatch"><div class="swatch-color" style="background:#64748b"></div><div class="swatch-info"><div class="swatch-name">Slate 500</div><div class="swatch-value">#64748b</div></div></div>
       <div class="color-swatch"><div class="swatch-color" style="background:#94a3b8"></div><div class="swatch-info"><div class="swatch-name">Slate 400</div><div class="swatch-value">#94a3b8</div></div></div>
-      <div class="color-swatch"><div class="swatch-color" style="background:#1f2937"></div><div class="swatch-info"><div class="swatch-name">Gray 800</div><div class="swatch-value">#1f2937</div></div></div>
-      <div class="color-swatch"><div class="swatch-color" style="background:#374151"></div><div class="swatch-info"><div class="swatch-name">Gray 700</div><div class="swatch-value">#374151</div></div></div>
-      <div class="color-swatch"><div class="swatch-color" style="background:#4b5563"></div><div class="swatch-info"><div class="swatch-name">Gray 600</div><div class="swatch-value">#4b5563</div></div></div>
-      <div class="color-swatch"><div class="swatch-color" style="background:#9ca3af"></div><div class="swatch-info"><div class="swatch-name">Gray 400</div><div class="swatch-value">#9ca3af</div></div></div>
     </div>
   </div>
 
@@ -291,9 +291,8 @@
           <span class="badge badge-slate">React</span>
           <span class="badge badge-slate">TypeScript</span>
           <div class="badge badge-vibe" style="position:relative">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
-              <path d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z" fill="url(#prev-sparkle)" />
-              <defs><linearGradient id="prev-sparkle" x1="4" y1="2" x2="20" y2="22"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;filter:drop-shadow(0 0 2px rgba(99,102,241,0.6))">
+              <path d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z" fill="white" />
             </svg>
             <span>Vibe</span>
           </div>
@@ -334,7 +333,7 @@
       <!-- Navigation Tab -->
       <div class="component-box">
         <div class="component-box-label">Tab Navigation</div>
-        <div style="display:flex;gap:4px;background:var(--bg-gray-100);padding:4px;border-radius:var(--radius-xl)">
+        <div style="display:flex;gap:4px;background:var(--bg-slate-100);padding:4px;border-radius:var(--radius-xl)">
           <div style="background:var(--text-primary);color:#fff;padding:6px 16px;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:600">About</div>
           <div style="color:var(--text-tertiary);padding:6px 16px;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:500">Projects</div>
           <div style="color:var(--text-tertiary);padding:6px 16px;border-radius:var(--radius-xl);font-size:0.875rem;font-weight:500">Posts</div>
