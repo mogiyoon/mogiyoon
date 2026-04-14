@@ -21,6 +21,10 @@ i18n
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
+    // Suspense 비활성화 — 번역 미로드 시 빈 문자열 반환 (Loading 플래시 제거)
+    react: {
+      useSuspense: false,
+    },
     // 성능을 위해 LanguageDetector가 매번 실행되지 않도록 설정
     detection: {
       order: ['localStorage', 'navigator'],
