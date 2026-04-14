@@ -9,6 +9,7 @@ import AiDevKitCard from "../../components/AiDevKitCard";
 import AiDevKitModal, {
     type AiDevKitDetailItem,
     type AiDevKitModalData,
+    type AiDevKitSkillItem,
 } from "../../components/AiDevKitModal";
 import type { ProjectSummary } from '../../types';
 import { durations } from '../../design-tokens';
@@ -111,6 +112,39 @@ const ProjectsSection: React.FC = () => {
 
     const closeLabel = t('aiDevKit.modal.close', { ns: 'projects' });
 
+    const skillItems: AiDevKitSkillItem[] = skillsCardItems.map((skillItem) => ({
+        title: skillItem.title,
+        description: skillItem.description,
+        chips: skillItem.chips,
+        sections: [
+            {
+                title: t('aiDevKit.skills.detail.orchestratorTitle', { ns: 'projects' }),
+                description: t('aiDevKit.skills.detail.orchestratorDescription', { ns: 'projects' }),
+                items: skillsOrchestratorItems,
+            },
+            {
+                title: t('aiDevKit.skills.detail.triggerTitle', { ns: 'projects' }),
+                description: t('aiDevKit.skills.detail.triggerDescription', { ns: 'projects' }),
+                items: skillsTriggerItems,
+            },
+            {
+                title: t('aiDevKit.skills.detail.patternTitle', { ns: 'projects' }),
+                description: t('aiDevKit.skills.detail.patternDescription', { ns: 'projects' }),
+                items: skillsPatternItems,
+            },
+            {
+                title: t('aiDevKit.skills.detail.principleTitle', { ns: 'projects' }),
+                description: t('aiDevKit.skills.detail.principleDescription', { ns: 'projects' }),
+                items: skillsPrincipleItems,
+            },
+            {
+                title: t('aiDevKit.skills.detail.outputTitle', { ns: 'projects' }),
+                description: t('aiDevKit.skills.detail.outputDescription', { ns: 'projects' }),
+                items: skillsOutputItems,
+            },
+        ],
+    }));
+
     const devKitItems: DevKitCardData[] = [
         {
             id: 'skills',
@@ -126,34 +160,10 @@ const ProjectsSection: React.FC = () => {
             closeLabel,
             sections: [
                 {
-                    title: t('aiDevKit.skills.detail.cardTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.skills.detail.cardDescription', { ns: 'projects' }),
-                    items: skillsCardItems,
-                },
-                {
-                    title: t('aiDevKit.skills.detail.orchestratorTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.skills.detail.orchestratorDescription', { ns: 'projects' }),
-                    items: skillsOrchestratorItems,
-                },
-                {
-                    title: t('aiDevKit.skills.detail.triggerTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.skills.detail.triggerDescription', { ns: 'projects' }),
-                    items: skillsTriggerItems,
-                },
-                {
-                    title: t('aiDevKit.skills.detail.patternTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.skills.detail.patternDescription', { ns: 'projects' }),
-                    items: skillsPatternItems,
-                },
-                {
-                    title: t('aiDevKit.skills.detail.principleTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.skills.detail.principleDescription', { ns: 'projects' }),
-                    items: skillsPrincipleItems,
-                },
-                {
-                    title: t('aiDevKit.skills.detail.outputTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.skills.detail.outputDescription', { ns: 'projects' }),
-                    items: skillsOutputItems,
+                    title: t('aiDevKit.skills.detail.skillsTitle', { ns: 'projects' }),
+                    description: t('aiDevKit.skills.detail.skillsDescription', { ns: 'projects' }),
+                    skillItems,
+                    layout: 'skill-groups',
                 },
             ],
         },
@@ -243,7 +253,7 @@ const ProjectsSection: React.FC = () => {
 
                     {/* AI DevKit */}
                     <div className="px-4 mb-10">
-                        <div className="bg-surface-subtle border border-line rounded-modal p-5">
+                        <div className="rounded-card bg-surface p-5 shadow-lg">
                             <div className="flex items-center gap-2 mb-3">
                                 <h3 className="text-lg font-bold text-accent-700">
                                     {t('aiDevKit.title', { ns: 'projects' })}

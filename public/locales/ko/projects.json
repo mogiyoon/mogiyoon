@@ -14,119 +14,99 @@
       "countLabel": "개 항목",
       "detail": {
         "eyebrow": "Skill",
-        "summary": "요청 분해, 역할 배정, 라우팅, 루프, 결과 병합을 설계하는 스킬입니다.",
-        "cardTitle": "스킬 카드",
-        "cardDescription": "실제 스킬 단위 정보입니다.",
+        "summary": "여러 에이전트를 한 흐름으로 묶고, 갈라진 작업을 다시 합치고, 필요하면 다시 돌리는 구조를 설계하는 스킬입니다.",
+        "skillsTitle": "스킬 목록",
+        "skillsDescription": "오케스트레이터 스킬의 핵심 포인트",
         "cardItems": [
           {
             "title": "orchestrator-designer",
-            "description": "여러 에이전트 협업 흐름을 설계하는 스킬입니다. 요청 분해부터 역할 배정, 라우팅, 병렬·직렬 구성, 결과 병합, 종료 조건까지 정의합니다.",
+            "description": "여러 에이전트가 함께 일하는 흐름 자체를 설계하는 스킬입니다. 누가 먼저 일할지, 무엇을 동시에 돌릴지, 언제 다시 돌릴지, 결과를 어떻게 모을지까지 정합니다.",
             "chips": ["Orchestrator", "Routing", "Workflow"]
           }
         ],
         "orchestratorTitle": "오케스트레이터 역할",
-        "orchestratorDescription": "메인 오케스트레이터가 직접 판단하고 조율하는 항목입니다.",
+        "orchestratorDescription": "메인 오케스트레이터만의 핵심 역할입니다.",
         "orchestratorItems": [
           {
-            "title": "요청 분해와 역할 배정",
-            "description": "사용자 요청을 작업 단위로 나누고 각 단계에 필요한 에이전트 역할을 배정합니다.",
+            "title": "흐름 쪼개기",
+            "description": "하나의 요청을 여러 단계로 나누고, 각 단계에 맞는 에이전트를 붙입니다.",
             "chips": ["decomposition", "role assignment"]
           },
           {
-            "title": "직렬·병렬·라우팅 구조",
-            "description": "어떤 단계가 직렬로 이어지고 어떤 단계가 병렬로 실행되는지, 어떤 조건에서 다른 에이전트로 라우팅할지를 결정합니다.",
-            "chips": ["sequential", "parallel", "routing"]
+            "title": "갈라진 작업 다시 모으기",
+            "description": "병렬로 돌린 결과를 비교하거나 합쳐서 다음 단계로 넘깁니다.",
+            "chips": ["parallel", "merge", "handoff"]
           },
           {
-            "title": "입력 전달과 결과 병합",
-            "description": "에이전트 출력 중 무엇을 다음 단계 입력으로 넘길지, 어떤 기준으로 결과를 비교하거나 합산할지를 정의합니다.",
-            "chips": ["handoff", "merge", "compare"]
-          },
-          {
-            "title": "루프와 종료 조건",
-            "description": "피드백 루프 진입 조건, 재시도 기준, fallback 경로, 종료 조건을 정해 흐름을 수렴시킵니다.",
-            "chips": ["loop", "retry", "fallback"]
+            "title": "다시 돌릴 지점 정하기",
+            "description": "결과가 부족하면 어디로 돌아갈지와 언제 끝낼지를 정합니다.",
+            "chips": ["loop", "retry", "termination"]
           }
         ],
-        "triggerTitle": "트리거",
-        "triggerDescription": "스킬이 필요한 요청 유형입니다.",
+        "triggerTitle": "언제 필요한가",
+        "triggerDescription": "오케스트레이터가 필요한 상황입니다.",
         "triggerItems": [
           {
-            "title": "역할 분리 요구",
-            "description": "역할이 다른 에이전트가 2개 이상 필요한 구조에서 트리거됩니다.",
-            "chips": ["2+ agents", "role split"]
-          },
-          {
-            "title": "협업 흐름 설계",
-            "description": "협력, 체이닝, 파이프라인, 병렬 실행, 라우팅, 결과 통합이 필요한 흐름을 대상으로 합니다.",
-            "chips": ["pipeline", "parallel", "integration"]
+            "title": "한 번에 끝나지 않는 작업",
+            "description": "역할이 다른 에이전트가 둘 이상 필요하고, 중간 결과를 넘기거나 합쳐야 하는 흐름에서 사용합니다.",
+            "chips": ["2+ agents", "multi-step"]
           }
         ],
-        "patternTitle": "설계 패턴",
-        "patternDescription": "오케스트레이터가 주로 다루는 구조 패턴입니다.",
+        "patternTitle": "오케스트레이터다운 구조",
+        "patternDescription": "이 스킬에서 특히 중요한 흐름 구조입니다.",
         "patternItems": [
           {
-            "title": "계층 구조",
-            "description": "메인 오케스트레이터와 서브 에이전트로 나뉘는 계층형 구조입니다.",
-            "chips": ["hierarchy", "specialists"]
+            "title": "팬아웃 후 수렴",
+            "description": "여러 에이전트가 나눠 처리한 뒤 결과를 다시 하나로 모읍니다.",
+            "chips": ["fan-out", "convergence"]
           },
           {
-            "title": "순차·병렬 흐름",
-            "description": "순차 파이프라인과 병렬 팬아웃, 그리고 결과가 다시 합쳐지는 수렴 구간을 포함합니다.",
-            "chips": ["sequential", "fan-out", "convergence"]
+            "title": "조건부 라우팅",
+            "description": "중간 결과에 따라 다음 에이전트가 달라집니다.",
+            "chips": ["routing", "branching"]
           },
           {
-            "title": "조건부 제어",
-            "description": "조건부 라우팅, 피드백 루프, 사람 개입 지점을 요구사항에 맞게 조합합니다.",
-            "chips": ["routing", "feedback loop", "human checkpoint"]
+            "title": "피드백 루프",
+            "description": "결과가 부족하면 특정 단계로 돌아가 다시 실행합니다.",
+            "chips": ["feedback loop", "retry"]
           }
         ],
-        "principleTitle": "설계 원칙",
-        "principleDescription": "구조를 안정적으로 유지하기 위한 기준입니다.",
+        "principleTitle": "오케스트레이터 제약",
+        "principleDescription": "오케스트레이터에서 특히 중요한 기준입니다.",
         "principleItems": [
           {
-            "title": "명시적 컨텍스트 전달",
-            "description": "파일 경로, 이전 결과, 평가 기준 같은 컨텍스트를 단계 간에 명시적으로 전달합니다.",
-            "chips": ["context", "explicit handoff"]
-          },
-          {
-            "title": "단순 계층 유지",
-            "description": "메인 오케스트레이터가 전체 흐름을 관리하는 단순한 계층 구조를 유지합니다.",
+            "title": "깊게 중첩하지 않기",
+            "description": "메인 오케스트레이터가 전체를 관리하고 구조가 너무 깊어지지 않게 합니다.",
             "chips": ["main orchestrator", "simple hierarchy"]
           },
           {
-            "title": "역할별 제약 설정",
-            "description": "역할별 도구·모델 기준을 분리하고 반복 루프에는 상한을 설정합니다.",
-            "chips": ["tool policy", "model policy", "loop cap"]
+            "title": "병합 기준 먼저 정하기",
+            "description": "무엇을 좋은 결과로 볼지 먼저 정한 뒤 여러 출력을 비교하거나 합칩니다.",
+            "chips": ["merge criteria", "evaluation"]
           },
           {
-            "title": "출력 형식 사전 정의",
-            "description": "출력 형식과 종료 조건을 미리 정해 단계 간 해석 차이를 줄입니다.",
-            "chips": ["output schema", "termination"]
+            "title": "루프 끝 정해두기",
+            "description": "재시도 횟수와 종료 조건을 미리 정해 무한 반복을 막습니다.",
+            "chips": ["loop cap", "termination"]
           }
         ],
-        "outputTitle": "산출물",
-        "outputDescription": "최종 설계 문서에 포함되는 요소입니다.",
+        "outputTitle": "결과 문서",
+        "outputDescription": "오케스트레이터 문서에 특히 들어가야 하는 내용입니다.",
         "outputItems": [
           {
-            "title": "개요와 구현 전제",
-            "description": "오케스트레이터 개요와 구현 전제를 먼저 정의합니다.",
+            "title": "흐름 개요",
+            "description": "전체 단계와 역할 구성을 먼저 정리합니다.",
             "chips": ["overview", "premise"]
           },
           {
-            "title": "관계·분기·루프 다이어그램",
-            "description": "Mermaid 기반 다이어그램으로 에이전트 관계, 분기, 루프를 시각화합니다.",
+            "title": "분기·루프·병합 그림",
+            "description": "에이전트 관계, 분기, 루프, 병합 구조를 다이어그램으로 보여줍니다.",
             "chips": ["Mermaid", "branching", "loop"]
           },
           {
-            "title": "역할·입출력·handoff 문서",
-            "description": "역할, 입출력, handoff, 재시도, fallback 전략을 문서에 포함합니다.",
-            "chips": ["roles", "I/O", "handoff"]
-          },
-          {
-            "title": "운영 규칙 명시",
-            "description": "라우팅 기준, 병렬 구간, 병합 방식, 종료 조건을 문서 수준에서 명시합니다.",
-            "chips": ["routing rules", "merge logic", "termination"]
+            "title": "운영 규칙",
+            "description": "언제 넘기고, 언제 다시 돌리고, 어떻게 합치고, 언제 끝낼지를 정리합니다.",
+            "chips": ["routing", "merge", "termination"]
           }
         ]
       }
