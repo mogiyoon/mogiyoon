@@ -1,6 +1,6 @@
 // test pull request
 // src/App.tsx
-import React, { useEffect, useRef, useState, Suspense } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
@@ -97,11 +97,9 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-      <Router>
-        <AppContent />
-      </Router>
-    </Suspense>
+    <Router>
+      <AppContent />
+    </Router>
   );
 };
 

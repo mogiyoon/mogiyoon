@@ -14,33 +14,35 @@ const sectionExitAnimation = {
     transition: { duration: durations.fast }
 };
 
+// ── Prefetch: 모듈 로드 시 즉시 fetch 시작 ──────────────────────
+type PrefetchedLists = { projects: ProjectSummary[]; preparing: PreparingProjectData[] };
+let cachedLists: PrefetchedLists | null = null;
+const listsPromise = Promise.all([
+    fetch('/data/projects-list.json').then(r => r.json()),
+    fetch('/data/preparing-projects-list.json').then(r => r.json()),
+]).then(([projects, preparing]) => {
+    cachedLists = { projects, preparing };
+    return cachedLists;
+}).catch(console.error);
+
 const ProjectsSection: React.FC = () => {
     const { t } = useTranslation(['projects', 'prepareProjects']);
     const navigate = useNavigate();
 
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [projects, setProjects] = useState<ProjectSummary[]>([]);
-    const [preparingProjects, setPreparingProjects] = useState<PreparingProjectData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [projects, setProjects] = useState<ProjectSummary[]>(cachedLists?.projects ?? []);
+    const [preparingProjects, setPreparingProjects] = useState<PreparingProjectData[]>(cachedLists?.preparing ?? []);
+    const [isLoading, setIsLoading] = useState(!cachedLists);
 
     useEffect(() => {
-        const fetchLists = async () => {
-            try {
-                const [projectsResponse, preparingResponse] = await Promise.all([
-                    fetch('/data/projects-list.json'),
-                    fetch('/data/preparing-projects-list.json')
-                ]);
-                const projectsData = await projectsResponse.json();
-                const preparingData = await preparingResponse.json();
-                setProjects(projectsData);
-                setPreparingProjects(preparingData);
-            } catch (error) {
-                console.error("Failed to fetch project lists:", error);
-            } finally {
-                setIsLoading(false);
+        if (cachedLists) return;
+        listsPromise.then((data) => {
+            if (data) {
+                setProjects(data.projects);
+                setPreparingProjects(data.preparing);
             }
-        };
-        fetchLists();
+            setIsLoading(false);
+        });
     }, []);
 
     const handleCardClick = (projectId: string) => {
@@ -60,7 +62,18 @@ const ProjectsSection: React.FC = () => {
     };
 
     if (isLoading) {
-        return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+        return (
+            <section className="min-h-screen flex flex-col items-center justify-center pt-20">
+                <div className="w-full max-w-6xl p-4">
+                    <div className="h-10 w-48 mx-auto rounded-card bg-surface-muted animate-pulse mb-8" />
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+                        {[1,2,3,4].map(i => (
+                            <div key={i} className="aspect-[9/16] rounded-card bg-surface-muted animate-pulse" />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
     }
 
     return (
