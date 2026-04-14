@@ -255,7 +255,7 @@ const ProjectsSection: React.FC = () => {
                     <div className="px-4 mb-10">
                         <div className="rounded-card bg-surface p-5 shadow-lg">
                             <div className="flex items-center gap-2 mb-3">
-                                <h3 className="text-lg font-bold text-accent-700">
+                                <h3 className="text-lg font-bold text-title">
                                     {t('aiDevKit.title', { ns: 'projects' })}
                                 </h3>
                                 <span className="text-xs text-content-muted font-medium">
