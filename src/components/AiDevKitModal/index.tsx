@@ -67,7 +67,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
 
     if (iconKey === 'unity') {
       return (
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-base font-black text-white shadow-sm">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-base font-black text-white">
           U
         </div>
       );
@@ -75,7 +75,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
 
     if (iconKey === 'blender') {
       return (
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500 text-base font-black text-white shadow-sm">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500 text-base font-black text-white">
           B
         </div>
       );
@@ -144,7 +144,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
         <div className="max-h-[75vh] overflow-y-auto p-6">
           <div className="space-y-6">
             {item.sections.map((section) => (
-              <section key={section.title} className="rounded-card bg-surface p-5 shadow-lg">
+              <section key={section.title} className="rounded-card bg-surface p-5">
                 <div className="mb-4">
                   <h4 className="text-lg font-bold text-content">{section.title}</h4>
                   {section.description && (
@@ -172,9 +172,9 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
 
                 {section.items && section.items.length > 0 && (
                   section.layout === 'diagram' ? (
-                    <div className="rounded-card bg-surface-subtle p-4 sm:p-5 shadow-sm">
+                    <div className="rounded-card bg-surface-subtle p-4 sm:p-5">
                       <div className="flex justify-center">
-                        <div className="w-full max-w-sm rounded-card bg-surface px-5 py-4 text-center shadow-lg">
+                        <div className="w-full max-w-sm rounded-card bg-surface px-5 py-4 text-center">
                           <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
                             Core
                           </div>
@@ -197,7 +197,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                         {section.items.map((detailItem) => (
                           <article
                             key={`${section.title}-${detailItem.title}`}
-                            className="relative rounded-card bg-surface p-4 shadow-lg"
+                            className="relative rounded-card bg-surface p-4"
                           >
                             <div className="absolute left-1/2 top-0 hidden h-5 w-px -translate-x-1/2 -translate-y-full bg-line sm:block" />
                             <div className="absolute left-1/2 top-0 hidden h-2.5 w-2.5 -translate-x-1/2 -translate-y-[18px] rounded-full bg-accent-500 sm:block" />
@@ -214,220 +214,190 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                   ) : section.layout === 'flow' ? (
                     <div className="space-y-4">
                       {section.items.map((detailItem) => {
-                        const loopStepIndexes = new Set(
-                          (detailItem.loops ?? []).flatMap((loop) => {
-                            const indexes = [loop.fromStep - 1, loop.toStep - 1];
-
-                            if (loop.topStartStep) indexes.push(loop.topStartStep - 1);
-                            if (loop.topEndStep) indexes.push(loop.topEndStep - 1);
-                            if (loop.bottomStep) indexes.push(loop.bottomStep - 1);
-
-                            return indexes;
-                          })
+                        const steps = detailItem.steps ?? [];
+                        const loops = detailItem.loops ?? [];
+                        const hasLoops = loops.length > 0;
+                        const loopStepIndexes = new Set<number>(
+                          loops.flatMap((loop) => [loop.fromStep - 1, loop.toStep - 1])
                         );
+
+                        const stepWidth = 144;
+                        const stepGap = 12;
+                        const totalWidth =
+                          steps.length * stepWidth +
+                          Math.max(0, steps.length - 1) * stepGap;
+                        const centerX = (idx: number) =>
+                          stepWidth / 2 + idx * (stepWidth + stepGap);
+                        const loopDepth = 42;
+                        const svgHeight = loopDepth + 18;
 
                         return (
                           <article
                             key={`${section.title}-${detailItem.title}`}
-                            className="rounded-card bg-surface p-5 shadow-lg"
+                            className="rounded-card bg-surface p-5"
                           >
-                            <div className="flex flex-col gap-5">
-                              <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
-                                <div className="max-w-2xl">
-                                  <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                                    Flow
-                                  </div>
-                                  <h5 className="mt-4 text-base font-bold text-content-strong">
-                                    {detailItem.title}
-                                  </h5>
-                                  {detailItem.description && (
-                                    <p className="mt-2 text-sm leading-relaxed text-content-secondary">
-                                      {detailItem.description}
-                                    </p>
-                                  )}
-                                </div>
+                            <div className="mb-5">
+                              <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
+                                Flow
                               </div>
-
-                              {detailItem.steps && detailItem.steps.length > 0 && (
-                                <div className="overflow-x-auto pb-1">
-                                  <div className="flex min-w-max flex-col gap-3 md:flex-row md:items-center">
-                                    {detailItem.steps.map((step, index) => (
-                                      <React.Fragment key={`${detailItem.title}-${step}`}>
-                                        <div
-                                          className={`flex min-w-[136px] flex-col items-center rounded-card px-4 py-3 text-center shadow-sm ${
-                                            loopStepIndexes.has(index)
-                                              ? 'border border-accent-300 bg-accent-50'
-                                              : 'bg-surface'
-                                          }`}
-                                        >
-                                          <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-700">
-                                            Step {index + 1}
-                                          </span>
-                                          <span className="mt-1 text-sm font-bold text-content">
-                                            {step}
-                                          </span>
-                                        </div>
-
-                                        {index < detailItem.steps!.length - 1 && (
-                                          <>
-                                            <div className="flex items-center justify-center md:hidden">
-                                              <div className="h-8 w-px bg-line" />
-                                            </div>
-                                            <div className="hidden items-center justify-center md:flex">
-                                              <div className="h-px w-8 bg-line" />
-                                              <svg
-                                                className="mx-1 h-4 w-4 text-accent-500"
-                                                viewBox="0 0 16 16"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                                <path
-                                                  d="M3 8H13M13 8L9 4M13 8L9 12"
-                                                  stroke="currentColor"
-                                                  strokeWidth="1.5"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                />
-                                              </svg>
-                                              <div className="h-px w-8 bg-line" />
-                                            </div>
-                                          </>
-                                        )}
-                                      </React.Fragment>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-
-                              {detailItem.loops && detailItem.loops.length > 0 && detailItem.steps && (
-                                <div className="rounded-card border border-dashed border-accent-300 bg-accent-50/70 p-4">
-                                  <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-700 shadow-sm">
-                                    <svg
-                                      className="h-4 w-4"
-                                      viewBox="0 0 20 20"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M6 7V3L2 7L6 11V7H11C13.7614 7 16 9.23858 16 12C16 14.7614 13.7614 17 11 17H6"
-                                        stroke="currentColor"
-                                        strokeWidth="1.6"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      />
-                                    </svg>
-                                    Feedback Loop
-                                  </div>
-
-                                  <div className="space-y-4">
-                                    {detailItem.loops.map((loop) => {
-                                      const topStartLabel = detailItem.steps![(
-                                        (loop.topStartStep ?? loop.toStep) - 1
-                                      )];
-                                      const topEndLabel = detailItem.steps![(
-                                        (loop.topEndStep ?? loop.fromStep) - 1
-                                      )];
-                                      const bottomLabel = loop.bottomLabel ?? detailItem.steps![(
-                                        (loop.bottomStep ?? loop.fromStep) - 1
-                                      )];
-
-                                      return (
-                                        <div
-                                          key={`${detailItem.title}-${loop.fromStep}-${loop.toStep}`}
-                                          className="rounded-card bg-white p-4 shadow-lg"
-                                        >
-                                          <div className="flex items-center justify-center gap-3">
-                                            <div className="min-w-[132px] rounded-card bg-accent-50 px-3 py-2 text-center shadow-sm">
-                                              <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-accent-700">
-                                                Return
-                                              </div>
-                                              <div className="mt-1 text-sm font-bold leading-snug text-accent-800">
-                                                {topStartLabel}
-                                              </div>
-                                            </div>
-
-                                            <div className="flex items-center text-accent-500">
-                                              <div className="h-px w-6 bg-current" />
-                                              <svg
-                                                className="h-4 w-4"
-                                                viewBox="0 0 16 16"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                                <path
-                                                  d="M3 8H13M13 8L9 4M13 8L9 12"
-                                                  stroke="currentColor"
-                                                  strokeWidth="1.6"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                />
-                                              </svg>
-                                            </div>
-
-                                            <div className="min-w-[132px] rounded-card bg-slate-900 px-3 py-2 text-center shadow-sm">
-                                              <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-300">
-                                                Check
-                                              </div>
-                                              <div className="mt-1 text-sm font-bold leading-snug text-white">
-                                                {topEndLabel}
-                                              </div>
-                                            </div>
-                                          </div>
-
-                                          <div className="mt-3 flex items-start justify-center gap-24 sm:gap-32">
-                                            <svg
-                                              className="h-6 w-6 text-accent-500"
-                                              viewBox="0 0 16 16"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <path
-                                                d="M8 13V3M8 3L4.5 6.5M8 3L11.5 6.5"
-                                                stroke="currentColor"
-                                                strokeWidth="1.6"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              />
-                                            </svg>
-                                            <svg
-                                              className="h-6 w-6 text-accent-500"
-                                              viewBox="0 0 16 16"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <path
-                                                d="M8 3V13M8 13L4.5 9.5M8 13L11.5 9.5"
-                                                stroke="currentColor"
-                                                strokeWidth="1.6"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              />
-                                            </svg>
-                                          </div>
-
-                                          <div className="mt-2 flex justify-center">
-                                            <div className="min-w-[168px] max-w-[240px] rounded-card bg-white px-4 py-3 text-center shadow-sm">
-                                              <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-accent-700">
-                                                Loop
-                                              </div>
-                                              <div className="mt-1 text-sm font-bold leading-snug text-content">
-                                                {bottomLabel}
-                                              </div>
-                                            </div>
-                                          </div>
-
-                                          {loop.label && (
-                                            <p className="mt-3 text-xs font-medium leading-relaxed text-content-secondary">
-                                              {loop.label}
-                                            </p>
-                                          )}
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                </div>
+                              <h5 className="mt-4 text-base font-bold text-content-strong">
+                                {detailItem.title}
+                              </h5>
+                              {detailItem.description && (
+                                <p className="mt-2 text-sm leading-relaxed text-content-secondary">
+                                  {detailItem.description}
+                                </p>
                               )}
                             </div>
+
+                            {steps.length > 0 && (
+                              <>
+                                <div className="hidden md:block">
+                                  <div className="overflow-x-auto pb-1">
+                                    <div
+                                      className="relative mx-auto"
+                                      style={{
+                                        width: `${totalWidth}px`,
+                                        paddingBottom: hasLoops
+                                          ? `${svgHeight}px`
+                                          : undefined,
+                                      }}
+                                    >
+                                      <div className="flex gap-3">
+                                        {steps.map((step, index) => {
+                                          const highlight = loopStepIndexes.has(index);
+                                          return (
+                                            <div
+                                              key={`${detailItem.title}-${step}`}
+                                              className={`flex w-36 flex-col items-center rounded-card px-3 py-3 text-center ${
+                                                highlight
+                                                  ? 'border-2 border-accent-300 bg-accent-50'
+                                                  : 'border border-line bg-surface-subtle'
+                                              }`}
+                                            >
+                                              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">
+                                                Step {index + 1}
+                                              </span>
+                                              <span className="mt-1 text-sm font-bold text-content">
+                                                {step}
+                                              </span>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+
+                                      {hasLoops && (
+                                        <svg
+                                          className="pointer-events-none absolute bottom-0 left-0 text-accent-500"
+                                          width={totalWidth}
+                                          height={svgHeight}
+                                          viewBox={`0 0 ${totalWidth} ${svgHeight}`}
+                                          fill="none"
+                                          aria-hidden="true"
+                                        >
+                                          {loops.map((loop, idx) => {
+                                            const fromPx = centerX(loop.fromStep - 1);
+                                            const toPx = centerX(loop.toStep - 1);
+                                            const bottomY = loopDepth;
+                                            const endY = 10;
+                                            return (
+                                              <g
+                                                key={`${detailItem.title}-arc-${idx}`}
+                                              >
+                                                <path
+                                                  d={`M ${fromPx} 0 L ${fromPx} ${bottomY} L ${toPx} ${bottomY} L ${toPx} ${endY}`}
+                                                  stroke="currentColor"
+                                                  strokeWidth="2.4"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                />
+                                                <path
+                                                  d={`M ${toPx} 0 L ${toPx - 7} ${endY} L ${toPx + 7} ${endY} Z`}
+                                                  fill="currentColor"
+                                                />
+                                              </g>
+                                            );
+                                          })}
+                                        </svg>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2 md:hidden">
+                                  {steps.map((step, index) => {
+                                    const highlight = loopStepIndexes.has(index);
+                                    const returning = loops.find(
+                                      (loop) => loop.fromStep - 1 === index
+                                    );
+                                    const targetStep = returning
+                                      ? steps[returning.toStep - 1]
+                                      : null;
+                                    return (
+                                      <React.Fragment
+                                        key={`${detailItem.title}-mobile-${step}`}
+                                      >
+                                        <div
+                                          className={`rounded-card px-4 py-3 text-center ${
+                                            highlight
+                                              ? 'border-2 border-accent-300 bg-accent-50'
+                                              : 'border border-line bg-surface-subtle'
+                                          }`}
+                                        >
+                                          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">
+                                            Step {index + 1}
+                                          </span>
+                                          <div className="mt-1 text-sm font-bold text-content">
+                                            {step}
+                                          </div>
+                                        </div>
+                                        {returning && targetStep ? (
+                                          <div className="flex items-center justify-center gap-1.5 self-center rounded-full border border-dashed border-accent-300 bg-accent-50/80 px-3 py-1.5 text-[11px] font-semibold text-accent-700">
+                                            <svg
+                                              className="h-3.5 w-3.5"
+                                              viewBox="0 0 20 20"
+                                              fill="none"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <path
+                                                d="M6 7V3L2 7L6 11V7H11C13.7614 7 16 9.23858 16 12C16 14.7614 13.7614 17 11 17H6"
+                                                stroke="currentColor"
+                                                strokeWidth="1.6"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                              />
+                                            </svg>
+                                            Step {returning.toStep} · {targetStep}
+                                          </div>
+                                        ) : index < steps.length - 1 ? (
+                                          <div className="flex justify-center">
+                                            <div className="h-4 w-px bg-line" />
+                                          </div>
+                                        ) : null}
+                                      </React.Fragment>
+                                    );
+                                  })}
+                                </div>
+                              </>
+                            )}
+
+                            {hasLoops && loops.some((loop) => loop.label) && (
+                              <div className="mt-4 space-y-2">
+                                {loops.map((loop, idx) =>
+                                  loop.label ? (
+                                    <p
+                                      key={`${detailItem.title}-label-${idx}`}
+                                      className="flex items-start gap-2 text-xs font-medium leading-relaxed text-content-secondary"
+                                    >
+                                      <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent-600 text-[9px] font-bold text-white">
+                                        ↺
+                                      </span>
+                                      {loop.label}
+                                    </p>
+                                  ) : null
+                                )}
+                              </div>
+                            )}
                           </article>
                         );
                       })}
@@ -437,7 +407,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                       {section.items.map((detailItem) => (
                         <article
                           key={`${section.title}-${detailItem.title}`}
-                          className={`rounded-card bg-surface p-4 shadow-lg ${
+                          className={`rounded-card bg-surface p-4 ${
                             detailItem.groups?.length ? 'md:col-span-2' : ''
                           } ${
                             detailItem.iconKey && !detailItem.description && !detailItem.chips?.length && !detailItem.steps?.length
@@ -478,7 +448,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                               {detailItem.groups.map((group) => (
                                 <div
                                   key={`${detailItem.title}-${group.title}`}
-                                  className="rounded-card bg-surface-subtle p-4 shadow-sm"
+                                  className="rounded-card bg-surface-subtle p-4"
                                 >
                                   <h6 className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-700">
                                     {group.title}
@@ -519,10 +489,14 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
 
                 {section.skillItems && section.skillItems.length > 0 && section.layout === 'skill-groups' && (
                   <div className="space-y-5">
-                    {section.skillItems.map((skillItem) => (
+                    {section.skillItems.map((skillItem) => {
+                      const moduleCount = skillItem.sections.length;
+                      const insetPercent = moduleCount > 0 ? 50 / moduleCount : 0;
+
+                      return (
                       <article
                         key={`${section.title}-${skillItem.title}`}
-                        className="rounded-card bg-surface p-5 shadow-lg"
+                        className="rounded-card bg-surface p-5"
                       >
                           <div className="flex flex-col gap-4">
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -536,51 +510,94 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                               </div>
                             </div>
 
-                          <div className="rounded-card bg-surface-subtle p-4 shadow-sm">
+                          <div className="rounded-card bg-surface-subtle p-5 md:p-6">
                             <div className="flex justify-center">
-                              <div className="w-full max-w-xs rounded-card bg-accent-50 px-4 py-3 text-center shadow-sm">
-                                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-700">
+                              <div className="rounded-2xl bg-slate-900 px-5 py-3 text-center shadow-sm">
+                                <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-300">
                                   Skill
                                 </div>
-                                <div className="mt-1 text-sm font-bold text-accent-800">
+                                <div className="mt-1 text-sm font-bold text-white">
                                   {skillItem.title}
                                 </div>
                               </div>
                             </div>
 
-                            <div className="flex justify-center">
-                              <div className="h-6 w-px bg-line" />
+                            <div className="hidden md:block">
+                              <div className="flex justify-center">
+                                <div className="h-6 w-px bg-line" />
+                              </div>
+                              <div
+                                className="relative grid gap-3"
+                                style={{
+                                  gridTemplateColumns: `repeat(${moduleCount}, minmax(0, 1fr))`,
+                                }}
+                              >
+                                <div
+                                  className="absolute top-0 h-px bg-line"
+                                  style={{
+                                    left: `${insetPercent}%`,
+                                    right: `${insetPercent}%`,
+                                  }}
+                                />
+                                {skillItem.sections.map((groupSection, index) => (
+                                  <div
+                                    key={`${skillItem.title}-diagram-${groupSection.title}`}
+                                    className="relative flex flex-col items-center pt-6"
+                                  >
+                                    <div className="absolute left-1/2 top-0 h-6 w-px -translate-x-1/2 bg-line" />
+                                    <div className="flex h-full w-full flex-col items-center justify-start rounded-2xl bg-surface px-3 py-3 text-center shadow-sm">
+                                      <div className="inline-flex h-6 min-w-[28px] items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-white">
+                                        {String(index + 1).padStart(2, '0')}
+                                      </div>
+                                      <div className="mt-1.5 text-sm font-bold text-content">
+                                        {groupSection.title}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-                              {skillItem.sections.map((groupSection) => (
-                                <div
-                                  key={`${skillItem.title}-diagram-${groupSection.title}`}
-                                  className="relative rounded-card bg-surface p-3 text-center shadow-sm"
+                            <div className="mt-4 flex flex-col items-center gap-2 md:hidden">
+                              <div className="h-4 w-px bg-line" />
+                              {skillItem.sections.map((groupSection, index) => (
+                                <React.Fragment
+                                  key={`${skillItem.title}-mobile-${groupSection.title}`}
                                 >
-                                  <div className="absolute left-1/2 top-0 hidden h-4 w-px -translate-x-1/2 -translate-y-full bg-line md:block" />
-                                  <div className="absolute left-1/2 top-0 hidden h-2 w-2 -translate-x-1/2 -translate-y-[18px] rounded-full bg-accent-500 md:block" />
-                                  <div className="text-sm font-semibold text-content-strong">
-                                    {groupSection.title}
+                                  <div className="inline-flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 shadow-sm">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-accent-600 text-[10px] font-bold text-white">
+                                      {index + 1}
+                                    </span>
+                                    <span className="text-sm font-bold text-content">
+                                      {groupSection.title}
+                                    </span>
                                   </div>
-                                </div>
+                                  {index < skillItem.sections.length - 1 && (
+                                    <div className="h-3 w-px bg-line" />
+                                  )}
+                                </React.Fragment>
                               ))}
                             </div>
                           </div>
 
                           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 2xl:grid-cols-3">
-                            {skillItem.sections.map((groupSection) => (
+                            {skillItem.sections.map((groupSection, index) => (
                               <section
                                 key={`${skillItem.title}-${groupSection.title}`}
-                                className="h-full rounded-card bg-surface p-4 shadow-lg"
+                                className="h-full rounded-card bg-surface p-4"
                               >
-                                <div className="mb-3">
-                                  <h6 className="text-sm font-bold text-content">{groupSection.title}</h6>
-                                  {groupSection.description && (
-                                    <p className="mt-1 text-xs leading-relaxed text-content-secondary">
-                                      {groupSection.description}
-                                    </p>
-                                  )}
+                                <div className="mb-3 flex items-start gap-2">
+                                  <span className="inline-flex h-6 min-w-[28px] shrink-0 items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-white">
+                                    {String(index + 1).padStart(2, '0')}
+                                  </span>
+                                  <div className="min-w-0">
+                                    <h6 className="text-sm font-bold text-content">{groupSection.title}</h6>
+                                    {groupSection.description && (
+                                      <p className="mt-1 text-xs leading-relaxed text-content-secondary">
+                                        {groupSection.description}
+                                      </p>
+                                    )}
+                                  </div>
                                 </div>
 
                                 <div className="space-y-3">
@@ -589,7 +606,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                                       <div className="flex min-w-max flex-col gap-3 md:flex-row md:items-center">
                                         {groupSection.steps.map((step, index) => (
                                           <React.Fragment key={`${groupSection.title}-${step}`}>
-                                            <div className="flex min-w-[132px] flex-col items-center rounded-[20px] border border-line/70 bg-surface-subtle px-4 py-3 text-center shadow-sm">
+                                            <div className="flex min-w-[132px] flex-col items-center rounded-[20px] border border-line/70 bg-surface-subtle px-4 py-3 text-center">
                                               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">
                                                 Step {index + 1}
                                               </span>
@@ -633,7 +650,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                                         {groupSection.items.map((detailItem) => (
                                           <div
                                             key={`${groupSection.title}-${detailItem.title}`}
-                                            className="rounded-card bg-surface-subtle p-3 shadow-sm"
+                                            className="rounded-card bg-surface-subtle p-3"
                                           >
                                             <h6 className="text-sm font-semibold text-content-strong">
                                               {detailItem.title}
@@ -654,7 +671,8 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                           </div>
                         </div>
                       </article>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </section>
