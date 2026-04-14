@@ -22,7 +22,6 @@
   ],
   "certificates": [
     { "id": "sqld" },
-    { "id": "engineerInfoProc" },
     { "id": "teacherCert" }
   ],
   "skills": [
