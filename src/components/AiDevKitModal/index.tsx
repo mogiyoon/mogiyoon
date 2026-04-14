@@ -172,7 +172,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
 
                 {section.items && section.items.length > 0 && (
                   section.layout === 'diagram' ? (
-                    <div className="rounded-card bg-surface-subtle p-4 sm:p-5">
+                    <div className="rounded-card bg-surface-subtle p-4 sm:p-5 shadow-lg">
                       <div className="flex justify-center">
                         <div className="w-full max-w-sm rounded-card bg-surface px-5 py-4 text-center">
                           <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
@@ -197,7 +197,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                         {section.items.map((detailItem) => (
                           <article
                             key={`${section.title}-${detailItem.title}`}
-                            className="relative rounded-card bg-surface p-4"
+                            className="relative rounded-card bg-surface p-4 shadow-lg"
                           >
                             <div className="absolute left-1/2 top-0 hidden h-5 w-px -translate-x-1/2 -translate-y-full bg-line sm:block" />
                             <div className="absolute left-1/2 top-0 hidden h-2.5 w-2.5 -translate-x-1/2 -translate-y-[18px] rounded-full bg-accent-500 sm:block" />
@@ -234,7 +234,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                         return (
                           <article
                             key={`${section.title}-${detailItem.title}`}
-                            className="rounded-card bg-surface p-5"
+                            className="rounded-card bg-surface p-5 shadow-lg"
                           >
                             <div className="mb-5">
                               <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
@@ -496,7 +496,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
                       return (
                       <article
                         key={`${section.title}-${skillItem.title}`}
-                        className="rounded-card bg-surface p-5"
+                        className="rounded-card bg-surface p-5 shadow-lg"
                       >
                           <div className="flex flex-col gap-4">
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
