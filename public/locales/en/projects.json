@@ -1,24 +1,243 @@
 {
   "projectTitle": "Projects",
-  "projectSubtitle": "Projects I've built",
+  "projectSubtitle": "",
   "preparingProjectSubtitle": "Projects currently in progress",
   "aiDevKit": {
     "title": "AI DevKit",
-    "subtitle": "AI development tools used in projects",
+    "subtitle": "AI development tool index",
+    "modal": {
+      "close": "Close"
+    },
     "skills": {
       "title": "Skills",
-      "description": "Custom skills that automate repetitive tasks",
-      "countLabel": "skills"
+      "description": "Skills for multi-agent orchestrator design",
+      "countLabel": "items",
+      "detail": {
+        "eyebrow": "Skill",
+        "summary": "A skill for designing task decomposition, role assignment, routing, loops, and result merging.",
+        "cardTitle": "Skill Card",
+        "cardDescription": "Core skill-level information.",
+        "cardItems": [
+          {
+            "title": "orchestrator-designer",
+            "description": "A skill for designing collaborative multi-agent flows. It defines task decomposition, role assignment, routing, sequential and parallel stages, merge logic, and termination rules.",
+            "chips": ["Orchestrator", "Routing", "Workflow"],
+          }
+        ],
+        "orchestratorTitle": "Orchestrator Role",
+        "orchestratorDescription": "Items directly coordinated by the main orchestrator.",
+        "orchestratorItems": [
+          {
+            "title": "Task Decomposition and Role Assignment",
+            "description": "Breaks a user request into work units and assigns the agent role needed for each stage.",
+            "chips": ["decomposition", "role assignment"]
+          },
+          {
+            "title": "Sequential, Parallel, and Routing Structure",
+            "description": "Determines which stages run sequentially, which run in parallel, and when routing should switch to another agent.",
+            "chips": ["sequential", "parallel", "routing"]
+          },
+          {
+            "title": "Input Handoff and Merge Logic",
+            "description": "Defines what output becomes the next input and how multiple agent results are compared or merged.",
+            "chips": ["handoff", "merge", "compare"]
+          },
+          {
+            "title": "Loops and Termination Rules",
+            "description": "Controls loop entry, retry rules, fallback paths, and termination conditions so the flow converges cleanly.",
+            "chips": ["loop", "retry", "fallback"]
+          }
+        ],
+        "triggerTitle": "Triggers",
+        "triggerDescription": "Request types that call for this skill.",
+        "triggerItems": [
+          {
+            "title": "Role-Split Requests",
+            "description": "Triggers when two or more agents with different responsibilities are needed.",
+            "chips": ["2+ agents", "role split"]
+          },
+          {
+            "title": "Collaborative Flow Design",
+            "description": "Covers collaboration, chaining, pipelines, parallel execution, routing, and result integration.",
+            "chips": ["pipeline", "parallel", "integration"]
+          }
+        ],
+        "patternTitle": "Patterns",
+        "patternDescription": "Structural patterns commonly handled by the orchestrator.",
+        "patternItems": [
+          {
+            "title": "Hierarchical Structure",
+            "description": "A structure with one main orchestrator coordinating specialist sub-agents.",
+            "chips": ["hierarchy", "specialists"]
+          },
+          {
+            "title": "Sequential and Parallel Flow",
+            "description": "Includes sequential pipelines, parallel fan-out, and convergence stages where outputs merge again.",
+            "chips": ["sequential", "fan-out", "convergence"]
+          },
+          {
+            "title": "Conditional Control",
+            "description": "Combines routing conditions, feedback loops, and human checkpoints where needed.",
+            "chips": ["routing", "feedback loop", "human checkpoint"]
+          }
+        ],
+        "principleTitle": "Principles",
+        "principleDescription": "Guidelines for keeping the structure stable and predictable.",
+        "principleItems": [
+          {
+            "title": "Explicit Context Handoff",
+            "description": "Passes file paths, previous outputs, and evaluation criteria explicitly between stages.",
+            "chips": ["context", "explicit handoff"]
+          },
+          {
+            "title": "Simple Hierarchy",
+            "description": "Keeps the main orchestrator responsible for the full flow instead of building deep nested layers.",
+            "chips": ["main orchestrator", "simple hierarchy"]
+          },
+          {
+            "title": "Role-Based Constraints",
+            "description": "Separates tool and model policies by role and caps iterative loops.",
+            "chips": ["tool policy", "model policy", "loop cap"]
+          },
+          {
+            "title": "Predefined Output Rules",
+            "description": "Defines output formats and termination rules in advance to reduce ambiguity between stages.",
+            "chips": ["output schema", "termination"]
+          }
+        ],
+        "outputTitle": "Outputs",
+        "outputDescription": "Elements included in the final orchestrator document.",
+        "outputItems": [
+          {
+            "title": "Overview and Premise",
+            "description": "Defines the orchestrator overview and implementation premise first.",
+            "chips": ["overview", "premise"]
+          },
+          {
+            "title": "Relationship, Branching, and Loop Diagram",
+            "description": "Visualizes agent relationships, branching, and loops with Mermaid diagrams.",
+            "chips": ["Mermaid", "branching", "loop"]
+          },
+          {
+            "title": "Role, I/O, and Handoff Document",
+            "description": "Documents role definitions, inputs and outputs, handoff, retry behavior, and fallback strategy.",
+            "chips": ["roles", "I/O", "handoff"]
+          },
+          {
+            "title": "Operating Rules",
+            "description": "Specifies routing rules, parallel stages, merge logic, and termination conditions at the document level.",
+            "chips": ["routing rules", "merge logic", "termination"]
+          }
+        ]
+      }
     },
     "mcp": {
       "title": "MCP",
-      "description": "Model Context Protocol servers for external integrations",
-      "countLabel": "servers"
+      "description": "MCP index",
+      "countLabel": "servers",
+      "detail": {
+        "eyebrow": "Tool Bridge",
+        "summary": "An MCP index connecting Unity and Blender work contexts.",
+        "serversTitle": "MCP Index",
+        "serversItems": [
+          {
+            "title": "Unity MCP",
+            "iconKey": "unity"
+          },
+          {
+            "title": "Blender MCP",
+            "iconKey": "blender"
+          }
+        ]
+      }
     },
     "harness": {
       "title": "Harness",
-      "description": "Multi-agent automated implementation loop",
-      "countLabel": "agents"
+      "description": "A set of repeatable AI implementation and evaluation harnesses",
+      "countLabel": "flows",
+      "detail": {
+        "eyebrow": "Agent Systems",
+        "summary": "Harness structures with role separation and test, evaluation, and review loops",
+        "patternsTitle": "Harness Index",
+        "patternsDescription": "A harness index grouped by implementation, validation, regression, and documentation sync purposes.",
+        "patternsItems": [
+          {
+            "title": "TheHabit Implementation Harness",
+            "description": "Architect plans, Coder implements, failed tests trigger a Debugger + Coder fix loop, and Reviewer closes the flow.",
+            "chips": ["Architect", "Coder", "Debugger", "Reviewer"],
+            "steps": ["Plan", "Implement", "Test", "Debug", "Review"],
+            "loops": [
+              {
+                "fromStep": 4,
+                "toStep": 2,
+                "label": "When tests fail, the flow returns from debug to implementation."
+              }
+            ]
+          },
+          {
+            "title": "Dev Harness",
+            "description": "A spec-driven implementation harness that loads a JSON spec, prepares a branch, runs Codex, tests the result, and can finish with commit and PR creation.",
+            "chips": ["Spec-driven", "Codex", "Git / PR"],
+            "steps": ["Load spec", "Prepare branch", "Implement", "Test", "Commit / PR"]
+          },
+          {
+            "title": "Eval Harness",
+            "description": "A validation harness that runs 50+ scenarios through the live pipeline to verify routing, tool usage, and result status.",
+            "chips": ["50+ scenarios", "Live pipeline", "Gap detection"],
+            "steps": ["Run scenarios", "Collect results", "Judge tool / status"]
+          },
+          {
+            "title": "Improve Harness",
+            "description": "A self-improvement loop where a User agent generates requests, an Evaluator grades outcomes, and a Developer fixes failed items before regression checks.",
+            "chips": ["User Agent", "Evaluator", "Developer", "Regression"],
+            "steps": ["Generate requests", "Execute", "Evaluate", "Fix", "Regression test"],
+            "loops": [
+              {
+                "fromStep": 5,
+                "toStep": 2,
+                "label": "If regression checks still fail, the flow goes back into execution and evaluation."
+              }
+            ]
+          },
+          {
+            "title": "Doc Harness",
+            "description": "A documentation sync harness that analyzes code-doc drift, updates docs, then verifies and re-verifies the result.",
+            "chips": ["Analyze", "Execute", "Verify", "Re-verify"],
+            "steps": ["Analyze changes", "Update docs", "Verify", "Higher-quality re-check"],
+            "loops": [
+              {
+                "fromStep": 4,
+                "toStep": 2,
+                "label": "If mismatches remain after verification, the flow returns to updating docs."
+              }
+            ]
+          }
+        ],
+        "abstractTitle": "Shared Abstract Structure",
+        "abstractDescription": "Architecture principles shared across the harness system.",
+        "abstractItems": [
+          {
+            "title": "Role separation",
+            "description": "Planning, implementation, evaluation, and review are split instead of being overloaded onto one agent.",
+            "chips": ["Plan", "Build", "Evaluate"]
+          },
+          {
+            "title": "Built-in quality gates",
+            "description": "Testing, review, or scenario evaluation always follows execution as an explicit gate.",
+            "chips": ["Test", "Review", "Eval"]
+          },
+          {
+            "title": "Feedback loops",
+            "description": "Failure does not terminate the flow immediately; feedback is routed back into the implementation stage.",
+            "chips": ["Retry", "Loop", "Fix"]
+          },
+          {
+            "title": "Repeatability",
+            "description": "Artifacts such as tasks.yaml, spec JSON, logs, and harness-results make the loops reusable across runs.",
+            "chips": ["Logs", "Specs", "Tasks"]
+          }
+        ]
+      }
     }
   },
   "seoul-meari": {
