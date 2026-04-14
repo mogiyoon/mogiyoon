@@ -5,11 +5,43 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html,
+body {
+  background-color: #ffffff;
+  background-image: none;
+  transition: background-color 0.25s ease;
+}
+
+html.about-active {
+  background-color: #0f172a;
+  background-image: linear-gradient(
+    180deg,
+    #c2410c 0%,
+    #ea580c 18%,
+    #0f172a 58%,
+    #0f172a 82%,
+    #0f172a 100%
+  );
+}
+
+body.about-active,
+#root {
+  background-color: inherit;
+  background-image: inherit;
+}
+
 body {
   margin: 0;
   font-family: 'Noto Sans KR', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Hide scrollbar globally */
