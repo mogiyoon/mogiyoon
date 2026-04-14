@@ -15,8 +15,8 @@
       "detail": {
         "eyebrow": "Skill",
         "summary": "A skill for designing task decomposition, role assignment, routing, loops, and result merging.",
-        "cardTitle": "Skill Card",
-        "cardDescription": "Core skill-level information.",
+        "skillsTitle": "Skill Index",
+        "skillsDescription": "Grouped by skill",
         "cardItems": [
           {
             "title": "orchestrator-designer",
