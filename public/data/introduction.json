@@ -26,7 +26,7 @@
     { "id": "teacherCert" }
   ],
   "skills": [
-    { "category": "framework", "items": ["React", "React Native"] },
+    { "category": "framework", "items": ["React", "React Native", "NestJS"] },
     { "category": "language", "items": ["TypeScript", "C", "Python"] },
     { "category": "infra", "items": ["AWS EC2", "AWS S3", "AWS ALB", "AWS VPC", "AWS CloudFront"] }
   ]
