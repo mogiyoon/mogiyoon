@@ -166,11 +166,51 @@
             "description": "Architect plans, Coder implements, failed tests trigger a Debugger + Coder fix loop, and Reviewer closes the flow.",
             "chips": ["Architect", "Coder", "Debugger", "Reviewer"],
             "steps": ["Plan", "Implement", "Test", "Debug", "Review"],
+            "stepDetails": [
+              {
+                "actor": "Architect",
+                "action": "Turns the issue into a concrete implementation plan."
+              },
+              {
+                "actor": "Coder",
+                "action": "Implements the planned change in code."
+              },
+              {
+                "actor": "Test Runner",
+                "action": "Runs the go/no-go quality gate."
+              },
+              {
+                "actor": "Debugger",
+                "action": "Explains failures and routes fixes back."
+              },
+              {
+                "actor": "Reviewer",
+                "action": "Checks the final diff and closes the run."
+              }
+            ],
             "loops": [
               {
                 "fromStep": 4,
                 "toStep": 2,
                 "label": "When tests fail, the flow returns from debug to implementation."
+              }
+            ],
+            "groups": [
+              {
+                "title": "Runs",
+                "points": ["Feature implementation tasks from a concrete plan or issue.", "Architect, Coder, Debugger, and Reviewer roles in order."]
+              },
+              {
+                "title": "Controls",
+                "points": ["Role handoff order and retry path after failed tests.", "Debug-to-implementation loop boundaries."]
+              },
+              {
+                "title": "Checks",
+                "points": ["Automated test result before review.", "Reviewer pass before the run is considered complete."]
+              },
+              {
+                "title": "Artifacts",
+                "points": ["Changed files, test logs, review notes, and final implementation summary."]
               }
             ]
           },
@@ -178,24 +218,144 @@
             "title": "Dev Harness",
             "description": "A spec-driven implementation harness that loads a JSON spec, prepares a branch, runs Codex, tests the result, and can finish with commit and PR creation.",
             "chips": ["Spec-driven", "Codex", "Git / PR"],
-            "steps": ["Load spec", "Prepare branch", "Implement", "Test", "Commit / PR"]
+            "steps": ["Load spec", "Prepare branch", "Implement", "Test", "Commit / PR"],
+            "stepDetails": [
+              {
+                "actor": "Spec Loader",
+                "action": "Reads the run contract from spec JSON."
+              },
+              {
+                "actor": "Git Setup",
+                "action": "Prepares the target branch and working tree."
+              },
+              {
+                "actor": "Codex Worker",
+                "action": "Implements the requested change from the spec."
+              },
+              {
+                "actor": "Check Runner",
+                "action": "Runs the checks required by the spec."
+              },
+              {
+                "actor": "PR Finisher",
+                "action": "Packages commit and PR context."
+              }
+            ],
+            "samples": [
+              {
+                "title": "Spec JSON shape",
+                "description": "The harness reads this contract before it prepares a branch or starts Codex.",
+                "language": "json",
+                "code": "{\n  \"id\": \"habit-reminder-flow\",\n  \"branch\": \"feat/habit-reminder-flow\",\n  \"goal\": \"Add reminder copy and validation to the habit creation flow\",\n  \"entry\": \"src/features/habits\",\n  \"checks\": [\"npm run lint\", \"npm run build\"],\n  \"doneWhen\": [\"copy is localized\", \"validation errors are tested\", \"PR summary lists changed files\"]\n}"
+              }
+            ],
+            "groups": [
+              {
+                "title": "Runs",
+                "points": ["JSON spec that describes the task, branch, and completion criteria.", "Codex implementation session against the prepared branch."]
+              },
+              {
+                "title": "Controls",
+                "points": ["Branch setup, working tree state, command policy, and commit / PR sequence.", "Stop points for test failures or dirty-state checks."]
+              },
+              {
+                "title": "Checks",
+                "points": ["Build, lint, or test commands listed by the spec.", "Git diff review before commit or PR."]
+              },
+              {
+                "title": "Artifacts",
+                "points": ["Commit, PR body, command output, and implementation notes."]
+              }
+            ]
           },
           {
             "title": "Eval Harness",
             "description": "A validation harness that runs 50+ scenarios through the live pipeline to verify routing, tool usage, and result status.",
             "chips": ["50+ scenarios", "Live pipeline", "Gap detection"],
-            "steps": ["Run scenarios", "Collect results", "Judge tool / status"]
+            "steps": ["Run scenarios", "Collect results", "Judge tool / status"],
+            "stepDetails": [
+              {
+                "actor": "Scenario Runner",
+                "action": "Runs saved scenarios through the pipeline."
+              },
+              {
+                "actor": "Collector",
+                "action": "Captures route, tool, status, and output data."
+              },
+              {
+                "actor": "Judge",
+                "action": "Checks route and status expectations."
+              }
+            ],
+            "groups": [
+              {
+                "title": "Runs",
+                "points": ["Scenario set with 50+ requests through the live pipeline.", "Routing, tool, and status checks for each scenario."]
+              },
+              {
+                "title": "Controls",
+                "points": ["Scenario order, expected status schema, and result collection format.", "Repeatable run record for comparison across changes."]
+              },
+              {
+                "title": "Checks",
+                "points": ["Tool selection, route correctness, output status, and gap detection.", "Pass / fail aggregation across scenarios."]
+              },
+              {
+                "title": "Artifacts",
+                "points": ["Harness results table, failure list, logs, and follow-up issues."]
+              }
+            ]
           },
           {
             "title": "Improve Harness",
             "description": "A self-improvement loop where a User agent generates requests, an Evaluator grades outcomes, and a Developer fixes failed items before regression checks.",
             "chips": ["User Agent", "Evaluator", "Developer", "Regression"],
             "steps": ["Generate requests", "Execute", "Evaluate", "Fix", "Regression test"],
+            "stepDetails": [
+              {
+                "actor": "User Agent",
+                "action": "Generates weak-spot requests."
+              },
+              {
+                "actor": "Executor",
+                "action": "Runs the current system."
+              },
+              {
+                "actor": "Evaluator",
+                "action": "Scores results against the rubric."
+              },
+              {
+                "actor": "Developer",
+                "action": "Fixes failures and records changes."
+              },
+              {
+                "actor": "Regression Gate",
+                "action": "Checks older scenarios still pass."
+              }
+            ],
             "loops": [
               {
                 "fromStep": 5,
                 "toStep": 2,
                 "label": "If regression checks still fail, the flow goes back into execution and evaluation."
+              }
+            ],
+            "groups": [
+              {
+                "title": "Runs",
+                "points": ["Generated user requests and previous failure cases.", "Developer fixes followed by regression execution."]
+              },
+              {
+                "title": "Controls",
+                "points": ["Evaluator scoring rubric, retry limits, and fix-loop entry rules.", "Regression gate before accepting improvements."]
+              },
+              {
+                "title": "Checks",
+                "points": ["Evaluator grade, fixed-item verification, and regression pass.", "No new failures in previously passing cases."]
+              },
+              {
+                "title": "Artifacts",
+                "points": ["Improvement report, failing prompts, fix notes, and regression results."]
               }
             ]
           },
@@ -204,11 +364,47 @@
             "description": "A documentation sync harness that analyzes code-doc drift, updates docs, then verifies and re-verifies the result.",
             "chips": ["Analyze", "Execute", "Verify", "Re-verify"],
             "steps": ["Analyze changes", "Update docs", "Verify", "Higher-quality re-check"],
+            "stepDetails": [
+              {
+                "actor": "Analyzer",
+                "action": "Finds where code behavior and docs drifted apart."
+              },
+              {
+                "actor": "Doc Writer",
+                "action": "Updates docs to match the current code path."
+              },
+              {
+                "actor": "Verifier",
+                "action": "Checks the docs against code and examples."
+              },
+              {
+                "actor": "Re-verifier",
+                "action": "Runs a stricter second pass before completion."
+              }
+            ],
             "loops": [
               {
                 "fromStep": 4,
                 "toStep": 2,
                 "label": "If mismatches remain after verification, the flow returns to updating docs."
+              }
+            ],
+            "groups": [
+              {
+                "title": "Runs",
+                "points": ["Code-document drift analysis against changed files.", "Documentation update and verification pass."]
+              },
+              {
+                "title": "Controls",
+                "points": ["Analyze-update-verify order and re-check trigger.", "Scope boundaries for files that docs should describe."]
+              },
+              {
+                "title": "Checks",
+                "points": ["Doc accuracy against code, missing behavior, and stale examples.", "Higher-quality re-check before completion."]
+              },
+              {
+                "title": "Artifacts",
+                "points": ["Updated docs, verification notes, mismatch list, and re-check summary."]
               }
             ]
           }
