@@ -262,7 +262,7 @@ const SkillModuleDiagram: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
     <div className="rounded-card bg-surface-subtle p-5 md:p-6">
       <div className="flex justify-center">
         <div className="rounded-2xl bg-slate-900 px-5 py-3 text-center shadow-sm">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-300">
+          <div className="inline-flex rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white shadow-sm">
             Skill
           </div>
           <div className="mt-1 text-sm font-bold text-white">
