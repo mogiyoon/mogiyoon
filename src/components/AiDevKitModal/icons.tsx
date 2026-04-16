@@ -5,7 +5,7 @@ export const DetailIcon: React.FC<{ iconKey?: string }> = ({ iconKey }) => {
 
   if (iconKey === 'unity') {
     return (
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-base font-black text-white">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-content text-base font-black text-surface shadow-sm">
         U
       </div>
     );
@@ -13,7 +13,7 @@ export const DetailIcon: React.FC<{ iconKey?: string }> = ({ iconKey }) => {
 
   if (iconKey === 'blender') {
     return (
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500 text-base font-black text-white">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-accent-600 text-base font-black text-surface shadow-sm">
         B
       </div>
     );

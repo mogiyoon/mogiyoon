@@ -8,7 +8,7 @@ interface ModalHeaderProps {
 }
 
 const ModalHeader: React.FC<ModalHeaderProps> = ({ item, onClose }) => (
-  <div className="flex items-start justify-between gap-4 border-b border-line bg-surface p-6">
+  <div className="flex items-start justify-between gap-4 border-b border-line bg-surface-subtle/70 p-6">
     <div className="flex min-w-0 items-start gap-4">
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-600">
         {item.icon}
@@ -26,7 +26,7 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ item, onClose }) => (
     <button
       type="button"
       onClick={onClose}
-      className="rounded-full border border-line bg-surface p-2 text-content-muted transition-colors duration-200 hover:text-content"
+      className="rounded-full border border-line bg-surface p-2 text-content-muted transition-colors duration-200 hover:bg-surface-subtle hover:text-content"
       aria-label={item.closeLabel}
     >
       <CloseIcon />
