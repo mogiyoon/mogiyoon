@@ -10,41 +10,41 @@
     },
     "skills": {
       "title": "Skills",
-      "description": "멀티에이전트 오케스트레이터 설계 스킬",
+      "description": "등록된 AI 스킬 목록",
       "countLabel": "개 항목",
       "detail": {
         "eyebrow": "Skill",
-        "summary": "여러 에이전트를 한 흐름으로 묶고, 갈라진 작업을 다시 합치고, 필요하면 다시 돌리는 구조를 설계하는 스킬입니다.",
+        "summary": "스킬마다 무엇을 하는지, 언제 쓰는지, 어떤 결과가 나오는지 쉽게 볼 수 있게 정리했습니다.",
         "skillsTitle": "스킬 목록",
-        "skillsDescription": "오케스트레이터 스킬의 핵심 포인트",
+        "skillsDescription": "스킬별 핵심 내용",
         "cardItems": [
           {
             "title": "orchestrator-designer",
-            "description": "여러 에이전트가 함께 일하는 흐름 자체를 설계하는 스킬입니다. 누가 먼저 일할지, 무엇을 동시에 돌릴지, 언제 다시 돌릴지, 결과를 어떻게 모을지까지 정합니다.",
-            "chips": ["Orchestrator", "Routing", "Workflow"]
+            "description": "여러 에이전트가 함께 일할 흐름을 설계하는 스킬입니다. 단계를 나누고, 역할을 정하고, 분기·반복·결과 합치기 규칙을 만듭니다.",
+            "chips": ["Skill Design", "Routing", "Workflow"]
           }
         ],
-        "orchestratorTitle": "오케스트레이터 역할",
-        "orchestratorDescription": "메인 오케스트레이터만의 핵심 역할입니다.",
+        "orchestratorTitle": "스킬이 하는 일",
+        "orchestratorDescription": "이 스킬이 맡는 핵심 작업입니다.",
         "orchestratorItems": [
           {
-            "title": "흐름 쪼개기",
+            "title": "요청 분해 및 역할 배정",
             "description": "하나의 요청을 여러 단계로 나누고, 각 단계에 맞는 에이전트를 붙입니다.",
             "chips": ["decomposition", "role assignment"]
           },
           {
-            "title": "갈라진 작업 다시 모으기",
+            "title": "병렬 결과 병합",
             "description": "병렬로 돌린 결과를 비교하거나 합쳐서 다음 단계로 넘깁니다.",
             "chips": ["parallel", "merge", "handoff"]
           },
           {
-            "title": "다시 돌릴 지점 정하기",
+            "title": "루프·종료 규칙 정의",
             "description": "결과가 부족하면 어디로 돌아갈지와 언제 끝낼지를 정합니다.",
             "chips": ["loop", "retry", "termination"]
           }
         ],
-        "triggerTitle": "언제 필요한가",
-        "triggerDescription": "오케스트레이터가 필요한 상황입니다.",
+        "triggerTitle": "스킬 실행 트리거",
+        "triggerDescription": "이 스킬을 쓰면 좋은 대표 상황입니다.",
         "triggerItems": [
           {
             "title": "한 번에 끝나지 않는 작업",
@@ -52,8 +52,8 @@
             "chips": ["2+ agents", "multi-step"]
           }
         ],
-        "patternTitle": "오케스트레이터다운 구조",
-        "patternDescription": "이 스킬에서 특히 중요한 흐름 구조입니다.",
+        "patternTitle": "스킬 적용 패턴",
+        "patternDescription": "이 스킬에서 자주 쓰는 작업 흐름입니다.",
         "patternItems": [
           {
             "title": "팬아웃 후 수렴",
@@ -71,8 +71,8 @@
             "chips": ["feedback loop", "retry"]
           }
         ],
-        "principleTitle": "오케스트레이터 제약",
-        "principleDescription": "오케스트레이터에서 특히 중요한 기준입니다.",
+        "principleTitle": "스킬 적용 원칙",
+        "principleDescription": "이 스킬을 안정적으로 쓰기 위한 기준입니다.",
         "principleItems": [
           {
             "title": "깊게 중첩하지 않기",
@@ -90,8 +90,8 @@
             "chips": ["loop cap", "termination"]
           }
         ],
-        "outputTitle": "결과 문서",
-        "outputDescription": "오케스트레이터 문서에 특히 들어가야 하는 내용입니다.",
+        "outputTitle": "스킬 산출물",
+        "outputDescription": "이 스킬 실행 후 결과물에 남는 핵심 항목입니다.",
         "outputItems": [
           {
             "title": "흐름 개요",

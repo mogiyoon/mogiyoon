@@ -81,10 +81,6 @@ const ProjectsSection: React.FC = () => {
         ns: 'projects',
         returnObjects: true,
     }) as AiDevKitDetailItem[];
-    const skillsTriggerItems = t('aiDevKit.skills.detail.triggerItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
     const skillsPatternItems = t('aiDevKit.skills.detail.patternItems', {
         ns: 'projects',
         returnObjects: true,
@@ -121,11 +117,6 @@ const ProjectsSection: React.FC = () => {
                 title: t('aiDevKit.skills.detail.orchestratorTitle', { ns: 'projects' }),
                 description: t('aiDevKit.skills.detail.orchestratorDescription', { ns: 'projects' }),
                 items: skillsOrchestratorItems,
-            },
-            {
-                title: t('aiDevKit.skills.detail.triggerTitle', { ns: 'projects' }),
-                description: t('aiDevKit.skills.detail.triggerDescription', { ns: 'projects' }),
-                items: skillsTriggerItems,
             },
             {
                 title: t('aiDevKit.skills.detail.patternTitle', { ns: 'projects' }),
