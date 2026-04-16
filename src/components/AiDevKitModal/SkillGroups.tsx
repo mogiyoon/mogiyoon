@@ -259,13 +259,13 @@ const SkillModuleDiagram: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
   const insetPercent = moduleCount > 0 ? 50 / moduleCount : 0;
 
   return (
-    <div className="rounded-card bg-surface-subtle p-5 md:p-6">
+    <div className="rounded-card border border-line/70 bg-surface-subtle p-5 md:p-6">
       <div className="flex justify-center">
-        <div className="rounded-2xl bg-slate-900 px-5 py-3 text-center shadow-sm">
-          <div className="inline-flex rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white shadow-sm">
+        <div className="rounded-modal border border-line bg-content px-5 py-3 text-center shadow-sm">
+          <div className="inline-flex rounded-full border border-surface/15 bg-surface/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-surface shadow-sm">
             Skill
           </div>
-          <div className="mt-1 text-sm font-bold text-white">
+          <div className="mt-1 text-sm font-bold text-surface">
             {skillItem.title}
           </div>
         </div>
@@ -294,8 +294,8 @@ const SkillModuleDiagram: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
               className="relative flex flex-col items-center pt-6"
             >
               <div className="absolute left-1/2 top-0 h-6 w-px -translate-x-1/2 bg-line" />
-              <div className="flex h-full w-full flex-col items-center justify-start rounded-2xl bg-surface px-3 py-3 text-center shadow-sm">
-                <div className="inline-flex h-6 min-w-[28px] items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-white">
+              <div className="flex h-full w-full flex-col items-center justify-start rounded-card border border-line/70 bg-surface px-3 py-3 text-center shadow-sm">
+                <div className="inline-flex h-6 min-w-[28px] items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-surface">
                   {String(index + 1).padStart(2, '0')}
                 </div>
                 <div className="mt-1.5 text-sm font-bold text-content">
@@ -311,8 +311,8 @@ const SkillModuleDiagram: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
         <div className="h-4 w-px bg-line" />
         {skillItem.sections.map((groupSection, index) => (
           <React.Fragment key={`${skillItem.title}-mobile-${groupSection.title}`}>
-            <div className="inline-flex items-center gap-2 rounded-2xl bg-surface px-3 py-2 shadow-sm">
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-accent-600 text-[10px] font-bold text-white">
+            <div className="inline-flex items-center gap-2 rounded-card border border-line/70 bg-surface px-3 py-2 shadow-sm">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-accent-600 text-[10px] font-bold text-surface">
                 {index + 1}
               </span>
               <span className="text-sm font-bold text-content">
@@ -369,7 +369,7 @@ const SkillSectionCard: React.FC<{
 const SkillItemCard: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
   skillItem,
 }) => (
-  <article className="rounded-card bg-surface p-5 shadow-lg">
+  <article className="rounded-card border border-line/70 bg-surface p-5 shadow-sm">
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-3xl">

@@ -151,8 +151,8 @@ const FlowStepCard: React.FC<{
   <div
     className={`${className} flex min-h-[132px] flex-col items-center justify-center rounded-card px-4 py-3 text-center ${
       highlighted
-        ? 'border-2 border-accent-300 bg-accent-50'
-        : 'border border-line bg-surface-subtle'
+        ? 'border-2 border-accent-100 bg-accent-50'
+        : 'border border-line/70 bg-surface'
     }`}
     style={style}
   >
@@ -188,7 +188,7 @@ const LoopStepCard: React.FC<{
   style?: React.CSSProperties;
 }> = ({ item, className = '', style }) => (
   <div
-    className={`${className} flex flex-col items-center justify-center rounded-card border-2 border-accent-300 bg-accent-50 px-3 py-2.5 text-center`}
+    className={`${className} flex flex-col items-center justify-center rounded-card border-2 border-accent-100 bg-accent-50 px-3 py-2.5 text-center`}
     style={style}
   >
     <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">
@@ -232,7 +232,7 @@ const LoopLabels: React.FC<{ loops: AiDevKitFlowLoop[] }> = ({ loops }) => {
           key={`${loop.fromStep}-${loop.toStep}-${index}`}
           className="flex items-start gap-2 text-xs font-medium leading-relaxed text-content-secondary"
         >
-          <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent-600 text-white">
+          <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent-600 text-surface">
             <svg
               className="h-2.5 w-2.5"
               viewBox="0 0 16 16"
@@ -421,7 +421,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
                   id={arrowMarkerId}
                   markerWidth="5"
                   markerHeight="5"
-                  refX="5"
+                  refX="4"
                   refY="2.5"
                   orient="auto"
                   markerUnits="strokeWidth"
