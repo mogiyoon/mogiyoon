@@ -48,12 +48,12 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-5xl overflow-hidden rounded-card bg-surface shadow-[0_24px_64px_rgba(15,23,42,0.2)] animate-fade-in-up"
+        className="w-full max-w-5xl overflow-hidden rounded-modal border border-line bg-surface shadow-2xl animate-fade-in-up"
         onClick={(event) => event.stopPropagation()}
       >
         <ModalHeader item={item} onClose={onClose} />
 
-        <div className="max-h-[75vh] overflow-y-auto p-6">
+        <div className="max-h-[75vh] overflow-y-auto bg-surface-subtle/40 p-6">
           <div className="space-y-6">
             {item.sections.map((section) => (
               <DetailSection key={section.title} section={section} />
