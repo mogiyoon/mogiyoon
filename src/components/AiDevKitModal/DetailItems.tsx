@@ -48,9 +48,9 @@ const StepBadges: React.FC<{ item: AiDevKitDetailItem }> = ({ item }) => {
       {item.steps.map((step, index) => (
         <span
           key={`${item.title}-${step}`}
-          className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white"
+          className="inline-flex items-center gap-2 rounded-full border border-line bg-content px-3 py-1.5 text-xs font-semibold text-surface shadow-sm"
         >
-          <span className="text-slate-300">{index + 1}.</span>
+          <span className="text-surface/70">{index + 1}.</span>
           {step}
         </span>
       ))}
@@ -125,7 +125,7 @@ const CodeSamples: React.FC<{ itemTitle: string; samples?: AiDevKitCodeSample[] 
               </span>
             )}
           </div>
-          <pre className="mt-3 overflow-x-auto rounded-card border border-line bg-slate-950 p-4 text-[11px] leading-relaxed text-slate-100">
+          <pre className="mt-3 overflow-x-auto rounded-card border border-line/70 bg-content p-4 text-[11px] leading-relaxed text-surface shadow-sm">
             <code>{sample.code}</code>
           </pre>
         </div>
@@ -135,14 +135,14 @@ const CodeSamples: React.FC<{ itemTitle: string; samples?: AiDevKitCodeSample[] 
 };
 
 const DiagramItems: React.FC<DetailItemsProps> = ({ section }) => (
-  <div className="rounded-card bg-surface-subtle p-4 shadow-lg sm:p-5">
+  <div className="rounded-card border border-line/70 bg-surface-subtle p-4 shadow-sm sm:p-5">
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       {section.items?.map((detailItem, index) => (
         <article
           key={`${section.title}-${detailItem.title}`}
-          className="rounded-card bg-surface p-4 shadow-lg"
+          className="rounded-card border border-line/70 bg-surface p-4 shadow-sm"
         >
-          <div className="mb-3 inline-flex h-6 min-w-[28px] items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-white">
+          <div className="mb-3 inline-flex h-6 min-w-[28px] items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-surface">
             {String(index + 1).padStart(2, '0')}
           </div>
           <DetailItemHeading item={detailItem} />
@@ -157,10 +157,10 @@ const FlowItems: React.FC<DetailItemsProps> = ({ section }) => (
     {section.items?.map((detailItem) => (
       <article
         key={`${section.title}-${detailItem.title}`}
-        className="rounded-card bg-surface p-5 shadow-lg"
+        className="rounded-card border border-line/70 bg-surface p-5 shadow-sm"
       >
         <div className="mb-5">
-          <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
+          <div className="inline-flex items-center rounded-full border border-line bg-content px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-surface shadow-sm">
             Harness Run
           </div>
           <h5 className="mt-4 text-base font-bold text-content-strong">
@@ -192,7 +192,7 @@ const CardItems: React.FC<DetailItemsProps> = ({ section }) => (
     {section.items?.map((detailItem) => (
       <article
         key={`${section.title}-${detailItem.title}`}
-        className={`rounded-card bg-surface p-4 ${
+        className={`rounded-card border border-line/70 bg-surface p-4 shadow-sm ${
           detailItem.groups?.length ? 'md:col-span-2' : ''
         } ${
           detailItem.iconKey &&
@@ -217,7 +217,7 @@ const CardItems: React.FC<DetailItemsProps> = ({ section }) => (
             {detailItem.groups.map((group) => (
               <div
                 key={`${detailItem.title}-${group.title}`}
-                className="rounded-card bg-surface-subtle p-4"
+                className="rounded-card border border-line/70 bg-surface-subtle p-4"
               >
                 <h6 className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-700">
                   {group.title}
