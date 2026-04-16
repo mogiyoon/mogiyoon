@@ -41,7 +41,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                     }}
                 >
                     <div className="absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
-                        <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
+                        <div className="bg-surface rounded-card shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
                             <div className="p-4">
                                 <img
                                     src={project.screenshots.length > 0 ? project.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
@@ -55,15 +55,15 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                 {t(project.title || '')}
                             </h3>
                             <p className="
-                                text-gray-600 mb-2
-                                text-sm h-10 
+                                text-content-secondary mb-2
+                                text-sm h-10
                                 md:text-base md:h-20
                                 line-clamp-3
                             ">
                                 {t(project.subtitle || '')}
                             </p>
                             <div className="flex flex-wrap mt-auto">
-                                <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                                <span className="bg-accent-100 text-accent-700 text-xs font-medium px-2 py-0.5 rounded-full">
                                     {t(project.projectType || '')}
                                 </span>
                             </div>
@@ -73,14 +73,31 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                                     className="
                                         pointer-events-none select-none
                                         absolute top-3 right-3
-                                        flex items-center
-                                        px-2.5 py-1
-                                        rounded-full shadow-md
-                                        bg-[#c66240]
+                                        flex items-center gap-1.5
+                                        pl-2 pr-2.5 py-1
+                                        rounded-full
+                                        border border-white/40
+                                        bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-indigo-400/20
+                                        backdrop-blur-md
+                                        shadow-[0_0_12px_rgba(99,102,241,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]
                                     "
                                     aria-hidden
                                 >
-                                    <span className="text-white text-[10px] font-bold tracking-wide">Claude</span>
+                                    {/* sparkle icon */}
+                                    <svg className="w-3.5 h-3.5 shrink-0 drop-shadow-[0_0_2px_rgba(99,102,241,0.6)]" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z" fill="white" />
+                                    </svg>
+                                    <span
+                                        className="
+                                            text-[10px] font-bold tracking-wide
+                                            bg-gradient-to-r from-indigo-600 via-violet-500 to-indigo-500
+                                            bg-clip-text text-transparent
+                                        "
+                                    >
+                                        Vibe
+                                    </span>
+                                    {/* secondary sparkle dot */}
+                                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_3px_rgba(99,102,241,0.5)]" />
                                 </div>
                             )}
                             {project.stickerText && (
@@ -135,13 +152,13 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ project, className, onCli
                         className="absolute w-full h-full"
                         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                     >
-                        <div className="bg-gray-400 text-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
+                        <div className="bg-slate-800 text-white rounded-card shadow-lg flex flex-col items-center justify-center p-6 w-full h-full">
                             <h4 className="text-xl font-bold mb-4">Tech Stack</h4>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {project.techStack?.map((tech) => (
                                     <span
                                         key={tech}
-                                        className="bg-indigo-500 text-white text-sm font-medium px-3 py-1 rounded-full"
+                                        className="bg-accent-500 text-white text-sm font-medium px-3 py-1 rounded-full"
                                     >
                                         {tech}
                                     </span>

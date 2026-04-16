@@ -34,7 +34,16 @@ export const MainPhrase5to8: React.FC = () => {
     offset: ['start end', 'center center'],
   });
 
-  const switchOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
+  // 섹션 끝 감지용 — 섹션 전체(start start ~ end end) 기준
+  const { scrollYProgress: sectionFullProgress } = useScroll({
+    target: targetRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // 섹션 중간에서 나타나고, 섹션 끝(90%~100%)에서 사라짐
+  const switchShow = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
+  const switchHide = useTransform(sectionFullProgress, [0.85, 0.95], [1, 0]);
+  const switchOpacity = useTransform(() => switchShow.get() * switchHide.get());
   const contentOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
 
   // 🟡 스위치 클릭 핸들러 수정
@@ -46,7 +55,7 @@ export const MainPhrase5to8: React.FC = () => {
   return (
     <section ref={targetRef} className="relative h-[500vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className="absolute inset-0 bg-gray-800 text-white">
+        <div className="absolute inset-0 bg-slate-800 text-white">
 
           <div className="absolute inset-0 z-10">
             {bulbData.map((bulb) => (

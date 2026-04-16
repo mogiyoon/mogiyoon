@@ -16,10 +16,10 @@ const CrazyAboutSection: React.FC = () => {
         <section id="crazyAbout" className="pt-20 pb-20 px-4">
             <div className="animate-fade-in text-center">
                 {/* 섹션 소개 문구 */}
-                <p className="mb-8 text-lg text-gray-400 max-w-2xl mx-auto">
+                <p className="mb-8 text-lg text-content-muted max-w-2xl mx-auto">
                     {t('crazyAboutIntro1')}
                 </p>
-                <p className="mb-16 text-lg text-gray-400 max-w-2xl mx-auto">
+                <p className="mb-16 text-lg text-content-muted max-w-2xl mx-auto">
                     {t('crazyAboutIntro2')}
                 </p>
 
@@ -30,9 +30,9 @@ const CrazyAboutSection: React.FC = () => {
                             key={index}
                             className="
                                 relative p-8 overflow-hidden
-                                bg-gray-900/50 border border-gray-800 rounded-xl
+                                bg-slate-900/50 border border-slate-800 rounded-card
                                 text-left transition-all duration-300
-                                hover:border-gray-700 hover:bg-gray-900
+                                hover:border-slate-700 hover:bg-slate-900
                             "
                         >
                             {/* 배경 숫자 스타일링 */}
@@ -42,7 +42,7 @@ const CrazyAboutSection: React.FC = () => {
 
                             <div className="relative">
                                 {/* 제목 */}
-                                <h3 className="text-2xl font-bold text-gray-100 mb-2">
+                                <h3 className="text-2xl font-bold text-slate-100 mb-2">
                                     {t(item.tKey)}
                                 </h3>
                                 

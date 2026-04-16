@@ -1,6 +1,6 @@
 // test pull request
 // src/App.tsx
-import React, { useEffect, useRef, useState, Suspense } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
@@ -74,7 +74,7 @@ const AppContent: React.FC = () => {
           transform: `translateY(${headerTranslate}px)`,
           transition: "transform 0.1s linear",
         }}
-        className="fixed top-0 left-0 right-0 z-40 bg-white shadow-md"
+        className="fixed top-0 left-0 right-0 z-40 bg-surface shadow-md"
       >
         <PageHeader
           setModalOpen={handleModalOpen}
@@ -97,11 +97,9 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-      <Router>
-        <AppContent />
-      </Router>
-    </Suspense>
+    <Router>
+      <AppContent />
+    </Router>
   );
 };
 

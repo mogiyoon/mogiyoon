@@ -1,5 +1,421 @@
 {
   "projectTitle": "프로젝트",
+  "projectSubtitle": "",
+  "preparingProjectSubtitle": "현재 준비 중인 프로젝트들",
+  "aiDevKit": {
+    "title": "AI DevKit",
+    "subtitle": "AI 개발 도구 목록",
+    "modal": {
+      "close": "닫기"
+    },
+    "skills": {
+      "title": "Skills",
+      "description": "등록된 AI 스킬 목록",
+      "countLabel": "개 항목",
+      "detail": {
+        "eyebrow": "Skill",
+        "summary": "스킬마다 무엇을 하는지, 언제 쓰는지, 어떤 결과가 나오는지 쉽게 볼 수 있게 정리했습니다.",
+        "skillsTitle": "스킬 목록",
+        "skillsDescription": "스킬별 핵심 내용",
+        "cardItems": [
+          {
+            "title": "orchestrator-designer",
+            "description": "여러 에이전트가 함께 일할 흐름을 설계하는 스킬입니다. 단계를 나누고, 역할을 정하고, 분기·반복·결과 합치기 규칙을 만듭니다.",
+            "chips": ["Skill Design", "Routing", "Workflow"]
+          }
+        ],
+        "orchestratorTitle": "스킬이 하는 일",
+        "orchestratorDescription": "이 스킬이 맡는 핵심 작업입니다.",
+        "orchestratorItems": [
+          {
+            "title": "요청 분해 및 역할 배정",
+            "description": "하나의 요청을 여러 단계로 나누고, 각 단계에 맞는 에이전트를 붙입니다.",
+            "chips": ["decomposition", "role assignment"]
+          },
+          {
+            "title": "병렬 결과 병합",
+            "description": "병렬로 돌린 결과를 비교하거나 합쳐서 다음 단계로 넘깁니다.",
+            "chips": ["parallel", "merge", "handoff"]
+          },
+          {
+            "title": "루프·종료 규칙 정의",
+            "description": "결과가 부족하면 어디로 돌아갈지와 언제 끝낼지를 정합니다.",
+            "chips": ["loop", "retry", "termination"]
+          }
+        ],
+        "triggerTitle": "스킬 실행 트리거",
+        "triggerDescription": "이 스킬을 쓰면 좋은 대표 상황입니다.",
+        "triggerItems": [
+          {
+            "title": "한 번에 끝나지 않는 작업",
+            "description": "역할이 다른 에이전트가 둘 이상 필요하고, 중간 결과를 넘기거나 합쳐야 하는 흐름에서 사용합니다.",
+            "chips": ["2+ agents", "multi-step"]
+          }
+        ],
+        "patternTitle": "스킬 적용 패턴",
+        "patternDescription": "이 스킬에서 자주 쓰는 작업 흐름입니다.",
+        "patternItems": [
+          {
+            "title": "팬아웃 후 수렴",
+            "description": "여러 에이전트가 나눠 처리한 뒤 결과를 다시 하나로 모읍니다.",
+            "chips": ["fan-out", "convergence"]
+          },
+          {
+            "title": "조건부 라우팅",
+            "description": "중간 결과에 따라 다음 에이전트가 달라집니다.",
+            "chips": ["routing", "branching"]
+          },
+          {
+            "title": "피드백 루프",
+            "description": "결과가 부족하면 특정 단계로 돌아가 다시 실행합니다.",
+            "chips": ["feedback loop", "retry"]
+          }
+        ],
+        "principleTitle": "스킬 적용 원칙",
+        "principleDescription": "이 스킬을 안정적으로 쓰기 위한 기준입니다.",
+        "principleItems": [
+          {
+            "title": "깊게 중첩하지 않기",
+            "description": "메인 오케스트레이터가 전체를 관리하고 구조가 너무 깊어지지 않게 합니다.",
+            "chips": ["main orchestrator", "simple hierarchy"]
+          },
+          {
+            "title": "병합 기준 먼저 정하기",
+            "description": "무엇을 좋은 결과로 볼지 먼저 정한 뒤 여러 출력을 비교하거나 합칩니다.",
+            "chips": ["merge criteria", "evaluation"]
+          },
+          {
+            "title": "루프 끝 정해두기",
+            "description": "재시도 횟수와 종료 조건을 미리 정해 무한 반복을 막습니다.",
+            "chips": ["loop cap", "termination"]
+          }
+        ],
+        "outputTitle": "스킬 산출물",
+        "outputDescription": "이 스킬 실행 후 결과물에 남는 핵심 항목입니다.",
+        "outputItems": [
+          {
+            "title": "흐름 개요",
+            "description": "전체 단계와 역할 구성을 먼저 정리합니다.",
+            "chips": ["overview", "premise"]
+          },
+          {
+            "title": "분기·루프·병합 그림",
+            "description": "에이전트 관계, 분기, 루프, 병합 구조를 다이어그램으로 보여줍니다.",
+            "chips": ["Mermaid", "branching", "loop"]
+          },
+          {
+            "title": "운영 규칙",
+            "description": "언제 넘기고, 언제 다시 돌리고, 어떻게 합치고, 언제 끝낼지를 정리합니다.",
+            "chips": ["routing", "merge", "termination"]
+          }
+        ]
+      }
+    },
+    "mcp": {
+      "title": "MCP",
+      "description": "MCP 목록",
+      "countLabel": "개 서버",
+      "detail": {
+        "eyebrow": "Tool Bridge",
+        "summary": "Unity와 Blender 작업 맥락을 연결하는 MCP 목록입니다.",
+        "serversTitle": "MCP 목록",
+        "serversItems": [
+          {
+            "title": "Unity MCP",
+            "iconKey": "unity"
+          },
+          {
+            "title": "Blender MCP",
+            "iconKey": "blender"
+          }
+        ]
+      }
+    },
+    "harness": {
+      "title": "Harness",
+      "description": "AI 구현·평가 하네스 목록",
+      "countLabel": "개 흐름",
+      "detail": {
+        "eyebrow": "Agent Systems",
+        "summary": "역할 분리와 테스트·평가·리뷰 루프를 중심으로 구성된 하네스 구조입니다.",
+        "patternsTitle": "하네스 목록",
+        "patternsDescription": "구현, 검증, 회귀, 문서 동기화 목적에 따라 구분한 하네스 목록입니다.",
+        "patternsItems": [
+          {
+            "title": "TheHabit Implementation Harness",
+            "description": "Architect가 설계를 맡고 Coder가 구현하며, 테스트 실패 시 Debugger와 Coder가 수정 루프를 수행한 뒤 Reviewer가 마감하는 구현 하네스입니다.",
+            "chips": ["Architect", "Coder", "Debugger", "Reviewer"],
+            "steps": ["설계", "구현", "테스트", "디버그", "리뷰"],
+            "stepDetails": [
+              {
+                "actor": "Architect",
+                "action": "이슈를 구현 가능한 작업 계획으로 바꿉니다."
+              },
+              {
+                "actor": "Coder",
+                "action": "계획된 변경을 실제 코드로 구현합니다."
+              },
+              {
+                "actor": "Test Runner",
+                "action": "테스트로 진행 여부를 결정합니다."
+              },
+              {
+                "actor": "Debugger",
+                "action": "실패 원인을 설명하고 구현으로 돌립니다."
+              },
+              {
+                "actor": "Reviewer",
+                "action": "최종 diff를 검토하고 실행을 닫습니다."
+              }
+            ],
+            "loops": [
+              {
+                "fromStep": 4,
+                "toStep": 2,
+                "label": "테스트 실패 시 디버그 뒤 구현 단계로 되돌아갑니다."
+              }
+            ],
+            "groups": [
+              {
+                "title": "실행",
+                "points": ["구체적인 설계안이나 이슈에서 나온 기능 구현 작업을 실행합니다.", "Architect, Coder, Debugger, Reviewer 역할을 정해진 순서로 돌립니다."]
+              },
+              {
+                "title": "제어",
+                "points": ["역할 간 핸드오프 순서와 테스트 실패 후 재시도 경로를 고정합니다.", "디버그에서 구현으로 돌아가는 루프 범위를 제한합니다."]
+              },
+              {
+                "title": "검증",
+                "points": ["리뷰 전에 자동 테스트 결과를 확인합니다.", "Reviewer 통과를 실행 완료 기준으로 둡니다."]
+              },
+              {
+                "title": "산출물",
+                "points": ["변경 파일, 테스트 로그, 리뷰 메모, 최종 구현 요약을 남깁니다."]
+              }
+            ]
+          },
+          {
+            "title": "Dev Harness",
+            "description": "spec JSON을 기준으로 브랜치를 준비하고, Codex 구현, 테스트, 커밋, PR까지 이어지는 스펙 기반 하네스입니다.",
+            "chips": ["Spec-driven", "Codex", "Git / PR"],
+            "steps": ["스펙 로드", "브랜치 준비", "구현", "테스트", "커밋 / PR"],
+            "stepDetails": [
+              {
+                "actor": "Spec Loader",
+                "action": "JSON spec에서 실행 계약을 읽습니다."
+              },
+              {
+                "actor": "Git Setup",
+                "action": "대상 브랜치와 워킹트리를 준비합니다."
+              },
+              {
+                "actor": "Codex Worker",
+                "action": "spec 기준으로 코드를 구현합니다."
+              },
+              {
+                "actor": "Check Runner",
+                "action": "지정된 build, lint, test를 실행합니다."
+              },
+              {
+                "actor": "PR Finisher",
+                "action": "검증된 diff를 커밋/PR 문맥으로 묶습니다."
+              }
+            ],
+            "samples": [
+              {
+                "title": "Spec JSON 예시",
+                "description": "하네스는 브랜치 준비나 Codex 실행 전에 이 계약을 먼저 읽습니다.",
+                "language": "json",
+                "code": "{\n  \"id\": \"habit-reminder-flow\",\n  \"branch\": \"feat/habit-reminder-flow\",\n  \"goal\": \"습관 생성 흐름에 리마인더 문구와 검증을 추가한다\",\n  \"entry\": \"src/features/habits\",\n  \"checks\": [\"npm run lint\", \"npm run build\"],\n  \"doneWhen\": [\"문구가 다국어 처리된다\", \"검증 에러가 테스트된다\", \"PR 요약에 변경 파일이 정리된다\"]\n}"
+              }
+            ],
+            "groups": [
+              {
+                "title": "실행",
+                "points": ["작업, 브랜치, 완료 기준을 담은 JSON spec을 실행 입력으로 사용합니다.", "준비된 브랜치 위에서 Codex 구현 세션을 돌립니다."]
+              },
+              {
+                "title": "제어",
+                "points": ["브랜치 준비, 워킹트리 상태, 명령 정책, 커밋 / PR 순서를 관리합니다.", "테스트 실패나 dirty-state 확인 지점에서 멈출 수 있게 합니다."]
+              },
+              {
+                "title": "검증",
+                "points": ["spec에 정의된 build, lint, test 명령을 확인합니다.", "커밋이나 PR 전에 git diff를 검토합니다."]
+              },
+              {
+                "title": "산출물",
+                "points": ["커밋, PR 본문, 명령 출력, 구현 메모를 남깁니다."]
+              }
+            ]
+          },
+          {
+            "title": "Eval Harness",
+            "description": "50개 이상 시나리오를 기준으로 라우팅과 도구 연결 상태를 검증하는 평가 하네스입니다.",
+            "chips": ["50+ scenarios", "Live pipeline", "Gap detection"],
+            "steps": ["시나리오 실행", "결과 수집", "도구 / 상태 판정"],
+            "stepDetails": [
+              {
+                "actor": "Scenario Runner",
+                "action": "시나리오를 라이브 파이프라인에 보냅니다."
+              },
+              {
+                "actor": "Collector",
+                "action": "라우트, 도구, 상태, 출력 데이터를 수집합니다."
+              },
+              {
+                "actor": "Judge",
+                "action": "기대 라우트와 상태를 판정합니다."
+              }
+            ],
+            "groups": [
+              {
+                "title": "실행",
+                "points": ["50개 이상 요청 시나리오를 라이브 파이프라인에 흘려보냅니다.", "각 시나리오마다 라우팅, 도구 선택, 상태 판정을 실행합니다."]
+              },
+              {
+                "title": "제어",
+                "points": ["시나리오 순서, 기대 상태 스키마, 결과 수집 형식을 고정합니다.", "변경 전후를 비교할 수 있는 반복 실행 기록을 남깁니다."]
+              },
+              {
+                "title": "검증",
+                "points": ["도구 선택, 라우팅 정확도, 출력 상태, 누락 지점을 확인합니다.", "시나리오 전체의 통과 / 실패를 집계합니다."]
+              },
+              {
+                "title": "산출물",
+                "points": ["하네스 결과표, 실패 목록, 로그, 후속 이슈를 남깁니다."]
+              }
+            ]
+          },
+          {
+            "title": "Improve Harness",
+            "description": "User agent가 명령을 생성하고 Evaluator가 결과를 채점한 뒤, Developer가 수정과 회귀 테스트를 반복하는 개선 하네스입니다.",
+            "chips": ["User Agent", "Evaluator", "Developer", "Regression"],
+            "steps": ["명령 생성", "실행", "평가", "수정", "회귀 테스트"],
+            "stepDetails": [
+              {
+                "actor": "User Agent",
+                "action": "약한 지점을 드러내는 요청을 만듭니다."
+              },
+              {
+                "actor": "Executor",
+                "action": "생성 작업으로 현재 시스템을 실행합니다."
+              },
+              {
+                "actor": "Evaluator",
+                "action": "결과가 기준을 만족하는지 채점합니다."
+              },
+              {
+                "actor": "Developer",
+                "action": "실패 케이스를 고치고 기록합니다."
+              },
+              {
+                "actor": "Regression Gate",
+                "action": "기존 시나리오가 계속 통과하는지 봅니다."
+              }
+            ],
+            "loops": [
+              {
+                "fromStep": 5,
+                "toStep": 2,
+                "label": "회귀 테스트에서 실패가 남으면 다시 실행·평가 루프로 들어갑니다."
+              }
+            ],
+            "groups": [
+              {
+                "title": "실행",
+                "points": ["생성된 사용자 요청과 이전 실패 사례를 실행 입력으로 사용합니다.", "Developer 수정 후 회귀 테스트를 이어서 실행합니다."]
+              },
+              {
+                "title": "제어",
+                "points": ["Evaluator 채점 기준, 재시도 한도, 수정 루프 진입 조건을 관리합니다.", "개선을 받아들이기 전에 회귀 게이트를 통과시킵니다."]
+              },
+              {
+                "title": "검증",
+                "points": ["Evaluator 점수, 수정 항목 검증, 회귀 테스트 통과를 확인합니다.", "기존 통과 케이스에서 새 실패가 생기지 않았는지 봅니다."]
+              },
+              {
+                "title": "산출물",
+                "points": ["개선 리포트, 실패 프롬프트, 수정 메모, 회귀 테스트 결과를 남깁니다."]
+              }
+            ]
+          },
+          {
+            "title": "Doc Harness",
+            "description": "코드와 문서의 차이를 분석하고 문서를 수정한 뒤, Verify와 Re-verify 단계로 다시 검증하는 문서 동기화 하네스입니다.",
+            "chips": ["Analyze", "Execute", "Verify", "Re-verify"],
+            "steps": ["변경 분석", "문서 수정", "검증", "고품질 재검증"],
+            "stepDetails": [
+              {
+                "actor": "Analyzer",
+                "action": "코드와 문서가 어긋난 지점을 찾습니다."
+              },
+              {
+                "actor": "Doc Writer",
+                "action": "현재 코드 경로에 맞게 문서를 수정합니다."
+              },
+              {
+                "actor": "Verifier",
+                "action": "문서를 코드와 예시로 검증합니다."
+              },
+              {
+                "actor": "Re-verifier",
+                "action": "완료 전 더 엄격한 2차 검증을 수행합니다."
+              }
+            ],
+            "loops": [
+              {
+                "fromStep": 4,
+                "toStep": 2,
+                "label": "검증에서 어긋난 부분이 남으면 문서 수정 단계로 되돌아갑니다."
+              }
+            ],
+            "groups": [
+              {
+                "title": "실행",
+                "points": ["변경 파일을 기준으로 코드-문서 차이를 분석합니다.", "문서 수정과 검증 패스를 이어서 실행합니다."]
+              },
+              {
+                "title": "제어",
+                "points": ["분석-수정-검증 순서와 재검증 트리거를 고정합니다.", "문서가 설명해야 할 파일 범위를 제한합니다."]
+              },
+              {
+                "title": "검증",
+                "points": ["코드 대비 문서 정확도, 누락된 동작, 오래된 예시를 확인합니다.", "완료 전에 더 높은 품질의 재검증을 수행합니다."]
+              },
+              {
+                "title": "산출물",
+                "points": ["수정된 문서, 검증 메모, 불일치 목록, 재검증 요약을 남깁니다."]
+              }
+            ]
+          }
+        ],
+        "abstractTitle": "공통 추상 구조",
+        "abstractDescription": "하네스 전반에 공통으로 적용되는 아키텍처 원칙입니다.",
+        "abstractItems": [
+          {
+            "title": "역할 분리",
+            "description": "계획, 구현, 평가, 리뷰 역할을 분리해 책임을 나누는 구조입니다.",
+            "chips": ["Plan", "Build", "Evaluate"]
+          },
+          {
+            "title": "품질 게이트 내장",
+            "description": "실행 이후 테스트, 리뷰, 시나리오 평가와 같은 검증 단계가 이어지는 구조입니다.",
+            "chips": ["Test", "Review", "Eval"]
+          },
+          {
+            "title": "피드백 루프",
+            "description": "실패 결과를 구현 단계로 다시 돌려 재시도하는 환류 구조입니다.",
+            "chips": ["Retry", "Loop", "Fix"]
+          },
+          {
+            "title": "반복 가능성",
+            "description": "tasks.yaml, spec JSON, logs, harness-results를 기반으로 재실행이 가능한 구조입니다.",
+            "chips": ["Logs", "Specs", "Tasks"]
+          }
+        ]
+      }
+    }
+  },
   "seoul-meari": {
     "title": "Seoul Meari",
     "subtitle": "시민의 일상이 도시의 미래가 되는 AR 소셜 플랫폼",
