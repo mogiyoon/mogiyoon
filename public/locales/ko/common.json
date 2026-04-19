@@ -89,5 +89,11 @@
   "licenseText": "<0>{{licenseName}}</0>에 따라 라이선스가 부여되었습니다.",
 
   "linkCopied": "링크 복사 성공!",
-  "linkCopyFailed": "링크 복사 실패..."
+  "linkCopyFailed": "링크 복사 실패...",
+
+  "resume": {
+    "download": "이력서 DOCX 다운로드",
+    "generating": "이력서 생성 중...",
+    "downloadFailed": "이력서 생성 실패"
+  }
 }

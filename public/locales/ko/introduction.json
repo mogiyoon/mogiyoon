@@ -105,6 +105,10 @@
       "title": "SQLD",
       "period": "2025.12"
     },
+    "infoProcessing": {
+      "title": "정보처리기사 (필기)",
+      "period": "2024.08"
+    },
     "teacherCert": {
       "title": "교원자격증",
       "period": "2023.02"
@@ -114,5 +118,12 @@
     "framework": "프레임워크",
     "language": "언어",
     "infra": "개발 환경"
+  },
+  "languages": {
+    "newTeps": {
+      "title": "뉴텝스",
+      "score": "315점 (청해: 109, 어휘: 30, 문법: 27, 독해: 147)",
+      "period": "2024.07"
+    }
   }
 }
