@@ -37,6 +37,12 @@ const AppContent: React.FC = () => {
   }, [location.pathname]);
 
   useEffect(() => {
+    if (location.pathname === '/') {
+      window.scrollTo(0, 0);
+    }
+  }, [activeTab, location.pathname]);
+
+  useEffect(() => {
     const SCROLL_THRESHOLD = 20;
 
     const handleScroll = () => {
