@@ -89,5 +89,11 @@
   "licenseText": "Licensed under the <0>{{licenseName}}</0>.",
 
   "linkCopied": "Link copied!",
-  "linkCopyFailed": "Copy failed..."
+  "linkCopyFailed": "Copy failed...",
+
+  "resume": {
+    "download": "Download Resume (DOCX)",
+    "generating": "Generating resume...",
+    "downloadFailed": "Failed to generate resume"
+  }
 }

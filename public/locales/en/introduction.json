@@ -105,6 +105,10 @@
       "title": "SQL Developer (SQLD)",
       "period": "Dec 2025"
     },
+    "infoProcessing": {
+      "title": "Engineer Information Processing (Written)",
+      "period": "Aug 2024"
+    },
     "teacherCert": {
       "title": "Teaching Certificate",
       "period": "Feb 2023"
@@ -114,5 +118,12 @@
     "framework": "Framework",
     "language": "Language",
     "infra": "Environment"
+  },
+  "languages": {
+    "newTeps": {
+      "title": "New TEPS",
+      "score": "315 (Listening 109 / Vocabulary 30 / Grammar 27 / Reading 147)",
+      "period": "Jul 2024"
+    }
   }
 }
