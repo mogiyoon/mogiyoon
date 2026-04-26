@@ -25,6 +25,7 @@
     }
   },
   "profileTabs": {
+    "basics": "기본정보",
     "workSkills": "경력 & 스킬",
     "education": "학력",
     "awardsAndCerts": "수상 & 자격증"
@@ -107,7 +108,7 @@
     "generating": "이력서 생성 중...",
     "downloadFailed": "이력서 생성 실패",
     "preview": "이력서 미리보기",
-    "openPreview": "이력서 미리보기 열기",
+    "heading": "이력서",
     "backToProfile": "프로필로 돌아가기",
     "savePdf": "PDF로 저장",
     "resetDraft": "문구 초기화",
