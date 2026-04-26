@@ -25,6 +25,7 @@
     }
   },
   "profileTabs": {
+    "basics": "기본정보",
     "workSkills": "경력 & 스킬",
     "education": "학력",
     "awardsAndCerts": "수상 & 자격증"
