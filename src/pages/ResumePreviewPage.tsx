@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   loadResumeBuilderData,
+  type ResumeBlockDetailItem,
   type ResumeBuilderData,
   type ResumeEditableBlock,
   type ResumeProjectEntry,
@@ -15,11 +16,11 @@ const cloneResumeData = (data: ResumeBuilderData): ResumeBuilderData =>
   JSON.parse(JSON.stringify(data)) as ResumeBuilderData;
 
 const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-slate-500">{children}</h2>
+  <h2 className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">{children}</h2>
 );
 
 const FieldLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 mb-2">
+  <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
     {children}
   </label>
 );
@@ -30,16 +31,16 @@ const CollapsibleEditorSection: React.FC<{
   onToggle: () => void;
   children: React.ReactNode;
 }> = ({ title, isOpen, onToggle, children }) => (
-  <section className="rounded-[2rem] border border-slate-200 bg-[#f7f8fb] p-5 shadow-lg">
+  <section className="rounded-[2rem] border border-slate-200 bg-[#f7f8fb] p-4 shadow-lg">
     <button
       type="button"
       onClick={onToggle}
-      className="flex w-full items-center justify-between gap-3 text-left"
+      className="flex w-full items-center justify-between gap-2.5 text-left"
     >
       <SectionHeading>{title}</SectionHeading>
-      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
+      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
         <svg
-          className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -52,23 +53,67 @@ const CollapsibleEditorSection: React.FC<{
       </span>
     </button>
 
-    {isOpen && <div className="mt-4">{children}</div>}
+    {isOpen && <div className="mt-3">{children}</div>}
   </section>
 );
 
 const InputField: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (props) => (
   <input
     {...props}
-    className={`w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 ${props.className ?? ""}`}
+    className={`w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 ${props.className ?? ""}`}
   />
 );
 
 const TextAreaField: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (props) => (
   <textarea
     {...props}
-    className={`w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 ${props.className ?? ""}`}
+    className={`w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 ${props.className ?? ""}`}
   />
 );
+
+const DetailPreviewItem: React.FC<{ item: ResumeBlockDetailItem }> = ({ item }) => (
+  <div className="resume-preview-detail grid grid-cols-[3.7rem_minmax(0,1fr)] gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5">
+    <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-500">{item.label}</p>
+    <p className="text-[12.5px] leading-[1.42] text-slate-700 whitespace-pre-wrap">{item.value}</p>
+  </div>
+);
+
+type BlockSectionGroup = {
+  key: string;
+  label: string;
+  blocks: ResumeEditableBlock[];
+};
+
+const normalizeSectionKey = (label: string) => label.trim().toLowerCase();
+
+const groupBlocksBySection = (blocks: ResumeEditableBlock[], preferredLabels: string[]) => {
+  const groups = new Map<string, BlockSectionGroup>();
+
+  blocks.forEach((block) => {
+    const label = block.sectionLabel?.trim() || "";
+    const key = label ? normalizeSectionKey(label) : "default";
+    const existingGroup = groups.get(key);
+
+    if (existingGroup) {
+      existingGroup.blocks.push(block);
+      return;
+    }
+
+    groups.set(key, {
+      key,
+      label,
+      blocks: [block],
+    });
+  });
+
+  const preferredKeys = new Set(preferredLabels.map(normalizeSectionKey));
+  const prioritizedGroups = preferredLabels
+    .map((label) => groups.get(normalizeSectionKey(label)))
+    .filter((group): group is BlockSectionGroup => Boolean(group));
+  const remainingGroups = Array.from(groups.values()).filter((group) => !preferredKeys.has(group.key));
+
+  return [...prioritizedGroups, ...remainingGroups];
+};
 
 const ResumePreviewPage: React.FC = () => {
   const { t, i18n } = useTranslation("common");
@@ -212,6 +257,45 @@ const ResumePreviewPage: React.FC = () => {
     });
   };
 
+  const updateWorkBlockDetailItem = (blockId: string, detailId: string, value: string) => {
+    setDraft((prev) => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        workExperience: prev.workExperience.map((work) => ({
+          ...work,
+          projects: work.projects.map((project) => ({
+            ...project,
+            blocks: project.blocks.map((block) => {
+              if (block.id !== blockId || !block.detailItems) {
+                return block;
+              }
+
+              const detailItems = block.detailItems.map((item) =>
+                item.id === detailId
+                  ? {
+                      ...item,
+                      value,
+                    }
+                  : item
+              );
+
+              return {
+                ...block,
+                detailItems,
+                body: detailItems
+                  .map((item) => item.value.trim())
+                  .filter(Boolean)
+                  .join("\n\n"),
+              };
+            }),
+          })),
+        })),
+      };
+    });
+  };
+
   const updateProjectSummary = (projectId: string, value: string) => {
     setDraft((prev) =>
       prev
@@ -334,22 +418,42 @@ const ResumePreviewPage: React.FC = () => {
         block,
       }))
   );
+  const developmentLabel = String(t("highlight.section.development"));
+  const aiUsageLabel = String(t("highlight.section.aiUsage"));
+  const workSectionOrder = [developmentLabel, aiUsageLabel];
 
   const renderPreviewBlock = (block: ResumeEditableBlock) => (
-    <div key={block.id} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-      <h4 className="text-sm font-bold text-slate-900">{block.title}</h4>
-      <div className="mt-2 space-y-2">
+    <div key={block.id} className="resume-preview-block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+      <h4 className="text-[13px] font-bold text-slate-900">{block.title}</h4>
+      <div className="mt-1 space-y-1">
         {block.body
           .split("\n")
           .filter((line) => line.trim())
           .map((line, index) => (
-            <p key={`${block.id}-${index}`} className="text-sm leading-6 text-slate-700 whitespace-pre-wrap">
+            <p key={`${block.id}-${index}`} className="text-[12.5px] leading-[1.42] text-slate-700 whitespace-pre-wrap">
               {line}
             </p>
           ))}
       </div>
     </div>
   );
+
+  const renderWorkPreviewBlock = (block: ResumeEditableBlock) => {
+    if (!block.detailItems?.length) {
+      return renderPreviewBlock(block);
+    }
+
+    return (
+      <div key={block.id} className="resume-preview-block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+        <h4 className="text-[13px] font-bold text-slate-900">{block.title}</h4>
+        <div className="mt-1.5 space-y-1.5">
+          {block.detailItems.map((item) => (
+            <DetailPreviewItem key={`${block.id}-${item.id}`} item={item} />
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   const renderProjectLinks = (project: ResumeProjectEntry) =>
     projectLinkOrder
@@ -380,48 +484,48 @@ const ResumePreviewPage: React.FC = () => {
 
   return (
     <section className="min-h-screen bg-[#dfe5ec] print:bg-white">
-      <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 print:px-0 print:pt-0">
-        <div data-print-hidden="true" className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 print:px-0 print:pt-0">
+        <div data-print-hidden="true" className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">
               {t("resume.preview")}
             </p>
-            <h1 className="mt-2 text-3xl font-bold text-slate-950">{t("resume.openPreview")}</h1>
-            <p className="mt-2 text-sm text-slate-600">{t("resume.helper")}</p>
+            <h1 className="mt-1.5 text-3xl font-bold text-slate-950">{t("resume.openPreview")}</h1>
+            <p className="mt-1.5 text-sm text-slate-600">{t("resume.helper")}</p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <Link
               to="/"
               state={{ activeTab: "profile" }}
-              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm"
+              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
             >
               {t("resume.backToProfile")}
             </Link>
             <button
               type="button"
               onClick={resetDraft}
-              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm"
+              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
             >
               {t("resume.resetDraft")}
             </button>
             <button
               type="button"
               onClick={() => window.print()}
-              className="inline-flex items-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm"
+              className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm"
             >
               {t("resume.savePdf")}
             </button>
           </div>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[24rem_1fr] print:block">
-          <aside data-print-hidden="true" className="space-y-5">
+        <div className="grid gap-4 xl:grid-cols-[23rem_1fr] print:block">
+          <aside data-print-hidden="true" className="space-y-4">
             <CollapsibleEditorSection
               title={t("resume.builder.basics")}
               isOpen={openPanels.has("basics")}
               onToggle={() => togglePanel("basics")}
             >
-              <div className="space-y-4">
+              <div className="space-y-3.5">
                 <div>
                   <FieldLabel>{t("resume.builder.name")}</FieldLabel>
                   <InputField value={draft.profile.name} onChange={(e) => updateProfileField("name", e.target.value)} />
@@ -443,7 +547,7 @@ const ResumePreviewPage: React.FC = () => {
                 </div>
                 <div>
                   <FieldLabel>{t("resume.builder.links")}</FieldLabel>
-                  <div className="space-y-3">
+                  <div className="space-y-2.5">
                     {linkOrder.map((key) => (
                       <InputField
                         key={key}
@@ -462,7 +566,7 @@ const ResumePreviewPage: React.FC = () => {
               isOpen={openPanels.has("intro")}
               onToggle={() => togglePanel("intro")}
             >
-              <div className="space-y-4">
+              <div className="space-y-3.5">
                 <div>
                   <FieldLabel>{t("resume.builder.introLine")}</FieldLabel>
                   <TextAreaField
@@ -491,38 +595,46 @@ const ResumePreviewPage: React.FC = () => {
               isOpen={openPanels.has("workBlocks")}
               onToggle={() => togglePanel("workBlocks")}
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {draft.workExperience.map((work) => (
-                  <div key={work.id} className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div key={work.id} className="rounded-2xl border border-slate-200 bg-white p-3.5">
                     <p className="text-sm font-bold text-slate-900">{work.title}</p>
                     <p className="mt-1 text-xs text-slate-500">
                       {work.position} · {work.period}
                     </p>
-                    <div className="mt-3 space-y-3">
+                    <div className="mt-2.5 space-y-2.5">
                       {work.projects.map((project) => (
                         <div key={project.id}>
-                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                             {project.name}
                           </p>
-                          <div className="mt-2 space-y-2">
-                            {project.blocks.map((block) => (
-                              <label
-                                key={block.id}
-                                className="flex gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-700"
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={selectedBlockIds.has(block.id)}
-                                  onChange={() => toggleBlock(block.id)}
-                                  className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-900"
-                                />
-                                <span>
-                                  <span className="block font-semibold text-slate-900">{block.title}</span>
-                                  {block.sectionLabel && (
-                                    <span className="mt-1 block text-xs text-slate-500">{block.sectionLabel}</span>
-                                  )}
-                                </span>
-                              </label>
+                          <div className="mt-1.5 space-y-2">
+                            {groupBlocksBySection(project.blocks, workSectionOrder).map((group) => (
+                              <div key={`${project.id}-${group.key}`}>
+                                {group.label && (
+                                  <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                                    {group.label}
+                                  </p>
+                                )}
+                                <div className="space-y-1.5">
+                                  {group.blocks.map((block) => (
+                                    <label
+                                      key={block.id}
+                                      className="flex gap-2.5 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        checked={selectedBlockIds.has(block.id)}
+                                        onChange={() => toggleBlock(block.id)}
+                                        className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-900"
+                                      />
+                                      <span className="block">
+                                        <span className="block font-semibold text-slate-900">{block.title}</span>
+                                      </span>
+                                    </label>
+                                  ))}
+                                </div>
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -538,9 +650,9 @@ const ResumePreviewPage: React.FC = () => {
               isOpen={openPanels.has("projectBlocks")}
               onToggle={() => togglePanel("projectBlocks")}
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {draft.projects.map((project) => (
-                  <div key={project.id} className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div key={project.id} className="rounded-2xl border border-slate-200 bg-white p-3.5">
                     <label className="flex items-start gap-3">
                       <input
                         type="checkbox"
@@ -550,17 +662,17 @@ const ResumePreviewPage: React.FC = () => {
                       />
                       <span>
                         <span className="block font-semibold text-slate-900">{project.title}</span>
-                        <span className="mt-1 block text-xs text-slate-500">
+                        <span className="mt-0.5 block text-xs text-slate-500">
                           {t("resume.builder.includeProject")} · {project.projectType}
                         </span>
                       </span>
                     </label>
                     {includedProjectIds.has(project.id) && (
-                      <div className="mt-3 space-y-2">
+                      <div className="mt-2.5 space-y-1.5">
                         {project.blocks.map((block) => (
                           <label
                             key={block.id}
-                            className="flex gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-700"
+                            className="flex gap-2.5 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700"
                           >
                             <input
                               type="checkbox"
@@ -571,7 +683,7 @@ const ResumePreviewPage: React.FC = () => {
                             <span>
                               <span className="block font-semibold text-slate-900">{block.title}</span>
                               {block.sectionLabel && (
-                                <span className="mt-1 block text-xs text-slate-500">{block.sectionLabel}</span>
+                                <span className="mt-0.5 block text-xs text-slate-500">{block.sectionLabel}</span>
                               )}
                             </span>
                           </label>
@@ -588,9 +700,9 @@ const ResumePreviewPage: React.FC = () => {
               isOpen={openPanels.has("selectedCopy")}
               onToggle={() => togglePanel("selectedCopy")}
             >
-              <div className="space-y-5">
+              <div className="space-y-4">
                 {includedProjects.map((project) => (
-                  <div key={`summary-${project.id}`} className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div key={`summary-${project.id}`} className="rounded-2xl border border-slate-200 bg-white p-3.5">
                     <FieldLabel>
                       {project.title} · {t("resume.builder.projectSummary")}
                     </FieldLabel>
@@ -603,28 +715,48 @@ const ResumePreviewPage: React.FC = () => {
                 ))}
 
                 {selectedWorkBlocks.map(({ block, projectName }) => (
-                  <div key={`editor-${block.id}`} className="rounded-2xl border border-slate-200 bg-white p-4">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  <div key={`editor-${block.id}`} className="rounded-2xl border border-slate-200 bg-white p-3.5">
+                    <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                       {projectName}
                     </p>
+                    {block.sectionLabel && (
+                      <p className="mb-2 inline-flex rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                        {block.sectionLabel}
+                      </p>
+                    )}
                     <div>
                       <FieldLabel>{t("resume.builder.title")}</FieldLabel>
                       <InputField value={block.title} onChange={(e) => updateWorkBlock(block.id, "title", e.target.value)} />
                     </div>
-                    <div className="mt-4">
-                      <FieldLabel>{t("resume.builder.body")}</FieldLabel>
-                      <TextAreaField
-                        rows={6}
-                        value={block.body}
-                        onChange={(e) => updateWorkBlock(block.id, "body", e.target.value)}
-                      />
-                    </div>
+                    {block.detailItems?.length ? (
+                      <div className="mt-3 space-y-3">
+                        {block.detailItems.map((item) => (
+                          <div key={`${block.id}-${item.id}`}>
+                            <FieldLabel>{item.label}</FieldLabel>
+                            <TextAreaField
+                              rows={3}
+                              value={item.value}
+                              onChange={(e) => updateWorkBlockDetailItem(block.id, item.id, e.target.value)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="mt-3">
+                        <FieldLabel>{t("resume.builder.body")}</FieldLabel>
+                        <TextAreaField
+                          rows={6}
+                          value={block.body}
+                          onChange={(e) => updateWorkBlock(block.id, "body", e.target.value)}
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
 
                 {selectedProjectBlocks.map(({ block, projectName }) => (
-                  <div key={`editor-${block.id}`} className="rounded-2xl border border-slate-200 bg-white p-4">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  <div key={`editor-${block.id}`} className="rounded-2xl border border-slate-200 bg-white p-3.5">
+                    <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                       {projectName}
                     </p>
                     <div>
@@ -634,7 +766,7 @@ const ResumePreviewPage: React.FC = () => {
                         onChange={(e) => updateProjectBlock(block.id, "title", e.target.value)}
                       />
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-3">
                       <FieldLabel>{t("resume.builder.body")}</FieldLabel>
                       <TextAreaField
                         rows={6}
@@ -653,17 +785,19 @@ const ResumePreviewPage: React.FC = () => {
           </aside>
 
           <div className="flex justify-center print:block">
-            <article className="resume-preview-page w-[210mm] max-w-full min-h-[297mm] rounded-[2rem] bg-white px-8 py-9 shadow-[0_24px_80px_rgba(15,23,42,0.18)] print:rounded-none print:shadow-none">
-              <header className="border-b border-slate-200 pb-6">
-                <div className="flex flex-wrap items-start justify-between gap-4">
+            <article className="resume-preview-page w-[210mm] max-w-full min-h-[297mm] rounded-[2rem] bg-white px-6 py-5 shadow-[0_24px_80px_rgba(15,23,42,0.18)] print:rounded-none print:shadow-none">
+              <header className="border-b border-slate-200 pb-4">
+                <div className="flex flex-wrap items-start justify-between gap-2.5">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
                       {t("resume.previewSection.profile")}
                     </p>
-                    <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{draft.profile.name}</h1>
-                    <p className="mt-2 text-lg font-medium text-slate-600">{draft.profile.targetRole}</p>
+                    <h1 className="mt-1.5 text-[2rem] font-bold leading-none tracking-tight text-slate-950">
+                      {draft.profile.name}
+                    </h1>
+                    <p className="mt-1 text-[15px] font-medium text-slate-600">{draft.profile.targetRole}</p>
                   </div>
-                  <div className="grid gap-2 text-sm text-slate-700">
+                  <div className="grid gap-1 text-[13px] text-slate-700">
                     <p>
                       <span className="font-semibold text-slate-950">{t("resume.builder.email")}</span>: {draft.profile.email}
                     </p>
@@ -673,7 +807,7 @@ const ResumePreviewPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-700">
+                <div className="mt-3.5 flex flex-wrap gap-x-3.5 gap-y-1 text-[13px] text-slate-700">
                   {linkOrder.map((key) =>
                     draft.profile.links[key] ? (
                       <span key={`preview-link-${key}`}>
@@ -686,20 +820,20 @@ const ResumePreviewPage: React.FC = () => {
                   )}
                 </div>
 
-                <p className="mt-6 text-base leading-7 text-slate-700">{draft.profile.intro.line}</p>
-                <ul className="mt-4 space-y-2 pl-5">
+                <p className="mt-4 text-[14px] leading-[1.45] text-slate-700">{draft.profile.intro.line}</p>
+                <ul className="mt-2.5 space-y-1 pl-4">
                   {draft.profile.intro.bullets.map((bullet, index) => (
-                    <li key={`preview-bullet-${index}`} className="text-sm leading-6 text-slate-700">
+                    <li key={`preview-bullet-${index}`} className="text-[12.5px] leading-[1.42] text-slate-700">
                       {bullet.text}
                     </li>
                   ))}
                 </ul>
               </header>
 
-              <div className="mt-8 space-y-8">
-                <section style={{ breakInside: "avoid" }}>
+              <div className="mt-4 space-y-4">
+                <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.workExperience")}</SectionHeading>
-                  <div className="mt-4 space-y-5">
+                  <div className="mt-2.5 space-y-3">
                     {draft.workExperience.map((work) => {
                       const visibleProjects = work.projects
                         .map((project) => ({
@@ -713,31 +847,45 @@ const ResumePreviewPage: React.FC = () => {
                       }
 
                       return (
-                        <div key={`preview-work-${work.id}`} className="rounded-3xl border border-slate-200 bg-white px-5 py-4">
+                        <div
+                          key={`preview-work-${work.id}`}
+                          className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                        >
                           <div className="flex flex-wrap items-start justify-between gap-3">
                             <div>
-                              <h3 className="text-lg font-bold text-slate-950">{work.title}</h3>
-                              <p className="mt-1 text-sm font-medium text-slate-600">{work.position}</p>
+                              <h3 className="text-[16px] font-bold leading-tight text-slate-950">{work.title}</h3>
+                              <p className="mt-0.5 text-[13px] font-medium text-slate-600">{work.position}</p>
                             </div>
-                            <p className="text-sm font-medium text-slate-500">{work.period}</p>
+                            <p className="text-[13px] font-medium text-slate-500">{work.period}</p>
                           </div>
 
-                          <div className="mt-4 space-y-4">
+                          <div className="mt-2.5 space-y-2.5">
                             {visibleProjects.map((project) => (
                               <div key={`preview-work-project-${project.id}`}>
                                 <div className="flex flex-wrap items-center gap-2">
-                                  <p className="text-sm font-semibold text-slate-900">{project.name}</p>
+                                  <p className="text-[13px] font-semibold text-slate-900">{project.name}</p>
                                   {project.tech.map((tech) => (
                                     <span
                                       key={`${project.id}-${tech}`}
-                                      className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600"
+                                      className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600"
                                     >
                                       {tech}
                                     </span>
                                   ))}
                                 </div>
-                                <div className="mt-3 space-y-3">
-                                  {project.blocks.map((block) => renderPreviewBlock(block))}
+                                <div className="mt-2 space-y-2.5">
+                                  {groupBlocksBySection(project.blocks, workSectionOrder).map((group) => (
+                                    <div key={`preview-work-group-${project.id}-${group.key}`}>
+                                      {group.label && (
+                                        <p className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                                          {group.label}
+                                        </p>
+                                      )}
+                                      <div className="mt-1.5 space-y-1.5">
+                                        {group.blocks.map((block) => renderWorkPreviewBlock(block))}
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
                               </div>
                             ))}
@@ -748,39 +896,44 @@ const ResumePreviewPage: React.FC = () => {
                   </div>
                 </section>
 
-                <section style={{ breakInside: "avoid" }}>
+                <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.projects")}</SectionHeading>
-                  <div className="mt-4 space-y-5">
+                  <div className="mt-2.5 space-y-3">
                     {includedProjects.map((project) => (
-                      <div key={`preview-project-${project.id}`} className="rounded-3xl border border-slate-200 bg-white px-5 py-4">
+                      <div
+                        key={`preview-project-${project.id}`}
+                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                      >
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div>
-                            <h3 className="text-lg font-bold text-slate-950">{project.title}</h3>
-                            <p className="mt-1 text-sm font-medium text-slate-600">{project.projectType}</p>
+                            <h3 className="text-[16px] font-bold leading-tight text-slate-950">{project.title}</h3>
+                            <p className="mt-0.5 text-[13px] font-medium text-slate-600">{project.projectType}</p>
                           </div>
-                          <p className="text-sm font-medium text-slate-500">{project.period}</p>
+                          <p className="text-[13px] font-medium text-slate-500">{project.period}</p>
                         </div>
 
                         {project.summary && (
-                          <p className="mt-4 text-sm leading-6 text-slate-700 whitespace-pre-wrap">{project.summary}</p>
+                          <p className="mt-2.5 text-[12.5px] leading-[1.42] text-slate-700 whitespace-pre-wrap">
+                            {project.summary}
+                          </p>
                         )}
 
-                        <div className="mt-4 flex flex-wrap gap-2">
+                        <div className="mt-2.5 flex flex-wrap gap-1">
                           {project.techStack.map((tech) => (
                             <span
                               key={`${project.id}-tech-${tech}`}
-                              className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600"
+                              className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-600"
                             >
                               {tech}
                             </span>
                           ))}
                         </div>
 
-                        <div className="mt-4 flex flex-col gap-1.5">
+                        <div className="mt-2.5 flex flex-col gap-0.5">
                           {renderProjectLinks(project)}
                         </div>
 
-                        <div className="mt-4 space-y-3">
+                        <div className="mt-2.5 space-y-2">
                           {project.blocks
                             .filter((block) => selectedBlockIds.has(block.id))
                             .map((block) => renderPreviewBlock(block))}
@@ -790,44 +943,56 @@ const ResumePreviewPage: React.FC = () => {
                   </div>
                 </section>
 
-                <section style={{ breakInside: "avoid" }}>
+                <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.education")}</SectionHeading>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
                     {draft.education.map((item) => (
-                      <div key={`preview-education-${item.id}`} className="rounded-3xl border border-slate-200 bg-white px-5 py-4">
-                        <h3 className="text-base font-bold text-slate-950">{item.title}</h3>
-                        <p className="mt-1 text-sm text-slate-700">{item.major}</p>
-                        <p className="mt-2 text-sm text-slate-500">{item.grade}</p>
-                        <p className="mt-3 text-sm font-medium text-slate-500">{item.period}</p>
+                      <div
+                        key={`preview-education-${item.id}`}
+                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                      >
+                        <h3 className="text-[15px] font-bold leading-tight text-slate-950">{item.title}</h3>
+                        <p className="mt-0.5 text-[12.5px] text-slate-700">{item.major}</p>
+                        <p className="mt-1 text-[12.5px] text-slate-500">{item.grade}</p>
+                        <p className="mt-2 text-[12.5px] font-medium text-slate-500">{item.period}</p>
                       </div>
                     ))}
                   </div>
                 </section>
 
-                <section style={{ breakInside: "avoid" }}>
+                <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.skills")}</SectionHeading>
-                  <div className="mt-4 grid gap-3">
+                  <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
                     {draft.skills.map((skillGroup) => (
-                      <div key={`preview-skill-${skillGroup.category}`} className="rounded-3xl border border-slate-200 bg-white px-5 py-4">
-                        <p className="text-sm font-semibold text-slate-900">{skillGroup.label}</p>
-                        <p className="mt-2 text-sm leading-6 text-slate-700">{skillGroup.items.join(", ")}</p>
+                      <div
+                        key={`preview-skill-${skillGroup.category}`}
+                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                      >
+                        <p className="text-[13px] font-semibold text-slate-900">{skillGroup.label}</p>
+                        <p className="mt-1 text-[12.5px] leading-[1.42] text-slate-700">{skillGroup.items.join(", ")}</p>
                       </div>
                     ))}
                   </div>
                 </section>
 
-                <section style={{ breakInside: "avoid" }}>
+                <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.awards")}</SectionHeading>
-                  <div className="mt-4 space-y-3">
+                  <div className="mt-2.5 space-y-2">
                     {draft.awards.map((award) => (
-                      <div key={`preview-award-${award.id}`} className="rounded-3xl border border-slate-200 bg-white px-5 py-4">
+                      <div
+                        key={`preview-award-${award.id}`}
+                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                      >
                         <div className="flex flex-wrap items-start justify-between gap-3">
-                          <h3 className="text-base font-bold text-slate-950">{award.title}</h3>
-                          <p className="text-sm font-medium text-slate-500">{award.period}</p>
+                          <h3 className="text-[15px] font-bold leading-tight text-slate-950">{award.title}</h3>
+                          <p className="text-[12.5px] font-medium text-slate-500">{award.period}</p>
                         </div>
-                        <ul className="mt-3 space-y-2 pl-5">
+                        <ul className="mt-2 space-y-1 pl-4">
                           {award.description.map((description, index) => (
-                            <li key={`preview-award-${award.id}-${index}`} className="text-sm leading-6 text-slate-700">
+                            <li
+                              key={`preview-award-${award.id}-${index}`}
+                              className="text-[12.5px] leading-[1.42] text-slate-700"
+                            >
                               {description}
                             </li>
                           ))}
@@ -837,32 +1002,35 @@ const ResumePreviewPage: React.FC = () => {
                   </div>
                 </section>
 
-                <section style={{ breakInside: "avoid" }}>
+                <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.certificates")}</SectionHeading>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
                     {draft.certificates.map((certificate) => (
                       <div
                         key={`preview-cert-${certificate.id}`}
-                        className="rounded-3xl border border-slate-200 bg-white px-5 py-4"
+                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
                       >
-                        <h3 className="text-sm font-bold text-slate-950">{certificate.title}</h3>
-                        <p className="mt-3 text-sm font-medium text-slate-500">{certificate.period}</p>
+                        <h3 className="text-[13px] font-bold leading-tight text-slate-950">{certificate.title}</h3>
+                        <p className="mt-2 text-[12.5px] font-medium text-slate-500">{certificate.period}</p>
                       </div>
                     ))}
                   </div>
                 </section>
 
                 {draft.languages.length > 0 && (
-                  <section style={{ breakInside: "avoid" }}>
+                  <section className="resume-preview-section">
                     <SectionHeading>{t("resume.previewSection.languages")}</SectionHeading>
-                    <div className="mt-4 grid gap-3">
+                    <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
                       {draft.languages.map((language) => (
-                        <div key={`preview-language-${language.id}`} className="rounded-3xl border border-slate-200 bg-white px-5 py-4">
+                        <div
+                          key={`preview-language-${language.id}`}
+                          className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                        >
                           <div className="flex flex-wrap items-start justify-between gap-3">
-                            <h3 className="text-base font-bold text-slate-950">{language.title}</h3>
-                            <p className="text-sm font-medium text-slate-500">{language.period}</p>
+                            <h3 className="text-[15px] font-bold leading-tight text-slate-950">{language.title}</h3>
+                            <p className="text-[12.5px] font-medium text-slate-500">{language.period}</p>
                           </div>
-                          <p className="mt-3 text-sm leading-6 text-slate-700">{language.score}</p>
+                          <p className="mt-2 text-[12.5px] leading-[1.42] text-slate-700">{language.score}</p>
                         </div>
                       ))}
                     </div>

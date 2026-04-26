@@ -64,8 +64,44 @@ body {
     width: 210mm;
     min-height: 297mm;
     margin: 0 auto;
-    padding: 12mm 10mm;
+    padding: 8mm 7mm;
     box-shadow: none !important;
+  }
+
+  .resume-preview-page .resume-preview-section {
+    margin-top: 3.5mm !important;
+    break-inside: auto;
+  }
+
+  .resume-preview-page .resume-preview-section:first-child {
+    margin-top: 0 !important;
+  }
+
+  .resume-preview-page .resume-preview-card,
+  .resume-preview-page .resume-preview-block,
+  .resume-preview-page .resume-preview-detail {
+    break-inside: avoid;
+  }
+
+  .resume-preview-page h1 {
+    font-size: 28px !important;
+    line-height: 1.02 !important;
+  }
+
+  .resume-preview-page h3 {
+    line-height: 1.12 !important;
+  }
+
+  .resume-preview-page h4 {
+    font-size: 12.5px !important;
+    line-height: 1.2 !important;
+  }
+
+  .resume-preview-page p,
+  .resume-preview-page li,
+  .resume-preview-page a,
+  .resume-preview-page span {
+    line-height: 1.34;
   }
 }
 

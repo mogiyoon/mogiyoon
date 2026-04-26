@@ -70,12 +70,19 @@ type AiHighlightItem = {
   impact: string;
 };
 
+export type ResumeBlockDetailItem = {
+  id: string;
+  label: string;
+  value: string;
+};
+
 export type ResumeEditableBlock = {
   id: string;
   title: string;
   body: string;
   sectionLabel?: string;
   defaultSelected?: boolean;
+  detailItems?: ResumeBlockDetailItem[];
 };
 
 export type ResumeWorkProject = {
@@ -285,6 +292,23 @@ export const loadResumeBuilderData = async (language: string): Promise<ResumeBui
           body: [highlight.problem, highlight.solution, highlight.result].filter(Boolean).join("\n\n"),
           sectionLabel: extractTextValue(tCommon, "highlight.section.development"),
           defaultSelected: true,
+          detailItems: [
+            {
+              id: "problem",
+              label: extractTextValue(tCommon, "highlight.problem"),
+              value: highlight.problem,
+            },
+            {
+              id: "solution",
+              label: extractTextValue(tCommon, "highlight.solution"),
+              value: highlight.solution,
+            },
+            {
+              id: "result",
+              label: extractTextValue(tCommon, "highlight.result"),
+              value: highlight.result,
+            },
+          ],
         });
       });
 
