@@ -105,6 +105,47 @@
   "resume": {
     "download": "Download Resume (DOCX)",
     "generating": "Generating resume...",
-    "downloadFailed": "Failed to generate resume"
+    "downloadFailed": "Failed to generate resume",
+    "preview": "Resume Preview",
+    "openPreview": "Open Resume Preview",
+    "backToProfile": "Back to Profile",
+    "savePdf": "Save as PDF",
+    "resetDraft": "Reset Copy",
+    "helper": "Select the work you want to include and edit the wording. The HTML resume preview updates on the right in real time.",
+    "builder": {
+      "basics": "Basics",
+      "intro": "Introduction",
+      "workBlocks": "Work Blocks",
+      "projectBlocks": "Project Blocks",
+      "selectedCopy": "Edit Selected Copy",
+      "projectSummary": "Project Summary",
+      "includeProject": "Include Project",
+      "name": "Name",
+      "targetRole": "Target Role",
+      "email": "Email",
+      "phone": "Phone",
+      "links": "Links",
+      "introLine": "One-line Intro",
+      "introBullets": "Intro Copy",
+      "title": "Title",
+      "body": "Body",
+      "empty": "Select the blocks you want to include and refine the wording here."
+    },
+    "previewSection": {
+      "profile": "Profile",
+      "workExperience": "Work Experience",
+      "projects": "Projects",
+      "education": "Education",
+      "skills": "Skills",
+      "awards": "Awards",
+      "certificates": "Certificates",
+      "languages": "Languages"
+    },
+    "linkLabel": {
+      "website": "Website",
+      "blog": "Blog",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    }
   }
 }
