@@ -50,6 +50,24 @@
               "solution": "Added automated test scripts via npm commands and configured EAS build and deploy.\nAdded EAS channels for OTA updates and distributed an internal test app.\nConfigured internal test builds via babel.config and metro.config to include mock features in the bundle.\nBuilt a 4-stage pipeline: local → internal test → final test → release.",
               "result": "Incident/bug response time: 2 days (iOS App Store review cycle) → 1 hour."
             }
+          ],
+          "aiHighlights": [
+            {
+              "title": "Designing and Operating a Multi-Agent Harness for Feature Implementation and Bug Analysis",
+              "summary": "Designed and operated two harnesses, Testing Harness and Feature Harness, using an orchestrator-designer skill built on Claude Code. Compared with a single-agent setup, it improved detection of boundary-condition defects and established a spec → implementation → verification pipeline.",
+              "context": "When implementing features with a single agent, defects such as race conditions in screen transitions and state management occurred with some frequency.\nIn a multi-agent setup, cases of unexpected defects being identified were repeatedly observed.\nThere was a need to lock planning, implementation, and bug analysis into a fixed pipeline.",
+              "approach": "Using a self-built orchestrator-designer skill on Claude Code, two harnesses were designed and operated.\nThe Testing Harness, which does not affect live features and is dedicated to bug analysis and cross-checking, was built first.\nThen the Feature Harness was constructed for spec → design → simulation → conclusion → implementation → verification.\nThe Testing Harness was integrated into the verification stage of the Feature Harness, forming a single pipeline.",
+              "verification": "By reviewing errors found during testing, the harness re-examined related areas and surfaced derivative defects.\nSome of the harness's diagnoses were discarded or revised by a human.\nAs a result, a complex app-bootstrap component was decomposed into multiple hooks with clearer responsibilities, and related tests were added.",
+              "impact": "Before and after adoption, personal metrics were measured at 5.17 → 9.25 commits/day (+79%) and 0.71 → 2.06 merged PRs/day (+190%).\nThe fix/feat ratio changed from 1.53 → 2.05, with no meaningful decrease confirmed.\nQualitatively, boundary-condition defects were caught more often, and reusable assets accumulated through documentation of the spec → implementation → verification flow."
+            },
+            {
+              "title": "Building Jest Tests and Business Rule Documentation in Parallel",
+              "summary": "Built Jest unit and component tests alongside per-feature business rule documents with Claude Code. Established a system with 217 tests and 11 documents, where test failures function as a way to trace rule changes.",
+              "context": "The app lacked unit and component tests, so deployment stability needed to be improved. Adding tests was chosen as a way to secure quality without heavily modifying feature code. As the number of tests grew, it became harder to trace the relationship between rules and tests. The setup was expanded into a structure that manages business rule documents and a test catalog together.",
+              "approach": "Claude Code was used as the primary tool.\nBusiness rule extraction was handled by a human, test case candidate generation was done jointly by human and AI, and AI wrote the test code and per-feature documents.\nExisting E2E tests and predefined types were provided as reference material to keep conventions consistent.\nInstead of generating everything at once, tests were added sequentially by feature to keep each change reviewable.",
+              "verification": "AI-written feature documents were reviewed first to confirm alignment with the rule definitions.\nThe implementation stage was handled by the Feature Harness, so the initial failure rate was low.\nAfterward, the main type of failure came from existing tests breaking during code-structure changes.\nAs of now, there has been no confirmed case of tests proactively catching a production bug. A systematic way to validate test quality itself remains an open task.",
+              "impact": "Starting from no test cases at all, the suite grew to 20 suites / 217 tests.\nIt consists of 11 feature documents and 21 test files.\nWriting 5 new E2E tests used to take 1-2 weeks, but after introducing AI, roughly 200 tests were completed in 2 weeks.\nBy fixing business rules as document-test pairs, it became possible to secure stability through verification during new feature development and refactoring."
+            }
           ]
         }
       }
@@ -105,6 +123,10 @@
       "title": "SQL Developer (SQLD)",
       "period": "Dec 2025"
     },
+    "infoProcessing": {
+      "title": "Engineer Information Processing (Written)",
+      "period": "Aug 2024"
+    },
     "teacherCert": {
       "title": "Teaching Certificate",
       "period": "Feb 2023"
@@ -114,5 +136,12 @@
     "framework": "Framework",
     "language": "Language",
     "infra": "Environment"
+  },
+  "languages": {
+    "newTeps": {
+      "title": "New TEPS",
+      "score": "315 (Listening 109 / Vocabulary 30 / Grammar 27 / Reading 147)",
+      "period": "Jul 2024"
+    }
   }
 }

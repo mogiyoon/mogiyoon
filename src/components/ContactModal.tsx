@@ -43,6 +43,18 @@ const links = [
       </svg>
     ),
   },
+  {
+    key: "linkedin",
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/giyoon-noh-721047321",
+    display: "linkedin.com/in/giyoon-noh-721047321",
+    external: true,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M6.94 8.5A1.56 1.56 0 1 0 6.94 5.38a1.56 1.56 0 0 0 0 3.12ZM5.5 9.75h2.88V18.5H5.5V9.75Zm4.69 0h2.76v1.19h.04c.38-.73 1.33-1.5 2.73-1.5 2.92 0 3.46 1.92 3.46 4.42v4.64H16.3v-4.11c0-.98-.02-2.24-1.36-2.24-1.37 0-1.58 1.07-1.58 2.17v4.18h-2.87V9.75Z" />
+      </svg>
+    ),
+  },
 ];
 
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
@@ -69,7 +81,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <h2 className="text-2xl font-bold mb-1 text-content">Info</h2>
-        <p className="text-sm text-content-muted mb-6">Giyoon Noh · Frontend Engineer</p>
+        <p className="text-sm text-content-muted mb-6">Giyoon Noh · FullStack Engineer</p>
 
         <div className="flex flex-col gap-2">
           {links.map((item) => (

@@ -11,7 +11,18 @@
   "highlight": {
     "problem": "Problem",
     "solution": "Solution",
-    "result": "Result"
+    "result": "Result",
+    "context": "Context",
+    "approach": "Approach",
+    "verification": "Verification",
+    "impact": "Impact",
+    "summary": "Summary",
+    "showDetails": "Details",
+    "hideDetails": "Collapse",
+    "section": {
+      "development": "Development",
+      "aiUsage": "AI Utilization"
+    }
   },
   "profileTabs": {
     "workSkills": "Experience & Skills",
@@ -89,5 +100,11 @@
   "licenseText": "Licensed under the <0>{{licenseName}}</0>.",
 
   "linkCopied": "Link copied!",
-  "linkCopyFailed": "Copy failed..."
+  "linkCopyFailed": "Copy failed...",
+
+  "resume": {
+    "download": "Download Resume (DOCX)",
+    "generating": "Generating resume...",
+    "downloadFailed": "Failed to generate resume"
+  }
 }
