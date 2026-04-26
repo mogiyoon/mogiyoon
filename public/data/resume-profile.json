@@ -1,16 +1,17 @@
 {
   "name": "노기윤",
-  "targetRole": "Frontend",
+  "targetRole": "FullStack Engineer",
   "email": "mogiyoon@gmail.com",
   "phone": "010-6414-7868",
   "links": {
     "website": "https://mogiyoon.com",
     "blog": "https://velog.io/@mogiyoon/posts",
-    "github": "https://github.com/mogiyoon"
+    "github": "https://github.com/mogiyoon",
+    "linkedin": "https://www.linkedin.com/in/giyoon-noh-721047321"
   },
   "photoPlaceholder": true,
   "intro": {
-    "line": "매 순간, 상태가 업데이트되는 프론트엔드 개발자 노기윤입니다.",
+    "line": "매 순간, 상태가 업데이트되는 풀스택 개발자 노기윤입니다.",
     "bullets": [
       {
         "text": "Npm 라이브러리, 임용 퀴즈 어플, 개인 홈페이지 등을 제작하며 얻은 구현부터 배포까지의 경험",
