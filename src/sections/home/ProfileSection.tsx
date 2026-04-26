@@ -13,6 +13,15 @@ type HighlightItem = {
   result: string;
 };
 
+type AiHighlightItem = {
+  title: string;
+  summary: string;
+  context: string;
+  approach: string;
+  verification: string;
+  impact: string;
+};
+
 type WorkProject = { id: string; tech: string[] };
 type WorkItem = { id: string; projects: WorkProject[] };
 type EducationItem = { id: string };
@@ -70,9 +79,19 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
   const { t: tCommon } = useTranslation("common");
   const [openWorkIdx, setOpenWorkIdx] = useState<number>(0);
   const [openHighlights, setOpenHighlights] = useState<Set<string>>(new Set());
+  const [toggledSections, setToggledSections] = useState<Set<string>>(new Set());
 
   const toggleHighlight = (key: string) => {
     setOpenHighlights((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const toggleSection = (key: string) => {
+    setToggledSections((prev) => {
       const next = new Set(prev);
       if (next.has(key)) next.delete(key);
       else next.add(key);
@@ -138,6 +157,15 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                         `work.${item.id}.projects.${proj.id}.highlights`,
                         { returnObjects: true, defaultValue: [] }
                       ) as HighlightItem[];
+                      const aiHighlights = tIntro(
+                        `work.${item.id}.projects.${proj.id}.aiHighlights`,
+                        { returnObjects: true, defaultValue: [] }
+                      ) as AiHighlightItem[];
+                      const hasAi = Array.isArray(aiHighlights) && aiHighlights.length > 0;
+                      const devSectionKey = `${item.id}-${proj.id}-dev`;
+                      const aiSectionKey = `${item.id}-${proj.id}-ai`;
+                      const isDevSectionOpen = toggledSections.has(devSectionKey);
+                      const isAiSectionOpen = toggledSections.has(aiSectionKey);
 
                       return (
                         <div key={proj.id}>
@@ -153,8 +181,43 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                             ))}
                           </div>
 
-                          {/* Highlight cards */}
+                          {/* Development accordion header (only when AI section exists) */}
+                          {hasAi && Array.isArray(highlights) && highlights.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => toggleSection(devSectionKey)}
+                              className="w-full flex items-center gap-3 mb-3 group"
+                            >
+                              <span className="text-[10px] font-bold uppercase tracking-widest text-content-tertiary group-hover:text-content transition-colors">
+                                {tCommon("highlight.section.development")}
+                              </span>
+                              <div className="flex-1 h-px bg-slate-200" />
+                              <motion.svg
+                                animate={{ rotate: isDevSectionOpen ? 180 : 0 }}
+                                transition={{ duration: 0.18 }}
+                                className="w-3.5 h-3.5 text-content-muted group-hover:text-content transition-colors"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                              </motion.svg>
+                            </button>
+                          )}
+
+                          {/* Highlight cards — collapsible when hasAi, always visible otherwise */}
                           {Array.isArray(highlights) && highlights.length > 0 && (
+                            <AnimatePresence initial={false}>
+                              {(!hasAi || isDevSectionOpen) && (
+                                <motion.div
+                                  key="dev-collapse"
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                                  style={{ overflow: "hidden" }}
+                                >
                             <motion.div
                               variants={listVariants}
                               initial="hidden"
@@ -250,6 +313,200 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                 );
                               })}
                             </motion.div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          )}
+
+                          {/* AI Utilization section */}
+                          {hasAi && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => toggleSection(aiSectionKey)}
+                                className="w-full flex items-center gap-3 mb-3 mt-6 group"
+                              >
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-content-tertiary group-hover:text-content transition-colors">
+                                  {tCommon("highlight.section.aiUsage")}
+                                </span>
+                                <div className="flex-1 h-px bg-slate-200" />
+                                <motion.svg
+                                  animate={{ rotate: isAiSectionOpen ? 180 : 0 }}
+                                  transition={{ duration: 0.18 }}
+                                  className="w-3.5 h-3.5 text-content-muted group-hover:text-content transition-colors"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  strokeWidth={2}
+                                >
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                </motion.svg>
+                              </button>
+
+                              <AnimatePresence initial={false}>
+                                {isAiSectionOpen && (
+                                  <motion.div
+                                    key="ai-collapse"
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                                    style={{ overflow: "hidden" }}
+                                  >
+                              <motion.div
+                                variants={listVariants}
+                                initial="hidden"
+                                animate="show"
+                                className="space-y-3"
+                              >
+                                {aiHighlights.map((a, i) => {
+                                  const aKey = `${item.id}-${proj.id}-ai-${i}`;
+                                  const detailKey = `${aKey}-detail`;
+                                  const isAOpen = openHighlights.has(aKey);
+                                  const isDetailOpen = openHighlights.has(detailKey);
+
+                                  return (
+                                    <motion.div
+                                      key={i}
+                                      variants={itemVariants}
+                                      className="rounded-modal border border-line bg-surface overflow-hidden"
+                                    >
+                                      {/* Title row */}
+                                      <button
+                                        type="button"
+                                        onClick={() => toggleHighlight(aKey)}
+                                        className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-surface-subtle transition-colors duration-150"
+                                      >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                          <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                            AI·{String(i + 1).padStart(2, "0")}
+                                          </span>
+                                          <p className="text-sm font-semibold text-content truncate">{a.title}</p>
+                                        </div>
+                                        <motion.div
+                                          animate={{ rotate: isAOpen ? 180 : 0 }}
+                                          transition={{ duration: 0.18 }}
+                                          className="shrink-0 ml-3 text-content-muted"
+                                        >
+                                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                          </svg>
+                                        </motion.div>
+                                      </button>
+
+                                      {/* Expanded: summary + details toggle */}
+                                      <AnimatePresence initial={false}>
+                                        {isAOpen && (
+                                          <motion.div
+                                            key="body"
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.22, ease: "easeInOut" }}
+                                            style={{ overflow: "hidden" }}
+                                          >
+                                            <div className="px-5 pt-2 pb-5">
+                                              {/* Summary */}
+                                              <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">
+                                                {a.summary}
+                                              </p>
+
+                                              {/* Details toggle */}
+                                              <button
+                                                type="button"
+                                                onClick={() => toggleHighlight(detailKey)}
+                                                className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-content-muted hover:text-content transition-colors duration-150"
+                                              >
+                                                <span>
+                                                  {isDetailOpen
+                                                    ? tCommon("highlight.hideDetails")
+                                                    : tCommon("highlight.showDetails")}
+                                                </span>
+                                                <motion.svg
+                                                  animate={{ rotate: isDetailOpen ? 180 : 0 }}
+                                                  transition={{ duration: 0.18 }}
+                                                  className="w-3 h-3"
+                                                  fill="none"
+                                                  viewBox="0 0 24 24"
+                                                  stroke="currentColor"
+                                                  strokeWidth={2.5}
+                                                >
+                                                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                                </motion.svg>
+                                              </button>
+
+                                              {/* Details: 4-step timeline */}
+                                              <AnimatePresence initial={false}>
+                                                {isDetailOpen && (
+                                                  <motion.div
+                                                    key="detail"
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: "auto", opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.22, ease: "easeInOut" }}
+                                                    style={{ overflow: "hidden" }}
+                                                  >
+                                                    <div className="relative pl-6 mt-5">
+                                                      {/* Vertical connector */}
+                                                      <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
+
+                                                      {/* Context */}
+                                                      <div className="relative pb-6">
+                                                        <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
+                                                        <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
+                                                          {tCommon("highlight.context")}
+                                                        </span>
+                                                        <p className="text-sm text-content-muted leading-relaxed whitespace-pre-line">{a.context}</p>
+                                                      </div>
+
+                                                      {/* Approach */}
+                                                      <div className="relative pb-6">
+                                                        <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full bg-slate-500" />
+                                                        <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
+                                                          {tCommon("highlight.approach")}
+                                                        </span>
+                                                        <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
+                                                          <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{a.approach}</p>
+                                                        </div>
+                                                      </div>
+
+                                                      {/* Verification */}
+                                                      <div className="relative pb-6">
+                                                        <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full bg-slate-700" />
+                                                        <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
+                                                          {tCommon("highlight.verification")}
+                                                        </span>
+                                                        <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
+                                                          <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{a.verification}</p>
+                                                        </div>
+                                                      </div>
+
+                                                      {/* Impact */}
+                                                      <div className="relative">
+                                                        <div className="absolute -left-[25px] top-[4px] w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
+                                                        <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
+                                                          {tCommon("highlight.impact")}
+                                                        </span>
+                                                        <div className="rounded-card bg-slate-900 px-4 py-3">
+                                                          <p className="text-sm font-semibold text-white leading-relaxed whitespace-pre-line">{a.impact}</p>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </motion.div>
+                                                )}
+                                              </AnimatePresence>
+                                            </div>
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </motion.div>
+                                  );
+                                })}
+                              </motion.div>
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </>
                           )}
                         </div>
                       );
