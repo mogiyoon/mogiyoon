@@ -108,7 +108,7 @@
     "generating": "Generating resume...",
     "downloadFailed": "Failed to generate resume",
     "preview": "Resume Preview",
-    "openPreview": "Open Resume Preview",
+    "heading": "Resume",
     "backToProfile": "Back to Profile",
     "savePdf": "Save as PDF",
     "resetDraft": "Reset Copy",

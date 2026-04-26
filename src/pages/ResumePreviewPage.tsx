@@ -487,10 +487,7 @@ const ResumePreviewPage: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 print:px-0 print:pt-0">
         <div data-print-hidden="true" className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">
-              {t("resume.preview")}
-            </p>
-            <h1 className="mt-1.5 text-3xl font-bold text-slate-950">{t("resume.openPreview")}</h1>
+            <h1 className="text-3xl font-bold text-slate-950">{t("resume.heading")}</h1>
             <p className="mt-1.5 text-sm text-slate-600">{t("resume.helper")}</p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
