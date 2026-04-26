@@ -11,7 +11,18 @@
   "highlight": {
     "problem": "문제",
     "solution": "해결",
-    "result": "결과"
+    "result": "결과",
+    "context": "배경",
+    "approach": "활용 방식",
+    "verification": "검증·재작업",
+    "impact": "효과",
+    "summary": "요약",
+    "showDetails": "자세히",
+    "hideDetails": "접기",
+    "section": {
+      "development": "개발 사항",
+      "aiUsage": "AI 활용"
+    }
   },
   "profileTabs": {
     "workSkills": "경력 & 스킬",
@@ -89,5 +100,11 @@
   "licenseText": "<0>{{licenseName}}</0>에 따라 라이선스가 부여되었습니다.",
 
   "linkCopied": "링크 복사 성공!",
-  "linkCopyFailed": "링크 복사 실패..."
+  "linkCopyFailed": "링크 복사 실패...",
+
+  "resume": {
+    "download": "이력서 DOCX 다운로드",
+    "generating": "이력서 생성 중...",
+    "downloadFailed": "이력서 생성 실패"
+  }
 }
