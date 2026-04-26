@@ -554,19 +554,21 @@ const ResumeProfileCard: React.FC<{
         </button>
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div className={`mt-5 grid gap-3 ${profile.phone ? "sm:grid-cols-2" : ""}`}>
         <div className="rounded-2xl bg-surface-subtle px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
             {t("resume.builder.email")}
           </p>
           <p className="mt-1 text-sm font-medium text-content-secondary">{profile.email}</p>
         </div>
-        <div className="rounded-2xl bg-surface-subtle px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
-            {t("resume.builder.phone")}
-          </p>
-          <p className="mt-1 text-sm font-medium text-content-secondary">{profile.phone}</p>
-        </div>
+        {profile.phone && (
+          <div className="rounded-2xl bg-surface-subtle px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
+              {t("resume.builder.phone")}
+            </p>
+            <p className="mt-1 text-sm font-medium text-content-secondary">{profile.phone}</p>
+          </div>
+        )}
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
