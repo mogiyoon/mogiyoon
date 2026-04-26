@@ -807,15 +807,18 @@ const ResumePreviewPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-3.5 flex flex-wrap gap-x-3.5 gap-y-1 text-[13px] text-slate-700">
+                <div className="mt-3.5 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[13px] text-slate-700">
                   {linkOrder.map((key) =>
                     draft.profile.links[key] ? (
-                      <span key={`preview-link-${key}`}>
-                        <span className="font-semibold text-slate-950">
+                      <div
+                        key={`preview-link-${key}`}
+                        className="grid min-w-0 grid-cols-[5.8rem_minmax(0,1fr)] items-start gap-x-2"
+                      >
+                        <span className="whitespace-nowrap font-semibold text-slate-950">
                           {t(`resume.linkLabel.${key}`, { defaultValue: key })}
                         </span>
-                        : {draft.profile.links[key]}
-                      </span>
+                        <span className="min-w-0 break-all">: {draft.profile.links[key]}</span>
+                      </div>
                     ) : null
                   )}
                 </div>

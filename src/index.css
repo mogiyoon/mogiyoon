@@ -78,9 +78,14 @@ body {
   }
 
   .resume-preview-page .resume-preview-card,
-  .resume-preview-page .resume-preview-block,
+  .resume-preview-page .resume-preview-block {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
   .resume-preview-page .resume-preview-detail {
     break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .resume-preview-page h1 {
