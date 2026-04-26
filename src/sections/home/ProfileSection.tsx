@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { animation } from "../../design-tokens";
+import {
+  loadLocalizedResumeProfile,
+  type ResumeProfileSourceData,
+} from "../../utils/resumePreview";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type TabId = "workSkills" | "education" | "awardsAndCerts";
@@ -36,6 +41,8 @@ type ProfileData = {
   certificates: CertItem[];
   skills: SkillGroup[];
 };
+
+const resumeLinkOrder = ["website", "blog", "github", "linkedin"];
 
 // ── Animation Variants ─────────────────────────────────────────────────────────
 const contentVariants: Variants = animation.content;
@@ -522,10 +529,85 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
   );
 };
 
+const ResumeProfileCard: React.FC<{
+  profile: ResumeProfileSourceData;
+  onOpenPreview: () => void;
+}> = ({ profile, onOpenPreview }) => {
+  const { t } = useTranslation("common");
+
+  return (
+    <div className="rounded-3xl border border-line bg-surface/85 p-6 shadow-sm backdrop-blur">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
+            {t("resume.preview")}
+          </p>
+          <h2 className="mt-2 text-2xl font-bold text-content">{profile.name}</h2>
+          <p className="mt-1 text-sm font-medium text-content-secondary">{profile.targetRole}</p>
+        </div>
+        <button
+          type="button"
+          onClick={onOpenPreview}
+          className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-700"
+        >
+          {t("resume.openPreview")}
+        </button>
+      </div>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="rounded-2xl bg-surface-subtle px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
+            {t("resume.builder.email")}
+          </p>
+          <p className="mt-1 text-sm font-medium text-content-secondary">{profile.email}</p>
+        </div>
+        <div className="rounded-2xl bg-surface-subtle px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
+            {t("resume.builder.phone")}
+          </p>
+          <p className="mt-1 text-sm font-medium text-content-secondary">{profile.phone}</p>
+        </div>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {resumeLinkOrder.map((key) =>
+          profile.links[key] ? (
+            <a
+              key={`profile-link-${key}`}
+              href={profile.links[key]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-content-secondary transition-colors hover:border-slate-400 hover:text-content"
+            >
+              {t(`resume.linkLabel.${key}`, { defaultValue: key })}
+            </a>
+          ) : null
+        )}
+      </div>
+
+      <p className="mt-5 text-sm leading-6 text-content-secondary">{profile.intro.line}</p>
+      <ul className="mt-4 space-y-2">
+        {profile.intro.bullets.map((bullet, index) => (
+          <li key={`resume-bullet-${index}`} className="flex gap-3 text-sm text-content-meta">
+            <span className="mt-1 text-slate-300">•</span>
+            <span>{bullet.text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 // ── WorkSkillsTab ──────────────────────────────────────────────────────────────
-const WorkSkillsTab: React.FC<{ data: ProfileData }> = ({ data }) => {
+const WorkSkillsTab: React.FC<{
+  data: ProfileData;
+  resumeProfile: ResumeProfileSourceData | null;
+  onOpenPreview: () => void;
+}> = ({ data, resumeProfile, onOpenPreview }) => {
   return (
     <div className="space-y-8">
+      {resumeProfile && <ResumeProfileCard profile={resumeProfile} onOpenPreview={onOpenPreview} />}
+
       {/* Skills on top */}
       <div className="rounded-3xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur">
         <SkillsBlock data={data.skills} />
@@ -667,9 +749,11 @@ const dataPromise = fetch("/data/introduction.json")
 
 // ── ProfileSection ─────────────────────────────────────────────────────────────
 const ProfileSection: React.FC = () => {
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabId>("workSkills");
   const [data, setData] = useState<ProfileData | null>(cachedData);
+  const [resumeProfile, setResumeProfile] = useState<ResumeProfileSourceData | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const tabs: { id: TabId; labelKey: string }[] = [
@@ -685,6 +769,27 @@ const ProfileSection: React.FC = () => {
     });
   }, [data]);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadProfile = async () => {
+      try {
+        const localizedProfile = await loadLocalizedResumeProfile(i18n.resolvedLanguage || i18n.language);
+        if (isMounted) {
+          setResumeProfile(localizedProfile);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    void loadProfile();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [i18n.language, i18n.resolvedLanguage]);
+
   const handleTabChange = (tab: TabId) => {
     setActiveTab(tab);
     if (window.innerWidth >= 640) {
@@ -692,6 +797,10 @@ const ProfileSection: React.FC = () => {
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+  };
+
+  const handleOpenPreview = () => {
+    navigate("/resume-preview");
   };
 
   return (
@@ -767,7 +876,13 @@ const ProfileSection: React.FC = () => {
                 animate="show"
                 exit="exit"
               >
-                {activeTab === "workSkills" && <WorkSkillsTab data={data} />}
+                {activeTab === "workSkills" && (
+                  <WorkSkillsTab
+                    data={data}
+                    resumeProfile={resumeProfile}
+                    onOpenPreview={handleOpenPreview}
+                  />
+                )}
                 {activeTab === "education" && <EducationTab data={data.education} />}
                 {activeTab === "awardsAndCerts" && (
                   <AwardsAndCertsTab awards={data.awards} certs={data.certificates} />

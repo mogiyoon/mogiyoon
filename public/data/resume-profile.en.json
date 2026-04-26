@@ -1,0 +1,69 @@
+{
+  "name": "Giyoon Noh",
+  "targetRole": "FullStack Engineer",
+  "email": "mogiyoon@gmail.com",
+  "phone": "010-6414-7868",
+  "links": {
+    "website": "https://mogiyoon.com",
+    "blog": "https://velog.io/@mogiyoon/posts",
+    "github": "https://github.com/mogiyoon",
+    "linkedin": "https://www.linkedin.com/in/giyoon-noh-721047321"
+  },
+  "photoPlaceholder": true,
+  "intro": {
+    "line": "I'm Giyoon Noh, a full-stack engineer who keeps shipping through changing state.",
+    "bullets": [
+      {
+        "text": "Experience from implementation to deployment through building an npm library, a teacher-exam quiz app, and a personal portfolio site",
+        "bold": ["npm library", "personal portfolio site", "implementation to deployment"],
+        "links": [
+          { "text": "npm library", "url": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid" },
+          { "text": "personal portfolio site", "url": "https://mogiyoon.com" }
+        ]
+      },
+      {
+        "text": "Hands-on experience using AI across projects, from multimodal pipelines to YOLO and CNN-based workflows",
+        "bold": ["using AI across projects"]
+      },
+      {
+        "text": "Principle-driven problem solving built by following tough issues through to the end in both web and app projects",
+        "bold": ["Principle-driven problem solving"]
+      },
+      {
+        "text": "Creativity grounded in fundamentals, from a silver prize in an invention contest to a hackathon grand prize",
+        "bold": ["Creativity grounded in fundamentals"]
+      }
+    ]
+  },
+  "projectOrder": ["recho", "test-maker"],
+  "projectHighlights": {
+    "recho": {
+      "teamType": "Team Project",
+      "summary": "A music community platform where users create short-form ensemble videos, edit clips, trade second-hand instruments, and recruit bandmates.",
+      "highlights": [
+        {
+          "title": "Simultaneous Video Recording and Playback",
+          "body": "Built the core \"play together on shorts\" experience by making camera recording and reference-video playback work at the same time. Verified component props, modified native behavior, used native bridges, and inspected library source directly to land the feature. The process strengthened my understanding of how third-party libraries actually work under the hood."
+        },
+        {
+          "title": "Feature Integration and Structural Optimization",
+          "body": "Refactored separately built features such as upload, simultaneous playback/recording, native ffmpeg integration, video merge, and editing into one connected flow. Extracted shared components per screen, refactored selected functions, and rebuilt the flow with new pages and reorganized components. Code length per page dropped by roughly 50%."
+        }
+      ]
+    },
+    "test-maker": {
+      "teamType": "Personal Project",
+      "summary": "An app that extracts text from books with OCR or manual input, builds vocabulary lists, auto-generates quizzes, and reviews incorrect answers.",
+      "highlights": [
+        {
+          "title": "Grid Component Development",
+          "body": "Needed to render multiple-choice options in a grid, but existing npm grid libraries were either outdated or not a good fit. Implemented a custom grid component inspired by FlatList and published it to npm with Create React Library. That experience deepened my understanding of the npm ecosystem and library internals."
+        },
+        {
+          "title": "Tree-Based Category Structure",
+          "body": "Managing vocabulary with fixed large/mid/small categories felt too rigid and difficult to scale. Chose a folder-like model instead and implemented category management with a tree structure and recursive functions."
+        }
+      ]
+    }
+  }
+}
