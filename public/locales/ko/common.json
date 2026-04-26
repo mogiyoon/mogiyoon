@@ -11,7 +11,18 @@
   "highlight": {
     "problem": "문제",
     "solution": "해결",
-    "result": "결과"
+    "result": "결과",
+    "context": "배경",
+    "approach": "활용 방식",
+    "verification": "검증·재작업",
+    "impact": "효과",
+    "summary": "요약",
+    "showDetails": "자세히",
+    "hideDetails": "접기",
+    "section": {
+      "development": "개발 사항",
+      "aiUsage": "AI 활용"
+    }
   },
   "profileTabs": {
     "workSkills": "경력 & 스킬",
