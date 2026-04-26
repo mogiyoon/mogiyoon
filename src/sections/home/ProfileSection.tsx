@@ -9,7 +9,7 @@ import {
 } from "../../utils/resumePreview";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
-type TabId = "workSkills" | "education" | "awardsAndCerts";
+type TabId = "basics" | "workSkills" | "education" | "awardsAndCerts";
 
 type HighlightItem = {
   title: string;
@@ -539,10 +539,7 @@ const ResumeProfileCard: React.FC<{
     <div className="rounded-3xl border border-line bg-surface/85 p-6 shadow-sm backdrop-blur">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
-            {t("resume.preview")}
-          </p>
-          <h2 className="mt-2 text-2xl font-bold text-content">{profile.name}</h2>
+          <h2 className="text-2xl font-bold text-content">{profile.name}</h2>
           <p className="mt-1 text-sm font-medium text-content-secondary">{profile.targetRole}</p>
         </div>
         <button
@@ -600,16 +597,25 @@ const ResumeProfileCard: React.FC<{
   );
 };
 
+// ── BasicsTab ──────────────────────────────────────────────────────────────────
+const BasicsTab: React.FC<{
+  resumeProfile: ResumeProfileSourceData | null;
+  onOpenPreview: () => void;
+}> = ({ resumeProfile, onOpenPreview }) => {
+  if (!resumeProfile) return null;
+  return (
+    <div className="space-y-8">
+      <ResumeProfileCard profile={resumeProfile} onOpenPreview={onOpenPreview} />
+    </div>
+  );
+};
+
 // ── WorkSkillsTab ──────────────────────────────────────────────────────────────
 const WorkSkillsTab: React.FC<{
   data: ProfileData;
-  resumeProfile: ResumeProfileSourceData | null;
-  onOpenPreview: () => void;
-}> = ({ data, resumeProfile, onOpenPreview }) => {
+}> = ({ data }) => {
   return (
     <div className="space-y-8">
-      {resumeProfile && <ResumeProfileCard profile={resumeProfile} onOpenPreview={onOpenPreview} />}
-
       {/* Skills on top */}
       <div className="rounded-3xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur">
         <SkillsBlock data={data.skills} />
@@ -753,12 +759,13 @@ const dataPromise = fetch("/data/introduction.json")
 const ProfileSection: React.FC = () => {
   const { t, i18n } = useTranslation("common");
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<TabId>("workSkills");
+  const [activeTab, setActiveTab] = useState<TabId>("basics");
   const [data, setData] = useState<ProfileData | null>(cachedData);
   const [resumeProfile, setResumeProfile] = useState<ResumeProfileSourceData | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const tabs: { id: TabId; labelKey: string }[] = [
+    { id: "basics", labelKey: "profileTabs.basics" },
     { id: "workSkills", labelKey: "profileTabs.workSkills" },
     { id: "education", labelKey: "profileTabs.education" },
     { id: "awardsAndCerts", labelKey: "profileTabs.awardsAndCerts" },
@@ -878,13 +885,13 @@ const ProfileSection: React.FC = () => {
                 animate="show"
                 exit="exit"
               >
-                {activeTab === "workSkills" && (
-                  <WorkSkillsTab
-                    data={data}
+                {activeTab === "basics" && (
+                  <BasicsTab
                     resumeProfile={resumeProfile}
                     onOpenPreview={handleOpenPreview}
                   />
                 )}
+                {activeTab === "workSkills" && <WorkSkillsTab data={data} />}
                 {activeTab === "education" && <EducationTab data={data.education} />}
                 {activeTab === "awardsAndCerts" && (
                   <AwardsAndCertsTab awards={data.awards} certs={data.certificates} />

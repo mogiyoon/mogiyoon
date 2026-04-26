@@ -25,6 +25,7 @@
     }
   },
   "profileTabs": {
+    "basics": "Basics",
     "workSkills": "Experience & Skills",
     "education": "Education",
     "awardsAndCerts": "Awards & Certs"
