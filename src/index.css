@@ -44,6 +44,31 @@ body {
   overflow-x: hidden;
 }
 
+@media print {
+  html,
+  body,
+  #root {
+    min-height: auto;
+    background: #ffffff !important;
+  }
+
+  body {
+    overflow: visible;
+  }
+
+  [data-print-hidden="true"] {
+    display: none !important;
+  }
+
+  .resume-preview-page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 12mm 10mm;
+    box-shadow: none !important;
+  }
+}
+
 /* Hide scrollbar globally */
 * {
   scrollbar-width: none;
