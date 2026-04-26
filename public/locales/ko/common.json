@@ -105,6 +105,47 @@
   "resume": {
     "download": "이력서 DOCX 다운로드",
     "generating": "이력서 생성 중...",
-    "downloadFailed": "이력서 생성 실패"
+    "downloadFailed": "이력서 생성 실패",
+    "preview": "이력서 미리보기",
+    "openPreview": "이력서 미리보기 열기",
+    "backToProfile": "프로필로 돌아가기",
+    "savePdf": "PDF로 저장",
+    "resetDraft": "문구 초기화",
+    "helper": "포함할 작업을 선택하고 문구를 수정하면 오른쪽 HTML 이력서에 바로 반영됩니다.",
+    "builder": {
+      "basics": "기본 정보",
+      "intro": "자기소개",
+      "workBlocks": "경력 작업 선택",
+      "projectBlocks": "프로젝트 작업 선택",
+      "selectedCopy": "선택한 문구 편집",
+      "projectSummary": "프로젝트 요약",
+      "includeProject": "프로젝트 포함",
+      "name": "이름",
+      "targetRole": "지원 직군",
+      "email": "이메일",
+      "phone": "연락처",
+      "links": "링크",
+      "introLine": "한 줄 소개",
+      "introBullets": "소개 문구",
+      "title": "제목",
+      "body": "본문",
+      "empty": "포함할 작업을 선택하면 여기서 문구를 다듬을 수 있습니다."
+    },
+    "previewSection": {
+      "profile": "프로필",
+      "workExperience": "경력",
+      "projects": "프로젝트",
+      "education": "학력",
+      "skills": "스킬",
+      "awards": "수상",
+      "certificates": "자격증",
+      "languages": "언어"
+    },
+    "linkLabel": {
+      "website": "개인 웹사이트",
+      "blog": "기술 블로그",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    }
   }
 }

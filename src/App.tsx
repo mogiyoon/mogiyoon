@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
+import ResumePreviewPage from "./pages/ResumePreviewPage";
 import ScrollToTop from "./components/ScrollToTop";
 import ContactModal from "./components/ContactModal";
 import PageHeader from "./components/PageHeader";
@@ -12,6 +13,9 @@ import { AnimatePresence } from 'framer-motion';
 const getInitialTab = () => {
   if (window.location.pathname.startsWith('/project/')) {
     return 'projects';
+  }
+  if (window.location.pathname === '/resume-preview') {
+    return 'profile';
   }
   return 'about';
 };
@@ -31,10 +35,15 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     if (location.pathname.startsWith('/project/')) {
       setActiveTab('projects');
+    } else if (location.pathname === '/resume-preview') {
+      setActiveTab('profile');
     } else if (location.pathname === '/') {
-      // setActiveTab('about');
+      const routeState = location.state as { activeTab?: string } | null;
+      if (routeState?.activeTab) {
+        setActiveTab(routeState.activeTab);
+      }
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.state]);
 
   useEffect(() => {
     if (location.pathname === '/') {
@@ -76,6 +85,7 @@ const AppContent: React.FC = () => {
   return (
     <main>
       <div
+        data-print-hidden="true"
         style={{
           transform: `translateY(${headerTranslate}px)`,
           transition: "transform 0.1s linear",
@@ -94,6 +104,7 @@ const AppContent: React.FC = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<HomePage activeTab={activeTab} />} />
           <Route path="/project/:projectId" element={<ProjectDetailPage />} />
+          <Route path="/resume-preview" element={<ResumePreviewPage />} />
         </Routes>
       </AnimatePresence>
       <ContactModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
