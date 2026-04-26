@@ -11,7 +11,18 @@
   "highlight": {
     "problem": "Problem",
     "solution": "Solution",
-    "result": "Result"
+    "result": "Result",
+    "context": "Context",
+    "approach": "Approach",
+    "verification": "Verification",
+    "impact": "Impact",
+    "summary": "Summary",
+    "showDetails": "Details",
+    "hideDetails": "Collapse",
+    "section": {
+      "development": "Development",
+      "aiUsage": "AI Utilization"
+    }
   },
   "profileTabs": {
     "workSkills": "Experience & Skills",
