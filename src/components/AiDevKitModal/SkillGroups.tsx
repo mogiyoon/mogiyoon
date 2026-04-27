@@ -1,5 +1,5 @@
-import React from 'react';
-import { InlineArrowIcon } from './icons';
+import React, { useState } from 'react';
+import { ChevronIcon, InlineArrowIcon } from './icons';
 import type {
   AiDevKitDetailItem,
   AiDevKitDetailSection,
@@ -368,10 +368,19 @@ const SkillSectionCard: React.FC<{
 
 const SkillItemCard: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
   skillItem,
-}) => (
-  <article className="rounded-card border border-line/70 bg-surface p-5 shadow-sm">
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+}) => {
+  const [expanded, setExpanded] = useState(false);
+  const contentId = `skill-content-${skillItem.title.replace(/\s+/g, '-')}`;
+
+  return (
+    <article className="rounded-card border border-line/70 bg-surface shadow-sm">
+      <button
+        type="button"
+        onClick={() => setExpanded((prev) => !prev)}
+        aria-expanded={expanded}
+        aria-controls={contentId}
+        className="flex w-full items-start justify-between gap-4 rounded-card p-5 text-left transition-colors hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500"
+      >
         <div className="max-w-3xl">
           <h5 className="text-lg font-bold text-content-strong">
             {skillItem.title}
@@ -382,22 +391,29 @@ const SkillItemCard: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
             </p>
           )}
         </div>
-      </div>
+        <span className="mt-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-50 text-accent-700">
+          <ChevronIcon expanded={expanded} />
+        </span>
+      </button>
 
-      <SkillModuleDiagram skillItem={skillItem} />
+      {expanded && (
+        <div id={contentId} className="flex flex-col gap-4 border-t border-line/70 px-5 pb-5 pt-4">
+          <SkillModuleDiagram skillItem={skillItem} />
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {skillItem.sections.map((groupSection, index) => (
-          <SkillSectionCard
-            key={`${skillItem.title}-${groupSection.title}`}
-            section={groupSection}
-            index={index}
-          />
-        ))}
-      </div>
-    </div>
-  </article>
-);
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {skillItem.sections.map((groupSection, index) => (
+              <SkillSectionCard
+                key={`${skillItem.title}-${groupSection.title}`}
+                section={groupSection}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+  );
+};
 
 const SkillGroups: React.FC<SkillGroupsProps> = ({ section }) => {
   if (section.layout !== 'skill-groups' || !section.skillItems?.length) {
