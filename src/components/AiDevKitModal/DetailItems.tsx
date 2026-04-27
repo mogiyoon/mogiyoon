@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FlowDiagram from './FlowDiagram';
-import { DetailIcon, GroupIcon } from './icons';
+import { ChevronIcon, DetailIcon, GroupIcon } from './icons';
 import type {
   AiDevKitCodeSample,
   AiDevKitDetailGroup,
@@ -152,14 +152,23 @@ const DiagramItems: React.FC<DetailItemsProps> = ({ section }) => (
   </div>
 );
 
-const FlowItems: React.FC<DetailItemsProps> = ({ section }) => (
-  <div className="space-y-4">
-    {section.items?.map((detailItem) => (
-      <article
-        key={`${section.title}-${detailItem.title}`}
-        className="rounded-card border border-line/70 bg-surface p-5 shadow-sm"
+const FlowItemCard: React.FC<{
+  sectionTitle: string;
+  detailItem: AiDevKitDetailItem;
+}> = ({ sectionTitle, detailItem }) => {
+  const [expanded, setExpanded] = useState(false);
+  const contentId = `flow-content-${sectionTitle}-${detailItem.title}`.replace(/\s+/g, '-');
+
+  return (
+    <article className="rounded-card border border-line/70 bg-surface shadow-sm">
+      <button
+        type="button"
+        onClick={() => setExpanded((prev) => !prev)}
+        aria-expanded={expanded}
+        aria-controls={contentId}
+        className="flex w-full items-start justify-between gap-4 rounded-card p-5 text-left transition-colors hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500"
       >
-        <div className="mb-5">
+        <div className="min-w-0">
           <div className="inline-flex items-center rounded-full border border-line bg-content px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-surface shadow-sm">
             Harness Run
           </div>
@@ -172,17 +181,36 @@ const FlowItems: React.FC<DetailItemsProps> = ({ section }) => (
             </p>
           )}
         </div>
+        <span className="mt-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-50 text-accent-700">
+          <ChevronIcon expanded={expanded} />
+        </span>
+      </button>
 
-        <FlowDiagram
-          idBase={`${section.title}-${detailItem.title}`}
-          steps={detailItem.steps ?? []}
-          loops={detailItem.loops ?? []}
-          stepDetails={detailItem.stepDetails ?? []}
-        />
+      {expanded && (
+        <div id={contentId} className="border-t border-line/70 px-5 pb-5 pt-4">
+          <FlowDiagram
+            idBase={`${sectionTitle}-${detailItem.title}`}
+            steps={detailItem.steps ?? []}
+            loops={detailItem.loops ?? []}
+            stepDetails={detailItem.stepDetails ?? []}
+          />
 
-        <DetailGroupGrid itemTitle={detailItem.title} groups={detailItem.groups} />
-        <CodeSamples itemTitle={detailItem.title} samples={detailItem.samples} />
-      </article>
+          <DetailGroupGrid itemTitle={detailItem.title} groups={detailItem.groups} />
+          <CodeSamples itemTitle={detailItem.title} samples={detailItem.samples} />
+        </div>
+      )}
+    </article>
+  );
+};
+
+const FlowItems: React.FC<DetailItemsProps> = ({ section }) => (
+  <div className="space-y-4">
+    {section.items?.map((detailItem) => (
+      <FlowItemCard
+        key={`${section.title}-${detailItem.title}`}
+        sectionTitle={section.title}
+        detailItem={detailItem}
+      />
     ))}
   </div>
 );
