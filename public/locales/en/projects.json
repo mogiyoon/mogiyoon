@@ -21,112 +21,310 @@
           {
             "title": "orchestrator-designer",
             "description": "A skill for designing multi-agent collaboration flows, including decomposition, role assignment, routing, loop control, and merge rules.",
-            "chips": ["Skill Design", "Routing", "Workflow"]
-          }
-        ],
-        "orchestratorTitle": "What the Skill Does",
-        "orchestratorDescription": "Tasks this skill directly designs and decides.",
-        "orchestratorItems": [
-          {
-            "title": "Task Decomposition and Role Assignment",
-            "description": "Breaks a user request into work units and assigns the agent role needed for each stage.",
-            "chips": ["decomposition", "role assignment"]
+            "chips": ["Skill Design", "Routing", "Workflow"],
+            "sections": [
+              {
+                "title": "What the Skill Does",
+                "description": "Tasks this skill directly designs and decides.",
+                "items": [
+                  {
+                    "title": "Task Decomposition and Role Assignment",
+                    "description": "Breaks a user request into work units and assigns the agent role needed for each stage.",
+                    "chips": ["decomposition", "role assignment"]
+                  },
+                  {
+                    "title": "Parallel Result Merge",
+                    "description": "Compares or merges parallel agent outputs and hands them to the next stage.",
+                    "chips": ["parallel", "merge", "handoff"]
+                  },
+                  {
+                    "title": "Loop and Termination Rules",
+                    "description": "Defines where to loop back when output is insufficient and when to terminate the flow.",
+                    "chips": ["loop", "retry", "termination"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Patterns",
+                "description": "Recurring structural patterns used when applying this skill.",
+                "items": [
+                  {
+                    "title": "Fan-out then Converge",
+                    "description": "Multiple agents process in parallel, then results are gathered back into a single output.",
+                    "chips": ["fan-out", "convergence"]
+                  },
+                  {
+                    "title": "Conditional Routing",
+                    "description": "The next agent depends on the intermediate result.",
+                    "chips": ["routing", "branching"]
+                  },
+                  {
+                    "title": "Feedback Loop",
+                    "description": "Returns to a previous stage and re-runs when the result falls short.",
+                    "chips": ["feedback loop", "retry"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Principles",
+                "description": "Guidelines for using this skill consistently and safely.",
+                "items": [
+                  {
+                    "title": "Avoid Deep Nesting",
+                    "description": "The main orchestrator owns the full flow instead of stacking deep nested layers.",
+                    "chips": ["main orchestrator", "simple hierarchy"]
+                  },
+                  {
+                    "title": "Define Merge Criteria First",
+                    "description": "Decides what counts as a good result before comparing or merging multiple outputs.",
+                    "chips": ["merge criteria", "evaluation"]
+                  },
+                  {
+                    "title": "Cap Loop Length",
+                    "description": "Pre-sets retry counts and termination conditions to prevent infinite loops.",
+                    "chips": ["loop cap", "termination"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Outputs",
+                "description": "Core elements left in the final output after this skill runs.",
+                "items": [
+                  {
+                    "title": "Flow Overview",
+                    "description": "Defines the orchestrator overview and stage composition first.",
+                    "chips": ["overview", "premise"]
+                  },
+                  {
+                    "title": "Branch, Loop, and Merge Diagram",
+                    "description": "Visualizes agent relationships, branching, loops, and merges with diagrams.",
+                    "chips": ["Mermaid", "branching", "loop"]
+                  },
+                  {
+                    "title": "Operating Rules",
+                    "description": "Specifies when to hand off, when to retry, how to merge, and when to terminate.",
+                    "chips": ["routing", "merge", "termination"]
+                  }
+                ]
+              }
+            ]
           },
           {
-            "title": "Sequential, Parallel, and Routing Structure",
-            "description": "Determines which stages run sequentially, which run in parallel, and when routing should switch to another agent.",
-            "chips": ["sequential", "parallel", "routing"]
+            "title": "blog-post-mogiyoon",
+            "description": "Turns rough drafts, scattered notes, or topic-only inputs into Velog (velog.io/@mogiyoon) posts. Matches the user's plain-form Korean voice to a chosen category tone (gansal, gochal, debugging, makeismylife) and saves the result as a Markdown file.",
+            "chips": ["Writing", "Style Match", "Markdown"],
+            "sections": [
+              {
+                "title": "What the Skill Does",
+                "description": "Tasks this skill directly designs and decides.",
+                "items": [
+                  {
+                    "title": "Genre Confirmation",
+                    "description": "Confirms one of four categories (gansal, gochal, debugging, makeismylife) by user statement, content inference, or explicit agreement.",
+                    "chips": ["category", "tone"]
+                  },
+                  {
+                    "title": "Topic Extraction",
+                    "description": "Splits broad input into topic candidates and narrows to a single message per post.",
+                    "chips": ["topic", "single message"]
+                  },
+                  {
+                    "title": "Input Shape Detection",
+                    "description": "Chooses the writing mode based on whether the input is a rough draft, a finished-post rewrite, or a topic-only request.",
+                    "chips": ["draft", "rewrite", "from scratch"]
+                  },
+                  {
+                    "title": "Tone and Style Application",
+                    "description": "Reads common-style and the selected category guide, then rewrites the draft in plain-form Korean.",
+                    "chips": ["plain form", "style guide"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Patterns",
+                "description": "Recurring structural patterns used when applying this skill.",
+                "items": [
+                  {
+                    "title": "Genre → Topic → Input Shape",
+                    "description": "Confirms category, topic, and input shape with the user before writing.",
+                    "chips": ["genre first", "topic", "input"]
+                  },
+                  {
+                    "title": "Primary + Secondary Category",
+                    "description": "When mixing tones, picks one main category and borrows phrasing from the secondary.",
+                    "chips": ["primary", "secondary", "tone mix"]
+                  },
+                  {
+                    "title": "Topic Candidates → Single Pick",
+                    "description": "When multiple topics surface, lists candidates and lets the user choose one.",
+                    "chips": ["candidates", "single pick"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Principles",
+                "description": "Guidelines for using this skill consistently and safely.",
+                "items": [
+                  {
+                    "title": "Plain-Form Unification",
+                    "description": "Uses ~다 / ~한다 endings and never the formal honorific ~습니다.",
+                    "chips": ["plain form", "no honorifics"]
+                  },
+                  {
+                    "title": "Preserve User Voice",
+                    "description": "Keeps the user's self-deprecating notes and the mix of short and long paragraphs.",
+                    "chips": ["voice", "rhythm"]
+                  },
+                  {
+                    "title": "Self-Check Before Handoff",
+                    "description": "Reviews tone match, paragraph rhythm, and intro/outro naturalness before delivering.",
+                    "chips": ["self-check", "tone match"]
+                  },
+                  {
+                    "title": "Fact-Checking First",
+                    "description": "Never invents the user's experiences and asks for missing information instead.",
+                    "chips": ["no fabrication", "ask user"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Outputs",
+                "description": "Core elements left in the final output after this skill runs.",
+                "items": [
+                  {
+                    "title": "Markdown File (.md)",
+                    "description": "Saves the result file to a user-specified path or /tmp/.",
+                    "chips": ["markdown", "file"]
+                  },
+                  {
+                    "title": "Filename Convention",
+                    "description": "Saves as {primary_category}-{english-kebab-topic}.md.",
+                    "chips": ["naming", "kebab-case"]
+                  },
+                  {
+                    "title": "One-Line Summary",
+                    "description": "Hands off the core message in one line plus the file path link.",
+                    "chips": ["summary", "handoff"]
+                  }
+                ]
+              }
+            ]
           },
           {
-            "title": "Input Handoff and Merge Logic",
-            "description": "Defines what output becomes the next input and how multiple agent results are compared or merged.",
-            "chips": ["handoff", "merge", "compare"]
-          },
-          {
-            "title": "Loops and Termination Rules",
-            "description": "Controls loop entry, retry rules, fallback paths, and termination conditions so the flow converges cleanly.",
-            "chips": ["loop", "retry", "fallback"]
-          }
-        ],
-        "triggerTitle": "Triggers",
-        "triggerDescription": "Representative conditions that trigger this skill.",
-        "triggerItems": [
-          {
-            "title": "Role-Split Requests",
-            "description": "Triggers when two or more agents with different responsibilities are needed.",
-            "chips": ["2+ agents", "role split"]
-          },
-          {
-            "title": "Collaborative Flow Design",
-            "description": "Covers collaboration, chaining, pipelines, parallel execution, routing, and result integration.",
-            "chips": ["pipeline", "parallel", "integration"]
-          }
-        ],
-        "patternTitle": "Skill Patterns",
-        "patternDescription": "Recurring structural patterns used when applying this skill.",
-        "patternItems": [
-          {
-            "title": "Hierarchical Structure",
-            "description": "A structure with one main orchestrator coordinating specialist sub-agents.",
-            "chips": ["hierarchy", "specialists"]
-          },
-          {
-            "title": "Sequential and Parallel Flow",
-            "description": "Includes sequential pipelines, parallel fan-out, and convergence stages where outputs merge again.",
-            "chips": ["sequential", "fan-out", "convergence"]
-          },
-          {
-            "title": "Conditional Control",
-            "description": "Combines routing conditions, feedback loops, and human checkpoints where needed.",
-            "chips": ["routing", "feedback loop", "human checkpoint"]
-          }
-        ],
-        "principleTitle": "Skill Principles",
-        "principleDescription": "Guidelines for using this skill consistently and safely.",
-        "principleItems": [
-          {
-            "title": "Explicit Context Handoff",
-            "description": "Passes file paths, previous outputs, and evaluation criteria explicitly between stages.",
-            "chips": ["context", "explicit handoff"]
-          },
-          {
-            "title": "Simple Hierarchy",
-            "description": "Keeps the main orchestrator responsible for the full flow instead of building deep nested layers.",
-            "chips": ["main orchestrator", "simple hierarchy"]
-          },
-          {
-            "title": "Role-Based Constraints",
-            "description": "Separates tool and model policies by role and caps iterative loops.",
-            "chips": ["tool policy", "model policy", "loop cap"]
-          },
-          {
-            "title": "Predefined Output Rules",
-            "description": "Defines output formats and termination rules in advance to reduce ambiguity between stages.",
-            "chips": ["output schema", "termination"]
-          }
-        ],
-        "outputTitle": "Skill Outputs",
-        "outputDescription": "Core elements left in the final output after this skill runs.",
-        "outputItems": [
-          {
-            "title": "Overview and Premise",
-            "description": "Defines the orchestrator overview and implementation premise first.",
-            "chips": ["overview", "premise"]
-          },
-          {
-            "title": "Relationship, Branching, and Loop Diagram",
-            "description": "Visualizes agent relationships, branching, and loops with Mermaid diagrams.",
-            "chips": ["Mermaid", "branching", "loop"]
-          },
-          {
-            "title": "Role, I/O, and Handoff Document",
-            "description": "Documents role definitions, inputs and outputs, handoff, retry behavior, and fallback strategy.",
-            "chips": ["roles", "I/O", "handoff"]
-          },
-          {
-            "title": "Operating Rules",
-            "description": "Specifies routing rules, parallel stages, merge logic, and termination conditions at the document level.",
-            "chips": ["routing rules", "merge logic", "termination"]
+            "title": "register-portfolio-project",
+            "description": "Registers a completed external project into the mogiyoon portfolio site. Extracts metadata, gets user confirmation, generates ko/en i18n, auto-detects claudeInfo, copies images, edits the related portfolio files, then forks a feature branch from develop and commits.",
+            "chips": ["Portfolio", "i18n", "Branch / Commit"],
+            "sections": [
+              {
+                "title": "What the Skill Does",
+                "description": "Tasks this skill directly designs and decides.",
+                "items": [
+                  {
+                    "title": "Auto-Extract Project Info",
+                    "description": "Reads package.json, README, git log, and image candidates in parallel to collect metadata.",
+                    "chips": ["package.json", "README", "git log"]
+                  },
+                  {
+                    "title": "claudeInfo Auto-Detection",
+                    "description": "Inspects .claude/agents/, orchestrator traces, and Co-Authored-By patterns to determine method (direct/harness/orchestrator).",
+                    "chips": ["direct", "harness", "orchestrator"]
+                  },
+                  {
+                    "title": "Korean Tone Normalization",
+                    "description": "Unifies endings to ~함 / ~됨 / ~임 and substitutes banned expressions.",
+                    "chips": ["tone normalize", "endings"]
+                  },
+                  {
+                    "title": "ko → en Auto Translation",
+                    "description": "Generates the English i18n once Korean is confirmed, mirroring the same structure.",
+                    "chips": ["i18n", "auto translate"]
+                  },
+                  {
+                    "title": "Portfolio Repo File Generation",
+                    "description": "Writes data, locales, list, card translations, and image assets across six files.",
+                    "chips": ["data", "locales", "images"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Patterns",
+                "description": "Recurring structural patterns used when applying this skill.",
+                "items": [
+                  {
+                    "title": "Extract → Review → Write → Branch",
+                    "description": "Fixes the order of auto-extract, batch user review, file generation, and branch creation.",
+                    "chips": ["pipeline", "fixed order"]
+                  },
+                  {
+                    "title": "ko First, en Auto-Translated",
+                    "description": "Confirms Korean i18n first, then auto-generates the English version.",
+                    "chips": ["ko first", "auto en"]
+                  },
+                  {
+                    "title": "Batch User Review",
+                    "description": "A single AskUserQuestion call confirms id, subtitle, projectType, techStack, and features at once.",
+                    "chips": ["batch review", "AskUserQuestion"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Principles",
+                "description": "Guidelines for using this skill consistently and safely.",
+                "items": [
+                  {
+                    "title": "Fork From develop",
+                    "description": "Creates feat/add-{id}, never works on main directly.",
+                    "chips": ["develop", "feat branch"]
+                  },
+                  {
+                    "title": "Safe Automation Boundary",
+                    "description": "pull, push, and PR creation only proceed after explicit user approval.",
+                    "chips": ["pull", "push", "PR"]
+                  },
+                  {
+                    "title": "Source Project Is Read-Only",
+                    "description": "Images are copied, never modified at the source project.",
+                    "chips": ["read-only", "copy only"]
+                  },
+                  {
+                    "title": "Strict Tone Guide",
+                    "description": "Applies CLAUDE.md's ending and banned-expression rules to all Korean text.",
+                    "chips": ["CLAUDE.md", "tone rules"]
+                  }
+                ]
+              },
+              {
+                "title": "Skill Outputs",
+                "description": "Core elements left in the final output after this skill runs.",
+                "items": [
+                  {
+                    "title": "New Data File",
+                    "description": "Creates public/data/projects/{id}.json.",
+                    "chips": ["data", "json"]
+                  },
+                  {
+                    "title": "ko / en i18n",
+                    "description": "Creates public/locales/ko·en/projects/project-{id}.json.",
+                    "chips": ["i18n", "ko", "en"]
+                  },
+                  {
+                    "title": "List and Card Entries",
+                    "description": "Appends entries to projects-list.json and ko/en projects.json.",
+                    "chips": ["list", "card"]
+                  },
+                  {
+                    "title": "Image Assets",
+                    "description": "Copies public/images/{camelCaseProjectName}/Icon, appGif, and overview/* files.",
+                    "chips": ["Icon", "appGif", "overview"]
+                  },
+                  {
+                    "title": "Feature Branch + Commit",
+                    "description": "Forks feat/add-{id} from develop and creates the commit.",
+                    "chips": ["develop", "feat", "commit"]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

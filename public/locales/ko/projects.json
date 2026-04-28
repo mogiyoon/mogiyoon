@@ -21,92 +21,310 @@
           {
             "title": "orchestrator-designer",
             "description": "여러 에이전트가 함께 일할 흐름을 설계하는 스킬입니다. 단계를 나누고, 역할을 정하고, 분기·반복·결과 합치기 규칙을 만듭니다.",
-            "chips": ["Skill Design", "Routing", "Workflow"]
-          }
-        ],
-        "orchestratorTitle": "스킬이 하는 일",
-        "orchestratorDescription": "이 스킬이 맡는 핵심 작업입니다.",
-        "orchestratorItems": [
-          {
-            "title": "요청 분해 및 역할 배정",
-            "description": "하나의 요청을 여러 단계로 나누고, 각 단계에 맞는 에이전트를 붙입니다.",
-            "chips": ["decomposition", "role assignment"]
+            "chips": ["Skill Design", "Routing", "Workflow"],
+            "sections": [
+              {
+                "title": "스킬이 하는 일",
+                "description": "이 스킬이 맡는 핵심 작업입니다.",
+                "items": [
+                  {
+                    "title": "요청 분해 및 역할 배정",
+                    "description": "하나의 요청을 여러 단계로 나누고, 각 단계에 맞는 에이전트를 붙입니다.",
+                    "chips": ["decomposition", "role assignment"]
+                  },
+                  {
+                    "title": "병렬 결과 병합",
+                    "description": "병렬로 돌린 결과를 비교하거나 합쳐서 다음 단계로 넘깁니다.",
+                    "chips": ["parallel", "merge", "handoff"]
+                  },
+                  {
+                    "title": "루프·종료 규칙 정의",
+                    "description": "결과가 부족하면 어디로 돌아갈지와 언제 끝낼지를 정합니다.",
+                    "chips": ["loop", "retry", "termination"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 적용 패턴",
+                "description": "이 스킬에서 자주 쓰는 작업 흐름입니다.",
+                "items": [
+                  {
+                    "title": "팬아웃 후 수렴",
+                    "description": "여러 에이전트가 나눠 처리한 뒤 결과를 다시 하나로 모읍니다.",
+                    "chips": ["fan-out", "convergence"]
+                  },
+                  {
+                    "title": "조건부 라우팅",
+                    "description": "중간 결과에 따라 다음 에이전트가 달라집니다.",
+                    "chips": ["routing", "branching"]
+                  },
+                  {
+                    "title": "피드백 루프",
+                    "description": "결과가 부족하면 특정 단계로 돌아가 다시 실행합니다.",
+                    "chips": ["feedback loop", "retry"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 적용 원칙",
+                "description": "이 스킬을 안정적으로 쓰기 위한 기준입니다.",
+                "items": [
+                  {
+                    "title": "깊게 중첩하지 않기",
+                    "description": "메인 오케스트레이터가 전체를 관리하고 구조가 너무 깊어지지 않게 합니다.",
+                    "chips": ["main orchestrator", "simple hierarchy"]
+                  },
+                  {
+                    "title": "병합 기준 먼저 정하기",
+                    "description": "무엇을 좋은 결과로 볼지 먼저 정한 뒤 여러 출력을 비교하거나 합칩니다.",
+                    "chips": ["merge criteria", "evaluation"]
+                  },
+                  {
+                    "title": "루프 끝 정해두기",
+                    "description": "재시도 횟수와 종료 조건을 미리 정해 무한 반복을 막습니다.",
+                    "chips": ["loop cap", "termination"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 산출물",
+                "description": "이 스킬 실행 후 결과물에 남는 핵심 항목입니다.",
+                "items": [
+                  {
+                    "title": "흐름 개요",
+                    "description": "전체 단계와 역할 구성을 먼저 정리합니다.",
+                    "chips": ["overview", "premise"]
+                  },
+                  {
+                    "title": "분기·루프·병합 그림",
+                    "description": "에이전트 관계, 분기, 루프, 병합 구조를 다이어그램으로 보여줍니다.",
+                    "chips": ["Mermaid", "branching", "loop"]
+                  },
+                  {
+                    "title": "운영 규칙",
+                    "description": "언제 넘기고, 언제 다시 돌리고, 어떻게 합치고, 언제 끝낼지를 정리합니다.",
+                    "chips": ["routing", "merge", "termination"]
+                  }
+                ]
+              }
+            ]
           },
           {
-            "title": "병렬 결과 병합",
-            "description": "병렬로 돌린 결과를 비교하거나 합쳐서 다음 단계로 넘깁니다.",
-            "chips": ["parallel", "merge", "handoff"]
+            "title": "blog-post-mogiyoon",
+            "description": "메모, 초고, 주제만 있는 입력을 벨로그(velog.io/@mogiyoon)에 올라가는 글로 정리하는 스킬임. 카테고리 톤(간살/고찰/디버깅/makeismylife)과 사용자 평어체 어투를 맞춰 마크다운 파일로 산출함.",
+            "chips": ["Writing", "Style Match", "Markdown"],
+            "sections": [
+              {
+                "title": "스킬이 하는 일",
+                "description": "이 스킬이 맡는 핵심 작업입니다.",
+                "items": [
+                  {
+                    "title": "장르 확정",
+                    "description": "간살, 고찰, 디버깅, makeismylife 중 하나를 사용자 명시·내용 추론·합의로 확정합니다.",
+                    "chips": ["category", "tone"]
+                  },
+                  {
+                    "title": "주제 추출",
+                    "description": "광범위한 입력에서 주제 후보를 분리하고 한 글 한 주제 원칙으로 좁힙니다.",
+                    "chips": ["topic", "single message"]
+                  },
+                  {
+                    "title": "입력 형태 판별",
+                    "description": "거친 메모, 완성된 글 리라이트, 주제만 던진 경우에 맞춰 작성 모드를 결정합니다.",
+                    "chips": ["draft", "rewrite", "from scratch"]
+                  },
+                  {
+                    "title": "톤·스타일 적용",
+                    "description": "common-style과 카테고리 가이드를 읽어 평어체로 다듬습니다.",
+                    "chips": ["plain form", "style guide"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 적용 패턴",
+                "description": "이 스킬에서 자주 쓰는 작업 흐름입니다.",
+                "items": [
+                  {
+                    "title": "장르 → 주제 → 입력 형태",
+                    "description": "글을 쓰기 전에 카테고리, 주제, 입력 형태를 차례대로 확정합니다.",
+                    "chips": ["genre first", "topic", "input"]
+                  },
+                  {
+                    "title": "주 카테고리 + 보조 카테고리",
+                    "description": "톤을 섞을 경우 한쪽을 메인으로 잡고 다른 쪽에서 톤만 빌립니다.",
+                    "chips": ["primary", "secondary", "tone mix"]
+                  },
+                  {
+                    "title": "주제 후보 제시 후 단일 선택",
+                    "description": "여러 주제가 보이면 후보를 제시한 뒤 사용자가 하나를 선택하게 합니다.",
+                    "chips": ["candidates", "single pick"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 적용 원칙",
+                "description": "이 스킬을 안정적으로 쓰기 위한 기준입니다.",
+                "items": [
+                  {
+                    "title": "평어체 통일",
+                    "description": "~다 / ~한다 종결로 통일하고 격식체(~습니다)는 사용하지 않습니다.",
+                    "chips": ["plain form", "no honorifics"]
+                  },
+                  {
+                    "title": "사용자 톤 보존",
+                    "description": "사용자 특유의 자조·유머와 짧은 문단·긴 문단의 혼합을 유지합니다.",
+                    "chips": ["voice", "rhythm"]
+                  },
+                  {
+                    "title": "자기 검증 후 전달",
+                    "description": "카테고리 톤, 문단 호흡, 도입·마무리 인위성 여부를 점검한 뒤 전달합니다.",
+                    "chips": ["self-check", "tone match"]
+                  },
+                  {
+                    "title": "사실 확인 우선",
+                    "description": "사용자가 안 한 경험을 지어내지 않고 부족한 정보는 사용자에게 묻습니다.",
+                    "chips": ["no fabrication", "ask user"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 산출물",
+                "description": "이 스킬 실행 후 결과물에 남는 핵심 항목입니다.",
+                "items": [
+                  {
+                    "title": "마크다운 파일(.md)",
+                    "description": "사용자 지정 경로 또는 /tmp/에 결과 파일을 저장합니다.",
+                    "chips": ["markdown", "file"]
+                  },
+                  {
+                    "title": "파일명 규칙 적용",
+                    "description": "{주_카테고리}-{영문 kebab-case 주제}.md 형식으로 저장합니다.",
+                    "chips": ["naming", "kebab-case"]
+                  },
+                  {
+                    "title": "한 줄 요약",
+                    "description": "글의 핵심 메시지 한 줄과 파일 경로 링크를 함께 전달합니다.",
+                    "chips": ["summary", "handoff"]
+                  }
+                ]
+              }
+            ]
           },
           {
-            "title": "루프·종료 규칙 정의",
-            "description": "결과가 부족하면 어디로 돌아갈지와 언제 끝낼지를 정합니다.",
-            "chips": ["loop", "retry", "termination"]
-          }
-        ],
-        "triggerTitle": "스킬 실행 트리거",
-        "triggerDescription": "이 스킬을 쓰면 좋은 대표 상황입니다.",
-        "triggerItems": [
-          {
-            "title": "한 번에 끝나지 않는 작업",
-            "description": "역할이 다른 에이전트가 둘 이상 필요하고, 중간 결과를 넘기거나 합쳐야 하는 흐름에서 사용합니다.",
-            "chips": ["2+ agents", "multi-step"]
-          }
-        ],
-        "patternTitle": "스킬 적용 패턴",
-        "patternDescription": "이 스킬에서 자주 쓰는 작업 흐름입니다.",
-        "patternItems": [
-          {
-            "title": "팬아웃 후 수렴",
-            "description": "여러 에이전트가 나눠 처리한 뒤 결과를 다시 하나로 모읍니다.",
-            "chips": ["fan-out", "convergence"]
-          },
-          {
-            "title": "조건부 라우팅",
-            "description": "중간 결과에 따라 다음 에이전트가 달라집니다.",
-            "chips": ["routing", "branching"]
-          },
-          {
-            "title": "피드백 루프",
-            "description": "결과가 부족하면 특정 단계로 돌아가 다시 실행합니다.",
-            "chips": ["feedback loop", "retry"]
-          }
-        ],
-        "principleTitle": "스킬 적용 원칙",
-        "principleDescription": "이 스킬을 안정적으로 쓰기 위한 기준입니다.",
-        "principleItems": [
-          {
-            "title": "깊게 중첩하지 않기",
-            "description": "메인 오케스트레이터가 전체를 관리하고 구조가 너무 깊어지지 않게 합니다.",
-            "chips": ["main orchestrator", "simple hierarchy"]
-          },
-          {
-            "title": "병합 기준 먼저 정하기",
-            "description": "무엇을 좋은 결과로 볼지 먼저 정한 뒤 여러 출력을 비교하거나 합칩니다.",
-            "chips": ["merge criteria", "evaluation"]
-          },
-          {
-            "title": "루프 끝 정해두기",
-            "description": "재시도 횟수와 종료 조건을 미리 정해 무한 반복을 막습니다.",
-            "chips": ["loop cap", "termination"]
-          }
-        ],
-        "outputTitle": "스킬 산출물",
-        "outputDescription": "이 스킬 실행 후 결과물에 남는 핵심 항목입니다.",
-        "outputItems": [
-          {
-            "title": "흐름 개요",
-            "description": "전체 단계와 역할 구성을 먼저 정리합니다.",
-            "chips": ["overview", "premise"]
-          },
-          {
-            "title": "분기·루프·병합 그림",
-            "description": "에이전트 관계, 분기, 루프, 병합 구조를 다이어그램으로 보여줍니다.",
-            "chips": ["Mermaid", "branching", "loop"]
-          },
-          {
-            "title": "운영 규칙",
-            "description": "언제 넘기고, 언제 다시 돌리고, 어떻게 합치고, 언제 끝낼지를 정리합니다.",
-            "chips": ["routing", "merge", "termination"]
+            "title": "register-portfolio-project",
+            "description": "외부 작업 디렉토리의 완성된 프로젝트를 mogiyoon 포트폴리오 사이트에 자동 등록하는 스킬임. 정보 추출 → 사용자 검토 → ko/en i18n 생성 → claudeInfo 자동 감지 → 이미지 복사 → 포트폴리오 레포 파일 생성 → develop 브랜치에서 분기·커밋 순으로 진행함.",
+            "chips": ["Portfolio", "i18n", "Branch / Commit"],
+            "sections": [
+              {
+                "title": "스킬이 하는 일",
+                "description": "이 스킬이 맡는 핵심 작업입니다.",
+                "items": [
+                  {
+                    "title": "정보 자동 추출",
+                    "description": "package.json, README, git log, 이미지 후보를 병렬로 읽어 프로젝트 메타데이터를 수집합니다.",
+                    "chips": ["package.json", "README", "git log"]
+                  },
+                  {
+                    "title": "claudeInfo 자동 감지",
+                    "description": ".claude/agents/, orchestrator 흔적, Co-Authored-By 패턴으로 method(direct/harness/orchestrator)를 결정합니다.",
+                    "chips": ["direct", "harness", "orchestrator"]
+                  },
+                  {
+                    "title": "한국어 어투 정규화",
+                    "description": "~함 / ~됨 / ~임 종결로 통일하고 금지 표현을 치환합니다.",
+                    "chips": ["tone normalize", "endings"]
+                  },
+                  {
+                    "title": "ko → en 자동 번역",
+                    "description": "한국어 i18n이 확정되면 동일 구조로 영문 i18n을 생성합니다.",
+                    "chips": ["i18n", "auto translate"]
+                  },
+                  {
+                    "title": "포트폴리오 레포 파일 생성",
+                    "description": "data, locales, list, 카드 번역, 이미지 6종 파일을 모두 처리합니다.",
+                    "chips": ["data", "locales", "images"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 적용 패턴",
+                "description": "이 스킬에서 자주 쓰는 작업 흐름입니다.",
+                "items": [
+                  {
+                    "title": "추출 → 검토 → 작성 → 분기",
+                    "description": "자동 추출, 사용자 일괄 검토, 파일 작성, 브랜치 분기 순서를 고정합니다.",
+                    "chips": ["pipeline", "fixed order"]
+                  },
+                  {
+                    "title": "ko 우선, en 자동 번역",
+                    "description": "한국어 i18n을 먼저 확정한 뒤 영어 i18n을 자동 생성합니다.",
+                    "chips": ["ko first", "auto en"]
+                  },
+                  {
+                    "title": "일괄 사용자 검토",
+                    "description": "AskUserQuestion 단일 호출로 id, subtitle, projectType, techStack, features를 한 번에 확인합니다.",
+                    "chips": ["batch review", "AskUserQuestion"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 적용 원칙",
+                "description": "이 스킬을 안정적으로 쓰기 위한 기준입니다.",
+                "items": [
+                  {
+                    "title": "develop 브랜치에서 분기",
+                    "description": "feat/add-{id} 형태로 새 브랜치를 만들고 main 브랜치에서 직접 작업하지 않습니다.",
+                    "chips": ["develop", "feat branch"]
+                  },
+                  {
+                    "title": "안전 자동화 경계",
+                    "description": "pull, push, PR 생성은 사용자 명시적 승인 후에만 수행합니다.",
+                    "chips": ["pull", "push", "PR"]
+                  },
+                  {
+                    "title": "소스 프로젝트는 읽기 전용",
+                    "description": "이미지조차 복사만 하고 원본 파일은 수정하지 않습니다.",
+                    "chips": ["read-only", "copy only"]
+                  },
+                  {
+                    "title": "어투 가이드 엄격 준수",
+                    "description": "CLAUDE.md의 종결 어미와 금지 표현 규칙을 한국어 텍스트에 그대로 적용합니다.",
+                    "chips": ["CLAUDE.md", "tone rules"]
+                  }
+                ]
+              },
+              {
+                "title": "스킬 산출물",
+                "description": "이 스킬 실행 후 결과물에 남는 핵심 항목입니다.",
+                "items": [
+                  {
+                    "title": "신규 데이터 파일",
+                    "description": "public/data/projects/{id}.json 파일을 새로 작성합니다.",
+                    "chips": ["data", "json"]
+                  },
+                  {
+                    "title": "ko / en i18n",
+                    "description": "public/locales/ko·en/projects/project-{id}.json 두 파일을 생성합니다.",
+                    "chips": ["i18n", "ko", "en"]
+                  },
+                  {
+                    "title": "목록·카드 등록",
+                    "description": "projects-list.json과 ko/en projects.json에 새 항목을 추가합니다.",
+                    "chips": ["list", "card"]
+                  },
+                  {
+                    "title": "이미지 자산",
+                    "description": "public/images/{camelCaseProjectName}/Icon, appGif, overview/* 파일을 복사합니다.",
+                    "chips": ["Icon", "appGif", "overview"]
+                  },
+                  {
+                    "title": "feature 브랜치 + 커밋",
+                    "description": "develop 브랜치에서 feat/add-{id}로 분기 후 커밋을 생성합니다.",
+                    "chips": ["develop", "feat", "commit"]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
