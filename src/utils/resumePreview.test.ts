@@ -222,6 +222,128 @@ describe('loadResumeBuilderData', () => {
     expect(data.defaultSelectedBlockIds).toContain('project:alpha:resume:0');
   });
 
+  it('flattens summaries[].parts into ResumeEditableBlock entries with subtitle, text, and link', async () => {
+    const profile = buildStubProfile({
+      projectOrder: ['alpha'],
+      projectHighlights: {},
+    });
+    const introduction = {
+      workExperience: [],
+      education: [],
+      awards: [],
+      certificates: [],
+      skills: [],
+    };
+    const projectsList = [{ id: 'alpha', techStack: [] }];
+
+    // Mirror the real summaries shape used by projects/<id>.json:
+    // summaries[].parts is SummaryPart[][] — each inner array is one block.
+    const project = {
+      id: 'alpha',
+      title: 'Alpha Title',
+      subtitle: 'Alpha Subtitle',
+      overview: { period: '2025.01 ~ 2025.06', techStack: [] },
+      summaries: [
+        {
+          id: 'development',
+          title: 'alpha.summaries.development.title',
+          parts: [
+            [
+              {
+                type: 'subtitle',
+                id: 's0',
+                content: 'alpha.summaries.development.parts.0.subtitle',
+              },
+              {
+                type: 'text',
+                content: 'alpha.summaries.development.parts.0.text',
+              },
+              {
+                type: 'link',
+                href: 'https://github.com/example/alpha/pull/1',
+                label: 'PR',
+              },
+            ],
+            [
+              {
+                type: 'text',
+                content: 'alpha.summaries.development.parts.1.text',
+              },
+            ],
+          ],
+        },
+      ],
+      license: { name: 'MIT', url: 'https://opensource.org/licenses/MIT' },
+    };
+
+    setupSuccessfulFetches({ profile, introduction, projectsList, project });
+
+    const data = await loadResumeBuilderData('ko');
+    const alpha = data.projects[0];
+    const summaryBlocks = alpha.blocks.filter((block) =>
+      block.id.startsWith('project:alpha:development:')
+    );
+
+    expect(summaryBlocks).toHaveLength(2);
+
+    const firstBlock = summaryBlocks[0];
+    expect(firstBlock.id).toBe('project:alpha:development:0');
+    // i18n mock returns the key as the value, so the subtitle key surfaces as title.
+    expect(firstBlock.title).toBe('alpha.summaries.development.parts.0.subtitle');
+    expect(firstBlock.body).toContain('alpha.summaries.development.parts.0.text');
+    expect(firstBlock.body).toContain('PR: https://github.com/example/alpha/pull/1');
+
+    // Block without a subtitle falls back to the section title plus index.
+    const secondBlock = summaryBlocks[1];
+    expect(secondBlock.id).toBe('project:alpha:development:1');
+    expect(secondBlock.title).toMatch(/2$/);
+  });
+
+  it('emits overview blocks for introduction, role, features, and other when present', async () => {
+    const profile = buildStubProfile({
+      projectOrder: ['alpha'],
+      projectHighlights: {},
+    });
+    const introduction = {
+      workExperience: [],
+      education: [],
+      awards: [],
+      certificates: [],
+      skills: [],
+    };
+    const projectsList = [{ id: 'alpha', techStack: [] }];
+
+    const project = {
+      id: 'alpha',
+      title: 'Alpha Title',
+      subtitle: 'Alpha Subtitle',
+      overview: {
+        introduction: 'alpha.overview.introduction',
+        role: 'alpha.overview.role',
+        features: 'alpha.overview.features',
+        other: 'alpha.overview.other',
+        period: '2025.01 ~ 2025.06',
+        techStack: [],
+      },
+      summaries: [],
+      license: { name: 'MIT', url: 'https://opensource.org/licenses/MIT' },
+    };
+
+    setupSuccessfulFetches({ profile, introduction, projectsList, project });
+
+    const data = await loadResumeBuilderData('ko');
+    const blockIds = data.projects[0].blocks.map((block) => block.id);
+
+    expect(blockIds).toEqual(
+      expect.arrayContaining([
+        'project:alpha:overview:introduction',
+        'project:alpha:overview:role',
+        'project:alpha:overview:features',
+        'project:alpha:overview:other',
+      ])
+    );
+  });
+
   it('handles missing optional sections without throwing', async () => {
     const profile = buildStubProfile({ projectOrder: [], projectHighlights: {} });
     const introduction = {
