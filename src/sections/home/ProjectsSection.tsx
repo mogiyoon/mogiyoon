@@ -73,26 +73,10 @@ const ProjectsSection: React.FC = () => {
         }
     };
 
-    const skillsCardItems = t('aiDevKit.skills.detail.cardItems', {
+    const skillItems = t('aiDevKit.skills.detail.cardItems', {
         ns: 'projects',
         returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const skillsOrchestratorItems = t('aiDevKit.skills.detail.orchestratorItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const skillsPatternItems = t('aiDevKit.skills.detail.patternItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const skillsPrincipleItems = t('aiDevKit.skills.detail.principleItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const skillsOutputItems = t('aiDevKit.skills.detail.outputItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
+    }) as AiDevKitSkillItem[];
     const mcpServersItems = t('aiDevKit.mcp.detail.serversItems', {
         ns: 'projects',
         returnObjects: true,
@@ -107,34 +91,6 @@ const ProjectsSection: React.FC = () => {
     }) as AiDevKitDetailItem[];
 
     const closeLabel = t('aiDevKit.modal.close', { ns: 'projects' });
-
-    const skillItems: AiDevKitSkillItem[] = skillsCardItems.map((skillItem) => ({
-        title: skillItem.title,
-        description: skillItem.description,
-        chips: skillItem.chips,
-        sections: [
-            {
-                title: t('aiDevKit.skills.detail.orchestratorTitle', { ns: 'projects' }),
-                description: t('aiDevKit.skills.detail.orchestratorDescription', { ns: 'projects' }),
-                items: skillsOrchestratorItems,
-            },
-            {
-                title: t('aiDevKit.skills.detail.patternTitle', { ns: 'projects' }),
-                description: t('aiDevKit.skills.detail.patternDescription', { ns: 'projects' }),
-                items: skillsPatternItems,
-            },
-            {
-                title: t('aiDevKit.skills.detail.principleTitle', { ns: 'projects' }),
-                description: t('aiDevKit.skills.detail.principleDescription', { ns: 'projects' }),
-                items: skillsPrincipleItems,
-            },
-            {
-                title: t('aiDevKit.skills.detail.outputTitle', { ns: 'projects' }),
-                description: t('aiDevKit.skills.detail.outputDescription', { ns: 'projects' }),
-                items: skillsOutputItems,
-            },
-        ],
-    }));
 
     const devKitItems: DevKitCardData[] = [
         {
