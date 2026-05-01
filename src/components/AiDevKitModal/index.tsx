@@ -1,6 +1,5 @@
 import React from 'react';
-import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
-import { useEscapeKey } from '../../hooks/useEscapeKey';
+import ModalShell from '../primitives/ModalShell';
 import DetailSection from './DetailSection';
 import ModalHeader from './ModalHeader';
 import type { AiDevKitModalData } from './types';
@@ -23,31 +22,27 @@ interface AiDevKitModalProps {
 }
 
 const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
-  useBodyScrollLock(Boolean(item));
-  useEscapeKey(onClose, Boolean(item));
-
-  if (!item) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/55 p-4 backdrop-blur-sm sm:items-center sm:p-6"
-      onClick={onClose}
+    <ModalShell
+      isOpen={Boolean(item)}
+      onClose={onClose}
+      className="w-full max-w-5xl overflow-hidden border border-line"
+      backdropClassName="flex items-end justify-center bg-black/55 p-4 backdrop-blur-sm sm:items-center sm:p-6"
     >
-      <div
-        className="w-full max-w-5xl overflow-hidden rounded-modal border border-line bg-surface shadow-2xl animate-fade-in-up"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <ModalHeader item={item} onClose={onClose} />
+      {item ? (
+        <>
+          <ModalHeader item={item} onClose={onClose} />
 
-        <div className="max-h-[75vh] overflow-y-auto bg-surface-subtle/40 p-6">
-          <div className="space-y-6">
-            {item.sections.map((section) => (
-              <DetailSection key={section.title} section={section} />
-            ))}
+          <div className="max-h-[75vh] overflow-y-auto bg-surface-subtle/40 p-6">
+            <div className="space-y-6">
+              {item.sections.map((section) => (
+                <DetailSection key={section.title} section={section} />
+              ))}
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      ) : null}
+    </ModalShell>
   );
 };
 
