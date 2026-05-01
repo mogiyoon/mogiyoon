@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { useProjectFlipPreview } from '../hooks/useProjectFlipPreview';
 import type { ProjectSummary } from '../types';
+import { createImageFallbackHandler } from '../utils/imageFallback';
+import { PLACEHOLDER_PROJECT_IMAGE_300x300 } from '../utils/placeholders';
 
 interface ProjectFlipPreviewCardProps {
     projects: ProjectSummary[];
@@ -16,10 +18,9 @@ const ProjectFlipPreviewCard: React.FC<ProjectFlipPreviewCardProps> = ({ project
     const activeProject = previewProjects[activeProjectIndex] ?? previewProjects[0];
     const previewTechStack = activeProject?.techStack?.slice(0, 4) ?? [];
 
-    const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        event.currentTarget.onerror = null;
-        event.currentTarget.src = "https://placehold.co/300x300/cccccc/333333?text=Project+Image";
-    };
+    const handleImageError = createImageFallbackHandler({
+        fallbackSrc: PLACEHOLDER_PROJECT_IMAGE_300x300,
+    });
 
     if (!activeProject) return null;
 
@@ -40,7 +41,7 @@ const ProjectFlipPreviewCard: React.FC<ProjectFlipPreviewCardProps> = ({ project
                         <div className="flex h-full flex-col overflow-hidden rounded-card bg-surface shadow-md">
                             <div className="p-2.5">
                                 <img
-                                    src={activeProject.screenshots.length > 0 ? activeProject.screenshots[0].src : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"}
+                                    src={activeProject.screenshots.length > 0 ? activeProject.screenshots[0].src : PLACEHOLDER_PROJECT_IMAGE_300x300}
                                     alt={`${t(activeProject.title || '')} Thumbnail`}
                                     className="aspect-square w-full rounded-[1.8rem] object-contain"
                                     onError={handleImageError}

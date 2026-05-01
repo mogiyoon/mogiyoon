@@ -8,6 +8,10 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
+import {
+  PLACEHOLDER_COMING_SOON_300x300,
+  PLACEHOLDER_NOT_FOUND_300x300,
+} from '../../utils/placeholders';
 import PreparingCard, { type PreparingProjectData } from './index';
 
 const baseProject: PreparingProjectData = {
@@ -24,13 +28,11 @@ describe('PreparingCard', () => {
     expect(screen.getByText('preparing.alpha.subtitle')).toBeInTheDocument();
   });
 
-  it('renders the placehold.co Coming+Soon image as the thumbnail', () => {
+  it('renders the Coming+Soon placeholder image as the thumbnail', () => {
     render(<PreparingCard project={baseProject} />);
 
     const img = screen.getByRole('img') as HTMLImageElement;
-    expect(img.getAttribute('src')).toBe(
-      'https://placehold.co/300x300/e2e8f0/9ca3af?text=Coming+Soon'
-    );
+    expect(img.getAttribute('src')).toBe(PLACEHOLDER_COMING_SOON_300x300);
     expect(img.getAttribute('alt')).toBe('preparing.alpha.title Thumbnail');
   });
 
@@ -46,9 +48,7 @@ describe('PreparingCard', () => {
     const img = screen.getByRole('img') as HTMLImageElement;
     fireEvent.error(img);
 
-    expect(img.getAttribute('src')).toBe(
-      'https://placehold.co/300x300/cccccc/333333?text=Image+Not+Found'
-    );
+    expect(img.getAttribute('src')).toBe(PLACEHOLDER_NOT_FOUND_300x300);
     expect(img.onerror).toBeNull();
   });
 

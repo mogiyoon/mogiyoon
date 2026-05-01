@@ -2,6 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDisclosure } from "../../hooks/useDisclosure";
 import type { ProjectSummary } from "../../types";
+import { createImageFallbackHandler } from "../../utils/imageFallback";
+import {
+  PLACEHOLDER_NOT_FOUND_300x200,
+  PLACEHOLDER_PROJECT_IMAGE_300x300,
+} from "../../utils/placeholders";
 
 interface PortfolioCardProps {
   project: ProjectSummary;
@@ -19,13 +24,9 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
   // 1. 카드의 뒤집힘 상태를 관리하기 위한 state 추가
   const { isOpen: isFlipped, open, close } = useDisclosure(false);
 
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>,
-  ) => {
-    e.currentTarget.onerror = null;
-    e.currentTarget.src =
-      "https://placehold.co/300x200/cccccc/333333?text=Image+Not+Found";
-  };
+  const handleImageError = createImageFallbackHandler({
+    fallbackSrc: PLACEHOLDER_NOT_FOUND_300x200,
+  });
 
   const handleCardClick = () => {
     onClick();
@@ -61,7 +62,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
                   src={
                     project.screenshots.length > 0
                       ? project.screenshots[0].src
-                      : "https://placehold.co/300x300/cccccc/333333?text=Project+Image"
+                      : PLACEHOLDER_PROJECT_IMAGE_300x300
                   }
                   alt={`${t(project.title || "")} Thumbnail`}
                   className="w-full aspect-square object-contain rounded-[3rem]"
