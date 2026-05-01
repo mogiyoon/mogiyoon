@@ -148,6 +148,11 @@ export const durations = {
   flip: 0.7,      // 700ms — card flip (exception)
 } as const;
 
+// ─── Toast ──────────────────────────────────────────────
+
+/** 토스트가 표시된 후 자동으로 사라지기까지의 시간 (ms). */
+export const TOAST_VISIBLE_MS = 3000;
+
 // ─── Easings (cubic-bezier tuples) ──────────────────────
 
 export const easings = {
