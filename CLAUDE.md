@@ -1,3 +1,18 @@
+# 공통 프리미티브 사용 규칙
+
+기능 추가 / 수정 전 반드시 `docs/conventions/shared-primitives.md` 를 읽을 것. 인라인 `useEffect` / `useState` / `className` 조합을 새로 작성하기 전에, 위 가이드에 동일하거나 유사한 패턴이 이미 프리미티브로 존재하는지 확인할 것.
+
+@docs/conventions/shared-primitives.md
+
+추출 완료된 프리미티브:
+
+- Hooks: `useDisclosure`, `useBodyScrollLock`, `useEscapeKey`, `useClickOutside`, `useCopyToClipboardWithToast`
+- Components: `Chip`, `ModalShell`, `FlippableCard` (모두 `src/components/primitives/`)
+- Utils: `placeholders.ts` (`PLACEHOLDER_*` 상수), `imageFallback.ts` (`createImageFallbackHandler`)
+- Tokens (design-tokens.ts 추가분): `easings.{projectCard, toast, standard}`, `TOAST_VISIBLE_MS`
+
+신규 프리미티브 제안은 동일/유사 패턴이 2곳 이상에서 필요해질 때만 한다. Deferred 목록 (D-001 ~ D-013) 에 있는 항목은 오케스트레이터가 후속 처리하므로 직접 추출하지 말 것.
+
 # Branch Management Rules
 
 - feature 브랜치는 반드시 `develop` 브랜치에서 분기한다 (`git checkout develop && git checkout -b feat/...`)
