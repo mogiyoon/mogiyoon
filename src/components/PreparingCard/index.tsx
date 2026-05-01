@@ -23,8 +23,8 @@ const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => 
 
     return (
         <div className={`block ${className || ''}`}>
-            <div className="bg-surface-subtle rounded-card shadow-sm overflow-hidden flex flex-col aspect-[9/16] border-2 border-dashed border-line-strong">
-                <div className="relative w-full aspect-square p-4">
+            <div className="bg-surface-subtle rounded-card shadow-sm overflow-hidden flex flex-col aspect-[24/41] border-2 border-dashed border-line-strong">
+                <div className="relative w-full aspect-square p-3 sm:p-4">
                     <img
                         src={`https://placehold.co/300x300/e2e8f0/9ca3af?text=Coming+Soon`}
                         // alt 속성도 번역 처리합니다.
@@ -33,16 +33,16 @@ const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => 
                         onError={handleImageError}
                     />
                 </div>
-                <div className="px-6 pb-4 flex flex-col flex-grow overflow-y-auto">
-                    <h3 className="text-2xl font-bold mb-2 truncate">
+                <div className="px-5 pb-4 flex flex-col flex-grow overflow-y-auto sm:px-6">
+                    <h3 className="mb-2 line-clamp-2 min-h-[3.2rem] text-lg font-bold leading-tight sm:min-h-[3.6rem] sm:text-[1.35rem]">
                         {/* 준비중인 프로젝트의 제목도 t 함수로 감싸줍니다. */}
                         {t(project.title)}
                     </h3>
                     <p className="
-                        text-content-secondary mb-2 hidden sm:block
-                        text-sm h-10
-                        md:text-base md:h-20
+                        mb-2 hidden min-h-[3.8rem]
+                        text-sm leading-relaxed text-content-secondary
                         line-clamp-3
+                        sm:block sm:text-[0.95rem]
                     ">
                         {t(project.subtitle || '')}
                     </p>
