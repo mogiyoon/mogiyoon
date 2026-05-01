@@ -1,0 +1,284 @@
+{
+  "generated_at": "2026-05-01T05:30:00Z",
+  "summary": {
+    "batch_count": 7,
+    "items_planned": 15,
+    "estimated_total_diff_lines": 1294,
+    "longest_dependency_chain": ["B-008", "B-009", "B-014"]
+  },
+  "notes": [
+    "Batch ordering respects all depends_on edges: B-002 before B-007; B-008 before B-009 and before B-014; B-009 before B-014.",
+    "PortfolioCard/ProjectFlipPreviewCard/PreparingCard are touched by multiple batches (B-007, B-010, B-013, B-015) but each batch modifies orthogonal concerns (image fallback URL vs. useState->useDisclosure vs. pill classes vs. flip wrapper), so re-touching is acceptable. Implementer should still re-read each file at the start of every batch.",
+    "B-006 re-exports PROJECT_CARD_EASE from src/hooks/useProjectGridEntrance.ts so the existing test mock at ProjectsSection.test.tsx:172 continues to resolve via the same import path.",
+    "B-008 and B-009 both modify AiDevKitModal/index.tsx in sequence; the dep rule forces them into separate batches. Implementer for batch-003 must read the post-batch-002 state of AiDevKitModal before extracting Escape.",
+    "B-014 (ModalShell) intentionally adds Escape + body-scroll-lock to ContactModal.tsx as a positive behavior change — Validator should treat new behavior in ContactModal tests (if any) as expected, not as regression."
+  ],
+  "batches": [
+    {
+      "batchId": "batch-001",
+      "title": "Dead code purge + typo rename (5 fast wins, no deps)",
+      "item_ids": ["B-001", "B-002", "B-003", "B-004", "B-005"],
+      "kinds": ["delete-dead-code", "rename"],
+      "files_affected": [
+        "src/components/InfoIcon.tsx",
+        "src/utils/converter.ts",
+        "src/components/TotalProjectCard/index.tsx",
+        "src/sections/home/CrazyAboutSection.tsx",
+        "src/hooks/useIntersectionObserver.ts",
+        "src/components/AboutMe/ShootingStart.tsx",
+        "src/components/AboutMe/ShootingStar.tsx",
+        "src/components/AboutMe/DeveloperIntro.tsx"
+      ],
+      "estimated_diff_lines": 209,
+      "depends_on_batches": [],
+      "risk": "low",
+      "validation_strategy": {
+        "fast_test_globs": [
+          "src/components/AboutMe/**/*.test.tsx",
+          "src/sections/home/**/*.test.tsx"
+        ],
+        "full_suite_required": true,
+        "extra_grep_checks": [
+          "rg \"InfoIcon|capitalizeFirst|TotalProjectCard|CrazyAboutSection|useIntersectionObserver|ShootingStart\" src/"
+        ]
+      },
+      "rollback_strategy": "git restore . in worktree; for the rename use git mv to preserve blame, so rollback is `git restore --staged --worktree .` then `git clean -fd src/components/AboutMe/ShootingStar.tsx`.",
+      "success_criteria": [
+        "npx tsc --noEmit passes",
+        "npm test -- --run passes (all 121+ tests, including DeveloperIntro consumers)",
+        "npm run lint passes",
+        "ripgrep finds zero remaining references to deleted symbols (InfoIcon, capitalizeFirst, TotalProjectCard, CrazyAboutSection, useIntersectionObserver) anywhere under src/",
+        "ripgrep finds zero remaining imports from './ShootingStart' anywhere under src/",
+        "git log --follow src/components/AboutMe/ShootingStar.tsx shows pre-rename history (git mv preserved)"
+      ]
+    },
+    {
+      "batchId": "batch-002",
+      "title": "Token + independent hooks (easings, body-scroll-lock, disclosure, click-outside)",
+      "item_ids": ["B-006", "B-008", "B-010", "B-012"],
+      "kinds": ["extract-constant", "extract-hook"],
+      "files_affected": [
+        "src/design-tokens.ts",
+        "src/hooks/useBodyScrollLock.ts",
+        "src/hooks/useDisclosure.ts",
+        "src/hooks/useClickOutside.ts",
+        "src/hooks/useProjectGridEntrance.ts",
+        "src/components/ProjectsSidebar.tsx",
+        "src/sections/home/ProjectsSection.test.tsx",
+        "src/sections/home/PostSection.tsx",
+        "src/components/AiDevKitModal/index.tsx",
+        "src/components/AiDevKitModal/SkillGroups.tsx",
+        "src/components/AiDevKitModal/DetailItems.tsx",
+        "src/components/PortfolioCard/index.tsx",
+        "src/components/PageHeader.tsx"
+      ],
+      "estimated_diff_lines": 210,
+      "depends_on_batches": ["batch-001"],
+      "risk": "low",
+      "validation_strategy": {
+        "fast_test_globs": [
+          "src/hooks/**/*.test.ts",
+          "src/components/AiDevKitModal/**/*.test.tsx",
+          "src/components/PortfolioCard/**/*.test.tsx",
+          "src/components/PageHeader.test.tsx",
+          "src/sections/home/ProjectsSection.test.tsx",
+          "src/sections/home/PostSection.test.tsx"
+        ],
+        "full_suite_required": true
+      },
+      "rollback_strategy": "git restore . in worktree. Each extracted hook lives in a new file, so rollback is purely deletion + restore of consumer call sites.",
+      "success_criteria": [
+        "npx tsc --noEmit passes",
+        "npm test -- --run passes (AiDevKitModal scroll-lock test still asserts prior overflow value is restored, NOT '')",
+        "npm run lint passes",
+        "PROJECT_CARD_EASE remains importable from src/hooks/useProjectGridEntrance for the ProjectsSection test mock",
+        "design-tokens.ts exports easings.{projectCard, toast, standard} typed as `readonly [number, number, number, number]`",
+        "PostSection and AiDevKitModal no longer contain inline document.body.style.overflow assignments",
+        "PageHeader no longer contains inline mousedown listener attachment"
+      ]
+    },
+    {
+      "batchId": "batch-003",
+      "title": "useEscapeKey + useCopyToClipboardWithToast",
+      "item_ids": ["B-009", "B-011"],
+      "kinds": ["extract-hook"],
+      "files_affected": [
+        "src/hooks/useEscapeKey.ts",
+        "src/hooks/useCopyToClipboardWithToast.ts",
+        "src/components/AiDevKitModal/index.tsx",
+        "src/components/TotalSummaryComponent.tsx",
+        "src/design-tokens.ts"
+      ],
+      "estimated_diff_lines": 125,
+      "depends_on_batches": ["batch-002"],
+      "risk": "low",
+      "validation_strategy": {
+        "fast_test_globs": [
+          "src/hooks/useEscapeKey.test.ts",
+          "src/hooks/useCopyToClipboardWithToast.test.ts",
+          "src/components/AiDevKitModal/**/*.test.tsx",
+          "src/components/TotalSummaryComponent.test.tsx"
+        ],
+        "full_suite_required": true
+      },
+      "rollback_strategy": "git restore . in worktree. New hook files can be deleted independently. AiDevKitModal Escape behavior must remain functional after rollback (it was inline before batch-002 already split it).",
+      "success_criteria": [
+        "npx tsc --noEmit passes",
+        "npm test -- --run passes (close-on-Escape test still passes for AiDevKitModal)",
+        "npm run lint passes",
+        "design-tokens.ts exports toastVisibleMs constant (3000) and toast keyframe duration uses the same constant or is documented as kept-in-sync",
+        "TotalSummaryComponent no longer contains inline setTimeout for toast clear (race fixed)",
+        "useEscapeKey uses the latest-handler ref pattern (verify by reading the implementation)"
+      ]
+    },
+    {
+      "batchId": "batch-004",
+      "title": "Placeholder constants + image-fallback helper (medium-risk isolated)",
+      "item_ids": ["B-007"],
+      "kinds": ["extract-hook"],
+      "files_affected": [
+        "src/utils/placeholders.ts",
+        "src/utils/imageFallback.ts",
+        "src/components/PortfolioCard/index.tsx",
+        "src/components/PreparingCard/index.tsx",
+        "src/components/ProjectFlipPreviewCard.tsx",
+        "src/pages/ProjectDetailPage.tsx",
+        "src/components/ProjectDetailComponent.tsx"
+      ],
+      "estimated_diff_lines": 180,
+      "depends_on_batches": ["batch-001"],
+      "risk": "medium",
+      "validation_strategy": {
+        "fast_test_globs": [
+          "src/components/PortfolioCard/**/*.test.tsx",
+          "src/components/PreparingCard/**/*.test.tsx",
+          "src/components/ProjectFlipPreviewCard.test.tsx",
+          "src/pages/ProjectDetailPage.test.tsx",
+          "src/components/ProjectDetailComponent.test.tsx"
+        ],
+        "full_suite_required": true,
+        "extra_grep_checks": [
+          "rg \"via\\.placeholder\\.com\" src/   # must be zero after migration",
+          "rg \"placehold\\.co\" src/           # only inside placeholders.ts"
+        ]
+      },
+      "rollback_strategy": "git restore . in worktree. New utility files can be deleted; consumer literals must come back exactly as before. NOTE: test files for PortfolioCard/PreparingCard were updated to import the constant — rollback must restore the literal-URL assertions.",
+      "success_criteria": [
+        "npx tsc --noEmit passes",
+        "npm test -- --run passes",
+        "npm run lint passes",
+        "createImageFallbackHandler sets e.currentTarget.onerror = null on first failure (verify in unit test)",
+        "ProjectDetailPage's onAfter callback still triggers setIsLoaded(true)",
+        "ripgrep finds zero remaining via.placeholder.com references in src/",
+        "All 5 placeholder URLs collapse to the same PLACEHOLDER_THUMB / PLACEHOLDER_PROJECT constant (or named subset)"
+      ]
+    },
+    {
+      "batchId": "batch-005",
+      "title": "Chip primitive (largest single extraction, 9 sites)",
+      "item_ids": ["B-013"],
+      "kinds": ["extract-component"],
+      "files_affected": [
+        "src/components/primitives/Chip.tsx",
+        "src/components/PortfolioCard/index.tsx",
+        "src/components/ProjectFlipPreviewCard.tsx",
+        "src/components/PreparingCard/index.tsx",
+        "src/components/AiDevKitModal/DetailItems.tsx",
+        "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx",
+        "src/components/AboutMe/MyInformation/CertificationCard.tsx",
+        "src/components/TotalSummaryComponent.tsx",
+        "src/components/AboutMe/MyInformation/Section/WorkSection.tsx"
+      ],
+      "estimated_diff_lines": 220,
+      "depends_on_batches": ["batch-004"],
+      "risk": "low",
+      "validation_strategy": {
+        "fast_test_globs": [
+          "src/components/PortfolioCard/**/*.test.tsx",
+          "src/components/PreparingCard/**/*.test.tsx",
+          "src/components/AiDevKitModal/**/*.test.tsx",
+          "src/components/TotalSummaryComponent.test.tsx",
+          "src/components/primitives/Chip.test.tsx"
+        ],
+        "full_suite_required": true,
+        "validation_strategy_note": "extra-careful — 4 of 9 consumer files are untested (WorkExperienceCard, CertificationCard, WorkSection, ProjectFlipPreviewCard). Implementer must visually verify these in dev mode OR add minimal characterization snapshots before marking done."
+      },
+      "rollback_strategy": "git restore . in worktree. New primitive file can be deleted independently. Watch out for class-string drift in untested consumers — diff the rendered className strings before/after if possible.",
+      "success_criteria": [
+        "npx tsc --noEmit passes",
+        "npm test -- --run passes (all tested consumers still render expected pill content)",
+        "npm run lint passes",
+        "Chip exports tones: accentSoft | accentSolid | neutralSoft | outlined and sizes: sm | md",
+        "neutralSoft tone retains bg-slate-200 (deferred D-009 will migrate)",
+        "outlined tone uses border-line bg-surface text-content-secondary font-semibold",
+        "All 9 occurrence sites import Chip; ripgrep finds zero remaining inline rounded-full pill class combos in the affected files"
+      ]
+    },
+    {
+      "batchId": "batch-006",
+      "title": "ModalShell primitive (consumes batch-002/003 hooks)",
+      "item_ids": ["B-014"],
+      "kinds": ["extract-component"],
+      "files_affected": [
+        "src/components/primitives/ModalShell.tsx",
+        "src/components/AiDevKitModal/index.tsx",
+        "src/components/ContactModal.tsx"
+      ],
+      "estimated_diff_lines": 200,
+      "depends_on_batches": ["batch-003"],
+      "risk": "medium",
+      "validation_strategy": {
+        "fast_test_globs": [
+          "src/components/AiDevKitModal/**/*.test.tsx",
+          "src/components/ContactModal.test.tsx",
+          "src/components/primitives/ModalShell.test.tsx"
+        ],
+        "full_suite_required": true,
+        "validation_strategy_note": "extra-careful — ContactModal gains Escape + body-scroll-lock as a deliberate positive behavior change. If ContactModal has tests asserting absence of these behaviors, those assertions must be updated, not interpreted as regressions."
+      },
+      "rollback_strategy": "git restore . in worktree. ContactModal must be restored to its pre-batch state (no Escape, no body-scroll) — call this out in the PR description as the intentional behavior addition.",
+      "success_criteria": [
+        "npx tsc --noEmit passes",
+        "npm test -- --run passes",
+        "npm run lint passes",
+        "ModalShell uses useBodyScrollLock and useEscapeKey internally",
+        "click on backdrop calls onClose; click on panel does NOT (event.stopPropagation present)",
+        "panel uses rounded-modal + bg-surface + shadow-2xl + animate-fade-in-up",
+        "ContactModal now closes on Escape and locks body scroll while open (verified by manual smoke or new test)"
+      ]
+    },
+    {
+      "batchId": "batch-007",
+      "title": "FlippableCard primitive (3D flip wrapper)",
+      "item_ids": ["B-015"],
+      "kinds": ["extract-component"],
+      "files_affected": [
+        "src/components/primitives/FlippableCard.tsx",
+        "src/components/PortfolioCard/index.tsx",
+        "src/components/ProjectFlipPreviewCard.tsx"
+      ],
+      "estimated_diff_lines": 150,
+      "depends_on_batches": ["batch-005"],
+      "risk": "low",
+      "validation_strategy": {
+        "fast_test_globs": [
+          "src/components/PortfolioCard/**/*.test.tsx",
+          "src/components/ProjectFlipPreviewCard.test.tsx",
+          "src/components/primitives/FlippableCard.test.tsx"
+        ],
+        "full_suite_required": true,
+        "validation_strategy_note": "ProjectFlipPreviewCard is untested — implementer should add a minimal snapshot test for the auto-rotate driver before marking done."
+      },
+      "rollback_strategy": "git restore . in worktree. New primitive can be deleted; both consumers' inline 3D-transform JSX must come back as before.",
+      "success_criteria": [
+        "npx tsc --noEmit passes",
+        "npm test -- --run passes (PortfolioCard hover-flip behavior still asserts isFlipped toggle)",
+        "npm run lint passes",
+        "FlippableCard does NOT hard-code aspect/sizing — caller passes className",
+        "outer perspective:1000px wrapper present; inner preserve-3d transform-style + transition-transform duration-700 present",
+        "back face rotateY(180deg) baseline verified",
+        "PortfolioCard uses hover driver; ProjectFlipPreviewCard uses auto-rotate driver — both work via the same isFlipped prop"
+      ]
+    }
+  ]
+}

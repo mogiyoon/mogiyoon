@@ -2,7 +2,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShootingStar } from './ShootingStart';
+import { ShootingStar } from './ShootingStar';
 
 interface FireworkPosition {
   id: number;

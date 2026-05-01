@@ -1,0 +1,334 @@
+{
+  "runId": "2026-05-01",
+  "generated_at": "2026-05-01T00:00:00Z",
+  "summary": {
+    "total_source_files_scanned": 60,
+    "already_tested": [
+      "src/utils/resumePreview.ts",
+      "src/pages/ResumePreviewPage.tsx"
+    ],
+    "uncovered_count": 58,
+    "top_priority_count": 14,
+    "scan_excluded": [
+      "src/main.tsx",
+      "src/vite-env.d.ts",
+      "src/types/index.ts",
+      "src/components/AiDevKitModal/types.ts",
+      "src/components/AboutMe/MyInformation/types.ts",
+      "src/hooks/useBodyScrollLock.ts",
+      "src/utils/converter.ts"
+    ],
+    "scan_excluded_notes": "useBodyScrollLock.ts is empty (0 lines) — likely dead-code stub. The real body-scroll-lock implementation is duplicated inline in src/sections/home/PostSection.tsx (lines 5-14) and src/components/AiDevKitModal/index.tsx (lines 24-41). Flag during refactor: extract to a single hook. converter.ts contains only a one-line capitalizeFirst helper with no current importers (0 hits in src/) — possible dead code."
+  },
+  "top_priority": [
+    {
+      "path": "src/components/AiDevKitModal/FlowDiagram.tsx",
+      "kind": "component-visual",
+      "import_count": 1,
+      "complexity_score": 690,
+      "risk_level": "high",
+      "priority_score": 76.0,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "671 LOC of pure-layout SVG arrow math + hand-tuned loop node coordinates; any token/style refactor risks silently breaking diagram geometry with zero visible test coverage.",
+      "key_behaviors_to_lock": [
+        "renders one FlowStepCard per step in linear mode (no loops)",
+        "renders Step N+1 label using 1-based index from item.index",
+        "highlights cards whose index appears in a loop range",
+        "splits steps into preLoop / loop cluster / postLoop when a backward loop (fromStep > toStep) is supplied",
+        "ignores loop entries whose fromStep/toStep fall outside the steps array",
+        "renders nothing when steps.length === 0",
+        "renders both desktop (md:block) and mobile (md:hidden) variants in the same output",
+        "renders LoopLabels only for loops that have a label"
+      ]
+    },
+    {
+      "path": "src/sections/home/ProfileSection.tsx",
+      "kind": "section",
+      "import_count": 1,
+      "complexity_score": 950,
+      "risk_level": "high",
+      "priority_score": 99.0,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "910 LOC, 9 hooks, 4 tabs, framer-motion AnimatePresence, loads localized resume data and renders many conditional branches per tab — the single biggest characterization gap in the app.",
+      "key_behaviors_to_lock": [
+        "defaults the active tab to 'basics' on mount",
+        "switching tabs swaps the rendered block (workSkills / education / awardsAndCerts)",
+        "WorkBlock starts with openWorkIdx=0 and lets user toggle highlight/section open state",
+        "SkillsBlock renders one chip per group.items entry, grouped by category label",
+        "renders resume profile links in the order ['website','blog','github','linkedin'] when present",
+        "navigate is invoked when the resume CTA is clicked",
+        "loadLocalizedResumeProfile result drives the rendered tabs (loading / loaded states)"
+      ]
+    },
+    {
+      "path": "src/components/PortfolioCard/index.tsx",
+      "kind": "component-visual",
+      "import_count": 1,
+      "complexity_score": 210,
+      "risk_level": "high",
+      "priority_score": 28.0,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "Used inside the projects grid; combines 3D flip CSS, hover-driven state, claudeInfo badge, stickerText badge, and image error fallback — a refactor target for tokens (rounded-card, accent-*, shadow) and easy to break.",
+      "key_behaviors_to_lock": [
+        "renders project.title, project.subtitle, projectType through useTranslation('projects')",
+        "renders the first screenshot src; falls back to placehold.co URL when screenshots is empty",
+        "onError handler swaps the img src to the not-found placeholder and clears onerror",
+        "click on the card invokes onClick prop and resets isFlipped to false",
+        "mouseEnter sets isFlipped=true (front -> back rotateY(180deg))",
+        "renders the Vibe sparkle badge only when project.claudeInfo is truthy",
+        "renders the stickerText sticker only when project.stickerText is truthy",
+        "renders one tech-stack chip per techStack entry on the back face"
+      ]
+    },
+    {
+      "path": "src/hooks/useProjectGridEntrance.ts",
+      "kind": "hook",
+      "import_count": 2,
+      "complexity_score": 196,
+      "risk_level": "high",
+      "priority_score": 28.6,
+      "suggested_test_strategy": "renderHook+behavior",
+      "rationale": "Drives the entire project grid entrance animation: layout effect measures DOM positions, intersection-observer (useInView) gates state transitions, and timer schedules AI dev-kit reveal — multiple race conditions to lock down.",
+      "key_behaviors_to_lock": [
+        "exposes projectsGridRef and projectCardRefs that can be attached to DOM nodes",
+        "projectCardOffsetsReady becomes true only once every project has an offset entry",
+        "hasPlayedProjectEntrance flips to true after offsets are ready AND the grid is in view",
+        "showAiDevKit becomes true after a delay scaled by projects.length once entrance has played",
+        "cardVariants.cluster returns offset-driven {x, y, zIndex} when offsets exist, fallback when not",
+        "cardVariants.exit returns scale:1.5 for the selectedId card and opacity:0 for others",
+        "removes the resize listener and clears timers on unmount"
+      ]
+    },
+    {
+      "path": "src/components/AboutMe/IntroLine.tsx",
+      "kind": "component-visual",
+      "import_count": 1,
+      "complexity_score": 156,
+      "risk_level": "high",
+      "priority_score": 22.6,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "Heavy framer-motion useScroll/useTransform with 12 hand-tuned scroll ranges driving opacity of background, intro lines, four start images, three end images, and a nested AnswerChecker — every transform is a magic number that any refactor will perturb.",
+      "key_behaviors_to_lock": [
+        "renders introLine1 / introLine1-1 / introLine2 / introLine2-1 translation keys",
+        "renders all 7 intro images (4 start + 3 end) as <img> with the documented src paths",
+        "wraps content in a section with h-[2000vh] sticky/scroll container",
+        "renders the inner AnswerChecker only inside the xl:inline branch",
+        "section ref is forwarded to the targetRef element so useScroll can attach"
+      ]
+    },
+    {
+      "path": "src/sections/home/ProjectsSection.tsx",
+      "kind": "section",
+      "import_count": 1,
+      "complexity_score": 156,
+      "risk_level": "high",
+      "priority_score": 22.6,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "Top-level home section composing six children (PortfolioCard, PreparingCard, AiDevKitModal, two sidebars) and orchestrating 3 hooks; the central refactor surface for the grid layout tokens.",
+      "key_behaviors_to_lock": [
+        "renders 4 skeleton placeholders while useProjectLists isLoading",
+        "after loading, renders one PortfolioCard per project from useProjectLists",
+        "renders one PreparingCard per preparingProject in the second section",
+        "clicking a card sets selectedId then navigates to /project/:id after 300ms",
+        "renders ProjectsSidebar with projects, devKitItems, hasPlayedProjectEntrance, showAiDevKit",
+        "AiDevKitModal receives item=null until a dev-kit card is clicked, then receives the matching item"
+      ]
+    },
+    {
+      "path": "src/components/AiDevKitModal/SkillGroups.tsx",
+      "kind": "component-visual",
+      "import_count": 1,
+      "complexity_score": 466,
+      "risk_level": "high",
+      "priority_score": 51.6,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "432 LOC of conditional layouts (skill-groups, flow steps, grouped detail sections, 5 SectionIcon variants) — pure visual surface that token refactors will silently mutate.",
+      "key_behaviors_to_lock": [
+        "renders skillItems grouped by category when section.layout === 'skill-groups'",
+        "renders SkillFlowSteps with 'Step N' labels when section.steps is non-empty",
+        "renders 5 distinct SectionIcon SVG variants based on (index % 5)",
+        "expand/collapse toggle reveals chips and detail content (useState driven)",
+        "renders nothing for SkillFlowSteps when steps array is empty"
+      ]
+    },
+    {
+      "path": "src/components/AiDevKitModal/DetailItems.tsx",
+      "kind": "component-visual",
+      "import_count": 1,
+      "complexity_score": 322,
+      "risk_level": "high",
+      "priority_score": 36.2,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "288 LOC, expand/collapse toggles per item, embeds FlowDiagram for diagram layout, renders chips/steps/groups conditionally — refactor of tokens or layout will easily flip ordering.",
+      "key_behaviors_to_lock": [
+        "renders DetailItemHeading with title and optional description per item",
+        "renders chips only when item.chips is non-empty",
+        "renders numbered StepBadges only when item.steps is non-empty",
+        "renders DetailGroupGrid only when item.groups is non-empty",
+        "embeds FlowDiagram when section.layout === 'diagram' or 'flow'",
+        "expand/collapse state is per-item and toggled by ChevronIcon click"
+      ]
+    },
+    {
+      "path": "src/components/TotalSummaryComponent.tsx",
+      "kind": "component-logic",
+      "import_count": 1,
+      "complexity_score": 296,
+      "risk_level": "high",
+      "priority_score": 33.6,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "Renders the entire project-detail summary (5 SummaryPart variants, copy-link toast flow, GitHub/Demo/Notion buttons) and uses navigator.clipboard — high blast radius for any rounded-modal/border refactor.",
+      "key_behaviors_to_lock": [
+        "renders each summaryPart kind: 'text', 'subtitle', 'image', 'image-group', 'link'",
+        "renders only present LinkButtons (github / demo / notion)",
+        "renders InfoCells only for present overview fields (period, projectType, role, other)",
+        "clicking a subtitle calls navigator.clipboard.writeText with origin+pathname#id",
+        "successful copy shows ToastNotification with linkCopied message and isSuccess=true",
+        "failed copy shows the linkCopyFailed message and isSuccess=false",
+        "toast auto-clears after 3000ms"
+      ]
+    },
+    {
+      "path": "src/components/PageHeader.tsx",
+      "kind": "component-logic",
+      "import_count": 1,
+      "complexity_score": 142,
+      "risk_level": "high",
+      "priority_score": 21.2,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "Site-wide header with tabs, language dropdown, outside-click effect — high reuse and many active-state class combinations that will move with token refactor.",
+      "key_behaviors_to_lock": [
+        "renders 4 tab links: about, projects, posts, profile",
+        "active tab gets bg-slate-900 and text-white classes; inactive tabs do not",
+        "clicking Info button invokes setModalOpen prop",
+        "clicking the language toggle opens the dropdown; clicking again closes it",
+        "selecting 한국어/English calls i18n.changeLanguage('ko'|'en') and closes the dropdown",
+        "click outside the dropdown closes it (mousedown listener)",
+        "current language label receives bold + text-accent-600 classes"
+      ]
+    },
+    {
+      "path": "src/components/AboutMe/AnswerChecker.tsx",
+      "kind": "component-logic",
+      "import_count": 1,
+      "complexity_score": 150,
+      "risk_level": "high",
+      "priority_score": 21.0,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "ContentEditable input + per-character correctness comparison; refactoring color tokens (green-200/red-200) or button classes risks breaking the visible result.",
+      "key_behaviors_to_lock": [
+        "renders the correctAnswer as the problem label",
+        "Check button fills the result list with one ResultCharacter per typed char",
+        "each ResultCharacter sets isCorrect=true when char === correctAnswer[index]",
+        "Clear button empties the result and clears the contentEditable innerText",
+        "Check is a no-op when the input is empty or whitespace-only",
+        "mouseEnter on a button blurs the contentEditable when input is non-empty"
+      ]
+    },
+    {
+      "path": "src/components/AiDevKitModal/index.tsx",
+      "kind": "component-logic",
+      "import_count": 2,
+      "complexity_score": 90,
+      "risk_level": "high",
+      "priority_score": 18.0,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "Modal entry point that locks body scroll, binds Escape key, and stops backdrop-click propagation — core dialog behavior that any restructure can silently break.",
+      "key_behaviors_to_lock": [
+        "renders nothing when item is null",
+        "sets document.body.style.overflow = 'hidden' while open and restores on unmount",
+        "binds a keydown listener that calls onClose when Escape is pressed",
+        "clicking the backdrop calls onClose; clicking the inner panel does not",
+        "renders one DetailSection per item.sections entry",
+        "ModalHeader receives the same item and onClose props"
+      ]
+    },
+    {
+      "path": "src/hooks/useProjectFlipPreview.ts",
+      "kind": "hook",
+      "import_count": 1,
+      "complexity_score": 38,
+      "risk_level": "medium",
+      "priority_score": 5.8,
+      "suggested_test_strategy": "renderHook+behavior",
+      "rationale": "Tiny but timer-driven; drives the visible homepage preview flip. Resetting projectCount or intervalMs is the only source of state change so it's a clean characterization target.",
+      "key_behaviors_to_lock": [
+        "initial activeProjectIndex=0 and isFlipped=false",
+        "stepIndex resets to 0 when projectCount changes",
+        "no interval is started when projectCount === 0",
+        "after intervalMs the stepIndex advances and isFlipped flips between true/false",
+        "stepIndex wraps around (projectCount * 2) modulo",
+        "interval is cleared on unmount and on projectCount/intervalMs change"
+      ]
+    },
+    {
+      "path": "src/components/PreparingCard/index.tsx",
+      "kind": "component-visual",
+      "import_count": 2,
+      "complexity_score": 64,
+      "risk_level": "medium",
+      "priority_score": 12.4,
+      "suggested_test_strategy": "render+queries",
+      "rationale": "Sister component to PortfolioCard; shares the same dashed-border, rounded-card and grayscale styling that token consolidation will touch. Two consumers means a regression hits both.",
+      "key_behaviors_to_lock": [
+        "renders project.title and project.subtitle through useTranslation('prepareProjects')",
+        "renders the placehold.co Coming+Soon image as the thumbnail",
+        "renders the comingSoon translation key as the badge label",
+        "image onError swaps src to the not-found placeholder and clears onerror",
+        "applies the dashed border and grayscale classes to the card container"
+      ]
+    }
+  ],
+  "deferred": [
+    { "path": "src/App.tsx", "kind": "page", "priority_score": 4.0, "reason_deferred": "thin shell wiring router + i18n; covered transitively when pages are tested" },
+    { "path": "src/pages/HomePage.tsx", "kind": "page", "priority_score": 3.5, "reason_deferred": "52 LOC composition of sections; tested via section-level coverage" },
+    { "path": "src/pages/ProjectDetailPage.tsx", "kind": "page", "priority_score": 7.0, "reason_deferred": "171 LOC route loader; medium priority but defer until TotalSummaryComponent is locked" },
+    { "path": "src/sections/home/AboutSection.tsx", "kind": "section", "priority_score": 6.0, "reason_deferred": "wraps existing About-Me children, mostly composition" },
+    { "path": "src/sections/home/CrazyAboutSection.tsx", "kind": "section", "priority_score": 2.0, "reason_deferred": "61 LOC, no consumers found via grep — possible dead code, confirm before refactor" },
+    { "path": "src/sections/home/PostSection.tsx", "kind": "section", "priority_score": 5.5, "reason_deferred": "framer-motion staged image entrance, but pure visual; lock only if tokens change" },
+    { "path": "src/components/AboutMe/MyInformation/MyInformation.tsx", "kind": "component-logic", "priority_score": 6.0, "reason_deferred": "tab-switch state machine; cover after section sidebar refactor settles" },
+    { "path": "src/components/AboutMe/MyInformation/InfoPost.tsx", "kind": "component-visual", "priority_score": 4.5, "reason_deferred": "switch-on-tabStatus router; deterministic" },
+    { "path": "src/components/AboutMe/MyInformation/Section/WorkSection.tsx", "kind": "component-visual", "priority_score": 3.5, "reason_deferred": "list rendering, low logic" },
+    { "path": "src/components/AboutMe/MyInformation/Section/EducationSection.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "list rendering, low logic" },
+    { "path": "src/components/AboutMe/MyInformation/Section/AwardSection.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "list rendering, low logic" },
+    { "path": "src/components/AboutMe/MyInformation/Section/CertificationSection.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "list rendering, low logic" },
+    { "path": "src/components/AboutMe/MyInformation/AwardCard.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "leaf card, presentational" },
+    { "path": "src/components/AboutMe/MyInformation/CertificationCard.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "leaf card, presentational" },
+    { "path": "src/components/AboutMe/MyInformation/EducationCard.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "leaf card, presentational" },
+    { "path": "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "leaf card, presentational" },
+    { "path": "src/components/AboutMe/MainPhrase1to4.tsx", "kind": "component-visual", "priority_score": 6.0, "reason_deferred": "framer-motion scroll piece; defer until IntroLine pattern is established" },
+    { "path": "src/components/AboutMe/MainPhrase5to8.tsx", "kind": "component-visual", "priority_score": 8.5, "reason_deferred": "two useScroll instances + switch state; consider promoting to top_priority if extra slot opens" },
+    { "path": "src/components/AboutMe/Lightbulb.tsx", "kind": "component-visual", "priority_score": 3.5, "reason_deferred": "leaf SVG, presentational" },
+    { "path": "src/components/AboutMe/BulbContainer.tsx", "kind": "component-visual", "priority_score": 4.0, "reason_deferred": "wraps Lightbulb; isolated visual" },
+    { "path": "src/components/AboutMe/Switch.tsx", "kind": "component-visual", "priority_score": 3.0, "reason_deferred": "controlled toggle, simple" },
+    { "path": "src/components/AboutMe/ShootingStart.tsx", "kind": "component-visual", "priority_score": 2.5, "reason_deferred": "decorative animation, low blast radius. Note: 'ShootingStart' looks like a typo for 'ShootingStar' — flag for rename" },
+    { "path": "src/components/AboutMe/DeveloperIntro.tsx", "kind": "component-visual", "priority_score": 4.5, "reason_deferred": "framer-motion intro, mostly visual" },
+    { "path": "src/components/AiDevKitModal/DetailSection.tsx", "kind": "component-visual", "priority_score": 4.0, "reason_deferred": "switches between SkillGroups/DetailItems by layout; covered transitively" },
+    { "path": "src/components/AiDevKitModal/ModalHeader.tsx", "kind": "component-visual", "priority_score": 3.5, "reason_deferred": "presentational header, low logic" },
+    { "path": "src/components/AiDevKitModal/icons.tsx", "kind": "component-visual", "priority_score": 3.0, "reason_deferred": "icon SVG library; visual regressions easy to spot" },
+    { "path": "src/components/AiDevKitCard/index.tsx", "kind": "component-visual", "priority_score": 6.5, "reason_deferred": "framer-motion hover button; consider adding if tokens for shadow/cursor change" },
+    { "path": "src/components/ProjectFlipPreviewCard.tsx", "kind": "component-visual", "priority_score": 7.0, "reason_deferred": "uses useProjectFlipPreview hook; will be exercised once that hook is locked" },
+    { "path": "src/components/ProjectsSidebar.tsx", "kind": "component-visual", "priority_score": 6.0, "reason_deferred": "thin composition over StickySectionSidebar + AiDevKitCard" },
+    { "path": "src/components/StickySectionSidebar.tsx", "kind": "component-visual", "priority_score": 5.4, "reason_deferred": "pure presentational shell; very stable, only sticky/spacing classes at risk" },
+    { "path": "src/components/ContactModal.tsx", "kind": "component-logic", "priority_score": 13.5, "reason_deferred": "near-cutoff candidate — 4 hard-coded link entries + open/close + backdrop-click; promote if a 15th slot opens" },
+    { "path": "src/components/ProjectDetailComponent.tsx", "kind": "component-visual", "priority_score": 4.5, "reason_deferred": "87 LOC wrapper; covered via ProjectDetailPage path" },
+    { "path": "src/components/TotalProjectCard/index.tsx", "kind": "component-visual", "priority_score": 2.5, "reason_deferred": "no importers found via grep; possible dead code, verify before refactor" },
+    { "path": "src/components/InfoIcon.tsx", "kind": "component-visual", "priority_score": 2.5, "reason_deferred": "no importers found; possible dead code" },
+    { "path": "src/components/ScrollToTop.tsx", "kind": "component-logic", "priority_score": 5.0, "reason_deferred": "pathname-effect to scroll window; small, behavior is single-line" },
+    { "path": "src/hooks/useIntersectionObserver.ts", "kind": "hook", "priority_score": 4.5, "reason_deferred": "no importers found; defer or delete during refactor" },
+    { "path": "src/hooks/useProjectDevKitItems.tsx", "kind": "hook", "priority_score": 6.5, "reason_deferred": "static data assembly from i18n; could be a snapshot test post-refactor" },
+    { "path": "src/hooks/useProjectLists.ts", "kind": "hook", "priority_score": 7.3, "reason_deferred": "module-level fetch with cachedLists singleton — tricky to test, defer until refactor extracts a fetcher" },
+    { "path": "src/design-tokens.ts", "kind": "util", "priority_score": 5.0, "reason_deferred": "value-only export; correctness is enforced by Tailwind config compile and consuming components" },
+    { "path": "src/i18n.ts", "kind": "util", "priority_score": 3.0, "reason_deferred": "i18next bootstrap; smoke-tested by every other render test" },
+    { "path": "src/assets/icons/index.tsx", "kind": "component-visual", "priority_score": 2.0, "reason_deferred": "presentational icon set" }
+  ],
+  "incidental_findings": [
+    "DEAD CODE CANDIDATES: src/hooks/useBodyScrollLock.ts is a 0-line empty file. src/utils/converter.ts (capitalizeFirst), src/components/TotalProjectCard/index.tsx, src/components/InfoIcon.tsx, src/hooks/useIntersectionObserver.ts, and src/sections/home/CrazyAboutSection.tsx all return zero importers via the basename grep — verify before refactor begins.",
+    "DUPLICATED LOGIC: an inline body-scroll-lock hook is reimplemented in src/sections/home/PostSection.tsx (lines 5-14) AND in src/components/AiDevKitModal/index.tsx (lines 24-41). Prime extraction target for Phase 1 — but only safe once those two consumers have render tests.",
+    "DUPLICATED LOGIC: PortfolioCard (src/components/PortfolioCard/index.tsx) and ProjectFlipPreviewCard (src/components/ProjectFlipPreviewCard.tsx) duplicate the same 3D flip CSS pattern (perspective:1000px, backfaceVisibility:hidden, rotateY transform). Candidate for a shared FlippableCard primitive.",
+    "DUPLICATED LOGIC: handleImageError fallback to placehold.co is repeated in PortfolioCard, PreparingCard, and ProjectFlipPreviewCard with slightly different placeholder URLs.",
+    "TYPO: src/components/AboutMe/ShootingStart.tsx file/component name is almost certainly meant to be 'ShootingStar'.",
+    "MAGIC NUMBERS: src/components/AiDevKitModal/FlowDiagram.tsx contains hand-tuned coordinate tables (getLoopNodePositions for loopSize 2/3/4) that have no test coverage — extracting to a layout helper before testing would be high-risk; tests must come first.",
+    "PROJECT_CARD_EASE constant is exported from src/hooks/useProjectGridEntrance.ts and re-imported by src/components/ProjectsSidebar.tsx — minor cross-layer coupling worth flagging during refactor."
+  ]
+}

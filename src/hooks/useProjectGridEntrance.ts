@@ -1,9 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 
+import { easings } from '../design-tokens';
 import type { ProjectSummary } from '../types';
 
-export const PROJECT_CARD_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+export const PROJECT_CARD_EASE = easings.projectCard;
 
 export type ProjectCardCustom = {
     id: string;
