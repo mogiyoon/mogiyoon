@@ -283,7 +283,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                               {/* Problem */}
                                               <div className="relative pb-6">
-                                                <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
+                                                <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
                                                 <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
                                                   {tCommon("highlight.problem")}
                                                 </span>
@@ -292,7 +292,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                               {/* Solution */}
                                               <div className="relative pb-6">
-                                                <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full bg-slate-600" />
+                                                <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-600" />
                                                 <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
                                                   {tCommon("highlight.solution")}
                                                 </span>
@@ -303,7 +303,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                               {/* Result */}
                                               <div className="relative">
-                                                <div className="absolute -left-[25px] top-[4px] w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
+                                                <div className="absolute -left-[25px] top-hairline w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
                                                 <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
                                                   {tCommon("highlight.result")}
                                                 </span>
@@ -459,7 +459,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                                       {/* Context */}
                                                       <div className="relative pb-6">
-                                                        <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
+                                                        <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
                                                         <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
                                                           {tCommon("highlight.context")}
                                                         </span>
@@ -468,7 +468,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                                       {/* Approach */}
                                                       <div className="relative pb-6">
-                                                        <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full bg-slate-500" />
+                                                        <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-500" />
                                                         <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
                                                           {tCommon("highlight.approach")}
                                                         </span>
@@ -479,7 +479,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                                       {/* Verification */}
                                                       <div className="relative pb-6">
-                                                        <div className="absolute -left-6 top-[4px] w-3 h-3 rounded-full bg-slate-700" />
+                                                        <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-700" />
                                                         <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
                                                           {tCommon("highlight.verification")}
                                                         </span>
@@ -490,7 +490,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                                                       {/* Impact */}
                                                       <div className="relative">
-                                                        <div className="absolute -left-[25px] top-[4px] w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
+                                                        <div className="absolute -left-[25px] top-hairline w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
                                                         <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
                                                           {tCommon("highlight.impact")}
                                                         </span>

@@ -1,0 +1,113 @@
+{
+  "generated_at": "2026-05-01T00:00:00Z",
+  "candidates": [
+    {
+      "id": "general-001",
+      "title": "Delete unused TotalProjectCard component",
+      "kind": "delete-dead-code",
+      "files_affected": ["src/components/TotalProjectCard/index.tsx"],
+      "proposed_change": "Verified zero importers of TotalProjectCard across src/ (the only matches are the file's own definition). No barrel re-exports the component. Delete the entire src/components/TotalProjectCard/ folder.",
+      "risk": "low",
+      "risk_notes": "No consumers; dead since some prior refactor likely replaced it with PortfolioCard. No tests reference it.",
+      "tested_consumers": [],
+      "untested_consumers": []
+    },
+    {
+      "id": "general-002",
+      "title": "Delete unused CrazyAboutSection",
+      "kind": "delete-dead-code",
+      "files_affected": ["src/sections/home/CrazyAboutSection.tsx"],
+      "proposed_change": "HomePage.tsx imports AboutSection, ProjectsSection, PostsSection, ProfileSection — never CrazyAboutSection. No other importers. Delete the file. (Translation keys crazyAboutGameEditors, crazyAboutExcelMacros, crazyAboutBlockCoding, crazyAboutMusicComposition, crazyAboutIntro1, crazyAboutIntro2 in locales/ become orphan but i18n key cleanup is a separate concern.)",
+      "risk": "low",
+      "risk_notes": "Pure section component, no side effects, no consumers.",
+      "tested_consumers": [],
+      "untested_consumers": []
+    },
+    {
+      "id": "general-003",
+      "title": "Delete unused useIntersectionObserver hook",
+      "kind": "delete-dead-code",
+      "files_affected": ["src/hooks/useIntersectionObserver.ts"],
+      "proposed_change": "Confirmed zero importers (only self-definition matches). Codebase uses framer-motion's useInView instead (see useProjectGridEntrance.ts). Delete the file.",
+      "risk": "low",
+      "risk_notes": "No barrel exports. Note the hook itself has a stale-closure bug on isVisible in its dep array — another reason to remove rather than keep.",
+      "tested_consumers": [],
+      "untested_consumers": []
+    },
+    {
+      "id": "general-004",
+      "title": "Delete unused InfoIcon component (and converter.ts capitalizeFirst)",
+      "kind": "delete-dead-code",
+      "files_affected": [
+        "src/components/InfoIcon.tsx",
+        "src/utils/converter.ts"
+      ],
+      "proposed_change": "InfoIcon has zero importers (only self-definition matches across src/). InfoIcon is the sole consumer of capitalizeFirst from src/utils/converter.ts. CoverageMapper flagged converter.ts as 0-importers because it grepped imports excluding InfoIcon — but since InfoIcon itself is dead, both should be deleted as a pair. No barrel re-exports either.",
+      "risk": "low",
+      "risk_notes": "Must delete together. If InfoIcon is kept, converter.ts must be kept too. Recommend deleting both as a single change.",
+      "tested_consumers": [],
+      "untested_consumers": []
+    },
+    {
+      "id": "general-005",
+      "title": "Rename ShootingStart.tsx to ShootingStar.tsx (typo fix)",
+      "kind": "rename",
+      "files_affected": [
+        "src/components/AboutMe/ShootingStart.tsx",
+        "src/components/AboutMe/DeveloperIntro.tsx"
+      ],
+      "proposed_change": "Verified the file renders a shooting-star animation (motion.div with star nucleus + tail). The exported component is already correctly named `ShootingStar` and the file's first-line comment is `// ShootingStar.tsx`. The filename is a typo. Rename ShootingStart.tsx -> ShootingStar.tsx and update the single import in DeveloperIntro.tsx (line 5: `from './ShootingStart'` -> `from './ShootingStar'`).",
+      "risk": "low",
+      "risk_notes": "Single import site. Use git mv to preserve history.",
+      "tested_consumers": [],
+      "untested_consumers": ["src/components/AboutMe/DeveloperIntro.tsx"]
+    },
+    {
+      "id": "general-006",
+      "title": "Move PROJECT_CARD_EASE constant out of useProjectGridEntrance hook",
+      "kind": "move-constant",
+      "files_affected": [
+        "src/hooks/useProjectGridEntrance.ts",
+        "src/components/ProjectsSidebar.tsx",
+        "src/design-tokens.ts"
+      ],
+      "proposed_change": "PROJECT_CARD_EASE = [0.22, 1, 0.36, 1] is exported from a hook file but consumed by a sibling component (ProjectsSidebar) and stubbed in tests. A constant should not live in a hook module. Move it to src/design-tokens.ts (e.g. under animation.easings.standardOut or as a named export `easings.projectCard`) and update the two import sites + the test mock at src/sections/home/ProjectsSection.test.tsx:172.",
+      "risk": "low",
+      "risk_notes": "Three import sites including a test mock. The Phase 1 hooks rewrite of useProjectGridEntrance should coordinate with this change to avoid merge conflicts.",
+      "tested_consumers": [
+        "src/hooks/useProjectGridEntrance.ts (useProjectGridEntrance.test.tsx)",
+        "src/sections/home/ProjectsSection.tsx (ProjectsSection.test.tsx)"
+      ],
+      "untested_consumers": ["src/components/ProjectsSidebar.tsx"]
+    },
+    {
+      "id": "general-007",
+      "title": "Extract magic timeout (300ms) for project card click navigation",
+      "kind": "other",
+      "files_affected": ["src/sections/home/ProjectsSection.tsx"],
+      "proposed_change": "ProjectsSection.tsx:43 hardcodes `setTimeout(..., 300)` for the card-exit animation before navigate. The 300ms maps to `durations.standard` (already exists in design-tokens.ts as 0.3s). Replace with `durations.standard * 1000` or add a named `cardExitNavigationDelayMs` constant. Same magic 300ms appears in ScrollToTop.tsx:24 (route-change scroll delay) — both should reference the same token.",
+      "risk": "low",
+      "risk_notes": "Visible animation timing — verify the existing tests for ProjectsSection still pass (the test mocks animation but uses fake timers).",
+      "tested_consumers": ["src/sections/home/ProjectsSection.tsx (ProjectsSection.test.tsx)"],
+      "untested_consumers": ["src/components/ScrollToTop.tsx"]
+    },
+    {
+      "id": "general-008",
+      "title": "Extract magic 3000ms toast-dismiss timeout in TotalSummaryComponent",
+      "kind": "other",
+      "files_affected": ["src/components/TotalSummaryComponent.tsx"],
+      "proposed_change": "TotalSummaryComponent.tsx lines 143 and 148 both use `setTimeout(..., 3000)` to clear toast message — duplicated literal. Note tailwindAnimation.toast-in-out is already 3s in design-tokens.ts (the toast keyframe duration). Add a named export e.g. `durations.toastVisibleMs = 3000` in design-tokens.ts and reference it from both timeout call sites + the keyframe animation string to keep them in sync.",
+      "risk": "low",
+      "risk_notes": "Cosmetic; no behavior change.",
+      "tested_consumers": ["src/components/TotalSummaryComponent.tsx (TotalSummaryComponent.test.tsx)"],
+      "untested_consumers": []
+    }
+  ],
+  "no_findings_areas": [
+    "Missing memoization: spot-checked PortfolioCard, PreparingCard, AiDevKitCard — none use React.memo, parent (ProjectsSection) doesn't re-render frequently outside selection changes, and the inline onClick lambdas would not benefit since children aren't memoized. Speculative memoization not warranted.",
+    "Excessive prop drilling: ProjectsSection -> ProjectsSidebar -> StickySectionSidebar passes title/subtitle through 2 layers but each prop is actually consumed by the layer that receives it (StickySectionSidebar renders title/subtitle directly). No 3+ layer pass-through that bypasses intermediate consumers. Context not warranted.",
+    "Inconsistent file/folder structure: components mix `Component.tsx` and `Component/index.tsx` patterns (6 of latter, ~10 of former). The index.tsx pattern is used only when there's a peer file or sub-component (AiDevKitModal/, AiDevKitCard/, PortfolioCard/, PreparingCard/, TotalProjectCard/). Pattern is roughly justified by structure; no friction observed. Skip.",
+    "Hook naming: all files in src/hooks/ start with `use` correctly. No misnamed hooks.",
+    "Components matching filename: all checked components export a name matching their filename (TotalProjectCard, InfoIcon, etc.) except ShootingStart.tsx already covered above."
+  ]
+}

@@ -36,20 +36,69 @@
     --border-default: #e2e8f0;  /* slate-200 */
     --border-strong: #cbd5e1;   /* slate-300 */
 
-    /* Shadows */
+    /* Shadows — generic */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
     --shadow-glow: 0 0 12px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
 
-    /* Radius */
+    /* Shadows — brand glow */
+    --shadow-glow-accent: 0 0 12px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+    --shadow-glow-accent-sm: 0 0 2px rgba(99,102,241,0.6);
+    --shadow-glow-accent-xs: 0 0 3px rgba(99,102,241,0.5);
+
+    /* Shadows — decorative */
+    --shadow-polaroid-sm: 2px 2px 7px 1px rgba(0,0,0,0.5);
+    --shadow-polaroid-md: 5px 5px 5px 1px rgba(0,0,0,0.5);
+    --shadow-polaroid-lg: 7px 7px 7px 1px rgba(0,0,0,0.5);
+    --shadow-star-glow: 0 0 10px #fff, 0 0 20px #fff;
+
+    /* Shadows — page-specific */
+    --shadow-post-card: 0 8px 24px rgba(0,0,0,0.28);
+    --shadow-post-card-lg: 0 10px 30px rgba(0,0,0,0.35);
+    --shadow-post-white-glow: 0 0 15px rgba(255,255,255,0.2);
+    --shadow-resume-paper: 0 24px 80px rgba(15,23,42,0.18);
+
+    /* Radius — generic */
     --radius-full: 9999px;
     --radius-3xl: 24px;
     --radius-2xl: 16px;
     --radius-xl: 12px;
     --radius-lg: 8px;
     --radius-md: 6px;
+
+    /* Radius — semantic */
+    --radius-card: 0.75rem;          /* 12px */
+    --radius-modal: 1rem;            /* 16px */
+    --radius-pill: 9999px;
+
+    /* Radius — app-specific */
+    --radius-card-soft-28: 1.75rem;  /* 28px */
+    --radius-card-chunky: 3rem;      /* 48px */
+    --radius-paper-edge: 1.4rem;     /* 22.4px */
+    --radius-paper-edge-lg: 2rem;    /* 32px */
+
+    /* Spacing — section + scroll viewport */
+    --spacing-section: 5rem;             /* 80px */
+    --spacing-hairline: 4px;
+    --spacing-scroll-viewport-half: 52vh;
+    --spacing-scroll-viewport-three-fifths: 55vh;
+    --spacing-scroll-viewport-full: 65vh;
+
+    /* Easings (functional, mirrored as code) */
+    --easing-toast: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    --easing-standard: ease-out;
+
+    /* Durations */
+    --duration-instant: 100ms;
+    --duration-micro: 150ms;
+    --duration-fast: 200ms;
+    --duration-page: 250ms;
+    --duration-item: 280ms;
+    --duration-standard: 300ms;
+    --duration-flip: 700ms;
+    --duration-toast-visible: 3000ms;
 
     /* Fonts */
     --font-body: 'Noto Sans KR', sans-serif;
@@ -187,6 +236,33 @@
   .spacing-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
   .spacing-bar { height: 24px; background: var(--accent-100); border-radius: 4px; border: 1px solid var(--accent-500); }
   .spacing-label { font-size: 0.625rem; font-family: var(--font-mono); color: var(--text-muted); min-width: 48px; }
+
+  /* Code block (for easings & duration tokens) */
+  .code-block {
+    background: var(--bg-white);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  .code-block .code-key { color: var(--accent-700); font-weight: 600; }
+  .code-block .code-comment { color: var(--text-muted); }
+
+  /* Token card grouping */
+  .token-group { margin-bottom: 28px; }
+  .token-group-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-meta);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+  .shadow-box-lg { width: 140px; height: 90px; background: var(--bg-white); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; font-size: 0.625rem; font-weight: 600; color: var(--text-muted); text-align: center; padding: 4px; }
 
   /* Glass Card */
   .glass-card {
@@ -345,40 +421,135 @@
   <!-- BORDER RADIUS -->
   <div class="section">
     <div class="section-title">Border Radius Scale</div>
-    <div class="radius-grid">
-      <div><div class="radius-box" style="border-radius:var(--radius-full);width:48px;height:48px">full</div></div>
-      <div><div class="radius-box" style="border-radius:var(--radius-3xl)">3xl</div></div>
-      <div><div class="radius-box" style="border-radius:var(--radius-2xl)">2xl</div></div>
-      <div><div class="radius-box" style="border-radius:var(--radius-xl)">xl</div></div>
-      <div><div class="radius-box" style="border-radius:var(--radius-lg)">lg</div></div>
-      <div><div class="radius-box" style="border-radius:var(--radius-md)">md</div></div>
+
+    <div class="token-group">
+      <div class="token-group-title">Generic</div>
+      <div class="radius-grid">
+        <div><div class="radius-box" style="border-radius:var(--radius-full);width:48px;height:48px">full</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-3xl)">3xl</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-2xl)">2xl</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-xl)">xl</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-lg)">lg</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-md)">md</div></div>
+      </div>
+    </div>
+
+    <div class="token-group">
+      <div class="token-group-title">Semantic</div>
+      <div class="radius-grid">
+        <div><div class="radius-box" style="border-radius:var(--radius-card)">card<br>12px</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-modal)">modal<br>16px</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-pill);width:96px">pill</div></div>
+      </div>
+    </div>
+
+    <div class="token-group">
+      <div class="token-group-title">App-Specific</div>
+      <div class="radius-grid">
+        <div><div class="radius-box" style="border-radius:var(--radius-card-soft-28);width:80px;height:80px">card-soft-28<br>28px</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-card-chunky);width:96px;height:96px">card-chunky<br>48px</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-paper-edge);width:80px;height:80px">paper-edge<br>22.4px</div></div>
+        <div><div class="radius-box" style="border-radius:var(--radius-paper-edge-lg);width:88px;height:88px">paper-edge-lg<br>32px</div></div>
+      </div>
     </div>
   </div>
 
   <!-- SHADOWS -->
   <div class="section">
     <div class="section-title">Elevation & Shadows</div>
-    <div class="shadow-grid">
-      <div class="shadow-box" style="box-shadow:none;border:1px solid var(--border-default)">Flat</div>
-      <div class="shadow-box" style="box-shadow:var(--shadow-sm)">sm</div>
-      <div class="shadow-box" style="box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1)">md</div>
-      <div class="shadow-box" style="box-shadow:var(--shadow-lg)">lg</div>
-      <div class="shadow-box" style="box-shadow:var(--shadow-xl)">xl</div>
-      <div class="shadow-box" style="box-shadow:var(--shadow-2xl)">2xl</div>
-      <div class="shadow-box" style="box-shadow:var(--shadow-glow);background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.06))">glow</div>
+
+    <div class="token-group">
+      <div class="token-group-title">Generic</div>
+      <div class="shadow-grid">
+        <div class="shadow-box" style="box-shadow:none;border:1px solid var(--border-default)">Flat</div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-sm)">sm</div>
+        <div class="shadow-box" style="box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1)">md</div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-lg)">lg</div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-xl)">xl</div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-2xl)">2xl</div>
+      </div>
+    </div>
+
+    <div class="token-group">
+      <div class="token-group-title">Brand Glow</div>
+      <div class="shadow-grid">
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-glow-accent);background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.06))">glow-accent</div>
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-glow-accent-sm)">glow-accent-sm</div>
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-glow-accent-xs)">glow-accent-xs</div>
+      </div>
+    </div>
+
+    <div class="token-group">
+      <div class="token-group-title">Polaroid (Decorative Drop)</div>
+      <div class="shadow-grid">
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-polaroid-sm)">polaroid-sm</div>
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-polaroid-md)">polaroid-md</div>
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-polaroid-lg)">polaroid-lg</div>
+      </div>
+    </div>
+
+    <div class="token-group">
+      <div class="token-group-title">Star (Celestial)</div>
+      <div class="shadow-grid">
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-star-glow);background:#0f172a;color:#fff">star-glow</div>
+      </div>
+    </div>
+
+    <div class="token-group">
+      <div class="token-group-title">Page-Specific</div>
+      <div class="shadow-grid">
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-post-card)">post-card</div>
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-post-card-lg)">post-card-lg</div>
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-post-white-glow);background:#0f172a;color:#fff">post-white-glow</div>
+        <div class="shadow-box-lg" style="box-shadow:var(--shadow-resume-paper)">resume-paper</div>
+      </div>
     </div>
   </div>
 
   <!-- SPACING -->
   <div class="section">
     <div class="section-title">Spacing Scale</div>
-    <div class="spacing-row"><div class="spacing-label">4px</div><div class="spacing-bar" style="width:16px"></div></div>
-    <div class="spacing-row"><div class="spacing-label">8px</div><div class="spacing-bar" style="width:32px"></div></div>
-    <div class="spacing-row"><div class="spacing-label">16px (p-4)</div><div class="spacing-bar" style="width:64px"></div></div>
-    <div class="spacing-row"><div class="spacing-label">24px (p-6)</div><div class="spacing-bar" style="width:96px"></div></div>
-    <div class="spacing-row"><div class="spacing-label">32px (p-8)</div><div class="spacing-bar" style="width:128px"></div></div>
-    <div class="spacing-row"><div class="spacing-label">48px</div><div class="spacing-bar" style="width:192px"></div></div>
-    <div class="spacing-row"><div class="spacing-label">80px (pt-20)</div><div class="spacing-bar" style="width:320px"></div></div>
+
+    <div class="token-group">
+      <div class="token-group-title">General</div>
+      <div class="spacing-row"><div class="spacing-label">4px (hairline)</div><div class="spacing-bar" style="width:16px"></div></div>
+      <div class="spacing-row"><div class="spacing-label">8px</div><div class="spacing-bar" style="width:32px"></div></div>
+      <div class="spacing-row"><div class="spacing-label">16px (p-4)</div><div class="spacing-bar" style="width:64px"></div></div>
+      <div class="spacing-row"><div class="spacing-label">24px (p-6)</div><div class="spacing-bar" style="width:96px"></div></div>
+      <div class="spacing-row"><div class="spacing-label">32px (p-8)</div><div class="spacing-bar" style="width:128px"></div></div>
+      <div class="spacing-row"><div class="spacing-label">48px</div><div class="spacing-bar" style="width:192px"></div></div>
+      <div class="spacing-row"><div class="spacing-label">80px (section)</div><div class="spacing-bar" style="width:320px"></div></div>
+    </div>
+
+    <div class="token-group">
+      <div class="token-group-title">Scroll Viewport (vh-based, used by PostSection scroll-snap)</div>
+      <div class="spacing-row"><div class="spacing-label">52vh (half)</div><div class="spacing-bar" style="width:52%"></div></div>
+      <div class="spacing-row"><div class="spacing-label">55vh (threeFifths)</div><div class="spacing-bar" style="width:55%"></div></div>
+      <div class="spacing-row"><div class="spacing-label">65vh (full)</div><div class="spacing-bar" style="width:65%"></div></div>
+    </div>
+  </div>
+
+  <!-- EASINGS -->
+  <div class="section">
+    <div class="section-title">Easings (Functional Tokens)</div>
+    <p style="color:var(--text-tertiary);font-size:0.875rem;margin-bottom:16px">애니메이션 곡선은 시각 카탈로그가 아닌 코드로 표시한다. 컴포넌트는 <code style="font-family:var(--font-mono);color:var(--accent-700)">animation.*</code> import를 통해 사용한다.</p>
+    <div class="code-block"><span class="code-key">toast</span>: cubic-bezier(0.68, -0.55, 0.27, 1.55)  <span class="code-comment">// toast-in-out keyframe (overshoot)</span></div>
+    <div class="code-block"><span class="code-key">standard</span>: easeOut  <span class="code-comment">// 기본 진입/퇴장 (page, list, content)</span></div>
+    <div class="code-block"><span class="code-key">projectCard</span>: spring (stiffness 400, damping 17)  <span class="code-comment">// chipHover · 마이크로 인터랙션</span></div>
+  </div>
+
+  <!-- DURATIONS -->
+  <div class="section">
+    <div class="section-title">Durations</div>
+    <p style="color:var(--text-tertiary);font-size:0.875rem;margin-bottom:16px">Framer Motion <code style="font-family:var(--font-mono);color:var(--accent-700)">durations</code> 스케일 (초 단위). 토스트 노출 시간은 별도.</p>
+    <div class="code-block"><span class="code-key">instant</span>: 0.1s  <span class="code-comment">// press feedback</span></div>
+    <div class="code-block"><span class="code-key">micro</span>: 0.15s  <span class="code-comment">// micro-interaction</span></div>
+    <div class="code-block"><span class="code-key">fast</span>: 0.2s  <span class="code-comment">// quick hover, exit</span></div>
+    <div class="code-block"><span class="code-key">page</span>: 0.25s  <span class="code-comment">// page transition</span></div>
+    <div class="code-block"><span class="code-key">item</span>: 0.28s  <span class="code-comment">// item entrance (stagger)</span></div>
+    <div class="code-block"><span class="code-key">standard</span>: 0.3s  <span class="code-comment">// standard hover, shadow</span></div>
+    <div class="code-block"><span class="code-key">flip</span>: 0.7s  <span class="code-comment">// card flip (예외)</span></div>
+    <div class="code-block" style="border-color:var(--accent-500);background:var(--accent-50)"><span class="code-key">TOAST_VISIBLE_MS</span>: 3000ms  <span class="code-comment">// toast-in-out 총 지속 시간</span></div>
   </div>
 
 </div>

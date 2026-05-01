@@ -1,7 +1,9 @@
 import type { ProjectData, SummaryPart } from "../types";
-import React, { useState } from "react";
+import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
+import { Chip } from "./primitives/Chip";
+import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToast";
 
 interface TotalSummaryComponentProps {
   project: ProjectData;
@@ -130,23 +132,14 @@ const InfoCell: React.FC<{ label: string; value: React.ReactNode }> = ({ label, 
 
 // ── Main component ─────────────────────────────────────────────────────────────
 const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t }) => {
-  const [toastMessage, setToastMessage] = useState<string>("");
-  const [linkCopySuccess, setLinkCopySuccess] = useState<boolean>(false);
+  const { toast, copy } = useCopyToClipboardWithToast();
 
   const handleCopyLink = (sectionId: string) => {
     const urlToCopy = `${window.location.origin}${window.location.pathname}#${sectionId}`;
-    navigator.clipboard
-      .writeText(urlToCopy)
-      .then(() => {
-        setToastMessage(t("linkCopied", { ns: "common" }));
-        setLinkCopySuccess(true);
-        setTimeout(() => setToastMessage(""), 3000);
-      })
-      .catch(() => {
-        setToastMessage(t("linkCopyFailed", { ns: "common" }));
-        setLinkCopySuccess(false);
-        setTimeout(() => setToastMessage(""), 3000);
-      });
+    void copy(urlToCopy, {
+      success: t("linkCopied", { ns: "common" }),
+      failure: t("linkCopyFailed", { ns: "common" }),
+    });
   };
 
   const { overview } = project;
@@ -220,12 +213,9 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
               </p>
               <div className="flex flex-wrap gap-1.5 px-1">
                 {overview.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-content-secondary"
-                  >
+                  <Chip key={tech} tone="outlined" size="mdWide" weight="medium">
                     {tech}
-                  </span>
+                  </Chip>
                 ))}
               </div>
             </div>
@@ -273,9 +263,9 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
       </div>
 
       <ToastNotification
-        message={toastMessage}
-        isSuccess={linkCopySuccess}
-        show={!!toastMessage}
+        message={toast.message ?? ""}
+        isSuccess={toast.isSuccess}
+        show={toast.message !== null}
       />
     </>
   );

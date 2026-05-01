@@ -60,7 +60,7 @@ const AnswerChecker: React.FC = () => {
 
   return (
     // 전체 컴포넌트를 감싸는 컨테이너
-    <div className="w-[400px] mx-auto p-2 border-2 bg-surface shadow-lg font-sans sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)]">
+    <div className="w-[400px] mx-auto p-2 border-2 bg-surface shadow-lg font-sans sm:shadow-polaroid-lg">
       
       {/* 문제 섹션 */}
       <div className="mb-2">

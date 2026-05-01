@@ -1,4 +1,5 @@
 import type React from "react";
+import { Chip } from "../../primitives/Chip";
 
 export const CertificationCard: React.FC<{
   title: React.ReactNode;
@@ -16,9 +17,9 @@ export const CertificationCard: React.FC<{
         </div>
 
         <div className="shrink-0 space-y-2 text-right">
-          <span className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-content-strong">
+          <Chip tone="outlinedStrong" size="mdWide" weight="semibold">
             Certified
-          </span>
+          </Chip>
           {tag ? (
             <span className="block text-xs text-content-tertiary">{tag}</span>
           ) : null}
