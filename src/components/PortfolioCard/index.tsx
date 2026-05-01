@@ -7,6 +7,7 @@ import {
   PLACEHOLDER_NOT_FOUND_300x200,
   PLACEHOLDER_PROJECT_IMAGE_300x300,
 } from "../../utils/placeholders";
+import { Chip } from "../primitives/Chip";
 
 interface PortfolioCardProps {
   project: ProjectSummary;
@@ -84,9 +85,9 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
                   {t(project.subtitle || "")}
                 </p>
                 <div className="flex flex-wrap mt-auto">
-                  <span className="bg-accent-100 text-accent-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                  <Chip tone="accentSoft" size="sm" weight="medium">
                     {t(project.projectType || "")}
-                  </span>
+                  </Chip>
                 </div>
               </div>
               {project.claudeInfo && (
@@ -187,12 +188,15 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
               <h4 className="text-lg font-bold mb-4 sm:text-xl">Tech Stack</h4>
               <div className="flex flex-wrap justify-center gap-2">
                 {project.techStack?.map((tech) => (
-                  <span
+                  <Chip
                     key={tech}
-                    className="bg-accent-500 text-white text-xs font-medium px-2.5 py-1 rounded-full sm:text-sm sm:px-3"
+                    tone="accentSolid"
+                    size="md"
+                    weight="medium"
+                    className="sm:text-sm sm:px-3"
                   >
                     {tech}
-                  </span>
+                  </Chip>
                 ))}
               </div>
             </div>

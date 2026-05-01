@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDisclosure } from '../../hooks/useDisclosure';
+import { Chip } from '../primitives/Chip';
 import FlowDiagram from './FlowDiagram';
 import { ChevronIcon, DetailIcon, GroupIcon } from './icons';
 import type {
@@ -30,12 +31,14 @@ const Chips: React.FC<{ item: AiDevKitDetailItem }> = ({ item }) => {
   return (
     <div className="mt-3 flex flex-wrap gap-2">
       {item.chips.map((chip) => (
-        <span
+        <Chip
           key={`${item.title}-${chip}`}
-          className="inline-flex items-center rounded-full border border-line bg-surface px-2.5 py-1 text-xs font-semibold text-content-secondary"
+          tone="outlined"
+          size="md"
+          weight="semibold"
         >
           {chip}
-        </span>
+        </Chip>
       ))}
     </div>
   );

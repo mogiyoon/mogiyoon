@@ -6,6 +6,7 @@ import {
     PLACEHOLDER_COMING_SOON_300x300,
     PLACEHOLDER_NOT_FOUND_300x300,
 } from '../../utils/placeholders';
+import { Chip } from '../primitives/Chip';
 
 export interface PreparingProjectData {
     id: string;
@@ -52,9 +53,9 @@ const PreparingCard: React.FC<PreparingCardProps> = ({ project, className }) => 
                         {t(project.subtitle || '')}
                     </p>
                     <div className="flex flex-wrap mt-auto">
-                        <span className="bg-slate-200 text-content-strong text-xs font-medium px-2 py-0.5 rounded-full">
+                        <Chip tone="neutralSoft" size="sm" weight="medium">
                             {t('comingSoon')}
-                        </span>
+                        </Chip>
                     </div>
                 </div>
             </div>
