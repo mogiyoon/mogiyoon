@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 import PortfolioCard from "../../components/PortfolioCard";
-import PreparingCard, { type PreparingProjectData } from "../../components/PreparingCard";
-import AiDevKitCard from "../../components/AiDevKitCard";
-import AiDevKitModal, {
-    type AiDevKitDetailItem,
-    type AiDevKitModalData,
-    type AiDevKitSkillItem,
-} from "../../components/AiDevKitModal";
+import PreparingCard from "../../components/PreparingCard";
+import AiDevKitModal from "../../components/AiDevKitModal";
+import ProjectsSidebar from "../../components/ProjectsSidebar";
+import StickySectionSidebar from "../../components/StickySectionSidebar";
+import { useProjectDevKitItems, type ProjectDevKitId } from '../../hooks/useProjectDevKitItems';
+import { useProjectGridEntrance } from '../../hooks/useProjectGridEntrance';
+import { useProjectLists } from '../../hooks/useProjectLists';
 import type { ProjectSummary } from '../../types';
 import { durations } from '../../design-tokens';
 
@@ -19,43 +19,24 @@ const sectionExitAnimation = {
     transition: { duration: durations.fast }
 };
 
-// ── Prefetch: 모듈 로드 시 즉시 fetch 시작 ──────────────────────
-type PrefetchedLists = { projects: ProjectSummary[]; preparing: PreparingProjectData[] };
-let cachedLists: PrefetchedLists | null = null;
-const listsPromise = Promise.all([
-    fetch('/data/projects-list.json').then(r => r.json()),
-    fetch('/data/preparing-projects-list.json').then(r => r.json()),
-]).then(([projects, preparing]) => {
-    cachedLists = { projects, preparing };
-    return cachedLists;
-}).catch(console.error);
-
-type DevKitId = 'skills' | 'mcp' | 'harness';
-type DevKitCardData = AiDevKitModalData & {
-    id: DevKitId;
-    description: string;
-};
-
 const ProjectsSection: React.FC = () => {
     const { t } = useTranslation(['projects', 'prepareProjects']);
     const navigate = useNavigate();
-
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [selectedDevKitId, setSelectedDevKitId] = useState<DevKitId | null>(null);
-    const [projects, setProjects] = useState<ProjectSummary[]>(cachedLists?.projects ?? []);
-    const [preparingProjects, setPreparingProjects] = useState<PreparingProjectData[]>(cachedLists?.preparing ?? []);
-    const [isLoading, setIsLoading] = useState(!cachedLists);
-
-    useEffect(() => {
-        if (cachedLists) return;
-        listsPromise.then((data) => {
-            if (data) {
-                setProjects(data.projects);
-                setPreparingProjects(data.preparing);
-            }
-            setIsLoading(false);
-        });
-    }, []);
+    const [selectedDevKitId, setSelectedDevKitId] = useState<ProjectDevKitId | null>(null);
+    const { projects, preparingProjects, isLoading } = useProjectLists();
+    const {
+        projectsGridRef,
+        projectCardRefs,
+        projectCardOffsetsReady,
+        hasPlayedProjectEntrance,
+        showAiDevKit,
+        cardVariants,
+    } = useProjectGridEntrance({
+        projects,
+        selectedId,
+    });
+    const devKitItems = useProjectDevKitItems();
 
     const handleCardClick = (projectId: string) => {
         setSelectedId(projectId);
@@ -63,106 +44,6 @@ const ProjectsSection: React.FC = () => {
             navigate(`/project/${projectId}`);
         }, 300);
     };
-
-    const cardVariants = {
-        exit: (custom: string) => {
-            if (custom === selectedId) {
-                return { scale: 1.5, opacity: 0, transition: { duration: 0.3 } };
-            }
-            return { opacity: 0, transition: { duration: 0.2 } };
-        }
-    };
-
-    const skillItems = t('aiDevKit.skills.detail.cardItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitSkillItem[];
-    const mcpServersItems = t('aiDevKit.mcp.detail.serversItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const harnessPatternItems = t('aiDevKit.harness.detail.patternsItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const harnessAbstractItems = t('aiDevKit.harness.detail.abstractItems', {
-        ns: 'projects',
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-
-    const closeLabel = t('aiDevKit.modal.close', { ns: 'projects' });
-
-    const devKitItems: DevKitCardData[] = [
-        {
-            id: 'skills',
-            icon: (
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                </svg>
-            ),
-            title: t('aiDevKit.skills.title', { ns: 'projects' }),
-            description: t('aiDevKit.skills.description', { ns: 'projects' }),
-            eyebrow: t('aiDevKit.skills.detail.eyebrow', { ns: 'projects' }),
-            summary: t('aiDevKit.skills.detail.summary', { ns: 'projects' }),
-            closeLabel,
-            sections: [
-                {
-                    title: t('aiDevKit.skills.detail.skillsTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.skills.detail.skillsDescription', { ns: 'projects' }),
-                    skillItems,
-                    layout: 'skill-groups',
-                },
-            ],
-        },
-        {
-            id: 'mcp',
-            icon: (
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                </svg>
-            ),
-            title: t('aiDevKit.mcp.title', { ns: 'projects' }),
-            description: t('aiDevKit.mcp.description', { ns: 'projects' }),
-            eyebrow: t('aiDevKit.mcp.detail.eyebrow', { ns: 'projects' }),
-            summary: t('aiDevKit.mcp.detail.summary', { ns: 'projects' }),
-            closeLabel,
-            sections: [
-                {
-                    title: t('aiDevKit.mcp.detail.serversTitle', { ns: 'projects' }),
-                    items: mcpServersItems,
-                },
-            ],
-        },
-        {
-            id: 'harness',
-            icon: (
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-            ),
-            title: t('aiDevKit.harness.title', { ns: 'projects' }),
-            description: t('aiDevKit.harness.description', { ns: 'projects' }),
-            eyebrow: t('aiDevKit.harness.detail.eyebrow', { ns: 'projects' }),
-            summary: t('aiDevKit.harness.detail.summary', { ns: 'projects' }),
-            closeLabel,
-            sections: [
-                {
-                    title: t('aiDevKit.harness.detail.abstractTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.harness.detail.abstractDescription', { ns: 'projects' }),
-                    items: harnessAbstractItems,
-                    layout: 'diagram',
-                },
-                {
-                    title: t('aiDevKit.harness.detail.patternsTitle', { ns: 'projects' }),
-                    description: t('aiDevKit.harness.detail.patternsDescription', { ns: 'projects' }),
-                    items: harnessPatternItems,
-                    layout: 'flow',
-                },
-            ],
-        },
-    ];
 
     const activeDevKitItem = devKitItems.find((item) => item.id === selectedDevKitId) ?? null;
 
@@ -183,81 +64,73 @@ const ProjectsSection: React.FC = () => {
 
     return (
         <>
-            <section id="projects" className="min-h-screen flex flex-col items-center justify-center pt-20">
-                <div className="w-full max-w-6xl p-2 md:p-4 animate-fade-in">
-                    <motion.div
-                        exit={sectionExitAnimation}
-                        className="mb-10 text-center"
-                    >
-                        <h2 className="text-4xl sm:text-5xl font-bold text-content">
-                            {t('projectTitle', { ns: 'projects' })}
-                        </h2>
-                        <div className="mt-3 mx-auto w-12 h-1 rounded-full bg-accent-600" />
-                        <p className="mt-2 text-sm text-content-muted">
-                            {t('projectSubtitle', { ns: 'projects' })}
-                        </p>
-                    </motion.div>
+            <section id="projects" className="min-h-screen pt-20">
+                <div className="mx-auto w-full max-w-7xl px-3 py-6 md:px-5 lg:px-8 animate-fade-in">
+                    <div className="lg:grid lg:grid-cols-[minmax(220px,280px)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(240px,320px)_minmax(0,1fr)] xl:gap-14">
+                        <motion.div
+                            exit={sectionExitAnimation}
+                            className="mb-10 text-center lg:mb-0 lg:text-left"
+                        >
+                            <ProjectsSidebar
+                                title={t('projectTitle', { ns: 'projects' })}
+                                subtitle={t('projectSubtitle', { ns: 'projects' })}
+                                projects={projects}
+                                hasPlayedProjectEntrance={hasPlayedProjectEntrance}
+                                showAiDevKit={showAiDevKit}
+                                devKitTitle={t('aiDevKit.title', { ns: 'projects' })}
+                                devKitItems={devKitItems}
+                                onSelectDevKit={setSelectedDevKitId}
+                            />
+                        </motion.div>
 
-                    {/* AI DevKit */}
-                    <div className="px-4 mb-10">
-                        <div className="rounded-card bg-surface p-5 shadow-lg">
-                            <div className="flex items-center gap-2 mb-3">
-                                <h3 className="text-lg font-bold text-title">
-                                    {t('aiDevKit.title', { ns: 'projects' })}
-                                </h3>
-                                <span className="text-xs text-content-muted font-medium">
-                                    {t('aiDevKit.subtitle', { ns: 'projects' })}
-                                </span>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                {devKitItems.map((item) => (
-                                    <AiDevKitCard
-                                        key={item.id}
-                                        icon={item.icon}
-                                        title={item.title}
-                                        description={item.description}
-                                        onClick={() => setSelectedDevKitId(item.id)}
-                                    />
+                        <div className="min-w-0">
+                            <div
+                                ref={projectsGridRef}
+                                className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:px-0 xl:grid-cols-3"
+                                style={{ opacity: projectCardOffsetsReady ? 1 : 0 }}
+                            >
+                                {projects.map((project, index) => (
+                                    <motion.div
+                                        key={project.id}
+                                        ref={(element) => {
+                                            projectCardRefs.current[project.id] = element;
+                                        }}
+                                        variants={cardVariants}
+                                        initial={false}
+                                        animate={hasPlayedProjectEntrance ? "animate" : "cluster"}
+                                        exit="exit"
+                                        custom={{ id: project.id, index }}
+                                        className="flex"
+                                    >
+                                        <PortfolioCard project={project as ProjectSummary} className="w-full" onClick={() => handleCardClick(project.id)}/>
+                                    </motion.div>
                                 ))}
                             </div>
                         </div>
                     </div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-                        {projects.map((project) => (
-                            <motion.div
-                                key={project.id}
-                                variants={cardVariants}
-                                exit="exit"
-                                custom={project.id}
-                                className="flex"
-                            >
-                                <PortfolioCard project={project as ProjectSummary} className="w-full" onClick={() => handleCardClick(project.id)}/>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
             </section>
 
-            <section id="preparing-projects" className="min-h-screen flex flex-col items-center justify-center pt-16">
+            <section id="preparing-projects" className="min-h-screen pt-16">
                 <motion.div
                     exit={sectionExitAnimation}
-                    className="w-full max-w-6xl p-2 md:p-4 animate-fade-in">
-                    <div className="mb-10 text-center">
-                        <h2 className="text-4xl sm:text-5xl font-bold text-content">
-                            {t('preparingProjectTitle', { ns: 'prepareProjects' })}
-                        </h2>
-                        <div className="mt-3 mx-auto w-12 h-1 rounded-full bg-accent-600" />
-                        <p className="mt-2 text-sm text-content-muted">
-                            {t('preparingProjectSubtitle', { ns: 'projects' })}
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-                        {preparingProjects.map((project) => (
-                            <div key={project.id} className="flex">
-                                <PreparingCard project={project} className="w-full" />
-                            </div>
-                        ))}
+                    className="mx-auto w-full max-w-7xl px-3 py-6 md:px-5 lg:px-8 animate-fade-in"
+                >
+                    <div className="lg:grid lg:grid-cols-[minmax(220px,280px)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(240px,320px)_minmax(0,1fr)] xl:gap-14">
+                        <div className="mb-10 text-center lg:mb-0 lg:text-left">
+                            <StickySectionSidebar
+                                title={t('preparingProjectTitle', { ns: 'prepareProjects' })}
+                                subtitle={t('preparingProjectSubtitle', { ns: 'projects' })}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-6 p-4 md:grid-cols-3 lg:px-0 xl:grid-cols-3">
+                            {preparingProjects.map((project) => (
+                                <div key={project.id} className="flex">
+                                    <PreparingCard project={project} className="w-full" />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </motion.div>
             </section>

@@ -1,6 +1,10 @@
 {
   "projectTitle": "Projects",
   "projectSubtitle": "",
+  "projectPreview": {
+    "label": "Preview Card",
+    "hint": "Flips every 2 seconds."
+  },
   "preparingProjectSubtitle": "Projects currently in progress",
   "aiDevKit": {
     "title": "AI DevKit",
