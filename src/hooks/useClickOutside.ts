@@ -6,7 +6,7 @@ import type React from 'react';
  * active 가 false 면 리스너를 등록하지 않음.
  */
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
-  ref: React.RefObject<T>,
+  ref: React.RefObject<T | null>,
   handler: () => void,
   active: boolean
 ): void {
