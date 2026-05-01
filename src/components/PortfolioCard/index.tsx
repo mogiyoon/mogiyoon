@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
+import { useDisclosure } from "../../hooks/useDisclosure";
 import type { ProjectSummary } from "../../types";
 
 interface PortfolioCardProps {
@@ -16,7 +17,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
   const { t } = useTranslation("projects");
 
   // 1. 카드의 뒤집힘 상태를 관리하기 위한 state 추가
-  const [isFlipped, setIsFlipped] = useState(false);
+  const { isOpen: isFlipped, open, close } = useDisclosure(false);
 
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>,
@@ -28,7 +29,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
 
   const handleCardClick = () => {
     onClick();
-    setIsFlipped(false);
+    close();
   };
 
   return (
@@ -40,8 +41,8 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
       <div
         className="w-full aspect-[24/41]"
         style={{ perspective: "1000px" }}
-        onMouseEnter={() => setIsFlipped(true)}
-        onMouseLeave={() => setIsFlipped(false)}
+        onMouseEnter={open}
+        onMouseLeave={close}
       >
         <div
           className="relative w-full h-full transition-transform duration-700"

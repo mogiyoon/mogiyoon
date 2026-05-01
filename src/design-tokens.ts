@@ -147,3 +147,14 @@ export const durations = {
   standard: 0.3,  // 300ms — standard hover, shadow
   flip: 0.7,      // 700ms — card flip (exception)
 } as const;
+
+// ─── Easings (cubic-bezier tuples) ──────────────────────
+
+export const easings = {
+  /** 프로젝트 카드 진입/퇴장 — 부드러운 out-back 느낌 */
+  projectCard: [0.22, 1, 0.36, 1] as readonly [number, number, number, number],
+  /** 토스트 — 살짝 튀는 over-shoot */
+  toast: [0.68, -0.55, 0.27, 1.55] as readonly [number, number, number, number],
+  /** 표준 ease — 일반 인터랙션 기본값 (Material standard) */
+  standard: [0.4, 0, 0.2, 1] as readonly [number, number, number, number],
+} as const;

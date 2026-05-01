@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import DetailSection from './DetailSection';
 import ModalHeader from './ModalHeader';
 import type { AiDevKitModalData } from './types';
@@ -21,21 +22,20 @@ interface AiDevKitModalProps {
 }
 
 const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
+  useBodyScrollLock(Boolean(item));
+
   useEffect(() => {
     if (!item) return;
 
-    const originalOverflow = document.body.style.overflow;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
 
-    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [item, onClose]);
