@@ -5,6 +5,7 @@ import { useProjectFlipPreview } from '../hooks/useProjectFlipPreview';
 import type { ProjectSummary } from '../types';
 import { createImageFallbackHandler } from '../utils/imageFallback';
 import { PLACEHOLDER_PROJECT_IMAGE_300x300 } from '../utils/placeholders';
+import { Chip } from './primitives/Chip';
 
 interface ProjectFlipPreviewCardProps {
     projects: ProjectSummary[];
@@ -54,9 +55,14 @@ const ProjectFlipPreviewCard: React.FC<ProjectFlipPreviewCardProps> = ({ project
                                 <p className="mt-2 line-clamp-2 text-[11px] leading-relaxed text-content-secondary">
                                     {t(activeProject.subtitle || '')}
                                 </p>
-                                <span className="mt-auto inline-flex w-fit rounded-full bg-accent-100 px-2 py-0.5 text-[10px] font-semibold text-accent-700">
+                                <Chip
+                                    tone="accentSoft"
+                                    size="xs"
+                                    weight="semibold"
+                                    className="mt-auto w-fit"
+                                >
                                     {t(activeProject.projectType || '')}
-                                </span>
+                                </Chip>
                             </div>
                         </div>
                     </div>
@@ -71,12 +77,14 @@ const ProjectFlipPreviewCard: React.FC<ProjectFlipPreviewCardProps> = ({ project
                             </p>
                             <div className="mt-4 flex flex-wrap justify-center gap-1.5">
                                 {previewTechStack.map((tech) => (
-                                    <span
+                                    <Chip
                                         key={tech}
-                                        className="rounded-full bg-accent-500 px-2 py-1 text-[10px] font-semibold text-white"
+                                        tone="accentSolid"
+                                        size="xsTall"
+                                        weight="semibold"
                                     >
                                         {tech}
-                                    </span>
+                                    </Chip>
                                 ))}
                             </div>
                         </div>

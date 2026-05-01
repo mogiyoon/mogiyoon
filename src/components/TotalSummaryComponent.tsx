@@ -2,6 +2,7 @@ import type { ProjectData, SummaryPart } from "../types";
 import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
+import { Chip } from "./primitives/Chip";
 import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToast";
 
 interface TotalSummaryComponentProps {
@@ -212,12 +213,9 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
               </p>
               <div className="flex flex-wrap gap-1.5 px-1">
                 {overview.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-content-secondary"
-                  >
+                  <Chip key={tech} tone="outlined" size="mdWide" weight="medium">
                     {tech}
-                  </span>
+                  </Chip>
                 ))}
               </div>
             </div>

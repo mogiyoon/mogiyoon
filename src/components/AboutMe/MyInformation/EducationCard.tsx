@@ -1,4 +1,5 @@
 import type React from "react";
+import { Chip } from "../../primitives/Chip";
 
 export const EducationCard: React.FC<{
   title: React.ReactNode;
@@ -39,9 +40,14 @@ export const EducationCard: React.FC<{
           )}
 
           {/* Badge */}
-          <div className="absolute left-4 top-4 inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-content-secondary">
+          <Chip
+            tone="outlined"
+            size="mdWide"
+            weight="semibold"
+            className="absolute left-4 top-4"
+          >
             Education
-          </div>
+          </Chip>
         </div>
       </div>
 
