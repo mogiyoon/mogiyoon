@@ -91,6 +91,9 @@ export default {
         'post-white-glow': shadows.postWhiteGlow,
         'resume-paper': shadows.resumePaper,
       },
+      dropShadow: {
+        'glow-accent-sm': '0 0 2px rgba(99,102,241,0.6)',
+      },
       keyframes,
       animation: tailwindAnimation,
     },
