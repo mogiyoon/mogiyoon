@@ -1,0 +1,33 @@
+{
+  "runId": "2026-05-01",
+  "scope": {
+    "include": ["src/"],
+    "exclude": [
+      "src/**/*.test.ts",
+      "src/**/*.test.tsx",
+      "src/**/*.spec.ts",
+      "src/**/*.spec.tsx",
+      "src/__mocks__/**",
+      "src/main.tsx",
+      "src/vite-env.d.ts"
+    ]
+  },
+  "options": {
+    "max_iterations_per_batch": 3,
+    "design_tokens_require_approval": false,
+    "auto_run_until_done": true,
+    "test_scaffolder_top_n": 14
+  },
+  "commands": {
+    "typecheck": "npx tsc --noEmit",
+    "test": "npm test -- --run",
+    "lint": "npm run lint",
+    "build": "npm run build"
+  },
+  "existing_tests": [
+    "src/utils/resumePreview.test.ts",
+    "src/pages/ResumePreviewPage.test.tsx"
+  ],
+  "branch": "refactor/extract-shared-primitives",
+  "base": "develop"
+}
