@@ -24,7 +24,7 @@ const AiDevKitCard: React.FC<AiDevKitCardProps> = ({ icon, title, onClick }) => 
             "
         >
             <div className="p-3">
-                <div className="flex aspect-[16/10] items-center justify-center rounded-[1.5rem] bg-surface-subtle">
+                <div className="flex aspect-[16/10] items-center justify-center rounded-3xl bg-surface-subtle">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-50 text-accent-600 shadow-sm">
                         {icon}
                     </div>
