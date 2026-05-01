@@ -112,14 +112,13 @@ describe('IntroLine', () => {
       expect(section).not.toBeNull();
 
       expect(useScrollSpy).toHaveBeenCalled();
-      const callArg = useScrollSpy.mock.calls[0]?.[0] as
+      const callArg = (useScrollSpy.mock.calls as unknown[][])[0]?.[0] as
         | { target?: { current: HTMLElement | null }; offset?: unknown[] }
         | undefined;
       expect(callArg).toBeDefined();
       expect(callArg?.target?.current).toBe(section);
       expect(callArg?.offset).toEqual(['start start', 'end start']);
 
-      // @ts-expect-error restoring original
       fm.useScroll = original;
     });
   });

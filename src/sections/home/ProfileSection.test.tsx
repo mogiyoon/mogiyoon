@@ -39,8 +39,7 @@ if (!('scrollTo' in HTMLElement.prototype)) {
   vi.spyOn(HTMLElement.prototype, 'scrollTo').mockImplementation(() => undefined);
 }
 if (typeof window !== 'undefined') {
-  // @ts-expect-error — replace for tests
-  window.scrollTo = () => undefined;
+  (window as unknown as { scrollTo: () => void }).scrollTo = () => undefined;
 }
 
 // ── react-i18next: t(key) returns key (with defaultValue + returnObjects) ──
