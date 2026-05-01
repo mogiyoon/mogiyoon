@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
-function useBodyScrollLock(active: boolean) {
-  useEffect(() => {
-    if (!active) return;
-    const original = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = original;
-    };
-  }, [active]);
-}
+import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 
 const imageVariants = {
   hidden: (custom: { x: number; y: number }) => ({
