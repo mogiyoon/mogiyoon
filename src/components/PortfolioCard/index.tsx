@@ -45,7 +45,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
               : PLACEHOLDER_PROJECT_IMAGE_300x300
           }
           alt={`${t(project.title || "")} Thumbnail`}
-          className="w-full aspect-square object-contain rounded-[3rem]"
+          className="w-full aspect-square object-contain rounded-card-chunky"
           onError={handleImageError}
         />
       </div>
@@ -80,13 +80,13 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
                                         border border-white/40
                                         bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-indigo-400/20
                                         backdrop-blur-md
-                                        shadow-[0_0_12px_rgba(99,102,241,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]
+                                        shadow-glow-accent
                                     "
           aria-hidden
         >
           {/* sparkle icon */}
           <svg
-            className="w-3.5 h-3.5 shrink-0 drop-shadow-[0_0_2px_rgba(99,102,241,0.6)]"
+            className="w-3.5 h-3.5 shrink-0 drop-shadow-glow-accent-sm"
             viewBox="0 0 24 24"
             fill="none"
           >
@@ -105,7 +105,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
             Vibe
           </span>
           {/* secondary sparkle dot */}
-          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_3px_rgba(99,102,241,0.5)]" />
+          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-glow-accent-xs" />
         </div>
       )}
       {project.stickerText && (

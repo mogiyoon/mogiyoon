@@ -10,7 +10,7 @@ export const EducationCard: React.FC<{
   logoAlt?: string;
 }> = ({ title, period, major, grade, logoSrc, logoAlt }) => {
   return (
-    <div className="my-6 overflow-hidden rounded-[28px] border border-line bg-surface/80 shadow-sm backdrop-blur">
+    <div className="my-6 overflow-hidden rounded-card-soft-28 border border-line bg-surface/80 shadow-sm backdrop-blur">
       {/* Top Header (조금 더 두껍게) */}
       <div className="p-6 pb-4">
         <h3 className="text-xl font-bold text-content leading-snug">
