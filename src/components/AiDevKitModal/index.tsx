@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 import DetailSection from './DetailSection';
 import ModalHeader from './ModalHeader';
 import type { AiDevKitModalData } from './types';
@@ -23,22 +24,7 @@ interface AiDevKitModalProps {
 
 const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
   useBodyScrollLock(Boolean(item));
-
-  useEffect(() => {
-    if (!item) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [item, onClose]);
+  useEscapeKey(onClose, Boolean(item));
 
   if (!item) return null;
 
