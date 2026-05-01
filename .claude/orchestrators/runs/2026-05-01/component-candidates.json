@@ -1,0 +1,341 @@
+{
+  "generated_at": "2026-05-01T00:00:00Z",
+  "candidates": [
+    {
+      "id": "comp-001",
+      "title": "Extract FlippableCard primitive (3D flip wrapper)",
+      "kind": "extract-component",
+      "duplication_count": 2,
+      "occurrences": [
+        {
+          "path": "src/components/PortfolioCard/index.tsx",
+          "lines": "39-198",
+          "snippet_summary": "perspective:1000px container -> preserve-3d inner -> two absolute faces (front backfaceVisibility hidden, back rotateY(180deg)). Hover sets isFlipped via onMouseEnter/onMouseLeave on the perspective container."
+        },
+        {
+          "path": "src/components/ProjectFlipPreviewCard.tsx",
+          "lines": "31-83",
+          "snippet_summary": "Identical perspective:1000px / preserve-3d / two-face structure with rotateY(180deg) on back face. isFlipped driven by useProjectFlipPreview hook (auto-rotate) instead of hover."
+        }
+      ],
+      "proposed_location": "src/components/primitives/FlippableCard.tsx",
+      "proposed_signature": "<FlippableCard isFlipped front={ReactNode} back={ReactNode} aspectClassName?='aspect-[24/41]' className?: string onMouseEnter? onMouseLeave? onClick? />",
+      "key_behaviors_to_preserve": [
+        "outer wrapper with style={{ perspective: '1000px' }}",
+        "inner relative w-full h-full with transformStyle: 'preserve-3d' and transition-transform duration-700",
+        "transform: rotateY(180deg) when isFlipped, rotateY(0deg) otherwise",
+        "two absolute w-full h-full faces, both with backfaceVisibility: 'hidden'",
+        "back face additionally has transform: 'rotateY(180deg)' baseline",
+        "must accept render-prop / children for front+back so consumer can keep its own padding, rounded-card and shadow surface",
+        "hover-driven flip (PortfolioCard) and externally-controlled flip (ProjectFlipPreviewCard) must both work — keep isFlipped fully controlled"
+      ],
+      "risk": "low",
+      "risk_notes": "Pure presentational extraction. PortfolioCard has tests covering rendering and click behavior, so a visual regression is unlikely to slip through. The two consumers differ on aspect ratio (PortfolioCard uses w-full aspect-[24/41]; preview wraps in fixed w-[150px] sm:w-[170px]) so the primitive should not hard-code sizing.",
+      "tested_consumers": [
+        "src/components/PortfolioCard/index.tsx — has PortfolioCard.test.tsx"
+      ],
+      "untested_consumers": [
+        "src/components/ProjectFlipPreviewCard.tsx — no tests"
+      ]
+    },
+    {
+      "id": "comp-002",
+      "title": "Extract ProjectCardFrame shell (square thumbnail + title + subtitle + badge)",
+      "kind": "extract-component",
+      "duplication_count": 3,
+      "occurrences": [
+        {
+          "path": "src/components/PortfolioCard/index.tsx",
+          "lines": "57-89",
+          "snippet_summary": "Front face: bg-surface rounded-card shadow-lg, p-3 sm:p-4 image with aspect-square + rounded-[3rem], px-5 pb-4 content area with truncate h3, line-clamp-2 p, accent-100 rounded-full pill projectType badge."
+        },
+        {
+          "path": "src/components/ProjectFlipPreviewCard.tsx",
+          "lines": "40-60",
+          "snippet_summary": "Smaller version of identical structure: rounded-card bg-surface shadow-md, p-2.5 image area aspect-square rounded-[1.8rem], h4 + subtitle + accent-100 rounded-full pill projectType badge."
+        },
+        {
+          "path": "src/components/PreparingCard/index.tsx",
+          "lines": "26-55",
+          "snippet_summary": "Same outer shell with dashed variant: bg-surface-subtle rounded-card border-2 border-dashed border-line-strong, p-3 sm:p-4 image area aspect-square, px-5 pb-4 h3 + p + slate-200 rounded-full pill 'comingSoon' badge. Image uses grayscale filter."
+        }
+      ],
+      "proposed_location": "src/components/primitives/ProjectCardFrame.tsx",
+      "proposed_signature": "<ProjectCardFrame variant='solid'|'dashed' density='full'|'compact' imageSrc imageAlt onImageError? title subtitle? badgeText badgeTone='accent'|'neutral' imageRoundedClassName? overlays?: ReactNode />",
+      "key_behaviors_to_preserve": [
+        "outer flex flex-col with rounded-card and shadow-lg/sm",
+        "padded image slot with aspect-square and a custom rounded radius (3rem in full, 1.8rem in compact)",
+        "content slot with truncate/line-clamp-2 title and 2-line subtitle",
+        "footer pill anchored to mt-auto",
+        "dashed variant (PreparingCard) uses bg-surface-subtle + border-2 border-dashed border-line-strong instead of shadow",
+        "must allow absolute-positioned overlays (claudeInfo Vibe badge, stickerText) to be slotted in"
+      ],
+      "risk": "medium",
+      "risk_notes": "Three callsites diverge on padding scale and overlay placement. PortfolioCard renders two absolutely positioned decorations (Vibe sparkle badge and sticker ribbon) inside the same shell. Tests exist for PortfolioCard and PreparingCard but not for ProjectFlipPreviewCard, so the preview density variant needs a new test or visual snapshot.",
+      "tested_consumers": [
+        "src/components/PortfolioCard/index.tsx — has tests",
+        "src/components/PreparingCard/index.tsx — has PreparingCard.test.tsx"
+      ],
+      "untested_consumers": [
+        "src/components/ProjectFlipPreviewCard.tsx — no tests"
+      ]
+    },
+    {
+      "id": "comp-003",
+      "title": "Extract ModalShell primitive (backdrop + panel + close)",
+      "kind": "extract-component",
+      "duplication_count": 2,
+      "occurrences": [
+        {
+          "path": "src/components/AiDevKitModal/index.tsx",
+          "lines": "45-65",
+          "snippet_summary": "fixed inset-0 z-50 bg-black/55 backdrop-blur-sm with click-to-close, inner panel rounded-modal border bg-surface shadow-2xl animate-fade-in-up, stopPropagation on panel, escape key + body overflow lock useEffect."
+        },
+        {
+          "path": "src/components/ContactModal.tsx",
+          "lines": "63-115",
+          "snippet_summary": "fixed inset-0 bg-black/50 z-50 with click-to-close, inner bg-surface rounded-modal shadow-2xl p-8 relative animate-fade-in-up, stopPropagation, hand-rolled close button (top-4 right-4 with X svg). No escape/scroll-lock."
+        }
+      ],
+      "proposed_location": "src/components/primitives/ModalShell.tsx",
+      "proposed_signature": "<ModalShell isOpen onClose closeAriaLabel? align='center'|'bottom-sm-center' className? backdropClassName? children />",
+      "key_behaviors_to_preserve": [
+        "fixed inset-0 z-50 backdrop with bg-black/50–55 and optional backdrop-blur-sm",
+        "click on backdrop -> onClose; click on panel stops propagation",
+        "panel uses rounded-modal + bg-surface + shadow-2xl + animate-fade-in-up",
+        "Escape key handler closes modal (currently only in AiDevKitModal — promote to primitive)",
+        "document.body overflow lock while open (currently only in AiDevKitModal — promote to primitive)",
+        "render-prop close button slot or built-in CloseIcon button (round bordered, hover bg-surface-subtle)"
+      ],
+      "risk": "medium",
+      "risk_notes": "ContactModal lacks escape and scroll-lock today. Adding them via the primitive is a behavior change (positive but worth a callout). AiDevKitModal has tests; ContactModal does not. Headers differ structurally (AiDevKitModal uses dedicated ModalHeader; ContactModal renders inline title), so children should remain a free slot.",
+      "tested_consumers": [
+        "src/components/AiDevKitModal/index.tsx — has index.test.tsx"
+      ],
+      "untested_consumers": [
+        "src/components/ContactModal.tsx — no tests"
+      ]
+    },
+    {
+      "id": "comp-004",
+      "title": "Extract Chip / Pill primitive (5+ near-identical pill variants)",
+      "kind": "extract-component",
+      "duplication_count": 8,
+      "occurrences": [
+        {
+          "path": "src/components/PortfolioCard/index.tsx",
+          "lines": "84-87",
+          "snippet_summary": "bg-accent-100 text-accent-700 text-xs font-medium px-2 py-0.5 rounded-full — projectType badge."
+        },
+        {
+          "path": "src/components/PortfolioCard/index.tsx",
+          "lines": "186-194",
+          "snippet_summary": "bg-accent-500 text-white text-xs font-medium px-2.5 py-1 rounded-full sm:text-sm sm:px-3 — tech-stack chip on back face."
+        },
+        {
+          "path": "src/components/ProjectFlipPreviewCard.tsx",
+          "lines": "56-58 and 73-78",
+          "snippet_summary": "Same accent-100 projectType pill (compact) and accent-500 tech chip (compact)."
+        },
+        {
+          "path": "src/components/PreparingCard/index.tsx",
+          "lines": "50-52",
+          "snippet_summary": "bg-slate-200 text-content-strong text-xs font-medium px-2 py-0.5 rounded-full — comingSoon neutral pill."
+        },
+        {
+          "path": "src/components/AiDevKitModal/DetailItems.tsx",
+          "lines": "30-39",
+          "snippet_summary": "inline-flex items-center rounded-full border border-line bg-surface px-2.5 py-1 text-xs font-semibold text-content-secondary — outlined chip used for item.chips."
+        },
+        {
+          "path": "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx",
+          "lines": "55-62",
+          "snippet_summary": "Identical outlined chip class string used for tech stack list."
+        },
+        {
+          "path": "src/components/AboutMe/MyInformation/CertificationCard.tsx",
+          "lines": "19-21",
+          "snippet_summary": "Same outlined chip pattern used for 'Certified' label."
+        },
+        {
+          "path": "src/components/TotalSummaryComponent.tsx",
+          "lines": "222-228",
+          "snippet_summary": "rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-content-secondary — tech stack chip in overview."
+        },
+        {
+          "path": "src/components/AboutMe/MyInformation/Section/WorkSection.tsx",
+          "lines": "61-64",
+          "snippet_summary": "Same outlined chip used for open/close status indicator."
+        }
+      ],
+      "proposed_location": "src/components/primitives/Chip.tsx",
+      "proposed_signature": "<Chip tone='accentSoft'|'accentSolid'|'neutralSoft'|'outlined' size='sm'|'md' as?: 'span'|'div' className?>{children}</Chip>",
+      "key_behaviors_to_preserve": [
+        "rounded-full pill shape with text-xs (sm) / text-sm (md)",
+        "accentSoft = bg-accent-100 text-accent-700 (used as projectType badge)",
+        "accentSolid = bg-accent-500 text-white (used as tech chip on flip back)",
+        "neutralSoft = bg-slate-200 text-content-strong (comingSoon)",
+        "outlined = border border-line bg-surface text-content-secondary font-semibold (chips, certification, work-tech, overview tech)",
+        "leading-icon and trailing-number variants exist (DetailItems StepBadges, DetailSection SectionStepPills) — plan a numberedStep slot"
+      ],
+      "risk": "low",
+      "risk_notes": "Cosmetic primitive used in many places. Easy to mis-tone if the variant API is too narrow. Recommend keeping numbered/step pill as a separate sibling primitive (NumberedPill) rather than overloading Chip."
+    },
+    {
+      "id": "comp-005",
+      "title": "Extract ExpandableCard primitive (chevron header + collapsible body)",
+      "kind": "extract-component",
+      "duplication_count": 3,
+      "occurrences": [
+        {
+          "path": "src/components/AiDevKitModal/SkillGroups.tsx",
+          "lines": "369-416",
+          "snippet_summary": "SkillItemCard: article rounded-card border, button row with title/description left + ChevronIcon right (rounded-full bg-accent-50 chevron pill), {expanded && body with border-t}."
+        },
+        {
+          "path": "src/components/AiDevKitModal/DetailItems.tsx",
+          "lines": "155-204",
+          "snippet_summary": "FlowItemCard: identical structure — article rounded-card border, button with eyebrow chip + title + description left + ChevronIcon right, {expanded && border-t body}."
+        },
+        {
+          "path": "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx",
+          "lines": "26-87",
+          "snippet_summary": "rounded-3xl card with header button (title + role + period + meta-right with '접기'/'자세히' label) and animated max-h transition body. No chevron, but identical accordion semantics."
+        },
+        {
+          "path": "src/components/AboutMe/MyInformation/Section/WorkSection.tsx",
+          "lines": "37-101",
+          "snippet_summary": "Inline accordion duplicating WorkExperienceCard's pattern in the section file (but stand-alone state) — likely a leftover candidate to delete in favor of the card."
+        }
+      ],
+      "proposed_location": "src/components/primitives/ExpandableCard.tsx",
+      "proposed_signature": "<ExpandableCard expanded onToggle id? header={ReactNode} indicator='chevron'|'label'|'none' indicatorLabels?={open: string; closed: string} className?>{body}</ExpandableCard>",
+      "key_behaviors_to_preserve": [
+        "article wrapper with rounded-card or rounded-3xl border border-line bg-surface shadow-sm",
+        "full-width button with text-left, focus-visible:ring-accent-500, hover:bg-surface-subtle",
+        "aria-expanded + aria-controls wired to body id",
+        "ChevronIcon rotates 180deg when expanded (already centralized in AiDevKitModal/icons)",
+        "body shown via {expanded && ...} (AiDevKit) or via max-h transition (WorkSection) — pick one and document",
+        "WorkSection inline duplicate should be deleted in favor of WorkExperienceCard once primitive lands"
+      ],
+      "risk": "medium",
+      "risk_notes": "WorkExperienceCard uses max-h transition; AiDevKit cards use simple conditional render. Standardizing animation behavior is a real UX choice. SkillGroups and DetailItems have tests; WorkSection does not.",
+      "tested_consumers": [
+        "src/components/AiDevKitModal/SkillGroups.tsx — has SkillGroups.test.tsx",
+        "src/components/AiDevKitModal/DetailItems.tsx — has DetailItems.test.tsx"
+      ],
+      "untested_consumers": [
+        "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx — no tests",
+        "src/components/AboutMe/MyInformation/Section/WorkSection.tsx — no tests"
+      ]
+    },
+    {
+      "id": "comp-006",
+      "title": "Extract CardSkeleton placeholder",
+      "kind": "extract-component",
+      "duplication_count": 1,
+      "occurrences": [
+        {
+          "path": "src/sections/home/ProjectsSection.tsx",
+          "lines": "50-62",
+          "snippet_summary": "Loading branch: header bar (h-10 w-48 rounded-card bg-surface-muted animate-pulse) + 4 aspect-[9/16] rounded-card bg-surface-muted animate-pulse cards in grid."
+        }
+      ],
+      "proposed_location": "src/components/primitives/CardSkeleton.tsx",
+      "proposed_signature": "<CardSkeleton aspectClassName?='aspect-[9/16]' rounded='card'|'modal' className? />",
+      "key_behaviors_to_preserve": [
+        "aspect-[9/16] (matches PortfolioCard cluster) by default",
+        "rounded-card bg-surface-muted animate-pulse",
+        "exposed for reuse in any future loading state"
+      ],
+      "risk": "low",
+      "risk_notes": "Single current callsite — extract only if Phase 0 confirms more loading states are coming. Otherwise flag and defer."
+    },
+    {
+      "id": "comp-007",
+      "title": "Extract ExternalLinkArrowIcon (and consolidate inline arrow SVGs)",
+      "kind": "extract-icon",
+      "duplication_count": 3,
+      "occurrences": [
+        {
+          "path": "src/components/ContactModal.tsx",
+          "lines": "101-106",
+          "snippet_summary": "Right chevron 'M9 5l7 7-7 7' inline svg used as link affordance."
+        },
+        {
+          "path": "src/components/TotalSummaryComponent.tsx",
+          "lines": "93-95 and 117-119",
+          "snippet_summary": "External-link arrow 'M10 6H6...M14 4h6...' duplicated in two places (renderSummaryPart link + LinkButton)."
+        }
+      ],
+      "proposed_location": "src/assets/icons/ExternalLinkIcon.tsx and src/assets/icons/ChevronRightIcon.tsx",
+      "proposed_signature": "<ExternalLinkIcon className?> and <ChevronRightIcon className?>",
+      "key_behaviors_to_preserve": [
+        "inherit currentColor",
+        "default w-3.5 h-3.5",
+        "no decorative state — purely visual"
+      ],
+      "risk": "low",
+      "risk_notes": "Pure SVG move. Project already centralizes some icons in src/components/AiDevKitModal/icons.tsx (CloseIcon, ChevronIcon, InlineArrowIcon). Recommend promoting that module to src/assets/icons/ at the same time so all consumers have one place to import from."
+    },
+    {
+      "id": "comp-008",
+      "title": "Extract LinkButton primitive (currently defined inline in TotalSummaryComponent)",
+      "kind": "extract-component",
+      "duplication_count": 1,
+      "occurrences": [
+        {
+          "path": "src/components/TotalSummaryComponent.tsx",
+          "lines": "104-121",
+          "snippet_summary": "Inline LinkButton component: anchor with rounded-modal, primary (slate-900) or outlined variant, with external-link arrow."
+        }
+      ],
+      "proposed_location": "src/components/primitives/LinkButton.tsx",
+      "proposed_signature": "<LinkButton href label primary? icon?={ReactNode} external?=true />",
+      "key_behaviors_to_preserve": [
+        "target=_blank + rel=noopener noreferrer when external",
+        "primary tone bg-slate-900 hover:bg-slate-700 text-white",
+        "outlined tone border border-line bg-surface text-content-secondary hover:border-slate-400 hover:bg-surface-subtle",
+        "trailing 0.6-opacity external-link svg"
+      ],
+      "risk": "low",
+      "risk_notes": "Single consumer today, but the same anchor styling shape is conceptually reused in PageHeader's Info button and ContactModal links. Worth lifting now while there is one source of truth."
+    },
+    {
+      "id": "comp-009",
+      "title": "Extract InfoCell primitive (label/value mini card)",
+      "kind": "extract-component",
+      "duplication_count": 2,
+      "occurrences": [
+        {
+          "path": "src/components/TotalSummaryComponent.tsx",
+          "lines": "123-129",
+          "snippet_summary": "InfoCell defined inline: rounded-modal bg-surface-subtle p-4 with uppercase tracking-wider label + value."
+        },
+        {
+          "path": "src/components/AboutMe/MyInformation/EducationCard.tsx",
+          "lines": "49-60",
+          "snippet_summary": "Grade/Major boxes use rounded-modal border border-line/70 bg-surface p-4 with text-xs font-bold label + text-sm body — same semantics with slightly different background."
+        }
+      ],
+      "proposed_location": "src/components/primitives/InfoCell.tsx",
+      "proposed_signature": "<InfoCell label value tone='subtle'|'outlined' className? />",
+      "key_behaviors_to_preserve": [
+        "rounded-modal container",
+        "uppercase tracking-wider tiny label",
+        "leading-snug value slot accepting ReactNode"
+      ],
+      "risk": "low",
+      "risk_notes": "Cosmetic. Worth doing while extracting the surrounding TotalSummaryComponent overview section."
+    }
+  ],
+  "no_findings_areas": [
+    "src/components/AiDevKitModal/SkillGroups.tsx SectionIcon and ItemIcon SVG sets — only used internally within SkillGroups for visual variety. Not duplicated elsewhere; do not extract. Flag for documentation.",
+    "src/components/AiDevKitModal/FlowDiagram.tsx — single, deeply specialized renderer with no duplicate. Do not extract anything from it.",
+    "src/components/PageHeader.tsx language dropdown — bespoke pattern with one consumer. The hover letter-stagger logo animation is also one-off.",
+    "src/components/AboutMe/IntroLine.tsx — scroll-driven motion structure is intentional and not reused.",
+    "src/components/AboutMe/MyInformation/AwardCard, CertificationCard, EducationCard, WorkExperienceCard share only the outer rounded-3xl border bg-surface/80 backdrop-blur shell. That shell is a reasonable third candidate but it is already tighter than the ProjectCardFrame; treat as a follow-up if comp-002 lands cleanly.",
+    "ToastNotification, ScrollToTop, Lightbulb, BulbContainer, ShootingStart, Switch — each is single-purpose with no duplication.",
+    "src/components/InfoIcon.tsx — only used in MyContacts; no duplication."
+  ]
+}

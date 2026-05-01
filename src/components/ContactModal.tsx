@@ -1,6 +1,7 @@
 // src/components/ContactModal.tsx
 
 import React from "react";
+import ModalShell from "./primitives/ModalShell";
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -58,61 +59,56 @@ const links = [
 ];
 
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      className="w-full max-w-sm p-8 relative"
+      backdropClassName="flex items-center justify-center p-4"
     >
-      <div
-        className="bg-surface w-full max-w-sm rounded-modal shadow-2xl p-8 relative animate-fade-in-up"
-        onClick={(e) => e.stopPropagation()}
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-content-muted hover:text-content-secondary transition-colors duration-200"
+        aria-label="Close"
       >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-content-muted hover:text-content-secondary transition-colors duration-200"
-          aria-label="Close"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
-        <h2 className="text-2xl font-bold mb-1 text-content">Info</h2>
-        <p className="text-sm text-content-muted mb-6">Giyoon Noh · FullStack Engineer</p>
+      <h2 className="text-2xl font-bold mb-1 text-content">Info</h2>
+      <p className="text-sm text-content-muted mb-6">Giyoon Noh · FullStack Engineer</p>
 
-        <div className="flex flex-col gap-2">
-          {links.map((item) => (
-            <a
-              key={item.key}
-              href={item.href}
-              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="flex items-center gap-4 p-4 rounded-modal border border-line hover:border-line-strong hover:bg-surface-subtle transition-all duration-200 group"
+      <div className="flex flex-col gap-2">
+        {links.map((item) => (
+          <a
+            key={item.key}
+            href={item.href}
+            {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className="flex items-center gap-4 p-4 rounded-modal border border-line hover:border-line-strong hover:bg-surface-subtle transition-all duration-200 group"
+          >
+            <div className="w-10 h-10 rounded-card bg-surface-muted flex items-center justify-center text-content-meta group-hover:bg-surface group-hover:text-content transition-all duration-200 flex-shrink-0">
+              {item.icon}
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-medium text-content-muted">{item.label}</p>
+              <p className="text-sm font-semibold text-content-strong truncate">{item.display}</p>
+            </div>
+            <svg
+              className="w-4 h-4 text-slate-300 group-hover:text-content-tertiary ml-auto flex-shrink-0 transition-colors duration-200"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             >
-              <div className="w-10 h-10 rounded-card bg-surface-muted flex items-center justify-center text-content-meta group-hover:bg-surface group-hover:text-content transition-all duration-200 flex-shrink-0">
-                {item.icon}
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-medium text-content-muted">{item.label}</p>
-                <p className="text-sm font-semibold text-content-strong truncate">{item.display}</p>
-              </div>
-              <svg
-                className="w-4 h-4 text-slate-300 group-hover:text-content-tertiary ml-auto flex-shrink-0 transition-colors duration-200"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          ))}
-        </div>
-
-        <footer className="text-center pt-6 text-slate-300 text-xs">
-          © 2025 Giyoon Noh
-        </footer>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        ))}
       </div>
-    </div>
+
+      <footer className="text-center pt-6 text-slate-300 text-xs">
+        © 2025 Giyoon Noh
+      </footer>
+    </ModalShell>
   );
 };
 

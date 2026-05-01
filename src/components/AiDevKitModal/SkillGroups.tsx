@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDisclosure } from '../../hooks/useDisclosure';
 import { ChevronIcon, InlineArrowIcon } from './icons';
 import type {
   AiDevKitDetailItem,
@@ -369,14 +370,14 @@ const SkillSectionCard: React.FC<{
 const SkillItemCard: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
   skillItem,
 }) => {
-  const [expanded, setExpanded] = useState(false);
+  const { isOpen: expanded, toggle } = useDisclosure(false);
   const contentId = `skill-content-${skillItem.title.replace(/\s+/g, '-')}`;
 
   return (
     <article className="rounded-card border border-line/70 bg-surface shadow-sm">
       <button
         type="button"
-        onClick={() => setExpanded((prev) => !prev)}
+        onClick={toggle}
         aria-expanded={expanded}
         aria-controls={contentId}
         className="flex w-full items-start justify-between gap-4 rounded-card p-5 text-left transition-colors hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500"

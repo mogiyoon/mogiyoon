@@ -1,0 +1,448 @@
+{
+  "generated_at": "2026-05-01T05:00:00Z",
+  "summary": {
+    "input_candidates": {
+      "hook": 8,
+      "component": 9,
+      "token": 10,
+      "general": 8,
+      "total_before_dedup": 35
+    },
+    "after_dedup": 28,
+    "top_priority_count": 15,
+    "deferred_count": 13
+  },
+  "top_priority": [
+    {
+      "id": "B-001",
+      "title": "Delete InfoIcon + converter.ts (paired dead code)",
+      "merged_from": ["general-004"],
+      "kind": "delete-dead-code",
+      "files_affected": [
+        "src/components/InfoIcon.tsx",
+        "src/utils/converter.ts"
+      ],
+      "occurrences_count": 2,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 12.0,
+      "rationale": "Zero importers across src/; InfoIcon is the only consumer of capitalizeFirst, so deleting both as a pair is safe and shrinks surface area before refactor begins.",
+      "key_behaviors_to_preserve": [
+        "Confirm zero importers one more time before deletion",
+        "Delete both files in a single change to keep tree clean"
+      ],
+      "estimated_diff_lines": 50
+    },
+    {
+      "id": "B-002",
+      "title": "Delete unused TotalProjectCard component",
+      "merged_from": ["general-001"],
+      "kind": "delete-dead-code",
+      "files_affected": [
+        "src/components/TotalProjectCard/index.tsx"
+      ],
+      "occurrences_count": 1,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 10.0,
+      "rationale": "Zero importers; appears to have been replaced by PortfolioCard. Removes a duplicate placeholder URL site as a side benefit, simplifying B-007.",
+      "key_behaviors_to_preserve": [
+        "Verify no barrel re-export, no test references"
+      ],
+      "estimated_diff_lines": 60
+    },
+    {
+      "id": "B-003",
+      "title": "Delete unused CrazyAboutSection",
+      "merged_from": ["general-002"],
+      "kind": "delete-dead-code",
+      "files_affected": [
+        "src/sections/home/CrazyAboutSection.tsx"
+      ],
+      "occurrences_count": 1,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 10.0,
+      "rationale": "Not imported by HomePage or any other module. Removes a bg-slate-* site, cutting one consumer from the eventual token sweep.",
+      "key_behaviors_to_preserve": [
+        "i18n keys (crazyAbout*) become orphan but cleanup is out of scope"
+      ],
+      "estimated_diff_lines": 65
+    },
+    {
+      "id": "B-004",
+      "title": "Delete unused useIntersectionObserver hook",
+      "merged_from": ["general-003"],
+      "kind": "delete-dead-code",
+      "files_affected": [
+        "src/hooks/useIntersectionObserver.ts"
+      ],
+      "occurrences_count": 1,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 10.0,
+      "rationale": "Zero importers; codebase already standardized on framer-motion useInView. The file also has a stale-closure bug, so deletion beats fixing.",
+      "key_behaviors_to_preserve": [],
+      "estimated_diff_lines": 30
+    },
+    {
+      "id": "B-005",
+      "title": "Rename ShootingStart.tsx -> ShootingStar.tsx (typo fix)",
+      "merged_from": ["general-005"],
+      "kind": "rename",
+      "files_affected": [
+        "src/components/AboutMe/ShootingStart.tsx",
+        "src/components/AboutMe/DeveloperIntro.tsx"
+      ],
+      "occurrences_count": 2,
+      "tested_consumer_ratio": 0.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 7.0,
+      "rationale": "Single import to update; component export is already 'ShootingStar'. Use git mv to preserve history.",
+      "key_behaviors_to_preserve": [
+        "Update DeveloperIntro import path",
+        "Use git mv (preserve blame)"
+      ],
+      "estimated_diff_lines": 4
+    },
+    {
+      "id": "B-006",
+      "title": "Centralize easings (PROJECT_CARD_EASE) into design-tokens",
+      "merged_from": ["general-006", "token-007"],
+      "kind": "extract-constant",
+      "files_affected": [
+        "src/design-tokens.ts",
+        "src/hooks/useProjectGridEntrance.ts",
+        "src/components/ProjectsSidebar.tsx",
+        "src/sections/home/ProjectsSection.test.tsx"
+      ],
+      "occurrences_count": 4,
+      "tested_consumer_ratio": 0.67,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 14.35,
+      "rationale": "Move easing arrays to design-tokens.easings.{projectCard, toast, standard}. Re-export PROJECT_CARD_EASE from the hook for back-compat so the existing test mock keeps working.",
+      "key_behaviors_to_preserve": [
+        "Existing PROJECT_CARD_EASE export name preserved (re-export)",
+        "Test mock at ProjectsSection.test.tsx:172 keeps the same import path",
+        "Keep the [0.22, 1, 0.36, 1] tuple typed as a tuple, not number[]"
+      ],
+      "estimated_diff_lines": 40
+    },
+    {
+      "id": "B-007",
+      "title": "Extract placeholder constants + image-fallback helper (PLACEHOLDER_* + createImageFallbackHandler)",
+      "merged_from": ["hook-002", "token-001"],
+      "kind": "extract-hook",
+      "files_affected": [
+        "src/utils/placeholders.ts",
+        "src/utils/imageFallback.ts",
+        "src/components/PortfolioCard/index.tsx",
+        "src/components/PreparingCard/index.tsx",
+        "src/components/ProjectFlipPreviewCard.tsx",
+        "src/pages/ProjectDetailPage.tsx",
+        "src/components/ProjectDetailComponent.tsx"
+      ],
+      "occurrences_count": 7,
+      "tested_consumer_ratio": 0.4,
+      "risk": "medium",
+      "depends_on": ["B-002"],
+      "priority_score": 16.0,
+      "rationale": "The placeholder URL constant and the handleImageError closure are the same problem at two scopes; extracting both at once avoids touching the same lines twice. Tested consumers (PortfolioCard, PreparingCard) anchor the change.",
+      "key_behaviors_to_preserve": [
+        "Set e.currentTarget.onerror = null to prevent infinite loops",
+        "Honor caller-provided width/height/text/bg/fg",
+        "Optional onAfter callback for ProjectDetailPage's setIsLoaded(true)",
+        "Standardize on placehold.co host (drop ProjectDetailComponent's via.placeholder.com — flag in PR)",
+        "Update PortfolioCard/PreparingCard tests to import the constant rather than the literal URL"
+      ],
+      "estimated_diff_lines": 180
+    },
+    {
+      "id": "B-008",
+      "title": "Extract useBodyScrollLock hook (replaces empty stub)",
+      "merged_from": ["hook-001"],
+      "kind": "extract-hook",
+      "files_affected": [
+        "src/hooks/useBodyScrollLock.ts",
+        "src/sections/home/PostSection.tsx",
+        "src/components/AiDevKitModal/index.tsx"
+      ],
+      "occurrences_count": 2,
+      "tested_consumer_ratio": 0.5,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 9.5,
+      "rationale": "Hook file already exists empty; both consumers reimplement it inline. AiDevKitModal test explicitly verifies prior overflow value is restored — preserving snapshot semantics is required.",
+      "key_behaviors_to_preserve": [
+        "no-op when active is false",
+        "snapshot prior document.body.style.overflow on activation",
+        "set overflow='hidden' while active",
+        "restore the snapshotted value (NOT '') on cleanup",
+        "AiDevKitModal effect must be split: scroll-lock into hook, Escape listener stays inline (or moves to B-009)"
+      ],
+      "estimated_diff_lines": 70
+    },
+    {
+      "id": "B-009",
+      "title": "Extract useEscapeKey hook",
+      "merged_from": ["hook-005"],
+      "kind": "extract-hook",
+      "files_affected": [
+        "src/hooks/useEscapeKey.ts",
+        "src/components/AiDevKitModal/index.tsx"
+      ],
+      "occurrences_count": 1,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": ["B-008"],
+      "priority_score": 7.0,
+      "rationale": "Naturally extracted alongside B-008 since AiDevKitModal's combined effect must be untangled anyway. Tests already cover close-on-Escape.",
+      "key_behaviors_to_preserve": [
+        "no-op when handler is null/undefined or active=false",
+        "use latest-handler ref pattern",
+        "attach to window keydown, dispose on cleanup"
+      ],
+      "estimated_diff_lines": 35
+    },
+    {
+      "id": "B-010",
+      "title": "Extract useDisclosure (boolean expand/collapse) hook",
+      "merged_from": ["hook-004"],
+      "kind": "extract-hook",
+      "files_affected": [
+        "src/hooks/useDisclosure.ts",
+        "src/components/AiDevKitModal/SkillGroups.tsx",
+        "src/components/AiDevKitModal/DetailItems.tsx",
+        "src/components/PortfolioCard/index.tsx"
+      ],
+      "occurrences_count": 3,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 14.0,
+      "rationale": "All three consumers tested. Mechanical pattern; provides explicit open/close so PortfolioCard's hover handlers adopt cleanly.",
+      "key_behaviors_to_preserve": [
+        "Initial value defaults to false",
+        "toggle uses functional updater",
+        "expose explicit open/close for hover-driven sites"
+      ],
+      "estimated_diff_lines": 60
+    },
+    {
+      "id": "B-011",
+      "title": "Extract useCopyToClipboardWithToast hook",
+      "merged_from": ["hook-007", "general-008"],
+      "kind": "extract-hook",
+      "files_affected": [
+        "src/hooks/useCopyToClipboardWithToast.ts",
+        "src/components/TotalSummaryComponent.tsx",
+        "src/design-tokens.ts"
+      ],
+      "occurrences_count": 2,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 12.0,
+      "rationale": "Single tested consumer today; hook fixes the orphan-setTimeout race in current inline code. Pulls 3000ms into design-tokens.toastVisibleMs to keep keyframe and timer in sync.",
+      "key_behaviors_to_preserve": [
+        "navigator.clipboard.writeText with success/failure branches",
+        "toast auto-clears after durationMs (default 3000ms = toastVisibleMs)",
+        "track success flag separately from message",
+        "cancel pending clear timer on unmount or rapid copy()"
+      ],
+      "estimated_diff_lines": 90
+    },
+    {
+      "id": "B-012",
+      "title": "Extract useClickOutside hook",
+      "merged_from": ["hook-006"],
+      "kind": "extract-hook",
+      "files_affected": [
+        "src/hooks/useClickOutside.ts",
+        "src/components/PageHeader.tsx"
+      ],
+      "occurrences_count": 1,
+      "tested_consumer_ratio": 1.0,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 7.0,
+      "rationale": "Single tested consumer (PageHeader). Worth lifting now since any future modal/popover will want it; mechanical and reversible.",
+      "key_behaviors_to_preserve": [
+        "Only attach mousedown listener while active",
+        "Use mousedown (not click) to fire before focus changes",
+        "Remove listener on cleanup AND when active flips false"
+      ],
+      "estimated_diff_lines": 40
+    },
+    {
+      "id": "B-013",
+      "title": "Extract Chip primitive (consolidates pill class combos)",
+      "merged_from": ["comp-004"],
+      "kind": "extract-component",
+      "files_affected": [
+        "src/components/primitives/Chip.tsx",
+        "src/components/PortfolioCard/index.tsx",
+        "src/components/ProjectFlipPreviewCard.tsx",
+        "src/components/PreparingCard/index.tsx",
+        "src/components/AiDevKitModal/DetailItems.tsx",
+        "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx",
+        "src/components/AboutMe/MyInformation/CertificationCard.tsx",
+        "src/components/TotalSummaryComponent.tsx",
+        "src/components/AboutMe/MyInformation/Section/WorkSection.tsx"
+      ],
+      "occurrences_count": 9,
+      "tested_consumer_ratio": 0.56,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 23.8,
+      "rationale": "Highest-frequency duplicate (9 sites, 4 distinct tones). Lifting the chip primitive supersedes any token-only combo refactor and lets B-016/B-018 reuse the right tones from day one. NumberedPill kept separate to avoid overloading the API.",
+      "key_behaviors_to_preserve": [
+        "tones: accentSoft, accentSolid, neutralSoft, outlined",
+        "sizes: sm (text-xs), md (text-sm)",
+        "rounded-full pill shape",
+        "outlined uses border-line bg-surface text-content-secondary font-semibold",
+        "neutralSoft (PreparingCard) keeps bg-slate-200 — flag for token migration in deferred sweep"
+      ],
+      "estimated_diff_lines": 220
+    },
+    {
+      "id": "B-014",
+      "title": "Extract ModalShell primitive (consumes useBodyScrollLock + useEscapeKey)",
+      "merged_from": ["comp-003"],
+      "kind": "extract-component",
+      "files_affected": [
+        "src/components/primitives/ModalShell.tsx",
+        "src/components/AiDevKitModal/index.tsx",
+        "src/components/ContactModal.tsx"
+      ],
+      "occurrences_count": 2,
+      "tested_consumer_ratio": 0.5,
+      "risk": "medium",
+      "depends_on": ["B-008", "B-009"],
+      "priority_score": 13.5,
+      "rationale": "AiDevKitModal is tested and anchors the refactor; ContactModal gains Escape + scroll-lock as a positive behavior change. Must come after the hooks land so the primitive can consume them.",
+      "key_behaviors_to_preserve": [
+        "fixed inset-0 z-50 backdrop with bg-black/50-55 + optional backdrop-blur-sm",
+        "click on backdrop -> onClose; click on panel stops propagation",
+        "panel uses rounded-modal + bg-surface + shadow-2xl + animate-fade-in-up",
+        "Escape closes via useEscapeKey",
+        "body overflow lock via useBodyScrollLock",
+        "Children remain a free slot — header markup differs across consumers",
+        "Adding Escape+scroll-lock to ContactModal is a deliberate positive change"
+      ],
+      "estimated_diff_lines": 200
+    },
+    {
+      "id": "B-015",
+      "title": "Extract FlippableCard primitive (3D flip wrapper)",
+      "merged_from": ["comp-001"],
+      "kind": "extract-component",
+      "files_affected": [
+        "src/components/primitives/FlippableCard.tsx",
+        "src/components/PortfolioCard/index.tsx",
+        "src/components/ProjectFlipPreviewCard.tsx"
+      ],
+      "occurrences_count": 2,
+      "tested_consumer_ratio": 0.5,
+      "risk": "low",
+      "depends_on": [],
+      "priority_score": 9.5,
+      "rationale": "Pure presentational extraction. PortfolioCard tests anchor the visual contract; ProjectFlipPreviewCard differs only in driver (hover vs auto-rotate) and aspect class.",
+      "key_behaviors_to_preserve": [
+        "outer perspective:1000px wrapper",
+        "inner preserve-3d transform-style + transition-transform duration-700",
+        "rotateY 180deg/0deg controlled by isFlipped prop",
+        "two absolute faces with backfaceVisibility: hidden",
+        "back face rotateY(180deg) baseline",
+        "aspect/sizing comes from caller — primitive does not hard-code"
+      ],
+      "estimated_diff_lines": 150
+    }
+  ],
+  "deferred": [
+    {
+      "id": "D-001",
+      "title": "Extract useToggleSet (Set add/delete toggle)",
+      "merged_from": ["hook-003"],
+      "reason": "ResumePreviewPage (3 of 5 occurrences) has zero test coverage — refactoring its toggles in lockstep is risky until characterization tests land for that 1048-line page."
+    },
+    {
+      "id": "D-002",
+      "title": "Extract useFetchJson / useLocalizedResource",
+      "merged_from": ["hook-008"],
+      "reason": "Marked high-risk by scout — InfoPost and ResumePreviewPage are untested consumers, prefetch-cache vs no-cache shapes diverge, and InfoPost duplicates ProfileSection's introduction.json fetch (a behavioral consolidation, not pure refactor)."
+    },
+    {
+      "id": "D-003",
+      "title": "Extract ProjectCardFrame shell (square thumbnail + title + subtitle + badge)",
+      "merged_from": ["comp-002"],
+      "reason": "ProjectFlipPreviewCard variant is untested and overlay placement (Vibe badge, sticker) diverges across the three sites; B-013 (Chip) covers the highest-value sub-extraction first."
+    },
+    {
+      "id": "D-004",
+      "title": "Extract ExpandableCard primitive (chevron header + collapsible body)",
+      "merged_from": ["comp-005"],
+      "reason": "WorkExperienceCard uses max-h transition while AiDevKit cards use conditional render — standardizing animation is a real UX choice and WorkSection/WorkExperienceCard are untested."
+    },
+    {
+      "id": "D-005",
+      "title": "Extract CardSkeleton placeholder",
+      "merged_from": ["comp-006"],
+      "reason": "Single current callsite; scout itself flagged 'extract only if more loading states are coming'."
+    },
+    {
+      "id": "D-006",
+      "title": "Extract ExternalLinkArrowIcon + consolidate icon module",
+      "merged_from": ["comp-007"],
+      "reason": "Pure icon move; safe but low-value alone. Bundle into a follow-up icon-consolidation PR with AiDevKitModal/icons.tsx."
+    },
+    {
+      "id": "D-007",
+      "title": "Extract LinkButton primitive",
+      "merged_from": ["comp-008"],
+      "reason": "Single consumer today; defer until ContactModal/PageHeader Info button refactors create the second and third reuse sites."
+    },
+    {
+      "id": "D-008",
+      "title": "Extract InfoCell primitive",
+      "merged_from": ["comp-009"],
+      "reason": "Cosmetic with two sites; pair with TotalSummaryComponent overview refactor rather than landing standalone."
+    },
+    {
+      "id": "D-009",
+      "title": "Replace bg-slate-* / border-slate-* / text-slate-* with surface/content/line tokens",
+      "merged_from": ["token-002"],
+      "reason": "Large 60-occurrence sweep; should run AFTER B-013/B-014/B-015 land so the primitives bake in the right tokens and we don't churn the same lines twice. Plus ResumePreviewPage (24 of 60 sites) is untested."
+    },
+    {
+      "id": "D-010",
+      "title": "Extract card-shell utility (rounded-3xl border-line bg-surface/80 backdrop-blur)",
+      "merged_from": ["token-003"],
+      "reason": "9 sites including AwardCard/CertificationCard/WorkExperienceCard which are untested. Pair with D-004 ExpandableCard once those have characterization tests."
+    },
+    {
+      "id": "D-011",
+      "title": "Extract resume-preview card primitives + hardcoded backgrounds + arbitrary radii",
+      "merged_from": ["token-004", "token-008", "token-009"],
+      "reason": "All three center on ResumePreviewPage which has zero tests; print/PDF visual regression risk is high. Bundle as a single resume-page refactor after characterization tests are written."
+    },
+    {
+      "id": "D-012",
+      "title": "Add polaroid shadow tokens + indigo glow tokens + card-title min-height utilities",
+      "merged_from": ["token-005", "token-006", "token-010"],
+      "reason": "Visual delicacy: polaroid shadows, sheen on PortfolioCard hover, and divergent card-title min-heights (3.2/3.3/3.6/3.8rem) require browser verification and a UX decision on whether divergence is intentional. Defer until visual regression tooling exists or designer confirms."
+    },
+    {
+      "id": "D-013",
+      "title": "Extract magic 300ms card-exit navigation delay",
+      "merged_from": ["general-007"],
+      "reason": "Truly minor; bundle into B-006 follow-up if a touch-up PR happens, otherwise not worth a standalone change."
+    }
+  ]
+}

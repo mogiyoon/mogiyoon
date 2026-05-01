@@ -1,7 +1,9 @@
 // src/components/PageHeader.tsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
+import { useClickOutside } from '../hooks/useClickOutside';
 
 interface PageHeaderProps {
   setModalOpen: () => void;
@@ -26,22 +28,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
     setDropdownOpen(false); // 언어 선택 후 드롭다운 닫기
   };
 
-  // 드롭다운 외부 클릭 시 닫기 위한 Effect
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-
-    if (isDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isDropdownOpen]);
+  // 드롭다운 외부 클릭 시 닫기
+  const closeDropdown = useCallback(() => setDropdownOpen(false), []);
+  useClickOutside(dropdownRef, closeDropdown, isDropdownOpen);
 
   return (
     <header className="h-20 flex items-center p-4 bg-surface-muted">

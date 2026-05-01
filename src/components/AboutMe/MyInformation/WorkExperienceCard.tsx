@@ -1,4 +1,5 @@
 import type React from "react";
+import { Chip } from "../../primitives/Chip";
 
 export const WorkExperienceCard: React.FC<{
   company: React.ReactNode;
@@ -53,12 +54,9 @@ export const WorkExperienceCard: React.FC<{
         {tech?.length ? (
           <div className="mt-4 flex flex-wrap gap-2">
             {tech.map((s) => (
-              <span
-                key={s}
-                className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-content-secondary"
-              >
+              <Chip key={s} tone="outlined" size="mdWide" weight="semibold">
                 {s}
-              </span>
+              </Chip>
             ))}
           </div>
         ) : null}

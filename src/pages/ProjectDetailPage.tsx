@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import type { ProjectData } from '../types';
 import TotalSummaryComponent from '../components/TotalSummaryComponent';
 import { animation } from '../design-tokens';
+import { createImageFallbackHandler } from '../utils/imageFallback';
+import { PLACEHOLDER_NOT_FOUND_250x400 } from '../utils/placeholders';
 
 const pageVariants = {
   initial: animation.page.initial,
@@ -50,11 +52,10 @@ const ProjectDetailPage: React.FC = () => {
     fetchData();
   }, [projectId, i18n]);
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.onerror = null;
-    e.currentTarget.src = "https://placehold.co/250x400/cccccc/333333?text=Image+Not+Found";
-    setIsLoaded(true);
-  };
+  const handleImageError = createImageFallbackHandler({
+    fallbackSrc: PLACEHOLDER_NOT_FOUND_250x400,
+    onAfter: () => setIsLoaded(true),
+  });
 
   if (isLoading) {
     return (
