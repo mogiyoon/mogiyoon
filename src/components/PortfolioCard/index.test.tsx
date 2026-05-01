@@ -2,6 +2,10 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import type { ProjectSummary } from '../../types';
+import {
+  PLACEHOLDER_NOT_FOUND_300x200,
+  PLACEHOLDER_PROJECT_IMAGE_300x300,
+} from '../../utils/placeholders';
 import PortfolioCard from './index';
 
 vi.mock('react-i18next', () => ({
@@ -49,12 +53,11 @@ describe('PortfolioCard', () => {
     expect(img.src).toBe('https://example.com/shot1.png');
   });
 
-  it('falls back to placehold.co URL when screenshots is empty', () => {
+  it('falls back to placeholder URL when screenshots is empty', () => {
     renderCard({ screenshots: [] });
 
     const img = screen.getByAltText('sample.title Thumbnail') as HTMLImageElement;
-    expect(img.src).toContain('placehold.co');
-    expect(img.src).toContain('Project+Image');
+    expect(img.src).toBe(PLACEHOLDER_PROJECT_IMAGE_300x300);
   });
 
   it('swaps src to the not-found placeholder and clears onerror on image error', () => {
@@ -63,8 +66,7 @@ describe('PortfolioCard', () => {
     const img = screen.getByAltText('sample.title Thumbnail') as HTMLImageElement;
     fireEvent.error(img);
 
-    expect(img.src).toContain('placehold.co');
-    expect(img.src).toContain('Image+Not+Found');
+    expect(img.src).toBe(PLACEHOLDER_NOT_FOUND_300x200);
     expect(img.onerror).toBeNull();
   });
 
