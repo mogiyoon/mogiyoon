@@ -1,6 +1,10 @@
 {
   "projectTitle": "프로젝트",
   "projectSubtitle": "",
+  "projectPreview": {
+    "label": "예시 카드",
+    "hint": "2초마다 앞뒤로 회전합니다."
+  },
   "preparingProjectSubtitle": "현재 준비 중인 프로젝트들",
   "aiDevKit": {
     "title": "AI DevKit",
