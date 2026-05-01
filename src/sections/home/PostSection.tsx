@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
-function useBodyScrollLock(active: boolean) {
-  useEffect(() => {
-    if (!active) return;
-    const original = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = original;
-    };
-  }, [active]);
-}
+import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 
 const imageVariants = {
   hidden: (custom: { x: number; y: number }) => ({
@@ -60,11 +51,11 @@ const PostsSection: React.FC = () => {
           custom={{ x: -36, y: -20 }}
           className="
             absolute
-            bottom-[55vh] right-[35vw] lg:right-[45vw]
+            bottom-scroll-viewport-three-fifths right-[35vw] lg:right-[45vw]
             w-[min(70vmin,600px)] lg:w-[min(50vmin,560px)]
             scale-[1.15]
             rounded-card
-            shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+            shadow-post-card-lg
             brightness-[1.02] contrast-[1.03]
             will-change-transform
           "
@@ -78,11 +69,11 @@ const PostsSection: React.FC = () => {
           custom={{ x: 36, y: 36 }}
           className="
             absolute
-            top-[52vh] left-[67vw]
+            top-scroll-viewport-half left-[67vw]
             w-[min(70vmin,600px)] lg:w-[min(50vmin,560px)]
             scale-[1.25]
             rounded-card
-            shadow-[0_8px_24px_rgba(0,0,0,0.30)]
+            shadow-post-card
             opacity-95
             will-change-transform
           "
@@ -96,11 +87,11 @@ const PostsSection: React.FC = () => {
           custom={{ x: -36, y: 36 }}
           className="
             absolute
-            top-[65vh] right-[55vw] lg:right-[60vw]
+            top-scroll-viewport-full right-[55vw] lg:right-[60vw]
             w-[min(70vmin,600px)] lg:w-[min(50vmin,560px)]
             scale-[1.25]
             rounded-card
-            shadow-[0_8px_24px_rgba(0,0,0,0.28)]
+            shadow-post-card
             opacity-95
             will-change-transform
           "
@@ -114,7 +105,7 @@ const PostsSection: React.FC = () => {
           className="
             px-5 py-2 font-bold text-black text-xl
             rounded-lg bg-surface/50 backdrop-blur-sm
-            shadow-[0_0_15px_rgba(255,255,255,0.2)]
+            shadow-post-white-glow
           "
         >
           {t('postsPreparingMessage2')}

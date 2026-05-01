@@ -1,5 +1,7 @@
 import React from 'react';
 import type { ProjectData } from '../types';
+import { createImageFallbackHandler } from '../utils/imageFallback';
+import { PLACEHOLDER_NOT_FOUND_250x150 } from '../utils/placeholders';
 
 interface ProjectDetailComponentProps {
     project: ProjectData;
@@ -7,9 +9,9 @@ interface ProjectDetailComponentProps {
 
 const ProjectDetailComponent: React.FC<ProjectDetailComponentProps> = ({ project }) => {
 
-    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        e.currentTarget.src = 'https://via.placeholder.com/250x150.png?text=Image+Not+Found';
-    };
+    const handleImageError = createImageFallbackHandler({
+        fallbackSrc: PLACEHOLDER_NOT_FOUND_250x150,
+    });
 
     const renderSummaryParts = (id: string) => {
         const section = project.summaries.find(s => s.id === id);

@@ -1,0 +1,305 @@
+{
+  "generated_at": "2026-05-01T04:11:04Z",
+  "candidates": [
+    {
+      "id": "hook-001",
+      "title": "Extract useBodyScrollLock",
+      "kind": "extract-hook",
+      "duplication_count": 2,
+      "occurrences": [
+        {
+          "path": "src/sections/home/PostSection.tsx",
+          "lines": "5-14",
+          "snippet_summary": "Inline `function useBodyScrollLock(active)` saves prior `document.body.style.overflow`, sets it to 'hidden' when active, restores on cleanup. Called as useBodyScrollLock(true) at line 31."
+        },
+        {
+          "path": "src/components/AiDevKitModal/index.tsx",
+          "lines": "24-41",
+          "snippet_summary": "useEffect keyed on `[item, onClose]` saves originalOverflow, sets body.style.overflow='hidden' AND adds Escape keydown listener; cleanup restores both. Scroll-lock is conflated with the Escape handler in the same effect."
+        }
+      ],
+      "proposed_location": "src/hooks/useBodyScrollLock.ts (currently a 0-line empty file — overwrite with real implementation)",
+      "proposed_signature": "function useBodyScrollLock(active: boolean): void",
+      "key_behaviors_to_preserve": [
+        "no-op when active is false (PostSection passes literal `true`; AiDevKitModal passes `!!item`)",
+        "snapshot previous document.body.style.overflow on activation",
+        "set document.body.style.overflow = 'hidden' while active",
+        "restore the previously snapshotted value on cleanup (NOT a hardcoded '' — the AiDevKitModal test at line 79-92 explicitly verifies the prior 'auto' value is restored)"
+      ],
+      "risk": "low",
+      "risk_notes": "Both consumers have tests. The AiDevKitModal effect must be split: extract scroll lock into the new hook, leave the Escape listener inline (or extract into a separate useEscapeKey hook — see hook-005). The two inlined implementations are behaviourally identical for the scroll-lock portion; previously-snapshotted-overflow restoration is already what both do.",
+      "tested_consumers": [
+        "src/components/AiDevKitModal/index.tsx — has tests (index.test.tsx, lines 79-92 cover the lock/restore behavior)"
+      ],
+      "untested_consumers": [
+        "src/sections/home/PostSection.tsx — no tests"
+      ]
+    },
+    {
+      "id": "hook-002",
+      "title": "Extract usePlaceholderImageFallback (or shared handleImageError helper)",
+      "kind": "extract-hook",
+      "duplication_count": 6,
+      "occurrences": [
+        {
+          "path": "src/components/PortfolioCard/index.tsx",
+          "lines": "21-27",
+          "snippet_summary": "handleImageError sets currentTarget.onerror = null; src = 'https://placehold.co/300x200/cccccc/333333?text=Image+Not+Found'"
+        },
+        {
+          "path": "src/components/PreparingCard/index.tsx",
+          "lines": "19-22",
+          "snippet_summary": "Same shape, fallback URL 300x300 with text=Image+Not+Found"
+        },
+        {
+          "path": "src/components/ProjectFlipPreviewCard.tsx",
+          "lines": "19-22",
+          "snippet_summary": "Same shape, fallback URL 300x300 with text=Project+Image"
+        },
+        {
+          "path": "src/components/TotalProjectCard/index.tsx",
+          "lines": "11-14",
+          "snippet_summary": "Same shape, fallback URL 400x600 with text=Image+Not+Found"
+        },
+        {
+          "path": "src/pages/ProjectDetailPage.tsx",
+          "lines": "53-57",
+          "snippet_summary": "Same shape, fallback URL 250x400; ALSO calls setIsLoaded(true) — extra side effect beyond the URL swap"
+        },
+        {
+          "path": "src/components/ProjectDetailComponent.tsx",
+          "lines": "10-12",
+          "snippet_summary": "Slightly different — uses 'https://via.placeholder.com/250x150.png?text=Image+Not+Found' (DIFFERENT host: via.placeholder.com vs placehold.co) and does NOT clear onerror"
+        }
+      ],
+      "proposed_location": "src/utils/imageFallback.ts as `createImageFallbackHandler({ width, height, text, onAfter? })` returning a memoizable handler — a plain helper is more honest than a hook because the call sites just need a stable callback, not state.",
+      "proposed_signature": "function createImageFallbackHandler(options: { width: number; height: number; text?: string; bg?: string; fg?: string; onAfter?: () => void }): (e: React.SyntheticEvent<HTMLImageElement>) => void",
+      "key_behaviors_to_preserve": [
+        "Set e.currentTarget.onerror = null to prevent infinite loops",
+        "Substitute the placeholder URL with caller-provided dimensions / text",
+        "Optional onAfter callback — needed to preserve ProjectDetailPage's setIsLoaded(true) side effect",
+        "DECIDE during planning: standardize on placehold.co host (drop the lone via.placeholder.com usage in ProjectDetailComponent — it is the odd one out)"
+      ],
+      "risk": "medium",
+      "risk_notes": "PortfolioCard and PreparingCard both have tests asserting placehold.co URLs; ProjectFlipPreviewCard / TotalProjectCard / ProjectDetailComponent / ProjectDetailPage do not. The ProjectDetailComponent variant uses a different host (via.placeholder.com) — Planner must decide whether to normalize. The ProjectDetailPage variant has the setIsLoaded side effect that the helper must support via callback.",
+      "tested_consumers": [
+        "src/components/PortfolioCard/index.tsx — has tests (asserts 'placehold.co' in img.src on lines 56, 66 of index.test.tsx)",
+        "src/components/PreparingCard/index.tsx — has tests (asserts the exact Coming+Soon and Image+Not+Found URLs)"
+      ],
+      "untested_consumers": [
+        "src/components/ProjectFlipPreviewCard.tsx",
+        "src/components/TotalProjectCard/index.tsx",
+        "src/components/ProjectDetailComponent.tsx",
+        "src/pages/ProjectDetailPage.tsx"
+      ]
+    },
+    {
+      "id": "hook-003",
+      "title": "Extract useToggleSet for Set<string> add/delete toggle pattern",
+      "kind": "extract-hook",
+      "duplication_count": 5,
+      "occurrences": [
+        {
+          "path": "src/sections/home/ProfileSection.tsx",
+          "lines": "91-107",
+          "snippet_summary": "toggleHighlight + toggleSection — both setState((prev) => { const next = new Set(prev); if (next.has(key)) next.delete(key); else next.add(key); return next; })"
+        },
+        {
+          "path": "src/pages/ResumePreviewPage.tsx",
+          "lines": "338-363",
+          "snippet_summary": "toggleBlock, toggleIncludedProject, togglePanel — three identical implementations of the Set add/delete toggle pattern across selectedBlockIds, includedProjectIds, openPanels."
+        }
+      ],
+      "proposed_location": "src/hooks/useToggleSet.ts",
+      "proposed_signature": "function useToggleSet<T = string>(initial?: Iterable<T>): { items: Set<T>; toggle: (key: T) => void; has: (key: T) => boolean; reset: (next?: Iterable<T>) => void; }",
+      "key_behaviors_to_preserve": [
+        "Functional setState with a fresh Set copy (do not mutate prev — React identity check requires a new reference)",
+        "If key present, delete; otherwise add",
+        "ResumePreviewPage's resetDraft (line 162-167) re-seeds selectedBlockIds and includedProjectIds from defaults — the hook must expose a `reset(next)` method so this stays one-line"
+      ],
+      "risk": "medium",
+      "risk_notes": "ProfileSection has tests; ResumePreviewPage has no test file. Logic is mechanically identical across all 5 sites and trivially covered by a unit test on the new hook. Refactoring ResumePreviewPage's three toggles in lockstep needs care because the page is large (1048 lines).",
+      "tested_consumers": [
+        "src/sections/home/ProfileSection.tsx — has tests"
+      ],
+      "untested_consumers": [
+        "src/pages/ResumePreviewPage.tsx — no test file"
+      ]
+    },
+    {
+      "id": "hook-004",
+      "title": "Extract useExpandToggle for boolean expand/collapse useState",
+      "kind": "extract-hook",
+      "duplication_count": 3,
+      "occurrences": [
+        {
+          "path": "src/components/AiDevKitModal/SkillGroups.tsx",
+          "lines": "372-379",
+          "snippet_summary": "const [expanded, setExpanded] = useState(false); onClick={() => setExpanded(prev => !prev)}; aria-expanded={expanded}; renders ChevronIcon(expanded)"
+        },
+        {
+          "path": "src/components/AiDevKitModal/DetailItems.tsx",
+          "lines": "159-167",
+          "snippet_summary": "Identical shape — same useState+toggle+aria-expanded+ChevronIcon trio."
+        },
+        {
+          "path": "src/components/PortfolioCard/index.tsx",
+          "lines": "19, 43-44",
+          "snippet_summary": "const [isFlipped, setIsFlipped] = useState(false); but driven by onMouseEnter→true / onMouseLeave→false — different semantics (hover-controlled, not toggle)."
+        }
+      ],
+      "proposed_location": "src/hooks/useDisclosure.ts",
+      "proposed_signature": "function useDisclosure(initial = false): { isOpen: boolean; toggle: () => void; open: () => void; close: () => void; }",
+      "key_behaviors_to_preserve": [
+        "Initial value defaults to false",
+        "toggle uses functional updater so callback identity-stable usage is safe",
+        "Provide explicit open/close so PortfolioCard's hover handlers (onMouseEnter→open, onMouseLeave→close) can adopt it cleanly"
+      ],
+      "risk": "low",
+      "risk_notes": "All three consumers (SkillGroups, DetailItems, PortfolioCard) have tests. The pattern is mechanical. PortfolioCard does not strictly need the hook (its naming `isFlipped` is domain-specific), but adopting useDisclosure unifies the API.",
+      "tested_consumers": [
+        "src/components/AiDevKitModal/SkillGroups.tsx — has tests",
+        "src/components/AiDevKitModal/DetailItems.tsx — has tests",
+        "src/components/PortfolioCard/index.tsx — has tests"
+      ],
+      "untested_consumers": []
+    },
+    {
+      "id": "hook-005",
+      "title": "Extract useEscapeKey listener",
+      "kind": "extract-hook",
+      "duplication_count": 1,
+      "occurrences": [
+        {
+          "path": "src/components/AiDevKitModal/index.tsx",
+          "lines": "28-40",
+          "snippet_summary": "Inline window.addEventListener('keydown', e => e.key === 'Escape' && onClose()) — bundled into the same effect as the body-scroll-lock."
+        }
+      ],
+      "proposed_location": "src/hooks/useEscapeKey.ts",
+      "proposed_signature": "function useEscapeKey(handler: (() => void) | null | undefined, options?: { active?: boolean }): void",
+      "key_behaviors_to_preserve": [
+        "no-op when handler is null/undefined or active=false",
+        "use latest-handler ref pattern so consumers do not need useCallback",
+        "attach to window keydown, dispose on cleanup"
+      ],
+      "risk": "low",
+      "risk_notes": "Currently only one consumer, but proposed alongside hook-001 because untangling AiDevKitModal's combined effect is the natural moment to lift this. Tested via AiDevKitModal/index.test.tsx (close-on-escape behavior verified).",
+      "tested_consumers": [
+        "src/components/AiDevKitModal/index.tsx — has tests"
+      ],
+      "untested_consumers": []
+    },
+    {
+      "id": "hook-006",
+      "title": "Extract useClickOutside",
+      "kind": "extract-hook",
+      "duplication_count": 1,
+      "occurrences": [
+        {
+          "path": "src/components/PageHeader.tsx",
+          "lines": "29-44",
+          "snippet_summary": "useEffect attaches document mousedown listener while isDropdownOpen; closes dropdown when click target is outside dropdownRef. Standard outside-click pattern."
+        }
+      ],
+      "proposed_location": "src/hooks/useClickOutside.ts",
+      "proposed_signature": "function useClickOutside<T extends HTMLElement = HTMLElement>(ref: RefObject<T | null>, handler: () => void, active = true): void",
+      "key_behaviors_to_preserve": [
+        "only attach the listener while active is true (PageHeader gates on isDropdownOpen — saves listener churn when closed)",
+        "use mousedown (not click) to fire before focus changes — preserve PageHeader semantics",
+        "remove listener on cleanup AND when active flips to false"
+      ],
+      "risk": "low",
+      "risk_notes": "Only one current consumer (PageHeader), which has tests. Listed because the pattern is well-known and any future modal/popover work will want it. If Planner is conservative about single-occurrence hooks, defer.",
+      "tested_consumers": [
+        "src/components/PageHeader.tsx — has tests"
+      ],
+      "untested_consumers": []
+    },
+    {
+      "id": "hook-007",
+      "title": "Extract useCopyToClipboardWithToast",
+      "kind": "extract-hook",
+      "duplication_count": 1,
+      "occurrences": [
+        {
+          "path": "src/components/TotalSummaryComponent.tsx",
+          "lines": "133-150",
+          "snippet_summary": "useState toastMessage + linkCopySuccess; navigator.clipboard.writeText(...).then(success → set toast + setTimeout 3000ms clear).catch(failure → set failure toast + 3000ms clear). The 3-second auto-clear timer is duplicated across the success and failure branches."
+        }
+      ],
+      "proposed_location": "src/hooks/useCopyToClipboardWithToast.ts",
+      "proposed_signature": "function useCopyToClipboardWithToast(options?: { successMessage?: string; failureMessage?: string; durationMs?: number }): { toastMessage: string; success: boolean | null; copy: (text: string) => Promise<void>; }",
+      "key_behaviors_to_preserve": [
+        "navigator.clipboard.writeText guarded by promise chain (success vs failure)",
+        "toast auto-clears after durationMs (default 3000ms)",
+        "track success/failure flag separately from the message (TotalSummaryComponent already does)",
+        "cancel pending clear timer on unmount or on a subsequent copy() call so a stale timer cannot wipe a fresh toast"
+      ],
+      "risk": "low",
+      "risk_notes": "Single consumer today, but TotalSummaryComponent has tests (clipboard test on line 235 of TotalSummaryComponent.test.tsx flushes the resolved promise). The current inline code has a subtle issue worth fixing in the hook: rapid successive copy()s leave orphan setTimeouts that can clear a fresh toast — the hook should track and clear the prior timer.",
+      "tested_consumers": [
+        "src/components/TotalSummaryComponent.tsx — has tests"
+      ],
+      "untested_consumers": []
+    },
+    {
+      "id": "hook-008",
+      "title": "Extract useFetchJson (or useLocalizedJson) for the fetch+useEffect+state triad",
+      "kind": "extract-hook",
+      "duplication_count": 5,
+      "occurrences": [
+        {
+          "path": "src/hooks/useProjectLists.ts",
+          "lines": "1-43",
+          "snippet_summary": "Module-level cachedLists + listsPromise + useState seed-from-cache pattern. Fetches /data/projects-list.json + /data/preparing-projects-list.json once."
+        },
+        {
+          "path": "src/sections/home/ProfileSection.tsx",
+          "lines": "752-779",
+          "snippet_summary": "Module-level cachedData + dataPromise + useEffect that hydrates state from the prefetched promise. Same shape as useProjectLists, fetches /data/introduction.json."
+        },
+        {
+          "path": "src/components/AboutMe/MyInformation/InfoPost.tsx",
+          "lines": "64-86",
+          "snippet_summary": "useEffect-based fetch of /data/introduction.json with try/catch and setError/setData. No prefetch cache — slightly different shape but same intent (and SAME endpoint as ProfileSection — see pattern observation)."
+        },
+        {
+          "path": "src/sections/home/ProfileSection.tsx",
+          "lines": "781-800",
+          "snippet_summary": "Second useEffect: loads localized resume profile via loadLocalizedResumeProfile, keyed on i18n.language. Uses the isMounted guard pattern."
+        },
+        {
+          "path": "src/pages/ResumePreviewPage.tsx",
+          "lines": "128-160",
+          "snippet_summary": "Same isMounted-guarded async load pattern — loadResumeBuilderData keyed on i18n.language, with loading/error states."
+        }
+      ],
+      "proposed_location": "src/hooks/useFetchJson.ts (and/or src/hooks/useLocalizedResource.ts for the i18n-keyed variant)",
+      "proposed_signature": "function useFetchJson<T>(url: string | (() => string), deps?: ReadonlyArray<unknown>): { data: T | null; isLoading: boolean; error: string | null; }",
+      "key_behaviors_to_preserve": [
+        "isMounted guard so async resolution after unmount does not setState",
+        "loading/error/data triple state",
+        "for the i18n variants: re-fetch when i18n.resolvedLanguage / i18n.language changes",
+        "for the prefetch variants (useProjectLists, ProfileSection): module-level cache so navigation back to a section does not re-trigger a network request — this is a cross-cutting concern the hook needs to support OR the existing prefetch pattern stays intact and only InfoPost / ResumePreviewPage migrate"
+      ],
+      "risk": "high",
+      "risk_notes": "InfoPost has no tests AND its fetch logic is non-trivial (try/catch with two error paths). ResumePreviewPage has no tests. ProfileSection HAS tests but they likely mock the prefetch — verify before changing. Also: InfoPost duplicates ProfileSection's introduction.json fetch, so consolidating them is a behavioral change worth flagging separately. Recommend Planner DEFER this candidate; address it after writing tests for InfoPost + ResumePreviewPage. Listed here so it is not lost.",
+      "tested_consumers": [
+        "src/sections/home/ProfileSection.tsx — has tests",
+        "src/hooks/useProjectLists.ts — indirectly tested via ProjectsSection tests (consumer is tested)"
+      ],
+      "untested_consumers": [
+        "src/components/AboutMe/MyInformation/InfoPost.tsx — no tests",
+        "src/pages/ResumePreviewPage.tsx — no tests"
+      ]
+    }
+  ],
+  "no_findings_areas": [
+    "localStorage / sessionStorage usage — only i18n.ts touches localStorage (via i18next-browser-languagedetector caches: ['localStorage']); no app-side storage hook needed.",
+    "IntersectionObserver direct usage — only the existing src/hooks/useIntersectionObserver.ts contains a `new IntersectionObserver(...)` call, and no component currently consumes it; framer-motion's useInView (used in useProjectGridEntrance) covers the in-view detection needs. Recommend Planner consider DELETING the unused useIntersectionObserver.ts in a follow-up rather than extracting more.",
+    "3D card flip state — already lifted into useProjectFlipPreview for ProjectFlipPreviewCard; PortfolioCard's `isFlipped` is hover-driven and is better folded into useDisclosure (hook-004) than into the auto-cycling flip preview hook.",
+    "Toast / setTimeout-clear pattern outside of clipboard — no other components implement an auto-clearing toast; the only setTimeout-clear instance is the firework cleanup in DeveloperIntro (single occurrence, one-shot, not worth extracting).",
+    "Outside-click pattern outside of PageHeader — the AiDevKitModal closes via onClick on the backdrop (no document-level listener), so it does not match the useClickOutside shape."
+  ]
+}

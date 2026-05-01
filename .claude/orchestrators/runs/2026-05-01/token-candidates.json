@@ -1,0 +1,174 @@
+{
+  "generated_at": "2026-05-01T00:00:00Z",
+  "existing_tokens_summary": {
+    "design_tokens_ts": "Exports colors (background/text/accent/border slate+indigo+violet palette), fonts (body/latin/display/mono), spacing.section, radii (card 0.75rem / modal 1rem / pill), keyframes + tailwindAnimation, framer-motion `animation` presets, and `durations` scale (instant..flip).",
+    "tailwind_config": "theme.extend adds custom color namespaces (surface, content, accent, accent-violet, line) sourced from design-tokens, fontFamily aliases, spacing.section, borderRadius.{card,modal,pill}, and registers keyframes + tailwindAnimation. No custom shadows, no custom durations, no custom z-index."
+  },
+  "candidates": [
+    {
+      "id": "token-001",
+      "title": "Consolidate placehold.co fallback URLs into a constants module",
+      "kind": "extract-constant",
+      "occurrences_count": 7,
+      "occurrences": [
+        { "path": "src/components/PortfolioCard/index.tsx", "lines": "26,63", "value": "https://placehold.co/300x200/cccccc/333333?text=Image+Not+Found  AND  https://placehold.co/300x300/cccccc/333333?text=Project+Image" },
+        { "path": "src/components/PreparingCard/index.tsx", "lines": "21,29", "value": "https://placehold.co/300x300/cccccc/333333?text=Image+Not+Found  AND  https://placehold.co/300x300/e2e8f0/9ca3af?text=Coming+Soon" },
+        { "path": "src/components/ProjectFlipPreviewCard.tsx", "lines": "21,43", "value": "https://placehold.co/300x300/cccccc/333333?text=Project+Image" },
+        { "path": "src/components/TotalProjectCard/index.tsx", "lines": "13,23", "value": "https://placehold.co/400x600/cccccc/333333?text=Image+Not+Found  AND  https://placehold.co/400x600/cccccc/333333?text=Project+Image" },
+        { "path": "src/pages/ProjectDetailPage.tsx", "lines": "55", "value": "https://placehold.co/250x400/cccccc/333333?text=Image+Not+Found" }
+      ],
+      "proposed_token_or_constant": "src/utils/placeholders.ts: export const PLACEHOLDER_NOT_FOUND = (w,h) => `https://placehold.co/${w}x${h}/cccccc/333333?text=Image+Not+Found`; PLACEHOLDER_PROJECT_IMAGE(w,h); PLACEHOLDER_COMING_SOON(w,h). Also a single onImgError handler.",
+      "risk": "low",
+      "risk_notes": "Pure string substitution; PortfolioCard/PreparingCard have tests asserting the literal URL — update tests to import the constant. Cosmetically identical."
+    },
+    {
+      "id": "token-002",
+      "title": "Replace bg-slate-* / border-slate-* / text-slate-* with surface/content/line tokens",
+      "kind": "use-existing-token",
+      "occurrences_count": 60,
+      "occurrences": [
+        { "path": "src/sections/home/ProfileSection.tsx", "lines": "185,201,295,306,310,339,471,482,493,497,548,676,687,718,722,733,830,856", "value": "bg-slate-{500,600,700,900}, bg-slate-200" },
+        { "path": "src/components/PageHeader.tsx", "lines": "68,79", "value": "bg-slate-900 / hover:bg-slate-900" },
+        { "path": "src/components/TotalSummaryComponent.tsx", "lines": "112", "value": "bg-slate-900 hover:bg-slate-700" },
+        { "path": "src/sections/home/CrazyAboutSection.tsx", "lines": "33,35", "value": "bg-slate-900/50 border-slate-800 hover:border-slate-700 hover:bg-slate-900" },
+        { "path": "src/sections/home/PostSection.tsx", "lines": "131", "value": "hover:bg-slate-700 hover:border-slate-600" },
+        { "path": "src/components/PreparingCard/index.tsx", "lines": "50", "value": "bg-slate-200" },
+        { "path": "src/components/AboutMe/AnswerChecker.tsx", "lines": "59", "value": "bg-slate-200 border-t-slate-100 border-l-slate-100 border-slate-400" },
+        { "path": "src/components/AboutMe/Switch.tsx", "lines": "20", "value": "bg-slate-600" },
+        { "path": "src/pages/ProjectDetailPage.tsx", "lines": "80,123", "value": "bg-slate-900 hover:bg-slate-700; bg-slate-200" },
+        { "path": "src/pages/ResumePreviewPage.tsx", "lines": "34,41,63,70,75,367,369,371,373,384,426,447,597,620,652,672,702,852,905,952,969,984,1011,1027", "value": "border-slate-200 bg-white text-slate-{500,700,900}, bg-slate-{50,100,200}" }
+      ],
+      "proposed_token_or_constant": "Use already-defined tokens: bg-slate-200 -> bg-line/bg-surface-border; border-slate-200 -> border-line; text-slate-900 -> text-content; text-slate-700 -> text-content-secondary; text-slate-500 -> text-content-tertiary. For dark surface (bg-slate-900) consider adding `surface-dark` token to design-tokens.ts since slate-900 is already in colors.text.primary but no surface counterpart exists.",
+      "risk": "medium",
+      "risk_notes": "Visual UI; substitutions are intended to be 1:1 but token semantics may differ slightly. PageHeader, TotalSummaryComponent, ProfileSection, PreparingCard, AnswerChecker have tests — many assert classNames containing 'bg-slate-900', so test updates are required (PageHeader.test.tsx already does). Resume page has no tests but is highly visible."
+    },
+    {
+      "id": "token-003",
+      "title": "Repeated card-shell combination 'rounded-3xl border border-line bg-surface/80 shadow-sm backdrop-blur'",
+      "kind": "repeated-class-combo",
+      "occurrences_count": 9,
+      "occurrences": [
+        { "path": "src/sections/home/ProfileSection.tsx", "lines": "119,539,620,643,689,731", "value": "rounded-3xl border border-line bg-surface/80 (or /85) p-6 shadow-sm backdrop-blur (+ hover:shadow-md transition-shadow duration-200)" },
+        { "path": "src/components/AboutMe/MyInformation/AwardCard.tsx", "lines": "14", "value": "my-5 rounded-3xl border border-line bg-surface/80 shadow-sm backdrop-blur" },
+        { "path": "src/components/AboutMe/MyInformation/CertificationCard.tsx", "lines": "10", "value": "my-5 rounded-3xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur" },
+        { "path": "src/components/AboutMe/MyInformation/Section/WorkSection.tsx", "lines": "40", "value": "rounded-3xl border border-line bg-surface/80 shadow-sm backdrop-blur" },
+        { "path": "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx", "lines": "27", "value": "my-5 rounded-3xl border border-line bg-surface/80 shadow-sm backdrop-blur" }
+      ],
+      "proposed_token_or_constant": "Extract into a `<CardShell>` primitive OR a Tailwind plugin utility `card-shell` (rounded-3xl border border-line bg-surface/80 shadow-sm backdrop-blur). Add `card-hover` variant for hover:shadow-md transition-shadow duration-200. Also: standardize on radii.modal (currently rounded-3xl ~ 1.5rem but radii.modal=1rem); consider adding radii.cardLg = 1.5rem.",
+      "risk": "medium",
+      "risk_notes": "Visual surface; correct extraction is 1:1 but introduces a primitive. Some sites add p-6 vs none and my-5 — composition order matters. ProfileSection has tests (ProfileSection covered post Phase 0b) — safe to refactor first."
+    },
+    {
+      "id": "token-004",
+      "title": "Repeated resume preview card combination 'rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 shadow-sm'",
+      "kind": "repeated-class-combo",
+      "occurrences_count": 11,
+      "occurrences": [
+        { "path": "src/pages/ResumePreviewPage.tsx", "lines": "63,70,597,652,702,852,905,952,969,984,1011,1027", "value": "rounded-2xl border border-slate-200 bg-white px-3.5 py-{2.5,3} (text-sm text-slate-900 shadow-sm)" },
+        { "path": "src/pages/ResumePreviewPage.tsx", "lines": "426,447,620,672", "value": "rounded-xl/2xl border border-slate-200 bg-slate-50 px-3 py-2/2.5 — block variant" }
+      ],
+      "proposed_token_or_constant": "Extract into local primitives `<ResumePreviewCard>` and `<ResumePreviewBlock>` (the latter for the bg-slate-50 nested variant) inside src/pages/ResumePreviewPage.tsx OR a new src/components/resume/ folder. Already partially flagged by classNames `resume-preview-card` / `resume-preview-block`.",
+      "risk": "medium",
+      "risk_notes": "Print-styled UI; visual regression risk on PDF export. No tests on ResumePreviewPage. Refactor after token-002 to use line/surface tokens consistently."
+    },
+    {
+      "id": "token-005",
+      "title": "Repeated AboutMe IntroLine card border+shadow combo + hardcoded translate% magic numbers",
+      "kind": "repeated-class-combo",
+      "occurrences_count": 7,
+      "occurrences": [
+        { "path": "src/components/AboutMe/IntroLine.tsx", "lines": "46,57,68,79,117,125,133", "value": "border-[1px] border-black rounded-card shadow-[2px_2px_7px_1px_rgba(0,0,0,0.5)] sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)]" },
+        { "path": "src/components/AboutMe/AnswerChecker.tsx", "lines": "63", "value": "sm:shadow-[7px_7px_7px_1px_rgba(0,0,0,0.5)]" }
+      ],
+      "proposed_token_or_constant": "Add `theme.extend.boxShadow.polaroid = '2px 2px 7px 1px rgba(0,0,0,0.5)'` and `polaroid-lg = '7px 7px 7px 1px rgba(0,0,0,0.5)'` in tailwind.config.ts (sourced from design-tokens.ts). Then `shadow-polaroid sm:shadow-polaroid-lg`. Optionally extract a `<PolaroidFrame>` wrapper.",
+      "risk": "medium",
+      "risk_notes": "IntroLine has tests (Phase 0b safe-list). The translate-x/y arbitrary % values are positional, not scale — leave alone (each polaroid has unique placement)."
+    },
+    {
+      "id": "token-006",
+      "title": "Hardcoded indigo-500 (#6366f1) glow shadows in PortfolioCard — duplicates accent.indigo500 token",
+      "kind": "use-existing-token",
+      "occurrences_count": 4,
+      "occurrences": [
+        { "path": "src/components/PortfolioCard/index.tsx", "lines": "101", "value": "shadow-[0_0_12px_rgba(99,102,241,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]" },
+        { "path": "src/components/PortfolioCard/index.tsx", "lines": "107", "value": "drop-shadow-[0_0_2px_rgba(99,102,241,0.6)]" },
+        { "path": "src/components/PortfolioCard/index.tsx", "lines": "126", "value": "shadow-[0_0_3px_rgba(99,102,241,0.5)]" },
+        { "path": "src/components/PortfolioCard/index.tsx", "lines": "145", "value": "bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.7),rgba(255,255,255,0)_60%)]" }
+      ],
+      "proposed_token_or_constant": "rgba(99,102,241,*) is colors.accent.indigo500 with alpha. Add `theme.extend.boxShadow.accent-glow / accent-glow-sm / accent-glow-inset` in tailwind config sourced from design-tokens. The radial gradient is one-off but qualifies for `bg-glass-shine` utility if reused.",
+      "risk": "medium",
+      "risk_notes": "PortfolioCard is in the Phase 0b test safe-list. Tests assert structure, not exact shadow strings — should pass after refactor. Visual sheen on hover is delicate; verify in browser."
+    },
+    {
+      "id": "token-007",
+      "title": "Centralize easing constants — PROJECT_CARD_EASE lives in a hook file",
+      "kind": "extract-constant",
+      "occurrences_count": 4,
+      "occurrences": [
+        { "path": "src/hooks/useProjectGridEntrance.ts", "lines": "6,151", "value": "export const PROJECT_CARD_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]" },
+        { "path": "src/components/ProjectsSidebar.tsx", "lines": "4,38,48", "value": "imports PROJECT_CARD_EASE from '../hooks/useProjectGridEntrance'" },
+        { "path": "src/design-tokens.ts", "lines": "88", "value": "'toast-in-out': 'toast-in-out 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards' (separate easing duplicated)" }
+      ],
+      "proposed_token_or_constant": "Move to src/design-tokens.ts as `easings = { projectCard: [0.22, 1, 0.36, 1], toast: [0.68, -0.55, 0.27, 1.55], standard: 'easeOut' }`. Re-export PROJECT_CARD_EASE from the hook for back-compat. ProjectsSection.test mocks it as [0,0,0,0] — keep export name.",
+      "risk": "low",
+      "risk_notes": "Pure constants relocation; no visual change. Test at src/sections/home/ProjectsSection.test.tsx:172 mocks PROJECT_CARD_EASE — re-exporting preserves the mock surface."
+    },
+    {
+      "id": "token-008",
+      "title": "Arbitrary rounded-[Nrem] values that should map to / extend radii scale",
+      "kind": "add-new-token",
+      "occurrences_count": 12,
+      "occurrences": [
+        { "path": "src/components/PortfolioCard/index.tsx", "lines": "66", "value": "rounded-[3rem]" },
+        { "path": "src/components/AiDevKitCard/index.tsx", "lines": "27", "value": "rounded-[1.5rem]" },
+        { "path": "src/components/ProjectFlipPreviewCard.tsx", "lines": "45", "value": "rounded-[1.8rem]" },
+        { "path": "src/components/AboutMe/MyInformation/EducationCard.tsx", "lines": "12", "value": "rounded-[28px]" },
+        { "path": "src/pages/ResumePreviewPage.tsx", "lines": "34,371,373,384,785", "value": "rounded-[2rem] (5 occurrences)" },
+        { "path": "src/pages/ResumePreviewPage.tsx", "lines": "852,905,952,969,984,1011,1027", "value": "rounded-[1.4rem] (7 occurrences)" }
+      ],
+      "proposed_token_or_constant": "Extend radii in design-tokens.ts: `cardLg: '1.5rem'`, `cardXl: '2rem'`, `cardHero: '3rem'`, `chipLg: '1.4rem'` (or normalize 1.4/1.5/1.8/28px → cardLg). Map in tailwind borderRadius.",
+      "risk": "medium",
+      "risk_notes": "Visually distinct corner radii are intentional in some places (PortfolioCard hero=3rem); decide which to consolidate. Tests on PortfolioCard/AiDevKitCard/IntroLine assert presence of class strings — update accordingly."
+    },
+    {
+      "id": "token-009",
+      "title": "ResumePreviewPage hardcoded background colors (#f7f8fb, #dfe5ec)",
+      "kind": "add-new-token",
+      "occurrences_count": 2,
+      "occurrences": [
+        { "path": "src/pages/ResumePreviewPage.tsx", "lines": "34", "value": "bg-[#f7f8fb] (resume sheet wrapper)" },
+        { "path": "src/pages/ResumePreviewPage.tsx", "lines": "486", "value": "bg-[#dfe5ec] (resume page background)" }
+      ],
+      "proposed_token_or_constant": "Add to colors.background in design-tokens.ts: `resumeSheet: '#f7f8fb'`, `resumePage: '#dfe5ec'`, exposed as `bg-surface-resume-sheet` / `bg-surface-resume-page` in tailwind.",
+      "risk": "medium",
+      "risk_notes": "Print/visual surface, no tests; verify on PDF export. Used only twice — borderline whether to tokenize, but #f7f8fb/#dfe5ec are off-palette so they should be named."
+    },
+    {
+      "id": "token-010",
+      "title": "min-h-[N] heights that should align to spacing scale or be component constants",
+      "kind": "extract-constant",
+      "occurrences_count": 8,
+      "occurrences": [
+        { "path": "src/components/AiDevKitModal/SkillGroups.tsx", "lines": "26,298", "value": "min-w-[140px], min-w-[28px]" },
+        { "path": "src/components/AiDevKitModal/DetailItems.tsx", "lines": "145", "value": "min-w-[28px]" },
+        { "path": "src/components/AiDevKitModal/FlowDiagram.tsx", "lines": "152", "value": "min-h-[132px]" },
+        { "path": "src/components/AiDevKitCard/index.tsx", "lines": "37", "value": "min-h-[2.5rem] sm:min-h-[2.75rem] text-[0.95rem]" },
+        { "path": "src/components/PortfolioCard/index.tsx", "lines": "76,79", "value": "min-h-[3.3rem] sm:min-h-[3.8rem] text-[0.95rem]" },
+        { "path": "src/components/PreparingCard/index.tsx", "lines": "37,42", "value": "min-h-[3.2rem] sm:min-h-[3.6rem]" },
+        { "path": "src/components/AboutMe/MyInformation/EducationCard.tsx", "lines": "23", "value": "min-h-[240px]" },
+        { "path": "src/components/AboutMe/MyInformation/Section/WorkSection.tsx", "lines": "71", "value": "max-h-[900px]" },
+        { "path": "src/components/AboutMe/MyInformation/WorkExperienceCard.tsx", "lines": "70", "value": "max-h-[1200px]" }
+      ],
+      "proposed_token_or_constant": "Card title clamp heights (3.2/3.3/3.6/3.8rem) in PortfolioCard + PreparingCard + AiDevKitCard should converge — extract as a shared `cardTitleMinHeight` Tailwind utility (e.g. `min-h-card-title sm:min-h-card-title-sm`). FlowDiagram min-h-[132px] is a layout constant — keep but extract as a named const.",
+      "risk": "medium",
+      "risk_notes": "Card title min-heights determine visual rhythm of the projects grid — values diverge slightly across cards which may be a bug; verify intent before consolidating. PortfolioCard, PreparingCard, AiDevKitCard, FlowDiagram all in Phase 0b safe-list."
+    }
+  ],
+  "no_findings_areas": [
+    "src/design-tokens.ts (source of truth, no hardcoded values to extract)",
+    "tailwind.config.ts (already references tokens)",
+    "src/components/AboutMe/MainPhrase1to4.tsx and MainPhrase5to8.tsx (h-[1600vh]/h-[500vh] are scroll-trigger heights, not tokens)",
+    "src/components/AboutMe/IntroLine.tsx translate-x/y arbitrary % (positional, intentionally unique per polaroid)",
+    "src/sections/home/PostSection.tsx vmin/vw arbitrary positions (responsive layout, not tokens)"
+  ]
+}

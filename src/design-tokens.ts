@@ -50,15 +50,58 @@ export const fonts = {
 // ─── Spacing ────────────────────────────────────────────
 
 export const spacing = {
-  section: '5rem', // 80px — pt-20
+  section: '5rem',     // 80px — pt-20
+  hairline: '4px',     // 4px — ProfileSection p-[4px]
+  scrollViewport: {
+    half: '52vh',          // PostSection p-[52vh]
+    threeFifths: '55vh',   // PostSection m-[55vh]
+    full: '65vh',          // PostSection p-[65vh]
+  },
 } as const;
 
 // ─── Border Radius ──────────────────────────────────────
 
 export const radii = {
-  card: '0.75rem',   // 12px — rounded-xl
-  modal: '1rem',     // 16px — rounded-2xl
-  pill: '9999px',    // rounded-full
+  // Existing semantic tokens
+  card: '0.75rem',         // 12px — rounded-xl
+  modal: '1rem',           // 16px — rounded-2xl
+  pill: '9999px',          // rounded-full
+  // Generic scale (mirrors design-preview.html CSS variables)
+  md: '6px',
+  lg: '8px',
+  xl: '12px',
+  '2xl': '16px',
+  '3xl': '24px',
+  // App-specific additions
+  cardSoft28: '1.75rem',   // 28px — EducationCard, ProjectFlipPreviewCard (~28.8px treated as same)
+  cardChunky: '3rem',      // 48px — PortfolioCard rounded-[3rem]
+  paperEdge: '1.4rem',     // 22.4px — ResumePreviewPage rounded-[1.4rem]
+  paperEdgeLg: '2rem',     // 32px — ResumePreviewPage rounded-[2rem]
+} as const;
+
+// ─── Shadows ────────────────────────────────────────────
+
+export const shadows = {
+  // Generic stack (mirrors Tailwind defaults; tokenized for design-preview parity)
+  sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+  xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+  '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+  // Brand glow — indigo-500 base
+  glowAccent: '0 0 12px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.4)',
+  glowAccentSm: '0 0 2px rgba(99,102,241,0.6)',
+  glowAccentXs: '0 0 3px rgba(99,102,241,0.5)',
+  // Decorative — polaroid drop shadow stack
+  polaroidSm: '2px 2px 7px 1px rgba(0,0,0,0.5)',
+  polaroidMd: '5px 5px 5px 1px rgba(0,0,0,0.5)',
+  polaroidLg: '7px 7px 7px 1px rgba(0,0,0,0.5)',
+  // Decorative — celestial
+  starGlow: '0 0 10px #fff, 0 0 20px #fff',
+  // Page-specific
+  postCard: '0 8px 24px rgba(0,0,0,0.28)',         // PostSection (also covers 0.30 variant; Step B confirms)
+  postCardLg: '0 10px 30px rgba(0,0,0,0.35)',
+  postWhiteGlow: '0 0 15px rgba(255,255,255,0.2)',
+  resumePaper: '0 24px 80px rgba(15,23,42,0.18)',
 } as const;
 
 // ─── Keyframes & Animation ──────────────────────────────
@@ -146,4 +189,20 @@ export const durations = {
   item: 0.28,     // 280ms — item entrance
   standard: 0.3,  // 300ms — standard hover, shadow
   flip: 0.7,      // 700ms — card flip (exception)
+} as const;
+
+// ─── Toast ──────────────────────────────────────────────
+
+/** 토스트가 표시된 후 자동으로 사라지기까지의 시간 (ms). */
+export const TOAST_VISIBLE_MS = 3000;
+
+// ─── Easings (cubic-bezier tuples) ──────────────────────
+
+export const easings = {
+  /** 프로젝트 카드 진입/퇴장 — 부드러운 out-back 느낌 */
+  projectCard: [0.22, 1, 0.36, 1] as readonly [number, number, number, number],
+  /** 토스트 — 살짝 튀는 over-shoot */
+  toast: [0.68, -0.55, 0.27, 1.55] as readonly [number, number, number, number],
+  /** 표준 ease — 일반 인터랙션 기본값 (Material standard) */
+  standard: [0.4, 0, 0.2, 1] as readonly [number, number, number, number],
 } as const;

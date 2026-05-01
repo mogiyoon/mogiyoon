@@ -31,7 +31,7 @@ const CollapsibleEditorSection: React.FC<{
   onToggle: () => void;
   children: React.ReactNode;
 }> = ({ title, isOpen, onToggle, children }) => (
-  <section className="rounded-[2rem] border border-slate-200 bg-[#f7f8fb] p-4 shadow-lg">
+  <section className="rounded-paper-edge-lg border border-slate-200 bg-[#f7f8fb] p-4 shadow-lg">
     <button
       type="button"
       onClick={onToggle}
@@ -368,9 +368,9 @@ const ResumePreviewPage: React.FC = () => {
         <div className="mx-auto max-w-6xl">
           <div className="h-10 w-56 rounded-2xl bg-slate-200 animate-pulse mb-6" />
           <div className="grid gap-6 xl:grid-cols-[24rem_1fr]">
-            <div className="h-[70vh] rounded-[2rem] bg-slate-200 animate-pulse" />
+            <div className="h-[70vh] rounded-paper-edge-lg bg-slate-200 animate-pulse" />
             <div className="flex justify-center">
-              <div className="h-[297mm] w-[210mm] max-w-full rounded-[2rem] bg-slate-200 animate-pulse" />
+              <div className="h-[297mm] w-[210mm] max-w-full rounded-paper-edge-lg bg-slate-200 animate-pulse" />
             </div>
           </div>
         </div>
@@ -381,7 +381,7 @@ const ResumePreviewPage: React.FC = () => {
   if (!draft) {
     return (
       <section className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
-        <div className="rounded-[2rem] border border-slate-200 bg-white px-8 py-10 text-center shadow-lg">
+        <div className="rounded-paper-edge-lg border border-slate-200 bg-white px-8 py-10 text-center shadow-lg">
           <p className="text-sm text-slate-500 mb-3">{errorMessage || t("resume.downloadFailed")}</p>
           <Link
             to="/"
@@ -782,7 +782,7 @@ const ResumePreviewPage: React.FC = () => {
           </aside>
 
           <div className="flex justify-center print:block">
-            <article className="resume-preview-page w-[210mm] max-w-full min-h-[297mm] rounded-[2rem] bg-white px-6 py-5 shadow-[0_24px_80px_rgba(15,23,42,0.18)] print:rounded-none print:shadow-none">
+            <article className="resume-preview-page w-[210mm] max-w-full min-h-[297mm] rounded-paper-edge-lg bg-white px-6 py-5 shadow-resume-paper print:rounded-none print:shadow-none">
               <header className="border-b border-slate-200 pb-4">
                 <div className="flex flex-wrap items-start justify-between gap-2.5">
                   <div>
@@ -849,7 +849,7 @@ const ResumePreviewPage: React.FC = () => {
                       return (
                         <div
                           key={`preview-work-${work.id}`}
-                          className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                          className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
                         >
                           <div className="flex flex-wrap items-start justify-between gap-3">
                             <div>
@@ -902,7 +902,7 @@ const ResumePreviewPage: React.FC = () => {
                     {includedProjects.map((project) => (
                       <div
                         key={`preview-project-${project.id}`}
-                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div>
@@ -949,7 +949,7 @@ const ResumePreviewPage: React.FC = () => {
                     {draft.education.map((item) => (
                       <div
                         key={`preview-education-${item.id}`}
-                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
                       >
                         <h3 className="text-[15px] font-bold leading-tight text-slate-950">{item.title}</h3>
                         <p className="mt-0.5 text-[12.5px] text-slate-700">{item.major}</p>
@@ -966,7 +966,7 @@ const ResumePreviewPage: React.FC = () => {
                     {draft.skills.map((skillGroup) => (
                       <div
                         key={`preview-skill-${skillGroup.category}`}
-                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
                       >
                         <p className="text-[13px] font-semibold text-slate-900">{skillGroup.label}</p>
                         <p className="mt-1 text-[12.5px] leading-[1.42] text-slate-700">{skillGroup.items.join(", ")}</p>
@@ -981,7 +981,7 @@ const ResumePreviewPage: React.FC = () => {
                     {draft.awards.map((award) => (
                       <div
                         key={`preview-award-${award.id}`}
-                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <h3 className="text-[15px] font-bold leading-tight text-slate-950">{award.title}</h3>
@@ -1008,7 +1008,7 @@ const ResumePreviewPage: React.FC = () => {
                     {draft.certificates.map((certificate) => (
                       <div
                         key={`preview-cert-${certificate.id}`}
-                        className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
                       >
                         <h3 className="text-[13px] font-bold leading-tight text-slate-950">{certificate.title}</h3>
                         <p className="mt-2 text-[12.5px] font-medium text-slate-500">{certificate.period}</p>
@@ -1024,7 +1024,7 @@ const ResumePreviewPage: React.FC = () => {
                       {draft.languages.map((language) => (
                         <div
                           key={`preview-language-${language.id}`}
-                          className="resume-preview-card rounded-[1.4rem] border border-slate-200 bg-white px-3.5 py-3"
+                          className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
                         >
                           <div className="flex flex-wrap items-start justify-between gap-3">
                             <h3 className="text-[15px] font-bold leading-tight text-slate-950">{language.title}</h3>

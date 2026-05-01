@@ -1,6 +1,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Chip } from "../../../primitives/Chip";
 
 export type WorkItem = {
   title: string;        // "deeptrade.title"
@@ -58,9 +59,9 @@ export const WorkSection: React.FC<{ items: WorkItem[] }> = ({ items }) => {
                 </div>
 
                 <div className="shrink-0 text-right">
-                  <span className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-content-secondary">
+                  <Chip tone="outlined" size="mdWide" weight="semibold">
                     {isOpen ? t("close", { ns: "common", defaultValue: "Close" }) : t("details", { ns: "common", defaultValue: "Details" })}
-                  </span>
+                  </Chip>
                 </div>
               </div>
             </button>

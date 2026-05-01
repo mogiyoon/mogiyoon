@@ -1,4 +1,5 @@
 import type React from "react";
+import { Chip } from "../../primitives/Chip";
 
 export const EducationCard: React.FC<{
   title: React.ReactNode;
@@ -9,7 +10,7 @@ export const EducationCard: React.FC<{
   logoAlt?: string;
 }> = ({ title, period, major, grade, logoSrc, logoAlt }) => {
   return (
-    <div className="my-6 overflow-hidden rounded-[28px] border border-line bg-surface/80 shadow-sm backdrop-blur">
+    <div className="my-6 overflow-hidden rounded-card-soft-28 border border-line bg-surface/80 shadow-sm backdrop-blur">
       {/* Top Header (조금 더 두껍게) */}
       <div className="p-6 pb-4">
         <h3 className="text-xl font-bold text-content leading-snug">
@@ -39,9 +40,14 @@ export const EducationCard: React.FC<{
           )}
 
           {/* Badge */}
-          <div className="absolute left-4 top-4 inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-content-secondary">
+          <Chip
+            tone="outlined"
+            size="mdWide"
+            weight="semibold"
+            className="absolute left-4 top-4"
+          >
             Education
-          </div>
+          </Chip>
         </div>
       </div>
 
