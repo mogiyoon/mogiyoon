@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import AnswerChecker from "./AnswerChecker";
 
 export const IntroLine: React.FC = () => {
   const { t } = useTranslation();
@@ -28,13 +27,11 @@ export const IntroLine: React.FC = () => {
   const endIntroLine = useTransform(scrollYProgress, [0.55, 0.60], [0, 1]);
   const endImage1 = useTransform(scrollYProgress, [0.63, 0.67], [0, 1]);
   const endImage2 = useTransform(scrollYProgress, [0.67, 0.71], [0, 1]);
-  const endImage3 = useTransform(scrollYProgress, [0.71, 0.75], [0, 1]);
-  const endComponent = useTransform(scrollYProgress, [0.75, 0.8], [0, 1]);
 
   return (
     <section ref={targetRef} className="relative h-[2000vh]">
-      <div className="sticky top-0 h-screen w-full">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 text-slate-100">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="absolute inset-0 bg-white text-slate-100">
           {/* 시작 콘텐츠 */}
           <motion.div
             style={{ opacity: startImage1 }}
@@ -43,7 +40,7 @@ export const IntroLine: React.FC = () => {
             <img
               src="/images/aboutMe/introLine1/1.png"
               alt="image 1"
-              className="absolute top-1/2 left-1/2 -translate-x-[80%] -translate-y-[130%] sm:-translate-x-[140%] sm:-translate-y-[115%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[50%] sm:w-[32%] lg:w-[26%]"
+              className="absolute top-[12%] right-[8%] sm:top-[15%] sm:right-[12%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[40%] sm:w-[28%] lg:w-[22%]"
             />
           </motion.div>
 
@@ -54,29 +51,7 @@ export const IntroLine: React.FC = () => {
             <img
                 src="/images/aboutMe/introLine1/2.png"
                 alt="image 1"
-                className="absolute top-1/2 left-1/2 -translate-x-[20%] translate-y-[35%] sm:translate-x-[30%] sm:translate-y-[30%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[50%] sm:w-[32%] lg:w-[26%]"
-            />
-          </motion.div>
-
-          <motion.div
-            style={{ opacity: startImage3 }}
-            className={`absolute inset-0 z-0`}
-          >
-            <img
-                src="/images/aboutMe/introLine1/3.png"
-                alt="image 1"
-                className="absolute top-1/2 left-1/2 -translate-x-[90%] translate-y-[115%] sm:-translate-x-[100%] sm:translate-y-[50%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[50%] sm:w-[32%] lg:w-[26%]"
-            />
-          </motion.div>
-
-          <motion.div
-            style={{ opacity: startImage4 }}
-            className={`absolute inset-0 z-0`}
-          >
-            <img
-                src="/images/aboutMe/introLine1/4.png"
-                alt="image 1"
-                className="absolute top-1/2 left-1/2 translate-x-[100%] -translate-y-[145%] sm:translate-x-[15%] sm:-translate-y-[130%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[20%] sm:w-[18%] lg:w-[16%]"
+                className="absolute bottom-[15%] right-[5%] sm:bottom-[18%] sm:right-[8%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[40%] sm:w-[28%] lg:w-[22%]"
             />
           </motion.div>
 
@@ -84,10 +59,10 @@ export const IntroLine: React.FC = () => {
             style={{ opacity: startContentOpacity }}
             className={`absolute inset-0 z-0`}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-white/90 font-light leading-relaxed tracking-widest whitespace-nowrap">
+            <div className="absolute top-1/2 left-[8%] sm:left-[12%] lg:left-[16%] -translate-y-[100%] text-left text-3xl sm:text-5xl lg:text-6xl text-content-strong font-bold leading-tight tracking-tight whitespace-nowrap">
               {t("introLine1")}
             </div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-white/90 font-light leading-relaxed tracking-widest whitespace-nowrap">
+            <div className="absolute top-1/2 left-[8%] sm:left-[12%] lg:left-[16%] -translate-y-[0%] text-left text-3xl sm:text-5xl lg:text-6xl text-content-strong font-bold leading-tight tracking-tight whitespace-nowrap">
               {t("introLine1-1")}
             </div>
           </motion.div>
@@ -95,17 +70,17 @@ export const IntroLine: React.FC = () => {
           {/* 끝 콘텐츠 */}
           <motion.div
             style={{ opacity: endBackgroundOpacity }}
-            className="absolute inset-0 z-0 bg-gradient-to-br from-red-200 via-green-100 to-emerald-200 text-content-strong"
+            className="absolute inset-0 z-0 bg-white text-content-strong"
           ></motion.div>
 
           <motion.div
             style={{ opacity: endIntroLine }}
             className={`absolute inset-0 z-0`}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] text-center text-lg sm:text-2xl lg:text-3xl text-content-strong font-light leading-relaxed tracking-widest whitespace-nowrap">
+            <div className="absolute top-1/2 left-[8%] sm:left-[12%] lg:left-[16%] -translate-y-[100%] text-left text-3xl sm:text-5xl lg:text-6xl text-content-strong font-bold leading-tight tracking-tight whitespace-nowrap">
               {t("introLine2")}
             </div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[0%] text-center text-lg sm:text-2xl lg:text-3xl text-content-strong font-light leading-relaxed tracking-widest whitespace-nowrap">
+            <div className="absolute top-1/2 left-[8%] sm:left-[12%] lg:left-[16%] -translate-y-[0%] text-left text-3xl sm:text-5xl lg:text-6xl text-content-strong font-bold leading-tight tracking-tight whitespace-nowrap">
               {t("introLine2-1")}
             </div>
           </motion.div>
@@ -114,7 +89,7 @@ export const IntroLine: React.FC = () => {
             <img
               src="/images/aboutMe/introLine2/1.png"
               alt="image 1"
-              className="absolute top-1/2 left-1/2 -translate-x-[65%] -translate-y-[180%] sm:-translate-x-[80%] sm:-translate-y-[130%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[70%] sm:w-[55%] lg:w-[40%]"
+              className="absolute top-[10%] right-[5%] sm:top-[12%] sm:right-[10%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[50%] sm:w-[38%] lg:w-[28%]"
             />
           </motion.div>
 
@@ -122,23 +97,10 @@ export const IntroLine: React.FC = () => {
             <img
               src="/images/aboutMe/introLine2/2.png"
               alt="image 2"
-              className="absolute top-1/2 left-1/2 -translate-x-[10%] translate-y-[40%] sm:-translate-x-[10%] sm:translate-y-[50%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[50%] sm:w-[40%] lg:w-[30%]"
+              className="absolute bottom-[12%] right-[10%] sm:bottom-[15%] sm:right-[5%] border-[1px] border-black rounded-card shadow-polaroid-sm sm:shadow-polaroid-lg w-[40%] sm:w-[30%] lg:w-[22%]"
             />
           </motion.div>
 
-          <motion.div style={{ opacity: endImage3 }}>
-            <img
-              src="/images/aboutMe/introLine2/3.png"
-              alt="image 2"
-              className="absolute top-1/2 left-1/2 -translate-x-[70%] translate-y-[700%] sm:-translate-x-[130%] sm:translate-y-[700%] border-[1px] border-black rounded-sm md:rounded-md shadow-polaroid-sm sm:shadow-polaroid-md  w-[50%] sm:w-[40%] lg:w-[30%]"
-            />
-          </motion.div>
-
-          <motion.div style={{ opacity: endComponent }}>
-            <div className="absolute top-1/2 left-1/2 translate-x-[70%] -translate-y-[120%] hidden xl:inline">
-              <AnswerChecker />
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>
