@@ -38,10 +38,34 @@
     "certificates": "자격증"
   },
 
-  "introLine1": "초등학생 시절 활용한 게임 에디터부터",
-  "introLine1-1": "",
-  "introLine2": "임용시험 합격을 함께한 퀴즈 프로그램까지,",
-  "introLine2-1": "",
+  "heroHook": {
+    "eyebrow": "FROM FRICTION TO FLOW",
+    "headlineLine1": "제가 만든 도구로",
+    "headlineLine2": "합격했습니다.",
+    "subBefore": "학습과 개발의 반복 문제를 줄이기 위해 ",
+    "subAccent": "앱, 확장 프로그램, 라이브러리",
+    "subAfter": "를 만들고 운영합니다.",
+    "scrollCue": "스크롤해서 시작"
+  },
+
+  "introLine1": "초등학생 시절 활용한",
+  "introLine1-1": "게임 에디터부터",
+  "introLine2": "임용시험 합격을 함께한",
+  "introLine2-1": "퀴즈 프로그램까지,",
+  "introStart": {
+    "eyebrow": "MY STARTING POINT",
+    "card01Title": "Trigger Editor",
+    "card01Desc": "조건과 이벤트를 연결해\n게임 규칙을 설계",
+    "card02Title": "Play Test",
+    "card02Desc": "설계한 규칙을\n실제 맵에서 확인"
+  },
+  "introEnd": {
+    "eyebrow": "MY MILESTONE",
+    "card01Title": "Quiz Module",
+    "card01Desc": "선택지·정답 데이터로\n반복 학습 흐름을 구성",
+    "card02Title": "Excel Macro",
+    "card02Desc": "엑셀 매크로로\n반복 작업을 자동화"
+  },
   "mainPhrase1": "아이디어",
   "mainPhrase2": "를",
   "mainPhrase3": "실현",
