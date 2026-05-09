@@ -20,7 +20,7 @@
       "title": "storytect.summaries.development.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "showcase_start", "content": "storytect.summaries.development.parts.0.subtitle" },
+          { "type": "subtitle", "id": "json_interface", "content": "storytect.summaries.development.parts.0.subtitle" },
           { "type": "text", "content": "storytect.summaries.development.parts.0.0" },
           { "type": "text", "content": "storytect.summaries.development.parts.0.1" }
         ],
@@ -39,17 +39,7 @@
           { "type": "subtitle", "id": "blank_canvas", "content": "storytect.summaries.development.parts.3.subtitle" },
           { "type": "text", "content": "storytect.summaries.development.parts.3.0" },
           { "type": "text", "content": "storytect.summaries.development.parts.3.1" },
-          { "type": "text", "content": "storytect.summaries.development.parts.3.2" },
-          { "type": "text", "content": "storytect.summaries.development.parts.3.3" }
-        ],
-        [
-          { "type": "subtitle", "id": "global_undo", "content": "storytect.summaries.development.parts.4.subtitle" },
-          { "type": "text", "content": "storytect.summaries.development.parts.4.0" }
-        ],
-        [
-          { "type": "subtitle", "id": "label_dictionary", "content": "storytect.summaries.development.parts.5.subtitle" },
-          { "type": "text", "content": "storytect.summaries.development.parts.5.0" },
-          { "type": "text", "content": "storytect.summaries.development.parts.5.1" }
+          { "type": "text", "content": "storytect.summaries.development.parts.3.2" }
         ]
       ]
     },
@@ -66,12 +56,14 @@
         [
           { "type": "subtitle", "id": "gradual_migration", "content": "storytect.summaries.troubleshooting.parts.1.subtitle" },
           { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.0" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.1" }
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.1" },
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.2" }
         ],
         [
-          { "type": "subtitle", "id": "planning_separation", "content": "storytect.summaries.troubleshooting.parts.2.subtitle" },
+          { "type": "subtitle", "id": "global_undo", "content": "storytect.summaries.troubleshooting.parts.2.subtitle" },
           { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.0" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.1" }
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.1" },
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.2" }
         ]
       ]
     },
@@ -80,10 +72,12 @@
       "title": "storytect.summaries.results.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "lessons", "content": "storytect.summaries.results.parts.0.0" },
+          { "type": "subtitle", "id": "result", "content": "storytect.summaries.results.parts.0.0" },
           { "type": "text", "content": "storytect.summaries.results.parts.0.1" },
           { "type": "text", "content": "storytect.summaries.results.parts.0.2" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.3" }
+          { "type": "text", "content": "storytect.summaries.results.parts.0.3" },
+          { "type": "text", "content": "storytect.summaries.results.parts.0.4" },
+          { "type": "text", "content": "storytect.summaries.results.parts.0.5" }
         ],
         [
           { "type": "subtitle", "id": "retrospect", "content": "storytect.summaries.results.parts.1.0" },
