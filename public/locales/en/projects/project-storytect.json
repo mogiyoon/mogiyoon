@@ -1,0 +1,128 @@
+{
+  "storytect": {
+    "title": "Storytect",
+    "subtitle": "Worldbuilding desktop editor that lets you shape extracted story items your own way",
+    "description": "A Tauri + Next.js desktop app that lets writers explore an extracted story (standardized JSON) through wiki, relations graph, and timeline views, and freely build their own Galpi (classes) and Yeoeum (diagrams) on top of it.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "Desktop app that lets users browse extracted story data through multiple views and design their own categories and diagrams to construct their worldbuilding",
+      "features": "Instant JSON visualization, user-defined OO editor, global TimeBar, blank canvas + Extract-from-text"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features and Development Process",
+        "parts": {
+          "0": {
+            "subtitle": "Part 1 — Started as a Showcase",
+            "0": "The initial design exposed 13 fixed views (relations / timeline / wiki / world map / faction / genealogy / conflict / system / emotional curve / POV / awareness layer / cascade / schism) through the manifest's available_views key. Each view was a single React component bundle with its slot dependencies and rendering logic baked in.",
+            "1": "The very first brief locked in one principle — extraction and rendering must remain completely separate. The app trusts only the standardized JSON the extraction skill produces, and never needs to know how that extraction works. This single decision is what later made two full rewrites of the visualization layer possible."
+          },
+          "1": {
+            "subtitle": "Promoting the TimeBar to a Global Axis",
+            "0": "The time axis originally lived only inside the timeline view, but the T1~T4 commit series promoted it to a global component. It grew into a universal TimeBar predicate, sidebar focus integration, photoshop-style timeline zoom, and an era band overlay.",
+            "1": "From any view — relations, wiki, anything — the TimeBar sits as a single line on top, and dragging it highlights items present at that point and fades the rest. This abstraction survived both rewrites untouched."
+          },
+          "2": {
+            "subtitle": "Part 2 — Introducing the OO Model (PLANNING_OO)",
+            "0": "The 13-view showcase failed to match the single picture worldbuilders actually carry in their heads. Adding more boxes wouldn't help — the existence of fixed boxes itself was the problem. The direction shifted toward handing the shape itself to the user.",
+            "1": "Designed a 4-layer model — Class / Field / Instance / Diagram (PLANNING_OO.md) — by lifting OOP's class/field/instance ideas into the editor. Verified that the 13 views could all be expressed as combinations of just 6 templates (Graph / Timeline / Matrix / Curve / List / Tree).",
+            "2": "Treated relations as instances too, so characters, events, and relationships all share the same data shape. Introduced SlotMeta.class_meta (62ab30b) so that 'this slot is a Character' becomes a user-owned declaration rather than something hardcoded by folder structure."
+          },
+          "3": {
+            "subtitle": "Part 3 — Blank Canvas Redesign (PLANNING_REVISE)",
+            "0": "Even after the OO model landed, two unfinished pieces remained: new projects still seeded with hardcoded character/event/location slots, and the 13-view code still living in the codebase. PLANNING_REVISE.md re-anchored the direction around five principles — friendly-language label dictionary, time-fields-as-TimeBar auto-registration, everything is editable, blank screen as the starting point, and Extract-from-text as the MVP entry.",
+            "1": "Introduced the freeplace template (56932f7) — a game-editor style infinite canvas. Node positions persist verbatim, so the layout the user crafted by hand stays put across sessions.",
+            "2": "Made the schema-aware TimeBar (f72e89a) wire any temporal field to the TimeBar automatically. Time stopped being a property of a specific slot and became a global contract driven by a field type.",
+            "3": "Unified seven view modes (free placement / relations / timeline / table / curve / matrix / tree) under a single toggle (0cfc4ea) sitting on top of every canvas. The 13-view catalog re-emerged as 7 view modes living on top of the canvas itself."
+          },
+          "4": {
+            "subtitle": "Splitting Global Undo into Five Parts",
+            "0": "Implemented global ⌘Z across five categories (Stage 4 part 1~5): entity CRUD (e574c65) → diagram CRUD (430fe7e) → relation CRUD + slot meta (cb96304) → canvas node positions (43c2fe6) → manuscript chapter add/delete (e6fe9af). Each category had to be wired separately — leaving any one out would mean the user hits ⌘Z and notices something silently doesn't undo."
+          },
+          "5": {
+            "subtitle": "Friendly-Language Label Dictionary",
+            "0": "Commit 9671f01 swept developer jargon (slot, edge, visualization) out of every user-facing string. Then 6b8810f promoted user-defined classes to first-class citizens in the sidebar.",
+            "1": "Commit 9fcd570 renamed the user-facing words from '종류' (type) and '그림' (diagram) to '갈피' (Galpi, from 'finding one's bearings') and '엮음' (Yeoeum, from 'weaving together'). Follow-up work on sidebar sorting, drag, and nested folders reinforced the sense that the user's own creations are the first thing the app shows them."
+          }
+        }
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "parts": {
+          "0": {
+            "subtitle": "Tauri Hijacking dragDrop Events",
+            "0": "Sidebar drag-to-reorder broke at some point. It worked fine in the browser, but inside the Tauri desktop shell the HTML5 drag events never fired at all.",
+            "1": "Cause: Tauri's webview intercepts drag&drop at the OS level, so standard web drag events never reach the webview's DOM.",
+            "2": "Resolved by setting dragDropEnabled: false in the Tauri config (a85d39b) — a one-line fix that hands drag handling back to the webview. A reminder that web standards stop being self-evident inside a desktop shell."
+          },
+          "1": {
+            "subtitle": "Migrating from 13-View Showcase to OO Model",
+            "0": "Removing all 13 hardcoded views in one commit would risk both user data compatibility and code stability. During the four-phase OO model implementation, the 13-view code was kept alive but hidden from the sidebar tabs (fac14e3) for about two months.",
+            "1": "Stage 10 finally removed the 12 hardcoded shape views in a single sweep (5c19737), and the manifest's available_views key was retired alongside it. Going gradually meant no user data was lost in the transition."
+          },
+          "2": {
+            "subtitle": "Keeping Each Planning Document Separate",
+            "0": "The original brief.md was never edited in place. Instead, PLANNING_OO.md and PLANNING_REVISE.md were added next to it, preserving the assumptions from before and after each rewrite.",
+            "1": "Because each planning document captures the thinking of a specific moment, going back later to ask 'why was this designed that way?' has clear answers from both sides of every rewrite."
+          }
+        }
+      },
+      "results": {
+        "title": "Results and Retrospective",
+        "parts": {
+          "0": {
+            "0": "Lessons Learned",
+            "1": "Planning documents are hypotheses. When the hypothesis breaks, the document has to be rewritten too — otherwise the code drifts away from any explainable direction, even to its author.",
+            "2": "Well-abstracted decisions survive rewrites. The global TimeBar abstraction and the extraction/rendering separation principle held intact across two full rewrites of the visualization layer.",
+            "3": "Tools should let users build their own shape rather than enforce shapes the maker imagined. Borrowing OOP from inside code into the editor — and making classes editable on the fly — produced something that matched the way worldbuilders already think."
+          },
+          "1": {
+            "0": "Retrospective",
+            "1": "Of 219 commits, 195 (89%) were Co-Authored-By Claude. Two custom multi-agent orchestrators were designed in-house to drive the planning and implementation phases.",
+            "2": "Across two rewrites the app moved from showcase form → user-defined OO → blank-canvas free editor. Each rewrite preserved the abstraction assets (TimeBar, separation principle) while gradually expanding user authority over the tool.",
+            "3": "Validated a Tauri + Next.js 16 + Rust desktop app stack with single-binary builds, and built an automatic Rust ↔ TypeScript type generation pipeline using specta + tauri-specta."
+          }
+        }
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      {
+        "name": "Instant JSON Visualization",
+        "description": "Renders any standardized JSON folder produced by the extraction skill into wiki, relations graph, and timeline views immediately"
+      },
+      {
+        "name": "OO Editor",
+        "description": "Lets users design their own worldbuilding model across four layers: Galpi (class), fields, items, and Yeoeum (diagram)"
+      },
+      {
+        "name": "Global TimeBar",
+        "description": "Adding a time field to any class auto-registers it onto the TimeBar — a single time highlight shared by every view"
+      },
+      {
+        "name": "Extract from Text",
+        "description": "Starts from a blank canvas. Sends the manuscript to Claude, extracts items automatically, and lays them out on the canvas"
+      }
+    ],
+    "developmentProcess": [
+      {
+        "title": "Part 1 — Showcase Beginnings",
+        "content": "Started as a 13-view showcase driven by manifest available_views. Established the extraction/rendering separation principle and the global TimeBar abstraction"
+      },
+      {
+        "title": "Part 2 — Introducing the OO Model",
+        "content": "Designed the 4-layer model (template / class / field / instance) following PLANNING_OO.md. Introduced class_meta so that slot type declarations live in user space rather than hardcoded paths"
+      },
+      {
+        "title": "Part 3 — Blank Canvas Redesign",
+        "content": "Built around the five principles in PLANNING_REVISE.md. Absorbed the 13 views into a freeplace infinite canvas + auto time-field registration + 7-mode view toggle. Removed the legacy 13-view code in one sweep and split global ⌘Z across five implementation parts"
+      }
+    ],
+    "claudeInfo": {
+      "summary": "Built with two multi-agent orchestrators driving planning and implementation",
+      "details": "Used Claude Code's Agent tool to build a planning orchestrator (8 agents, parallel fan-out + Critic convergence loop) that turned brief.md into a 6-document output package, and an implementation orchestrator (7 stages, Stage Planner + Worker + Validator + Fixer sequential pipeline) that consumed those outputs and drove the codebase through stage-gated build and test checks. 195 of 219 commits ended up Co-Authored-By Claude. The orchestrator definitions themselves were designed in advance using the orchestrator-designer skill."
+    }
+  }
+}

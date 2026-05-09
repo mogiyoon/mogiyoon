@@ -52,5 +52,17 @@
       "method": "direct",
       "summary": "boj-snippets.claudeInfo.summary"
     }
+  },
+  {
+    "id": "storytect",
+    "title": "storytect.title",
+    "subtitle": "storytect.subtitle",
+    "projectType": "storytect.overview.projectType",
+    "screenshots": [{ "src": "/images/storytect/Icon.svg", "alt": "Storytect Thumbnail" }],
+    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "vis-timeline"],
+    "claudeInfo": {
+      "method": "orchestrator",
+      "summary": "storytect.claudeInfo.summary"
+    }
   }
 ]
