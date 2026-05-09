@@ -38,10 +38,34 @@
     "certificates": "Certificates"
   },
 
+  "heroHook": {
+    "eyebrow": "FROM FRICTION TO FLOW",
+    "headlineLine1": "Tools that helped me study and pass—",
+    "headlineLine2": "now I make them.",
+    "subBefore": "To reduce repetitive problems in learning and development, I build and run ",
+    "subAccent": "apps, extensions, and libraries",
+    "subAfter": ".",
+    "scrollCue": "scroll to start"
+  },
+
   "introLine1": "From using game editors",
   "introLine1-1": "back in elementary school",
   "introLine2": "To a quiz program",
   "introLine2-1": "that helped me pass my exam,",
+  "introStart": {
+    "eyebrow": "MY STARTING POINT",
+    "card01Title": "Trigger Editor",
+    "card01Desc": "Wire conditions and events\nto design game rules",
+    "card02Title": "Play Test",
+    "card02Desc": "Verify the designed rules\non an actual map"
+  },
+  "introEnd": {
+    "eyebrow": "MY MILESTONE",
+    "card01Title": "Quiz Module",
+    "card01Desc": "A repeated study flow built\non choice and answer data",
+    "card02Title": "Excel Macro",
+    "card02Desc": "Excel macros that\nautomate repetitive tasks"
+  },
   "mainPhrase1": "Ideas",
   "mainPhrase2": " into",
   "mainPhrase3": "Reality",

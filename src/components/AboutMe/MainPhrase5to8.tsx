@@ -74,18 +74,18 @@ export const MainPhrase5to8: React.FC = () => {
           >
             <div className="relative z-20 flex h-full w-full items-center justify-center">
               <p
-                className="text-center text-lg sm:text-2xl lg:text-3xl tracking-widest whitespace-nowrap"
+                className="text-center text-xl sm:text-2xl lg:text-3xl tracking-widest whitespace-nowrap"
                 style={{
                   textShadow: isSwitchedOn ? '0 0 10px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 1)' : 'none',
                   transition: 'text-shadow 0.7s ease-in-out',
                 }}
               >
-                <span className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+                <span className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
                   {t('mainPhrase5')}
                 </span>
                 <span className="font-thin">{t('mainPhrase6')}</span>{' '}
                 <motion.span
-                  className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-yellow-300"
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-yellow-300"
                   animate={{ opacity: isSwitchedOn ? 1 : 0 }}
                   transition={
                     isSwitchedOn
