@@ -39,25 +39,12 @@
   },
 
   "heroHook": {
-    "eyebrow": "BUILT FOR ME",
-    "headlineLine1": "I build the tools",
-    "headlineLine2": "I need myself.",
-    "subBefore": "I'm always the ",
-    "subAccent": "first user",
-    "subAfter": " of what I make.",
-    "project1Desc": "Mobile app for making your own vocab books and tests",
-    "project1Why": "Off-the-shelf vocab apps only support pre-made words",
-    "project1Title": "Test Maker",
-    "project1Sub": "Make your own vocab books and test sheets",
-    "project2Desc": "Chrome extension that auto-fills BOJ submission boilerplate",
-    "project2Why": "Same I/O and import boilerplate repeated before every solve",
-    "project2Title": "BOJ Snippets Mogiyoon",
-    "project2Sub": "Chrome extension that auto-inserts code snippets for BOJ problem solving",
-    "project3Desc": "Grid component library for React Native",
-    "project3Why": "No lightweight, drop-in grid library for React Native",
-    "project3Title": "mogiyoon-react-native-simple-grid",
-    "project3Sub": "Simple, lightweight grid component for React Native",
-    "hoverHint": "Hover on a project name",
+    "eyebrow": "FROM FRICTION TO FLOW",
+    "headlineLine1": "Tools that helped me study and pass—",
+    "headlineLine2": "now I make them.",
+    "subBefore": "To reduce repetitive problems in learning and development, I build and run ",
+    "subAccent": "apps, extensions, and libraries",
+    "subAfter": ".",
     "scrollCue": "scroll to start"
   },
 
@@ -67,7 +54,6 @@
   "introLine2-1": "that helped me pass my exam,",
   "introStart": {
     "eyebrow": "MY STARTING POINT",
-    "description": "Building maps, wiring conditions, and\ndesigning playable rule sets — that's how\nI first learned the joy of development.",
     "card01Title": "Trigger Editor",
     "card01Desc": "Wire conditions and events\nto design game rules",
     "card02Title": "Play Test",
@@ -75,11 +61,10 @@
   },
   "introEnd": {
     "eyebrow": "MY MILESTONE",
-    "description": "I built what I needed myself,\nautomated repetitive study flows,\nand turned code into a tool.",
     "card01Title": "Quiz Module",
     "card01Desc": "A repeated study flow built\non choice and answer data",
-    "card02Title": "Stats View",
-    "card02Desc": "Visualizing progress\nthrough wrong-answer tracking"
+    "card02Title": "Excel Macro",
+    "card02Desc": "Excel macros that\nautomate repetitive tasks"
   },
   "mainPhrase1": "Ideas",
   "mainPhrase2": " into",

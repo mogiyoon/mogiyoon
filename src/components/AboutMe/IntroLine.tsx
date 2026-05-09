@@ -18,7 +18,6 @@ interface IntroPanelData {
   eyebrow: string;
   titleLine1: string;
   titleLine2: string;
-  description: string;
   card01: CardData;
   card02: CardData;
 }
@@ -31,7 +30,6 @@ interface FadeUpStyle {
 interface PanelReveal {
   eyebrow: FadeUpStyle;
   title: FadeUpStyle;
-  description: FadeUpStyle;
   card01: FadeUpStyle;
   card02: FadeUpStyle;
 }
@@ -77,23 +75,20 @@ export const IntroLine: React.FC = () => {
   );
 
   // Per-element scroll reveals — startPanel (active 0 → 0.4)
-  const startEyebrow = useScrollFadeUp(scrollYProgress, 0.0);
-  const startTitle = useScrollFadeUp(scrollYProgress, 0.025);
-  const startDesc = useScrollFadeUp(scrollYProgress, 0.05);
-  const startCard1 = useScrollFadeUp(scrollYProgress, 0.07, 0.06, 30);
-  const startCard2 = useScrollFadeUp(scrollYProgress, 0.1, 0.06, 30);
+  const startEyebrow = useScrollFadeUp(scrollYProgress, 0.0, 0.08);
+  const startTitle = useScrollFadeUp(scrollYProgress, 0.04, 0.08);
+  const startCard1 = useScrollFadeUp(scrollYProgress, 0.09, 0.1, 30);
+  const startCard2 = useScrollFadeUp(scrollYProgress, 0.14, 0.1, 30);
 
   // Per-element scroll reveals — endPanel (active 0.5 → 0.9)
-  const endEyebrow = useScrollFadeUp(scrollYProgress, 0.5);
-  const endTitle = useScrollFadeUp(scrollYProgress, 0.525);
-  const endDesc = useScrollFadeUp(scrollYProgress, 0.55);
-  const endCard1 = useScrollFadeUp(scrollYProgress, 0.57, 0.06, 30);
-  const endCard2 = useScrollFadeUp(scrollYProgress, 0.6, 0.06, 30);
+  const endEyebrow = useScrollFadeUp(scrollYProgress, 0.5, 0.08);
+  const endTitle = useScrollFadeUp(scrollYProgress, 0.54, 0.08);
+  const endCard1 = useScrollFadeUp(scrollYProgress, 0.59, 0.1, 30);
+  const endCard2 = useScrollFadeUp(scrollYProgress, 0.64, 0.1, 30);
 
   const startReveal: PanelReveal = {
     eyebrow: startEyebrow,
     title: startTitle,
-    description: startDesc,
     card01: startCard1,
     card02: startCard2,
   };
@@ -101,7 +96,6 @@ export const IntroLine: React.FC = () => {
   const endReveal: PanelReveal = {
     eyebrow: endEyebrow,
     title: endTitle,
-    description: endDesc,
     card01: endCard1,
     card02: endCard2,
   };
@@ -110,7 +104,6 @@ export const IntroLine: React.FC = () => {
     eyebrow: t("introStart.eyebrow"),
     titleLine1: t("introLine1"),
     titleLine2: t("introLine1-1"),
-    description: t("introStart.description"),
     card01: {
       label: "01",
       title: t("introStart.card01Title"),
@@ -129,7 +122,6 @@ export const IntroLine: React.FC = () => {
     eyebrow: t("introEnd.eyebrow"),
     titleLine1: t("introLine2"),
     titleLine2: t("introLine2-1"),
-    description: t("introEnd.description"),
     card01: {
       label: "01",
       title: t("introEnd.card01Title"),
@@ -152,43 +144,49 @@ export const IntroLine: React.FC = () => {
           y={startPanelY}
           reveal={startReveal}
           data={startPanel}
+          connector="arrow"
         />
         <PanelLayer
           opacity={endPanelOpacity}
           y={endPanelY}
           reveal={endReveal}
           data={endPanel}
+          connector="plus"
         />
       </div>
     </section>
   );
 };
 
+type ConnectorVariant = "arrow" | "plus";
+
 interface PanelLayerProps {
   opacity: MotionValue<number>;
   y: MotionValue<number>;
   reveal: PanelReveal;
   data: IntroPanelData;
+  connector: ConnectorVariant;
 }
 
-const PanelLayer = ({ opacity, y, reveal, data }: PanelLayerProps) => (
+const PanelLayer = ({ opacity, y, reveal, data, connector }: PanelLayerProps) => (
   <motion.div style={{ opacity, y }} className="absolute inset-0">
-    <IntroPanel {...data} reveal={reveal} />
+    <IntroPanel {...data} reveal={reveal} connector={connector} />
   </motion.div>
 );
 
 interface IntroPanelProps extends IntroPanelData {
   reveal: PanelReveal;
+  connector: ConnectorVariant;
 }
 
 const IntroPanel = ({
   eyebrow,
   titleLine1,
   titleLine2,
-  description,
   card01,
   card02,
   reveal,
+  connector,
 }: IntroPanelProps) => (
   <div className="mx-auto h-full w-full max-w-7xl px-3 py-10 md:px-5 lg:px-8 lg:py-14">
     <div className="grid h-full w-full grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
@@ -212,13 +210,6 @@ const IntroPanel = ({
           <span className="block text-content-strong">{titleLine1}</span>
           <span className="block text-accent-600">{titleLine2}</span>
         </motion.h2>
-
-        <motion.p
-          style={reveal.description}
-          className="text-sm sm:text-base text-content-secondary leading-relaxed whitespace-pre-line"
-        >
-          {description}
-        </motion.p>
       </div>
 
       {/* Right column — desktop only */}
@@ -226,7 +217,7 @@ const IntroPanel = ({
         <motion.div style={reveal.card01}>
           <NumberedCard {...card01} />
         </motion.div>
-        <Connector />
+        <Connector variant={connector} />
         <motion.div style={reveal.card02}>
           <NumberedCard {...card02} />
         </motion.div>
@@ -258,9 +249,14 @@ const NumberedCard = ({ label, title, desc, image }: CardData) => (
   </motion.div>
 );
 
-const Connector = () => (
-  <div className="flex flex-col items-center -my-1">
-    <div className="w-px h-3 lg:h-4 border-l-2 border-dashed border-accent-500/40" />
-    <span className="text-accent-500 text-xs leading-none">▼</span>
-  </div>
-);
+const Connector = ({ variant }: { variant: ConnectorVariant }) =>
+  variant === "plus" ? (
+    <div className="flex items-center justify-center">
+      <span className="text-accent-500 text-2xl font-light leading-none">+</span>
+    </div>
+  ) : (
+    <div className="flex flex-col items-center -my-1">
+      <div className="w-px h-3 lg:h-4 border-l-2 border-dashed border-accent-500/40" />
+      <span className="text-accent-500 text-xs leading-none">▼</span>
+    </div>
+  );
