@@ -31,70 +31,58 @@ vi.mock('framer-motion', async () => {
   };
 });
 
-vi.mock('./AnswerChecker', () => ({
-  __esModule: true,
-  default: () => (
-    <div data-testid="answer-checker-stub">answer-checker-stub</div>
-  ),
-}));
-
 import { IntroLine } from './IntroLine';
 
 describe('IntroLine', () => {
-  it('renders the four intro line translation keys', () => {
+  it('renders the four intro line translation keys for both panels', () => {
     render(<IntroLine />);
 
-    expect(screen.getByText('introLine1')).toBeInTheDocument();
-    expect(screen.getByText('introLine1-1')).toBeInTheDocument();
-    expect(screen.getByText('introLine2')).toBeInTheDocument();
-    expect(screen.getByText('introLine2-1')).toBeInTheDocument();
+    expect(screen.getAllByText('introLine1')).not.toHaveLength(0);
+    expect(screen.getAllByText('introLine1-1')).not.toHaveLength(0);
+    expect(screen.getAllByText('introLine2')).not.toHaveLength(0);
+    expect(screen.getAllByText('introLine2-1')).not.toHaveLength(0);
   });
 
-  it('renders all 7 intro images with the documented src paths', () => {
+  it('renders the eyebrow and card titles for start and end panels', () => {
+    render(<IntroLine />);
+
+    expect(screen.getByText('introStart.eyebrow')).toBeInTheDocument();
+    expect(screen.getByText('introStart.card01Title')).toBeInTheDocument();
+    expect(screen.getByText('introStart.card02Title')).toBeInTheDocument();
+    expect(screen.getByText('introEnd.eyebrow')).toBeInTheDocument();
+    expect(screen.getByText('introEnd.card01Title')).toBeInTheDocument();
+    expect(screen.getByText('introEnd.card02Title')).toBeInTheDocument();
+  });
+
+  it('renders the four intro images with the documented src paths', () => {
     const { container } = render(<IntroLine />);
 
     const images = container.querySelectorAll('img');
-    expect(images).toHaveLength(7);
+    expect(images).toHaveLength(4);
 
     const srcs = Array.from(images).map((img) => img.getAttribute('src'));
     expect(srcs).toEqual(
       expect.arrayContaining([
         '/images/aboutMe/introLine1/1.png',
         '/images/aboutMe/introLine1/2.png',
-        '/images/aboutMe/introLine1/3.png',
-        '/images/aboutMe/introLine1/4.png',
         '/images/aboutMe/introLine2/1.png',
         '/images/aboutMe/introLine2/2.png',
-        '/images/aboutMe/introLine2/3.png',
       ])
     );
   });
 
-  it('wraps content in a section with the h-[2000vh] sticky scroll container', () => {
+  it('wraps content in a section with the h-[1000vh] sticky scroll container', () => {
     const { container } = render(<IntroLine />);
 
     const section = container.querySelector('section');
     expect(section).not.toBeNull();
-    expect(section?.className).toContain('h-[2000vh]');
+    expect(section?.className).toContain('h-[1000vh]');
 
     const sticky = section?.querySelector('.sticky');
     expect(sticky).not.toBeNull();
     expect(sticky?.className).toContain('top-0');
     expect(sticky?.className).toContain('h-screen');
-  });
-
-  it('renders AnswerChecker only inside the xl:inline branch', () => {
-    const { container } = render(<IntroLine />);
-
-    const stub = screen.getByTestId('answer-checker-stub');
-    expect(stub).toBeInTheDocument();
-
-    const wrapper = stub.parentElement;
-    expect(wrapper).not.toBeNull();
-    expect(wrapper?.className).toContain('xl:inline');
-    expect(wrapper?.className).toContain('hidden');
-
-    expect(container.querySelectorAll('[data-testid="answer-checker-stub"]')).toHaveLength(1);
+    expect(sticky?.className).toContain('overflow-hidden');
   });
 
   it('forwards the section ref to the targetRef element so useScroll can attach', () => {
