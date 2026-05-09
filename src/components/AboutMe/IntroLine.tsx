@@ -217,7 +217,9 @@ const IntroPanel = ({
         <motion.div style={reveal.card01}>
           <NumberedCard {...card01} />
         </motion.div>
-        <Connector variant={connector} />
+        <motion.div style={reveal.card01}>
+          <Connector variant={connector} />
+        </motion.div>
         <motion.div style={reveal.card02}>
           <NumberedCard {...card02} />
         </motion.div>
