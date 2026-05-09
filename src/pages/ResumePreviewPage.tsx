@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -55,6 +55,37 @@ const CollapsibleEditorSection: React.FC<{
 
     {isOpen && <div className="mt-3">{children}</div>}
   </section>
+);
+
+const CollapsibleSubItem: React.FC<{
+  header: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+  children?: React.ReactNode;
+}> = ({ header, isOpen, onToggle, children }) => (
+  <div className="rounded-2xl border border-slate-200 bg-white">
+    <button
+      type="button"
+      onClick={onToggle}
+      className="flex w-full items-start justify-between gap-2.5 p-3.5 text-left"
+    >
+      <div className="min-w-0 flex-1">{header}</div>
+      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
+        <svg
+          className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </span>
+    </button>
+    {isOpen && children && <div className="px-3.5 pb-3.5">{children}</div>}
+  </div>
 );
 
 const InputField: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (props) => (
@@ -121,9 +152,33 @@ const ResumePreviewPage: React.FC = () => {
   const [draft, setDraft] = useState<ResumeBuilderData | null>(null);
   const [selectedBlockIds, setSelectedBlockIds] = useState<Set<string>>(new Set());
   const [includedProjectIds, setIncludedProjectIds] = useState<Set<string>>(new Set());
-  const [openPanels, setOpenPanels] = useState<Set<string>>(new Set());
+  const [openPanel, setOpenPanel] = useState<string | null>(null);
+  const [closedSubPanels, setClosedSubPanels] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const asideRef = useRef<HTMLElement>(null);
+  const sidebarColumnRef = useRef<HTMLDivElement>(null);
+  const [isSidebarPinned, setIsSidebarPinned] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("resume.sidebarPinned") === "true";
+  });
+  const [pinnedTop, setPinnedTop] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("resume.sidebarPinned", String(isSidebarPinned));
+  }, [isSidebarPinned]);
+
+  const togglePin = (checked: boolean) => {
+    if (checked && asideRef.current && sidebarColumnRef.current) {
+      const asideRect = asideRef.current.getBoundingClientRect();
+      const columnRect = sidebarColumnRef.current.getBoundingClientRect();
+      setPinnedTop(asideRect.top - columnRect.top);
+    } else {
+      setPinnedTop(null);
+    }
+    setIsSidebarPinned(checked);
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -354,13 +409,19 @@ const ResumePreviewPage: React.FC = () => {
   };
 
   const togglePanel = (panelId: string) => {
-    setOpenPanels((prev) => {
+    setOpenPanel((prev) => (prev === panelId ? null : panelId));
+  };
+
+  const toggleSubPanel = (subId: string) => {
+    setClosedSubPanels((prev) => {
       const next = new Set(prev);
-      if (next.has(panelId)) next.delete(panelId);
-      else next.add(panelId);
+      if (next.has(subId)) next.delete(subId);
+      else next.add(subId);
       return next;
     });
   };
+
+  const isSubPanelOpen = (subId: string) => !closedSubPanels.has(subId);
 
   if (isLoading) {
     return (
@@ -516,10 +577,33 @@ const ResumePreviewPage: React.FC = () => {
         </div>
 
         <div className="grid gap-4 xl:grid-cols-[23rem_1fr] print:block">
-          <aside data-print-hidden="true" className="space-y-4">
+          <div ref={sidebarColumnRef} className="xl:relative">
+            <aside
+              ref={asideRef}
+              data-print-hidden="true"
+              className={`space-y-4 ${
+                isSidebarPinned
+                  ? "xl:absolute xl:left-0 xl:w-full"
+                  : "xl:sticky xl:top-24"
+              }`}
+              style={
+                isSidebarPinned && pinnedTop !== null
+                  ? { top: pinnedTop }
+                  : undefined
+              }
+            >
+            <label className="hidden xl:flex cursor-pointer items-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm">
+              <input
+                type="checkbox"
+                checked={isSidebarPinned}
+                onChange={(e) => togglePin(e.target.checked)}
+                className="h-4 w-4 rounded border-slate-300 accent-slate-900"
+              />
+              {t("resume.pinSidebar")}
+            </label>
             <CollapsibleEditorSection
               title={t("resume.builder.basics")}
-              isOpen={openPanels.has("basics")}
+              isOpen={openPanel === "basics"}
               onToggle={() => togglePanel("basics")}
             >
               <div className="space-y-3.5">
@@ -560,7 +644,7 @@ const ResumePreviewPage: React.FC = () => {
 
             <CollapsibleEditorSection
               title={t("resume.builder.intro")}
-              isOpen={openPanels.has("intro")}
+              isOpen={openPanel === "intro"}
               onToggle={() => togglePanel("intro")}
             >
               <div className="space-y-3.5">
@@ -589,17 +673,25 @@ const ResumePreviewPage: React.FC = () => {
 
             <CollapsibleEditorSection
               title={t("resume.builder.workBlocks")}
-              isOpen={openPanels.has("workBlocks")}
+              isOpen={openPanel === "workBlocks"}
               onToggle={() => togglePanel("workBlocks")}
             >
               <div className="space-y-3">
                 {draft.workExperience.map((work) => (
-                  <div key={work.id} className="rounded-2xl border border-slate-200 bg-white p-3.5">
-                    <p className="text-sm font-bold text-slate-900">{work.title}</p>
-                    <p className="mt-1 text-xs text-slate-500">
-                      {work.position} · {work.period}
-                    </p>
-                    <div className="mt-2.5 space-y-2.5">
+                  <CollapsibleSubItem
+                    key={work.id}
+                    isOpen={isSubPanelOpen(`work-${work.id}`)}
+                    onToggle={() => toggleSubPanel(`work-${work.id}`)}
+                    header={
+                      <>
+                        <p className="text-sm font-bold text-slate-900">{work.title}</p>
+                        <p className="mt-1 text-xs text-slate-500">
+                          {work.position} · {work.period}
+                        </p>
+                      </>
+                    }
+                  >
+                    <div className="space-y-2.5">
                       {work.projects.map((project) => (
                         <div key={project.id}>
                           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
@@ -637,35 +729,57 @@ const ResumePreviewPage: React.FC = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </CollapsibleSubItem>
                 ))}
               </div>
             </CollapsibleEditorSection>
 
             <CollapsibleEditorSection
               title={t("resume.builder.projectBlocks")}
-              isOpen={openPanels.has("projectBlocks")}
+              isOpen={openPanel === "projectBlocks"}
               onToggle={() => togglePanel("projectBlocks")}
             >
               <div className="space-y-3">
-                {draft.projects.map((project) => (
-                  <div key={project.id} className="rounded-2xl border border-slate-200 bg-white p-3.5">
-                    <label className="flex items-start gap-3">
+                {draft.projects.map((project) => {
+                  const projOpen = isSubPanelOpen(`proj-${project.id}`);
+                  const projIncluded = includedProjectIds.has(project.id);
+                  return (
+                  <div key={project.id} className="rounded-2xl border border-slate-200 bg-white">
+                    <div className="flex items-start gap-3 p-3.5">
                       <input
                         type="checkbox"
-                        checked={includedProjectIds.has(project.id)}
+                        checked={projIncluded}
                         onChange={() => toggleIncludedProject(project.id)}
                         className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-900"
                       />
-                      <span>
-                        <span className="block font-semibold text-slate-900">{project.title}</span>
-                        <span className="mt-0.5 block text-xs text-slate-500">
-                          {t("resume.builder.includeProject")} · {project.projectType}
+                      <button
+                        type="button"
+                        onClick={() => toggleSubPanel(`proj-${project.id}`)}
+                        className="flex flex-1 items-start justify-between gap-2.5 text-left"
+                      >
+                        <span>
+                          <span className="block font-semibold text-slate-900">{project.title}</span>
+                          <span className="mt-0.5 block text-xs text-slate-500">
+                            {t("resume.builder.includeProject")} · {project.projectType}
+                          </span>
                         </span>
-                      </span>
-                    </label>
-                    {includedProjectIds.has(project.id) && (
-                      <div className="mt-2.5 space-y-1.5">
+                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
+                          <svg
+                            className={`h-3 w-3 transition-transform duration-200 ${projOpen ? "rotate-180" : ""}`}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                    {projOpen && projIncluded && (
+                      <div className="space-y-1.5 px-3.5 pb-3.5">
                         {project.blocks.map((block) => (
                           <label
                             key={block.id}
@@ -688,39 +802,55 @@ const ResumePreviewPage: React.FC = () => {
                       </div>
                     )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </CollapsibleEditorSection>
 
             <CollapsibleEditorSection
               title={t("resume.builder.selectedCopy")}
-              isOpen={openPanels.has("selectedCopy")}
+              isOpen={openPanel === "selectedCopy"}
               onToggle={() => togglePanel("selectedCopy")}
             >
               <div className="space-y-4">
                 {includedProjects.map((project) => (
-                  <div key={`summary-${project.id}`} className="rounded-2xl border border-slate-200 bg-white p-3.5">
-                    <FieldLabel>
-                      {project.title} · {t("resume.builder.projectSummary")}
-                    </FieldLabel>
+                  <CollapsibleSubItem
+                    key={`summary-${project.id}`}
+                    isOpen={isSubPanelOpen(`summary-${project.id}`)}
+                    onToggle={() => toggleSubPanel(`summary-${project.id}`)}
+                    header={
+                      <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                        {project.title} · {t("resume.builder.projectSummary")}
+                      </span>
+                    }
+                  >
                     <TextAreaField
                       rows={4}
                       value={project.summary}
                       onChange={(e) => updateProjectSummary(project.id, e.target.value)}
                     />
-                  </div>
+                  </CollapsibleSubItem>
                 ))}
 
                 {selectedWorkBlocks.map(({ block, projectName }) => (
-                  <div key={`editor-${block.id}`} className="rounded-2xl border border-slate-200 bg-white p-3.5">
-                    <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                      {projectName}
-                    </p>
-                    {block.sectionLabel && (
-                      <p className="mb-2 inline-flex rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                        {block.sectionLabel}
-                      </p>
-                    )}
+                  <CollapsibleSubItem
+                    key={`editor-${block.id}`}
+                    isOpen={isSubPanelOpen(`sw-${block.id}`)}
+                    onToggle={() => toggleSubPanel(`sw-${block.id}`)}
+                    header={
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                          {projectName}
+                        </p>
+                        {block.sectionLabel && (
+                          <p className="mt-1.5 inline-flex rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                            {block.sectionLabel}
+                          </p>
+                        )}
+                        <p className="mt-1.5 text-sm font-semibold text-slate-900">{block.title}</p>
+                      </div>
+                    }
+                  >
                     <div>
                       <FieldLabel>{t("resume.builder.title")}</FieldLabel>
                       <InputField value={block.title} onChange={(e) => updateWorkBlock(block.id, "title", e.target.value)} />
@@ -748,14 +878,23 @@ const ResumePreviewPage: React.FC = () => {
                         />
                       </div>
                     )}
-                  </div>
+                  </CollapsibleSubItem>
                 ))}
 
                 {selectedProjectBlocks.map(({ block, projectName }) => (
-                  <div key={`editor-${block.id}`} className="rounded-2xl border border-slate-200 bg-white p-3.5">
-                    <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                      {projectName}
-                    </p>
+                  <CollapsibleSubItem
+                    key={`editor-${block.id}`}
+                    isOpen={isSubPanelOpen(`sp-${block.id}`)}
+                    onToggle={() => toggleSubPanel(`sp-${block.id}`)}
+                    header={
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                          {projectName}
+                        </p>
+                        <p className="mt-1.5 text-sm font-semibold text-slate-900">{block.title}</p>
+                      </div>
+                    }
+                  >
                     <div>
                       <FieldLabel>{t("resume.builder.title")}</FieldLabel>
                       <InputField
@@ -771,7 +910,7 @@ const ResumePreviewPage: React.FC = () => {
                         onChange={(e) => updateProjectBlock(block.id, "body", e.target.value)}
                       />
                     </div>
-                  </div>
+                  </CollapsibleSubItem>
                 ))}
 
                 {selectedWorkBlocks.length === 0 && selectedProjectBlocks.length === 0 && includedProjects.length === 0 && (
@@ -779,7 +918,8 @@ const ResumePreviewPage: React.FC = () => {
                 )}
               </div>
             </CollapsibleEditorSection>
-          </aside>
+            </aside>
+          </div>
 
           <div className="flex justify-center print:block">
             <article className="resume-preview-page w-[210mm] max-w-full min-h-[297mm] rounded-paper-edge-lg bg-white px-6 py-5 shadow-resume-paper print:rounded-none print:shadow-none">
