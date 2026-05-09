@@ -39,25 +39,12 @@
   },
 
   "heroHook": {
-    "eyebrow": "BUILT FOR ME",
-    "headlineLine1": "필요한 도구는,",
-    "headlineLine2": "직접 만들어 씁니다.",
-    "subBefore": "저는 제가 만든 도구의 ",
-    "subAccent": "첫 번째",
-    "subAfter": " 사용자입니다.",
-    "project1Desc": "나만의 단어장과 시험지를 만드는 모바일 앱",
-    "project1Why": "기성 학습 앱은 정해진 단어만 학습 가능함",
-    "project1Title": "Test Maker",
-    "project1Sub": "나만의 단어장, 나만의 시험지",
-    "project2Desc": "백준 풀이를 자동 정리하는 크롬 확장",
-    "project2Why": "풀이마다 같은 입출력·import 코드 입력이 반복됨",
-    "project2Title": "BOJ Snippets Mogiyoon",
-    "project2Sub": "백준 문제풀이용 코드 스니펫 자동 삽입 크롬 확장프로그램",
-    "project3Desc": "리액트 네이티브용 그리드 컴포넌트 라이브러리",
-    "project3Why": "리액트 네이티브에 가벼운 그리드 라이브러리가 없음",
-    "project3Title": "mogiyoon-react-native-simple-grid",
-    "project3Sub": "React Native를 위한 간단하고 가벼운 그리드 컴포넌트",
-    "hoverHint": "프로젝트 이름에 마우스를 올려보세요",
+    "eyebrow": "FROM FRICTION TO FLOW",
+    "headlineLine1": "제가 만든 도구로",
+    "headlineLine2": "합격했습니다.",
+    "subBefore": "학습과 개발의 반복 문제를 줄이기 위해 ",
+    "subAccent": "앱, 확장 프로그램, 라이브러리",
+    "subAfter": "를 만들고 운영합니다.",
     "scrollCue": "스크롤해서 시작"
   },
 
@@ -67,7 +54,6 @@
   "introLine2-1": "퀴즈 프로그램까지,",
   "introStart": {
     "eyebrow": "MY STARTING POINT",
-    "description": "맵을 만들고, 조건을 연결하고,\n직접 플레이 가능한 규칙을 설계하며\n개발의 재미를 처음 배웠습니다.",
     "card01Title": "Trigger Editor",
     "card01Desc": "조건과 이벤트를 연결해\n게임 규칙을 설계",
     "card02Title": "Play Test",
@@ -75,11 +61,10 @@
   },
   "introEnd": {
     "eyebrow": "MY MILESTONE",
-    "description": "필요한 기능을 직접 구현하고,\n반복 학습 흐름을 자동화하며\n도구로서의 코드를 만들어봤습니다.",
     "card01Title": "Quiz Module",
     "card01Desc": "선택지·정답 데이터로\n반복 학습 흐름을 구성",
-    "card02Title": "Stats View",
-    "card02Desc": "진도와 오답 추적으로\n학습을 시각화"
+    "card02Title": "Excel Macro",
+    "card02Desc": "엑셀 매크로로\n반복 작업을 자동화"
   },
   "mainPhrase1": "아이디어",
   "mainPhrase2": "를",
