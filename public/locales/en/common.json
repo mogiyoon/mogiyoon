@@ -136,6 +136,7 @@
     "backToProfile": "Back to Profile",
     "savePdf": "Save as PDF",
     "resetDraft": "Reset Copy",
+    "pinSidebar": "Pin sidebar",
     "helper": "Select the work you want to include and edit the wording. The HTML resume preview updates on the right in real time.",
     "builder": {
       "basics": "Basics",
