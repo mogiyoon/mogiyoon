@@ -679,5 +679,12 @@
     "overview": {
       "projectType": "개인 프로젝트"
     }
+  },
+  "storytect": {
+    "title": "Storytect",
+    "subtitle": "이야기에서 추출한 항목을 직접 짜는 세계관 에디터 데스크톱 앱",
+    "overview": {
+      "projectType": "개인 프로젝트"
+    }
   }
 }

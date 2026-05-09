@@ -679,5 +679,12 @@
     "overview": {
       "projectType": "Personal Project"
     }
+  },
+  "storytect": {
+    "title": "Storytect",
+    "subtitle": "Worldbuilding desktop editor that lets you shape extracted story items your own way",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
