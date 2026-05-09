@@ -136,6 +136,7 @@
     "backToProfile": "프로필로 돌아가기",
     "savePdf": "PDF로 저장",
     "resetDraft": "문구 초기화",
+    "pinSidebar": "사이드바 고정",
     "helper": "포함할 작업을 선택하고 문구를 수정하면 오른쪽 HTML 이력서에 바로 반영됩니다.",
     "builder": {
       "basics": "기본 정보",

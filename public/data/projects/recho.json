@@ -58,16 +58,16 @@
       "id": "troubleshooting",
       "title": "recho.summaries.troubleshooting.title",
       "parts": [
-        [{ "type": "subtitle","id": "issue","content": "recho.summaries.troubleshooting.parts.0.subtitle" }],
-        [{ "type": "image", "src": "/images/recho/overview/TroubleShooting1.png", "alt": "프로젝트 아키텍처 다이어그램", "caption": "recho.summaries.troubleshooting.parts.0.caption"}],
         [
+          { "type": "subtitle","id": "issue","content": "recho.summaries.troubleshooting.parts.0.subtitle" },
+          { "type": "image", "src": "/images/recho/overview/TroubleShooting1.png", "alt": "프로젝트 아키텍처 다이어그램", "caption": "recho.summaries.troubleshooting.parts.0.caption"},
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.0.0" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.0.1" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.0.2" }
         ],
-        [{ "type": "subtitle","id": "issue","content": "recho.summaries.troubleshooting.parts.1.subtitle" }],
-        [{ "type": "image", "src": "/images/recho/overview/TroubleShooting2.png", "alt": "프로젝트 아키텍처 다이어그램", "caption": "recho.summaries.troubleshooting.parts.1.caption" }],
         [
+          { "type": "subtitle","id": "issue","content": "recho.summaries.troubleshooting.parts.1.subtitle" },
+          { "type": "image", "src": "/images/recho/overview/TroubleShooting2.png", "alt": "프로젝트 아키텍처 다이어그램", "caption": "recho.summaries.troubleshooting.parts.1.caption" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.1.0" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.1.1" },
           { "type": "text", "content": "recho.summaries.troubleshooting.parts.1.2" }
