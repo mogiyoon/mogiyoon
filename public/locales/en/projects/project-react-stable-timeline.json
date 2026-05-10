@@ -2,7 +2,7 @@
   "react-stable-timeline": {
     "title": "@mogiyoon/react-stable-timeline",
     "subtitle": "A React Timeline Library Where Rows Stay Stable When You Pan or Zoom",
-    "description": "Viewport-based stacking algorithms recompute rows from only the currently visible items, so the same event lands on row 3 at one pan position and row 1 at another. This library packs rows from the full dataset, so panning never reshuffles rows.\n\nDistributed as an npm package built with React 18+, TypeScript, and tsup. Label widths are measured with Canvas2D measureText so Hangul, CJK, and mixed-script text are sized correctly, eliminating the label collisions that character-count estimates produce.",
+    "description": "Started as a timeline component for the Storytect worldbuilding editor. The user designed the queue+dictionary first-fit pseudocode in Korean, implemented it inside Storytect, and then extracted the result as a standalone npm package. Viewport-based stacking algorithms recompute rows from only the currently visible items so the same event lands on row 3 at one pan position and row 1 at another; this library packs rows from the full dataset, so panning never reshuffles rows.\n\nDistributed as an npm package built with React 18+, TypeScript, and tsup. Label widths are measured with Canvas2D measureText so Hangul, CJK, and mixed-script text are sized correctly, eliminating the label collisions that character-count estimates produce. A controlled-mode viewport clamp bug surfaced while dogfooding inside Storytect was patched in 0.2.1.",
     "overview": {
       "projectType": "Personal Project",
       "introduction": "A React timeline component library where rows stay stable through pan and zoom",
@@ -13,14 +13,14 @@
         "title": "Implemented Features and Development Process",
         "parts": {
           "0": {
-            "subtitle": "Motivation — Row Reshuffling Under Pan",
-            "0": "Viewport-based stacking algorithms recompute the stack using only the items currently visible in the viewport. The same event ends up on row 3 at one pan position and row 1 at another, producing a visual jitter every time the user pans.",
-            "1": "Packing rows once against the full dataset turns panning into a pure coordinate translation, so rows never shift. This became the core operating principle of the library."
+            "subtitle": "Motivation — Row Reshuffling in the Storytect Timeline",
+            "0": "Storytect's timeline was built on vis-timeline, whose stack algorithm recomputes from only the items currently visible in the viewport. The same event ended up on row 3 at one pan position and row 1 at another, producing a visual jitter every time the user panned.",
+            "1": "The user fixed the core principle — \"if rows are packed once against the full dataset, panning becomes a pure coordinate translation and rows stay stable\" — and authored the queue+dictionary first-fit pseudocode in Korean by hand. vis-timeline was dropped in favor of a from-scratch implementation."
           },
           "1": {
-            "subtitle": "First-Fit Row Packing Algorithm",
-            "0": "Each item's pixel footprint is the maximum of its dot diameter, range-bar length, and measured label width. After sorting by (start, label), a linear scan over the rowEnds array places each item in the lowest free row using first-fit interval partitioning.",
-            "1": "Time complexity is O(n log n) for the sort plus O(n·R) for placement, with R typically in the 10–50 range so the sort term dominates. The resulting Map is fully deterministic — the same (items, pxPerMs) input always returns the same output."
+            "subtitle": "First-Fit Row Packing Algorithm (User Pseudocode → TypeScript Implementation)",
+            "0": "The user's original pseudocode: \"Build a queue A sorted by (time, name). Initialize a dictionary B keyed by row index, valued by the end point of the last component on that row. Pop component C, compare its start to B[0]'s end point — if C starts later, place it on row 0 and update the end point; otherwise iterate the dictionary. If no row fits, insert into the row whose end-point distance is smallest in absolute value.\" That description maps exactly onto first-fit interval partitioning.",
+            "1": "The TypeScript implementation maps queue A to a (start, label)-sorted array and dictionary B to a rowEndsPx array. The only divergence is the overflow case: the user proposed \"insert into the closest row,\" but to avoid label collisions the implementation opens a new row instead. Time complexity is O(n log n) for the sort plus O(n·R) for placement, and the resulting Map is fully deterministic — the same input always produces the same output."
           },
           "2": {
             "subtitle": "Precise Label Width Measurement with Canvas2D",
@@ -30,7 +30,7 @@
           "3": {
             "subtitle": "Photoshop-Style Zoom % UX and Trackpad-Friendly Interaction",
             "0": "Zoom ranges from 100% (fit) up to 5000%. Cmd/Ctrl + wheel anchors at the cursor, while the toolbar +/− buttons anchor at the viewport center. The zoomFactor prop adjusts each zoom step's multiplier between 1.05 and 1.5.",
-            "1": "Panning supports two-finger horizontal scroll, Shift + vertical wheel, and a 4px-threshold drag. Enabling zoomStable freezes the row layout at fit-zoom so rows remain identical at every zoom level as well."
+            "1": "Panning supports two-finger horizontal scroll, Shift + vertical wheel, and a 4px-threshold drag. The zoomStable prop — whose name and default of false were specified directly by the user — freezes the row layout at fit-zoom so rows remain identical at every zoom level as well."
           }
         }
       },
@@ -38,16 +38,16 @@
         "title": "Troubleshooting",
         "parts": {
           "0": {
-            "subtitle": "Same Event Moves to a Different Row When Panning",
-            "0": "Problem: With viewport-based packing, the same event landed on different rows depending on pan position, producing visual jitter.",
-            "1": "Resolution\n\n\t1. Analyzed how viewport-based stack algorithms decide row placement.\n\t2. Replaced the algorithm with first-fit interval partitioning over the entire dataset.\n\t3. Separated zoom into its own axis and exposed a zoomStable prop so callers can opt into row stability under zoom too.",
-            "2": "Result: All items now keep their row through pan, and zoomStable=true guarantees row stability through zoom as well."
-          },
-          "1": {
             "subtitle": "Hangul Label Width Underestimated by ~30%",
             "0": "Problem: Character-count-based label width estimates underrepresented Hangul's actual pixel width by about 30%, producing visual collisions between labels.",
             "1": "Resolution\n\n\t1. Compared width measurements across various font and text combinations.\n\t2. Adopted Canvas2D measureText with the correct font context for accurate pixel widths.\n\t3. Added an automatic character-count fallback for SSR environments without a document object.",
             "2": "Result: Label widths are now measured correctly for Hangul, CJK, Latin, and mixed-script text, and label collisions disappeared."
+          },
+          "1": {
+            "subtitle": "Controlled-Mode Viewport Clamp Bug Caught While Dogfooding in Storytect",
+            "0": "Problem: While validating the library inside Storytect, the global timebar (35-year span) jumped to the diagram fit window (5-year span) on the first pan — the library was clamping every viewport update to fitWindow.span, overwriting the parent's intent.",
+            "1": "Resolution\n\n\t1. The user authored the fix code directly in the prompt — `const clamped = isControlled ? { start, end } : clampViewport(start, end);` — specifying that setViewport should branch on controlled mode.\n\t2. The root cause was confirmed by widening zoomMinPct dynamically and watching the jump disappear when clamp was effectively disabled.\n\t3. In controlled mode the parent's intended viewport is forwarded straight to onViewportChange; the uncontrolled safety net stays.",
+            "2": "Result: Two-way sync between Storytect's global timebar and the diagram-level viewport became smooth. Released as 0.2.1, picked up immediately by the consuming app."
           }
         }
       },
@@ -56,15 +56,15 @@
         "parts": {
           "0": {
             "0": "Results",
-            "1": "Published a React timeline library with stable rows under pan and zoom to NPM",
-            "2": "Eliminated label collisions for Hangul, CJK, and mixed-script text via Canvas2D-based width measurement",
-            "3": "Exported the first-fit packing function and tick-picker so layouts can also be precomputed in a worker"
+            "1": "Published a first-fit row packing library — translated directly from the user's pseudocode — to NPM",
+            "2": "Caught and patched a controlled-mode clamp bug in 0.2.1 through the Storytect dogfood loop, picked up immediately by the consuming app",
+            "3": "Eliminated label collisions for Hangul, CJK, and mixed-script text via Canvas2D measurement; exported the first-fit packing function so layouts can also be precomputed in a worker"
           },
           "1": {
             "0": "Retrospective",
-            "1": "Analyzing the visual flaw in viewport-based stacking sharpened the operating principle of the library end-to-end",
-            "2": "Splitting packing and label measurement into separate modules secured compatibility with SSR and worker environments",
-            "3": "Supporting both controlled and uncontrolled modes deepened understanding of synchronizing external viewport state"
+            "1": "Recognized that the user's hand-written queue+dictionary pseudocode in Korean was already a definition of first-fit interval partitioning — the TypeScript work was a faithful mapping rather than an algorithm design",
+            "2": "Made the divergence between intent and safety explicit at the overflow case (user's proposal: insert into the closest row / implementation: open a new row) and chose deliberately",
+            "3": "Felt the value of a cross-project feedback loop firsthand — the consuming app surfaced the controlled-mode clamp bug almost immediately after dogfooding began"
           }
         }
       },
@@ -97,20 +97,20 @@
     "developmentProcess": [
       {
         "title": "Problem Identification",
-        "content": "Recognized the row-jitter problem caused by viewport-based stack algorithms under pan"
+        "content": "Recognized the row-jitter problem in Storytect's timeline caused by viewport-based stack algorithms under pan"
       },
       {
-        "title": "Core Algorithm Implementation",
-        "content": "Developed the core logic combining first-fit row packing over the full dataset with Canvas2D label width measurement"
+        "title": "Algorithm Design + Implementation",
+        "content": "The user authored a queue+dictionary first-fit pseudocode in Korean by hand; Claude carried out the TypeScript implementation and the Canvas2D label measurement infrastructure"
       },
       {
-        "title": "NPM Publishing",
-        "content": "Published as a public npm package bundled with tsup and shipped with TypeScript type definitions"
+        "title": "Library Extraction + Dogfood",
+        "content": "Extracted Storytect's internal timeline component as a standalone npm package bundled with tsup and shipped with TypeScript type definitions, then iterated up to 0.2.1 through the dogfood loop"
       }
     ],
     "claudeInfo": {
-      "summary": "Developed with Vibe Coding",
-      "details": "Algorithm design, implementation, refactoring, and documentation were carried out using Claude Code CLI as a single agent. No harness was used; development was conducted through direct conversation."
+      "summary": "User-designed algorithm + Claude-implemented TypeScript",
+      "details": "While working on Storytect, the user authored the queue+dictionary first-fit pseudocode in Korean by hand. Claude Code CLI as a single agent carried out the TypeScript implementation, the Canvas2D label-measurement infrastructure, refactoring, and documentation. Only the overflow case diverged from the user's proposal — instead of \"insert into the closest row,\" the implementation opens a new row to avoid label collisions. The controlled-mode clamp bug surfaced during dogfooding was fixed using a one-line patch the user wrote directly in the prompt."
     }
   }
 }
