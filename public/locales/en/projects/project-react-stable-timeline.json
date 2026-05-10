@@ -1,0 +1,116 @@
+{
+  "react-stable-timeline": {
+    "title": "@mogiyoon/react-stable-timeline",
+    "subtitle": "A React Timeline Library Where Rows Stay Stable When You Pan or Zoom",
+    "description": "Viewport-based stacking algorithms recompute rows from only the currently visible items, so the same event lands on row 3 at one pan position and row 1 at another. This library packs rows from the full dataset, so panning never reshuffles rows.\n\nDistributed as an npm package built with React 18+, TypeScript, and tsup. Label widths are measured with Canvas2D measureText so Hangul, CJK, and mixed-script text are sized correctly, eliminating the label collisions that character-count estimates produce.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "A React timeline component library where rows stay stable through pan and zoom",
+      "features": "First-fit row packing, Canvas2D label measurement, Photoshop-style zoom %, trackpad-friendly interaction, controlled and uncontrolled viewport modes"
+    },
+    "summaries": {
+      "development": {
+        "title": "Implemented Features and Development Process",
+        "parts": {
+          "0": {
+            "subtitle": "Motivation — Row Reshuffling Under Pan",
+            "0": "Viewport-based stacking algorithms recompute the stack using only the items currently visible in the viewport. The same event ends up on row 3 at one pan position and row 1 at another, producing a visual jitter every time the user pans.",
+            "1": "Packing rows once against the full dataset turns panning into a pure coordinate translation, so rows never shift. This became the core operating principle of the library."
+          },
+          "1": {
+            "subtitle": "First-Fit Row Packing Algorithm",
+            "0": "Each item's pixel footprint is the maximum of its dot diameter, range-bar length, and measured label width. After sorting by (start, label), a linear scan over the rowEnds array places each item in the lowest free row using first-fit interval partitioning.",
+            "1": "Time complexity is O(n log n) for the sort plus O(n·R) for placement, with R typically in the 10–50 range so the sort term dominates. The resulting Map is fully deterministic — the same (items, pxPerMs) input always returns the same output."
+          },
+          "2": {
+            "subtitle": "Precise Label Width Measurement with Canvas2D",
+            "0": "Character-count-based estimates underrepresent Hangul width by roughly 30%, leading to visible label collisions. A measurer built on document.createElement('canvas').getContext('2d').measureText was introduced to obtain accurate pixel widths.",
+            "1": "An SSR fallback returns the character-count estimate when document is undefined, ensuring the library runs identically on client and server. The measurer is exported so it can also be offloaded to a worker."
+          },
+          "3": {
+            "subtitle": "Photoshop-Style Zoom % UX and Trackpad-Friendly Interaction",
+            "0": "Zoom ranges from 100% (fit) up to 5000%. Cmd/Ctrl + wheel anchors at the cursor, while the toolbar +/− buttons anchor at the viewport center. The zoomFactor prop adjusts each zoom step's multiplier between 1.05 and 1.5.",
+            "1": "Panning supports two-finger horizontal scroll, Shift + vertical wheel, and a 4px-threshold drag. Enabling zoomStable freezes the row layout at fit-zoom so rows remain identical at every zoom level as well."
+          }
+        }
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "parts": {
+          "0": {
+            "subtitle": "Same Event Moves to a Different Row When Panning",
+            "0": "Problem: With viewport-based packing, the same event landed on different rows depending on pan position, producing visual jitter.",
+            "1": "Resolution\n\n\t1. Analyzed how viewport-based stack algorithms decide row placement.\n\t2. Replaced the algorithm with first-fit interval partitioning over the entire dataset.\n\t3. Separated zoom into its own axis and exposed a zoomStable prop so callers can opt into row stability under zoom too.",
+            "2": "Result: All items now keep their row through pan, and zoomStable=true guarantees row stability through zoom as well."
+          },
+          "1": {
+            "subtitle": "Hangul Label Width Underestimated by ~30%",
+            "0": "Problem: Character-count-based label width estimates underrepresented Hangul's actual pixel width by about 30%, producing visual collisions between labels.",
+            "1": "Resolution\n\n\t1. Compared width measurements across various font and text combinations.\n\t2. Adopted Canvas2D measureText with the correct font context for accurate pixel widths.\n\t3. Added an automatic character-count fallback for SSR environments without a document object.",
+            "2": "Result: Label widths are now measured correctly for Hangul, CJK, Latin, and mixed-script text, and label collisions disappeared."
+          }
+        }
+      },
+      "results": {
+        "title": "Results and Retrospective",
+        "parts": {
+          "0": {
+            "0": "Results",
+            "1": "Published a React timeline library with stable rows under pan and zoom to NPM",
+            "2": "Eliminated label collisions for Hangul, CJK, and mixed-script text via Canvas2D-based width measurement",
+            "3": "Exported the first-fit packing function and tick-picker so layouts can also be precomputed in a worker"
+          },
+          "1": {
+            "0": "Retrospective",
+            "1": "Analyzing the visual flaw in viewport-based stacking sharpened the operating principle of the library end-to-end",
+            "2": "Splitting packing and label measurement into separate modules secured compatibility with SSR and worker environments",
+            "3": "Supporting both controlled and uncontrolled modes deepened understanding of synchronizing external viewport state"
+          }
+        }
+      },
+      "blank": {
+        "title": "Thank You."
+      }
+    },
+    "features": [
+      {
+        "name": "📌 Stable Row Packing",
+        "description": "First-fit packing over the full dataset keeps every item on the same row when panning"
+      },
+      {
+        "name": "🔤 Precise Label Width",
+        "description": "Canvas2D measureText handles Hangul, CJK, and mixed-script text accurately"
+      },
+      {
+        "name": "🔍 Photoshop-Style Zoom %",
+        "description": "Supports 100% (fit) to 5000% with cursor-anchored zoom"
+      },
+      {
+        "name": "🖱 Trackpad-Friendly",
+        "description": "Two-finger horizontal scroll panning, Cmd/Ctrl + wheel anchored zoom, and click-and-drag panning"
+      },
+      {
+        "name": "🎚 Controlled / Uncontrolled",
+        "description": "Two-way viewportStart/End binding and self-managed viewport are both supported"
+      }
+    ],
+    "developmentProcess": [
+      {
+        "title": "Problem Identification",
+        "content": "Recognized the row-jitter problem caused by viewport-based stack algorithms under pan"
+      },
+      {
+        "title": "Core Algorithm Implementation",
+        "content": "Developed the core logic combining first-fit row packing over the full dataset with Canvas2D label width measurement"
+      },
+      {
+        "title": "NPM Publishing",
+        "content": "Published as a public npm package bundled with tsup and shipped with TypeScript type definitions"
+      }
+    ],
+    "claudeInfo": {
+      "summary": "Developed with Vibe Coding",
+      "details": "Algorithm design, implementation, refactoring, and documentation were carried out using Claude Code CLI as a single agent. No harness was used; development was conducted through direct conversation."
+    }
+  }
+}

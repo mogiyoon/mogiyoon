@@ -1,0 +1,116 @@
+{
+  "react-stable-timeline": {
+    "title": "@mogiyoon/react-stable-timeline",
+    "subtitle": "팬/줌 시 행이 흔들리지 않는 React 타임라인 라이브러리",
+    "description": "뷰포트 기준 stack 알고리즘은 현재 보이는 아이템만으로 행을 재계산해 동일 이벤트가 팬 위치에 따라 다른 행에 배치됨. 전체 데이터셋 기준 first-fit 행 패킹을 통해 팬·줌 시에도 행이 고정되는 React 타임라인 라이브러리.\n\nReact 18+, TypeScript, tsup 번들 기반 npm 패키지로 배포함. 라벨 폭은 Canvas2D measureText로 측정해 한글·CJK·혼용 텍스트의 폭 오차로 발생하는 라벨 충돌이 방지됨.",
+    "overview": {
+      "projectType": "개인 프로젝트",
+      "introduction": "팬·줌 시 행이 고정되는 React 타임라인 컴포넌트 라이브러리",
+      "features": "first-fit 행 패킹, Canvas2D 라벨 폭 측정, Photoshop식 줌 %, 트랙패드 친화 인터랙션, Controlled/Uncontrolled viewport"
+    },
+    "summaries": {
+      "development": {
+        "title": "구현 기능 및 개발 과정",
+        "parts": {
+          "0": {
+            "subtitle": "개발 동기 — 팬 시 발생하는 행 재배치 문제",
+            "0": "뷰포트 기준 stack 알고리즘은 현재 보이는 아이템만으로 행을 재계산함. 동일 이벤트가 팬 위치에 따라 행 3에 배치되거나 행 1에 배치되어 시각적 흔들림이 발생함.",
+            "1": "전체 데이터셋 기준으로 한 번에 행을 패킹하면 팬은 단순한 좌표 이동이 되어 행이 고정됨. 이를 라이브러리의 핵심 동작 원칙으로 설정함."
+          },
+          "1": {
+            "subtitle": "first-fit 행 패킹 알고리즘",
+            "0": "각 아이템의 픽셀 풋프린트는 도트 직경, range bar 길이, 측정된 라벨 폭 중 최댓값으로 계산됨. (start, label) 정렬 후 rowEnds 배열을 선형 스캔해 가장 낮은 비어있는 행에 배치하는 first-fit 방식이 적용됨.",
+            "1": "시간 복잡도는 정렬 O(n log n)과 배치 O(n·R)이며, 실제 행 수 R은 10~50 수준이라 정렬 항이 지배적임. 결과 Map은 같은 (items, pxPerMs) 입력에 대해 항상 동일한 출력이 반환됨."
+          },
+          "2": {
+            "subtitle": "Canvas2D 기반 라벨 폭 정밀 측정",
+            "0": "글자수 기반 라벨 폭 추정은 한글의 실제 픽셀 폭을 약 30% 적게 추정해 라벨 간 시각적 충돌이 발생함. document.createElement('canvas').getContext('2d').measureText로 정확한 픽셀 폭을 측정하는 measurer가 도입됨.",
+            "1": "SSR 환경에서는 document 객체 부재 시 글자수 기반 fallback이 적용되어 클라이언트·서버 양쪽 동작이 보장됨. measurer는 외부 export되어 워커 환경 오프로드도 가능함."
+          },
+          "3": {
+            "subtitle": "Photoshop식 줌 % UX와 트랙패드 친화 인터랙션",
+            "0": "줌 범위는 100%(fit) ~ 5000%로 설정됨. ⌘/Ctrl + 휠은 커서 위치 기준으로, 툴바 +/− 버튼은 뷰포트 중심 기준으로 앵커 줌이 동작함. zoomFactor prop으로 한 단계당 배율을 1.05 ~ 1.5 사이에서 조절 가능함.",
+            "1": "팬은 두 손가락 가로 스크롤, Shift + 세로 휠, 4px threshold 기반 드래그 모두 지원됨. zoomStable prop을 켜면 fit-zoom 행 레이아웃이 모든 줌 레벨에서 유지되어 줌 시에도 행이 고정됨."
+          }
+        }
+      },
+      "troubleshooting": {
+        "title": "트러블 슈팅",
+        "parts": {
+          "0": {
+            "subtitle": "팬 시 같은 이벤트가 다른 행으로 이동하는 문제",
+            "0": "문제 상황: 뷰포트 기준 패킹 적용 시 동일 이벤트가 팬 위치에 따라 다른 행에 배치되어 시각적 흔들림이 발생함.",
+            "1": "해결 과정\n\n\t1. 뷰포트 기준 stack 알고리즘의 동작 분석을 진행함.\n\t2. 전체 데이터셋 기준 first-fit interval partitioning으로 알고리즘을 교체함.\n\t3. 줌은 별도 축으로 분리해 zoomStable prop으로 행 고정 여부 선택 옵션을 제공함.",
+            "2": "결과: 팬 시 모든 아이템의 행이 고정되며, zoomStable=true에서는 줌 시에도 행 고정이 보장됨."
+          },
+          "1": {
+            "subtitle": "한글 라벨 폭 추정 시 약 30% 과소 측정 문제",
+            "0": "문제 상황: 글자수 기반 라벨 폭 추정 사용 시 한글의 실제 픽셀 폭이 약 30% 적게 추정되어 라벨 간 시각적 충돌이 발생함.",
+            "1": "해결 과정\n\n\t1. 다양한 폰트와 텍스트 조합의 폭 측정 차이 분석을 진행함.\n\t2. Canvas2D measureText로 폰트 컨텍스트가 적용된 정확한 픽셀 폭 측정 방식을 도입함.\n\t3. SSR 환경에서는 글자수 기반 fallback이 자동 적용되도록 처리함.",
+            "2": "결과: 한글·CJK·Latin·혼용 텍스트 모두에서 라벨 폭이 정확히 측정되어 라벨 충돌이 제거됨."
+          }
+        }
+      },
+      "results": {
+        "title": "결과 및 회고",
+        "parts": {
+          "0": {
+            "0": "결과",
+            "1": "팬·줌 시 행이 고정되는 React 타임라인 라이브러리를 NPM에 공개 배포함",
+            "2": "Canvas2D 기반 라벨 폭 측정으로 한글·CJK·혼용 텍스트의 라벨 충돌이 제거됨",
+            "3": "first-fit 행 패킹 함수와 tick 픽 함수가 외부 export되어 워커 오프로드 활용도 가능함"
+          },
+          "1": {
+            "0": "회고",
+            "1": "뷰포트 기준 stack의 시각적 결함을 분석해 명확한 동작 원칙을 가진 라이브러리 설계를 경험함",
+            "2": "패킹·라벨 측정 알고리즘 분리 설계를 통해 SSR·워커 환경 호환성을 확보함",
+            "3": "Controlled / Uncontrolled 양쪽 모드 지원을 위한 외부 viewport 상태 동기화 패턴을 학습함"
+          }
+        }
+      },
+      "blank": {
+        "title": "감사합니다."
+      }
+    },
+    "features": [
+      {
+        "name": "📌 행 고정 패킹",
+        "description": "전체 데이터 기준 first-fit 패킹으로 팬 시 행이 고정됨"
+      },
+      {
+        "name": "🔤 라벨 폭 정밀 측정",
+        "description": "Canvas2D measureText로 한글·CJK·혼용 텍스트 폭이 정확히 측정됨"
+      },
+      {
+        "name": "🔍 Photoshop식 줌 %",
+        "description": "100%(fit) ~ 5000% 범위와 커서 기준 앵커 줌이 지원됨"
+      },
+      {
+        "name": "🖱 트랙패드 인터랙션",
+        "description": "두 손가락 가로 스크롤 팬, ⌘/Ctrl + 휠 앵커 줌, 드래그 팬이 지원됨"
+      },
+      {
+        "name": "🎚 Controlled / Uncontrolled",
+        "description": "viewportStart/End 양방향 바인딩과 자체 관리 모드 모두 지원됨"
+      }
+    ],
+    "developmentProcess": [
+      {
+        "title": "문제 인식",
+        "content": "뷰포트 기준 stack 알고리즘으로 인한 팬 시 행 흔들림 문제 인지"
+      },
+      {
+        "title": "핵심 알고리즘 구현",
+        "content": "전체 데이터셋 기준 first-fit 행 패킹과 Canvas2D 라벨 폭 측정을 결합한 핵심 로직 개발"
+      },
+      {
+        "title": "NPM 배포",
+        "content": "tsup 기반 번들링과 TypeScript 타입 정의를 포함한 npm 공개 패키지로 배포 완료"
+      }
+    ],
+    "claudeInfo": {
+      "summary": "바이브 코딩으로 개발",
+      "details": "Claude Code CLI 단일 에이전트 활용 기반 알고리즘 설계, 구현, 리팩토링, 문서화 진행. 하네스 없는 직접 대화 방식 개발."
+    }
+  }
+}
