@@ -2,7 +2,7 @@
   "react-stable-timeline": {
     "title": "@mogiyoon/react-stable-timeline",
     "subtitle": "팬/줌 시 행이 흔들리지 않는 React 타임라인 라이브러리",
-    "description": "뷰포트 기준 stack 알고리즘은 현재 보이는 아이템만으로 행을 재계산해 동일 이벤트가 팬 위치에 따라 다른 행에 배치됨. 전체 데이터셋 기준 first-fit 행 패킹을 통해 팬·줌 시에도 행이 고정되는 React 타임라인 라이브러리.\n\nReact 18+, TypeScript, tsup 번들 기반 npm 패키지로 배포함. 라벨 폭은 Canvas2D measureText로 측정해 한글·CJK·혼용 텍스트의 폭 오차로 발생하는 라벨 충돌이 방지됨.",
+    "description": "Storytect 워드빌딩 에디터의 타임라인 컴포넌트에서 시작함. 사용자가 큐와 딕셔너리 기반 first-fit 의사코드를 한국어로 직접 설계해 Storytect에 구현한 뒤 별도 npm 패키지로 추출. 뷰포트 기준 stack 알고리즘은 현재 보이는 아이템만으로 행을 재계산해 동일 이벤트가 팬 위치에 따라 다른 행에 배치되는데, 이 라이브러리는 전체 데이터셋 기준 first-fit 행 패킹을 통해 팬·줌 시에도 행이 고정됨.\n\nReact 18+, TypeScript, tsup 번들 기반 npm 패키지로 배포. 라벨 폭은 Canvas2D measureText로 측정해 한글·CJK·혼용 텍스트의 폭 오차로 발생하는 라벨 충돌이 방지됨. Storytect 도그푸드 중 controlled 모드 viewport clamp 버그가 발견되어 0.2.1로 즉시 패치됨.",
     "overview": {
       "projectType": "개인 프로젝트",
       "introduction": "팬·줌 시 행이 고정되는 React 타임라인 컴포넌트 라이브러리",
@@ -13,14 +13,14 @@
         "title": "구현 기능 및 개발 과정",
         "parts": {
           "0": {
-            "subtitle": "개발 동기 — 팬 시 발생하는 행 재배치 문제",
-            "0": "뷰포트 기준 stack 알고리즘은 현재 보이는 아이템만으로 행을 재계산함. 동일 이벤트가 팬 위치에 따라 행 3에 배치되거나 행 1에 배치되어 시각적 흔들림이 발생함.",
-            "1": "전체 데이터셋 기준으로 한 번에 행을 패킹하면 팬은 단순한 좌표 이동이 되어 행이 고정됨. 이를 라이브러리의 핵심 동작 원칙으로 설정함."
+            "subtitle": "개발 동기 — Storytect 타임라인의 행 재배치 문제",
+            "0": "Storytect의 타임라인은 vis-timeline 기반이었고, 뷰포트에 보이는 아이템만으로 stack을 재계산하는 알고리즘이라 동일 이벤트가 팬 위치에 따라 다른 행에 배치되어 시각적 흔들림이 발생함.",
+            "1": "사용자가 '전체 데이터셋 기준으로 한 번에 행을 패킹하면 팬은 단순한 좌표 이동이 되어 행이 고정된다'는 핵심 원칙을 정하고, 큐+딕셔너리 기반 first-fit 의사코드를 한국어로 직접 설계함. vis-timeline을 떼고 직접 구현으로 전환."
           },
           "1": {
-            "subtitle": "first-fit 행 패킹 알고리즘",
-            "0": "각 아이템의 픽셀 풋프린트는 도트 직경, range bar 길이, 측정된 라벨 폭 중 최댓값으로 계산됨. (start, label) 정렬 후 rowEnds 배열을 선형 스캔해 가장 낮은 비어있는 행에 배치하는 first-fit 방식이 적용됨.",
-            "1": "시간 복잡도는 정렬 O(n log n)과 배치 O(n·R)이며, 실제 행 수 R은 10~50 수준이라 정렬 항이 지배적임. 결과 Map은 같은 (items, pxPerMs) 입력에 대해 항상 동일한 출력이 반환됨."
+            "subtitle": "first-fit 행 패킹 알고리즘 (사용자 의사코드 → TypeScript 구현)",
+            "0": "사용자 원안 의사코드: '시간 + 이름 오름차순으로 A큐를 만들고, 행 인덱스를 키로 끝점을 값으로 가지는 B 딕셔너리를 초기화. 큐에서 컴포넌트 C를 꺼내 0번 행 끝점과 비교해 C의 시작점이 더 뒤면 0번 행에 배치하고 끝점 갱신, 아니면 딕셔너리 순회. 자리 없으면 차이의 절대값이 가장 작은 자리에 삽입.' 이 의사코드가 그대로 first-fit interval partitioning에 해당함.",
+            "1": "TypeScript 구현은 A큐를 (start, label) 정렬된 배열로, B 딕셔너리를 rowEndsPx 배열로 매핑. 오버플로우 처리만 사용자 안과 발산함 — 사용자 안은 '차이 절대값이 가장 작은 행에 끼우기'였으나 라벨 충돌 회피를 위해 '새 행 개설'로 구현됨. 시간 복잡도는 정렬 O(n log n) + 배치 O(n·R), 결과 Map은 같은 입력에 항상 동일한 출력 보장."
           },
           "2": {
             "subtitle": "Canvas2D 기반 라벨 폭 정밀 측정",
@@ -30,7 +30,7 @@
           "3": {
             "subtitle": "Photoshop식 줌 % UX와 트랙패드 친화 인터랙션",
             "0": "줌 범위는 100%(fit) ~ 5000%로 설정됨. ⌘/Ctrl + 휠은 커서 위치 기준으로, 툴바 +/− 버튼은 뷰포트 중심 기준으로 앵커 줌이 동작함. zoomFactor prop으로 한 단계당 배율을 1.05 ~ 1.5 사이에서 조절 가능함.",
-            "1": "팬은 두 손가락 가로 스크롤, Shift + 세로 휠, 4px threshold 기반 드래그 모두 지원됨. zoomStable prop을 켜면 fit-zoom 행 레이아웃이 모든 줌 레벨에서 유지되어 줌 시에도 행이 고정됨."
+            "1": "팬은 두 손가락 가로 스크롤, Shift + 세로 휠, 4px threshold 기반 드래그 모두 지원됨. 사용자가 prop 이름·기본값을 지정한 zoomStable=false 옵션을 켜면 fit-zoom 행 레이아웃이 모든 줌 레벨에서 유지되어 줌 시에도 행이 고정됨."
           }
         }
       },
@@ -38,16 +38,16 @@
         "title": "트러블 슈팅",
         "parts": {
           "0": {
-            "subtitle": "팬 시 같은 이벤트가 다른 행으로 이동하는 문제",
-            "0": "문제 상황: 뷰포트 기준 패킹 적용 시 동일 이벤트가 팬 위치에 따라 다른 행에 배치되어 시각적 흔들림이 발생함.",
-            "1": "해결 과정\n\n\t1. 뷰포트 기준 stack 알고리즘의 동작 분석을 진행함.\n\t2. 전체 데이터셋 기준 first-fit interval partitioning으로 알고리즘을 교체함.\n\t3. 줌은 별도 축으로 분리해 zoomStable prop으로 행 고정 여부 선택 옵션을 제공함.",
-            "2": "결과: 팬 시 모든 아이템의 행이 고정되며, zoomStable=true에서는 줌 시에도 행 고정이 보장됨."
-          },
-          "1": {
             "subtitle": "한글 라벨 폭 추정 시 약 30% 과소 측정 문제",
             "0": "문제 상황: 글자수 기반 라벨 폭 추정 사용 시 한글의 실제 픽셀 폭이 약 30% 적게 추정되어 라벨 간 시각적 충돌이 발생함.",
             "1": "해결 과정\n\n\t1. 다양한 폰트와 텍스트 조합의 폭 측정 차이 분석을 진행함.\n\t2. Canvas2D measureText로 폰트 컨텍스트가 적용된 정확한 픽셀 폭 측정 방식을 도입함.\n\t3. SSR 환경에서는 글자수 기반 fallback이 자동 적용되도록 처리함.",
             "2": "결과: 한글·CJK·Latin·혼용 텍스트 모두에서 라벨 폭이 정확히 측정되어 라벨 충돌이 제거됨."
+          },
+          "1": {
+            "subtitle": "Storytect 도그푸드 중 발견한 controlled 모드 clamp 버그",
+            "0": "문제 상황: 라이브러리를 Storytect에 적용해 사용처 검증을 진행하던 중, 글로벌 타임바(35년 span)에서 다이어그램 viewport(5년 fit)로 첫 pan 시 화면이 fitWindow span으로 강제 축소되며 점프하는 현상 발생.",
+            "1": "해결 과정\n\n\t1. 사용자가 setViewport에서 controlled 모드 여부에 따라 clamp를 분기하라는 수정 코드를 직접 작성해 prompt로 전달함 — `const clamped = isControlled ? { start, end } : clampViewport(start, end);`.\n\t2. zoomMinPct를 동적으로 늘려 clamp 비활성화 시 점프가 사라지는 것으로 원인 확정.\n\t3. controlled 모드에서는 부모 의도 그대로 onViewportChange 통보, uncontrolled 안전장치는 유지.",
+            "2": "결과: Storytect 글로벌 타임바 ↔ 다이어그램 양방향 sync가 자연스러워짐. 0.2.1 패치 릴리즈로 사용처 즉시 반영."
           }
         }
       },
@@ -56,15 +56,15 @@
         "parts": {
           "0": {
             "0": "결과",
-            "1": "팬·줌 시 행이 고정되는 React 타임라인 라이브러리를 NPM에 공개 배포함",
-            "2": "Canvas2D 기반 라벨 폭 측정으로 한글·CJK·혼용 텍스트의 라벨 충돌이 제거됨",
-            "3": "first-fit 행 패킹 함수와 tick 픽 함수가 외부 export되어 워커 오프로드 활용도 가능함"
+            "1": "사용자 의사코드를 그대로 옮긴 first-fit 행 패킹 라이브러리를 NPM에 공개 배포함",
+            "2": "Storytect 도그푸드 사이클로 controlled 모드 clamp 버그를 발견·수정해 0.2.1로 즉시 반영",
+            "3": "Canvas2D 라벨 폭 측정으로 한글·CJK·혼용 텍스트 라벨 충돌 제거, first-fit 패킹 함수 외부 export로 워커 오프로드 가능"
           },
           "1": {
             "0": "회고",
-            "1": "뷰포트 기준 stack의 시각적 결함을 분석해 명확한 동작 원칙을 가진 라이브러리 설계를 경험함",
-            "2": "패킹·라벨 측정 알고리즘 분리 설계를 통해 SSR·워커 환경 호환성을 확보함",
-            "3": "Controlled / Uncontrolled 양쪽 모드 지원을 위한 외부 viewport 상태 동기화 패턴을 학습함"
+            "1": "사용자가 한국어로 작성한 큐+딕셔너리 의사코드가 first-fit interval partitioning의 정의 그 자체였고, TypeScript 구현은 그 매핑 작업이었다는 분담 경험",
+            "2": "오버플로우 처리(사용자 안=차이 절대값 최소 행 / 구현=새 행 개설)처럼 의도와 안전 사이의 발산 지점을 명시적으로 결정한 경험",
+            "3": "Storytect ↔ 라이브러리 도그푸드 사이클을 통해 사용처가 라이브러리 controlled 모드 버그를 즉시 surface하는 cross-project feedback loop를 체감"
           }
         }
       },
@@ -97,20 +97,20 @@
     "developmentProcess": [
       {
         "title": "문제 인식",
-        "content": "뷰포트 기준 stack 알고리즘으로 인한 팬 시 행 흔들림 문제 인지"
+        "content": "Storytect 타임라인의 뷰포트 기준 stack 알고리즘으로 인한 팬 시 행 흔들림 문제 인지"
       },
       {
-        "title": "핵심 알고리즘 구현",
-        "content": "전체 데이터셋 기준 first-fit 행 패킹과 Canvas2D 라벨 폭 측정을 결합한 핵심 로직 개발"
+        "title": "알고리즘 설계 + 구현",
+        "content": "사용자가 큐+딕셔너리 기반 first-fit 의사코드를 한국어로 직접 작성, Claude가 TypeScript 구현과 Canvas2D 라벨 측정 인프라를 담당"
       },
       {
-        "title": "NPM 배포",
-        "content": "tsup 기반 번들링과 TypeScript 타입 정의를 포함한 npm 공개 패키지로 배포 완료"
+        "title": "라이브러리 추출 + 도그푸드",
+        "content": "Storytect 내부 컴포넌트를 별도 npm 패키지로 추출해 tsup·TypeScript 타입과 함께 배포, 도그푸드 사이클로 0.2.1까지 즉시 반영"
       }
     ],
     "claudeInfo": {
-      "summary": "바이브 코딩으로 개발",
-      "details": "Claude Code CLI 단일 에이전트 활용 기반 알고리즘 설계, 구현, 리팩토링, 문서화 진행. 하네스 없는 직접 대화 방식 개발."
+      "summary": "사용자 알고리즘 설계 + Claude TypeScript 구현",
+      "details": "사용자가 Storytect 작업 중 큐와 딕셔너리 기반 first-fit 의사코드를 한국어로 직접 설계함. Claude Code CLI 단일 에이전트가 TypeScript 구현, Canvas2D 라벨 측정 인프라, 리팩토링, 문서화 담당. overflow 처리만 사용자 안(차이 절대값 최소 행)과 발산해 안전한 새 행 개설로 구현. Storytect 도그푸드 중 발견한 controlled clamp 버그는 사용자가 수정 코드까지 직접 작성해 prompt로 전달함."
     }
   }
 }
