@@ -679,5 +679,12 @@
     "overview": {
       "projectType": "Personal Project"
     }
+  },
+  "react-stable-timeline": {
+    "title": "@mogiyoon/react-stable-timeline",
+    "subtitle": "A React Timeline Library Where Rows Stay Stable When You Pan or Zoom",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
