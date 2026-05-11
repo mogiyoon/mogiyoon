@@ -3,8 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 // ── Hoist fetch mock + introduction.json stub: ProfileSection.tsx fires
-//    fetch('/data/introduction.json') at module-evaluation time. We must
-//    install the mock BEFORE the module is imported below.
+//    the introduction.json request during render. Installing the mock ahead of
+//    import keeps the shared resource deterministic across tests.
 const { introStub, fetchSpy } = vi.hoisted(() => {
   const stub = {
     workExperience: [
@@ -21,6 +21,7 @@ const { introStub, fetchSpy } = vi.hoisted(() => {
   };
   const spy = vi.fn(() =>
     Promise.resolve({
+      ok: true,
       json: () => Promise.resolve(stub),
     } as unknown as Response)
   );
