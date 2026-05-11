@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatIndex } from '../../../../utils/formatIndex';
+import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { HighlightItem } from '../types';
@@ -40,14 +41,7 @@ const HighlightCard: React.FC<{
     {/* Expanded detail */}
     <AnimatePresence initial={false}>
       {isOpen && (
-        <motion.div
-          key="detail"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.22, ease: 'easeInOut' }}
-          style={{ overflow: 'hidden' }}
-        >
+        <motion.div key="detail" {...collapseVerticalPreset(0.22)}>
           <div className="px-5 pt-2 pb-6">
             <div className="relative pl-6">
               {/* Vertical connector */}

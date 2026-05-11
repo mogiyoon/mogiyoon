@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ResumeProfileSourceData } from '../../../utils/resumePreview';
 import InfoCell from '../../../components/primitives/InfoCell';
+import ExternalLink from '../../../components/primitives/ExternalLink';
 import { resumeLinkOrder } from './animations';
 
 const ResumeProfileCard: React.FC<{
@@ -36,15 +37,13 @@ const ResumeProfileCard: React.FC<{
       <div className="mt-4 flex flex-wrap gap-2">
         {resumeLinkOrder.map((key) =>
           profile.links[key] ? (
-            <a
+            <ExternalLink
               key={`profile-link-${key}`}
               href={profile.links[key]}
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-content-secondary transition-colors hover:border-slate-400 hover:text-content"
             >
               {t(`resume.linkLabel.${key}`, { defaultValue: key })}
-            </a>
+            </ExternalLink>
           ) : null
         )}
       </div>

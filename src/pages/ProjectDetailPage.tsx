@@ -11,6 +11,7 @@ import { animation } from '../design-tokens';
 import { useFetchJson } from '../hooks/useFetchJson';
 import { createImageFallbackHandler } from '../utils/imageFallback';
 import { PLACEHOLDER_NOT_FOUND_250x400 } from '../utils/placeholders';
+import ExternalLink from '../components/primitives/ExternalLink';
 
 const pageVariants = {
   initial: animation.page.initial,
@@ -170,10 +171,8 @@ const ProjectDetailPage: React.FC = () => {
                   i18nKey="licenseText"
                   values={{ licenseName: project.license.name }}
                   components={[
-                    <a
+                    <ExternalLink
                       href={project.license.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="text-content font-semibold underline hover:no-underline"
                     />,
                   ]}

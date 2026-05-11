@@ -3,6 +3,7 @@ import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
 import { Chip } from "./primitives/Chip";
+import ExternalLink from "./primitives/ExternalLink";
 import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToast";
 
 interface TotalSummaryComponentProps {
@@ -85,17 +86,15 @@ const renderSummaryPart = (
     case "link":
       return (
         <div key={index}>
-          <a
+          <ExternalLink
             href={part.href}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-content underline hover:no-underline transition-colors"
           >
             {part.label}
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
-          </a>
+          </ExternalLink>
         </div>
       );
     default:
@@ -105,10 +104,8 @@ const renderSummaryPart = (
 
 // ── Link button ────────────────────────────────────────────────────────────────
 const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> = ({ href, label, primary }) => (
-  <a
+  <ExternalLink
     href={href}
-    target="_blank"
-    rel="noopener noreferrer"
     className={`inline-flex items-center gap-2 rounded-modal px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
       primary
         ? "bg-slate-900 text-white hover:bg-slate-700"
@@ -119,7 +116,7 @@ const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> =
     <svg className="w-3.5 h-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
     </svg>
-  </a>
+  </ExternalLink>
 );
 
 // ── Info cell ──────────────────────────────────────────────────────────────────
