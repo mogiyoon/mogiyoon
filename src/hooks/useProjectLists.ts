@@ -8,14 +8,17 @@ type PrefetchedLists = {
     preparing: PreparingProjectData[];
 };
 
-const projectListsResource = createCachedResource<PrefetchedLists>(async () => {
-    const [projects, preparing] = await Promise.all([
-        fetchJson<ProjectSummary[]>('/data/projects-list.json'),
-        fetchJson<PreparingProjectData[]>('/data/preparing-projects-list.json'),
-    ]);
+const projectListsResource = createCachedResource<PrefetchedLists>(
+    async () => {
+        const [projects, preparing] = await Promise.all([
+            fetchJson<ProjectSummary[]>('/data/projects-list.json'),
+            fetchJson<PreparingProjectData[]>('/data/preparing-projects-list.json'),
+        ]);
 
-    return { projects, preparing };
-});
+        return { projects, preparing };
+    },
+    { eager: true },
+);
 
 export const useProjectLists = () => {
     const { data, isLoading } = useCachedResource(projectListsResource);
