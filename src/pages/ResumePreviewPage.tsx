@@ -8,6 +8,8 @@ import {
   type ResumeEditableBlock,
   type ResumeProjectEntry,
 } from "../utils/resumePreview";
+import Seo from "../components/Seo";
+import { SEO_COPY, pickSeoLocale } from "../seo-copy";
 
 const linkOrder = ["website", "blog", "github", "linkedin"];
 const projectLinkOrder = ["github", "demo", "notion"];
@@ -148,6 +150,9 @@ const groupBlocksBySection = (blocks: ResumeEditableBlock[], preferredLabels: st
 
 const ResumePreviewPage: React.FC = () => {
   const { t, i18n } = useTranslation("common");
+  const seoLocale = pickSeoLocale(i18n.language);
+  const seo = SEO_COPY[seoLocale].resume;
+  const resumeSection = SEO_COPY[seoLocale].sections.resume;
   const [sourceData, setSourceData] = useState<ResumeBuilderData | null>(null);
   const [draft, setDraft] = useState<ResumeBuilderData | null>(null);
   const [selectedBlockIds, setSelectedBlockIds] = useState<Set<string>>(new Set());
@@ -213,6 +218,12 @@ const ResumePreviewPage: React.FC = () => {
       isMounted = false;
     };
   }, [i18n.language, i18n.resolvedLanguage, t]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      document.dispatchEvent(new Event("render-event"));
+    }
+  }, [isLoading]);
 
   const resetDraft = () => {
     if (!sourceData) return;
@@ -423,8 +434,21 @@ const ResumePreviewPage: React.FC = () => {
 
   const isSubPanelOpen = (subId: string) => !closedSubPanels.has(subId);
 
+  const resumeSeo = (
+    <Seo
+      section={resumeSection}
+      description={seo.description}
+      keywords={seo.keywords}
+      path="/resume-preview"
+      locale={seoLocale}
+      type="profile"
+    />
+  );
+
   if (isLoading) {
     return (
+      <>
+      {resumeSeo}
       <section className="min-h-screen bg-slate-100 px-4 pt-28 pb-12">
         <div className="mx-auto max-w-6xl">
           <div className="h-10 w-56 rounded-2xl bg-slate-200 animate-pulse mb-6" />
@@ -436,11 +460,14 @@ const ResumePreviewPage: React.FC = () => {
           </div>
         </div>
       </section>
+      </>
     );
   }
 
   if (!draft) {
     return (
+      <>
+      {resumeSeo}
       <section className="min-h-screen flex items-center justify-center bg-slate-100 px-4">
         <div className="rounded-paper-edge-lg border border-slate-200 bg-white px-8 py-10 text-center shadow-lg">
           <p className="text-sm text-slate-500 mb-3">{errorMessage || t("resume.downloadFailed")}</p>
@@ -453,6 +480,7 @@ const ResumePreviewPage: React.FC = () => {
           </Link>
         </div>
       </section>
+      </>
     );
   }
 
@@ -544,6 +572,8 @@ const ResumePreviewPage: React.FC = () => {
       .filter(Boolean);
 
   return (
+    <>
+    {resumeSeo}
     <section className="min-h-screen bg-[#dfe5ec] print:bg-white">
       <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 print:px-0 print:pt-0">
         <div data-print-hidden="true" className="mb-5 flex flex-wrap items-center justify-between gap-3">
@@ -1182,6 +1212,7 @@ const ResumePreviewPage: React.FC = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
