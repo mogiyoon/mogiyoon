@@ -1,12 +1,12 @@
 {
   "storytect": {
     "title": "Storytect",
-    "subtitle": "A desktop editor for shaping your own worldbuilding from extracted story items",
-    "description": "A desktop app that lets writers explore an extracted story (standardized JSON) through wiki, relations graph, and timeline views, and design their own worldbuilding model across four layers: Galpi (class), fields, items, and Yeoeum (diagram).\n\nBuilt as a single-binary Tauri + Next.js app, with an automatic Rust ↔ TypeScript type generation pipeline using specta + tauri-specta. 195 of 219 commits were authored together with Claude through custom multi-agent orchestrators.",
+    "subtitle": "A desktop editor that unfolds a story as a codex and lets you weave it into your own worldbuilding",
+    "description": "A desktop app that unfolds an extracted story (standardized JSON) into a codex of wiki, relations graph, and timeline views, and lets writers design their own worldbuilding model across four layers: Galpi (class), fields, items, and Yeoeum (diagram). An MCP server exposes the same codex as a second entry point so an external AI can co-edit it alongside the user.\n\nBuilt as a single-binary Tauri + Next.js app, with an automatic Rust ↔ TypeScript type generation pipeline using specta + tauri-specta. 195 of 219 commits were authored together with Claude through custom multi-agent orchestrators.",
     "overview": {
       "projectType": "Personal Project",
-      "introduction": "Desktop app that lets users browse extracted story data through multiple views and design their own Galpi (categories) and Yeoeum (diagrams) to construct their worldbuilding",
-      "features": "Instant JSON visualization, user-defined OO editor, global TimeBar, blank canvas + Extract-from-text"
+      "introduction": "Desktop app that unfolds extracted story data as a codex, letting users browse it across multiple views and design their own Galpi (categories) and Yeoeum (diagrams) to construct their worldbuilding",
+      "features": "Instant JSON visualization, user-defined OO editor, global TimeBar, blank canvas + Extract-from-text, MCP server for external AI co-editing"
     },
     "summaries": {
       "development": {
@@ -41,8 +41,16 @@
             "caption": "Freeplace infinite canvas + 7 view-mode toggle",
             "0": "Problem: Seeded slots and developer-facing terms (slot / edge / visualization) block the user from defining their own worldbuilding in their own words.",
             "1": "Analyze: The five principles in PLANNING_REVISE direct the tool to mirror the user's vocabulary and starting state directly. The friendly-language label dictionary keeps internal IDs untouched while swapping only the surface terms, lowering the entry barrier without any data model change. Combining the freeplace infinite canvas with the view-mode toggle widens the range over which users can shape the tool itself, and putting Extract-from-text at the MVP entry further softens the blank-state barrier.",
-            "2": "Action: New project seeds were removed so the canvas truly starts blank. The freeplace template introduced an infinite canvas where node positions persist verbatim across sessions, and the schema-aware TimeBar auto-detects newly added temporal fields. A unified view-mode toggle put seven modes (free placement / relations / timeline / table / curve / matrix / tree) above every canvas, and developer-facing labels (slot / edge / visualization) were replaced with user-facing words like Galpi and Yeoeum.",
-            "3": "Result: The 13-view catalog was reabsorbed as 7 modes on the canvas, and friendly-language labels propagated throughout every surface."
+            "2": "Action: New project seeds were removed so the canvas truly starts blank. The freeplace template introduced an infinite canvas where node positions persist verbatim across sessions, and the schema-aware TimeBar auto-detects newly added temporal fields. A unified view-mode toggle put seven modes (free placement / relations / timeline / table / curve / matrix / tree) above every canvas, and developer-facing labels (slot / edge / visualization) were replaced with user-facing words like Galpi and Yeoeum. The sidebar was also redesigned from a flat list into a folder tree that groups Galpi, Yeoeum, and items into folders and exposes an 'only show where this item appears' filter.",
+            "3": "Result: The 13-view catalog was reabsorbed as 7 modes on the canvas, friendly-language labels propagated throughout every surface, and the folder-tree sidebar keeps the codex navigable even as it grows thicker."
+          },
+          "4": {
+            "subtitle": "MCP Server for External-AI Co-editing",
+            "caption": "A second entry point that opens the same codex",
+            "0": "Problem: When the only editing path is the user clicking around the canvas, users who need repetitive edits or operate under API constraints face a steep collaboration cost. There was no route to delegate codex-level operations such as 'split out the side characters' or 'hide characters who never appear' to an external AI.",
+            "1": "Analyze: Storytect already runs on the extraction/rendering separation principle and the manifest.json-anchored standardized JSON folder contract, so layering one more entry point on top of the same data agreement was straightforward. Because the desktop app watches file changes and re-renders instantly, external-AI edits and direct user edits converge naturally on the same screen. MCP avoids becoming a second system precisely because the folder contract is established first.",
+            "2": "Action: Built an MCP server that scopes a single project folder as its workspace. Exposed most of the desktop-app's editing surface — read tools (read_manifest / list_slots / read_slot / search_entities), item & relation editors (create_entity / update_entity / delete_entity / create_relation / update_relation / delete_relation), and Galpi metadata editors (add_slot / remove_slot / update_slot_meta).",
+            "3": "Result: An external AI can read and edit the standardized JSON folder directly. Users can now pass their manuscript straight into Claude Desktop and call MCP tools to edit the codex without paying API costs."
           }
         }
       },
@@ -99,8 +107,9 @@
             "1": "Validated a Tauri + Next.js 16 + Rust desktop app stack with single-binary builds",
             "2": "Built an automatic Rust ↔ TypeScript type generation pipeline using specta + tauri-specta",
             "3": "Designed a standardized JSON interface with the extraction skill that survived two visualization-layer rewrites (Showcase → OO → Blank Canvas)",
-            "4": "Implemented global ⌘Z across 5 parts, the friendly-language label dictionary (Galpi / Yeoeum), and a unified 7-mode view toggle",
-            "5": "Built and operated two custom multi-agent orchestrators across the planning and implementation phases"
+            "4": "Implemented global ⌘Z across 5 parts, the friendly-language label dictionary (Galpi / Yeoeum), a unified 7-mode view toggle, and a folder-tree sidebar",
+            "5": "Stood up an MCP server that exposes the same codex as a second entry point for external-AI co-editing",
+            "6": "Built and operated two custom multi-agent orchestrators across the planning and implementation phases"
           },
           "1": {
             "0": "Retrospective",
@@ -130,6 +139,10 @@
       {
         "name": "📝 Extract from Text",
         "description": "Starts from a blank canvas. Sends the manuscript to Claude, extracts items automatically, and lays them out on the canvas"
+      },
+      {
+        "name": "🔌 MCP Server",
+        "description": "A second entry point that exposes the standardized JSON folder to an external AI — Claude Desktop reads and edits the same codex side by side"
       }
     ],
     "developmentProcess": [
@@ -139,7 +152,7 @@
       },
       {
         "title": "Feature Implementation",
-        "content": "Built the 13-view showcase on the Tauri + Next.js stack, evolved into the OO 4-layer model with class_meta, then redesigned around a blank canvas with freeplace + a 7-mode view toggle + global ⌘Z split across 5 parts"
+        "content": "Built the 13-view showcase on the Tauri + Next.js stack, evolved into the OO 4-layer model with class_meta, then redesigned around a blank canvas with freeplace + a 7-mode view toggle + global ⌘Z split across 5 parts + a folder-tree sidebar, and added an MCP server entry point on top of the same standardized JSON folder for external-AI co-editing"
       },
       {
         "title": "AI Collaboration",

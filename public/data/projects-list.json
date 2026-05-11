@@ -5,7 +5,7 @@
     "subtitle": "storytect.subtitle",
     "projectType": "storytect.overview.projectType",
     "screenshots": [{ "src": "/images/storytect/Icon.svg", "alt": "Storytect Thumbnail" }],
-    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "vis-timeline"],
+    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "MCP"],
     "claudeInfo": {
       "method": "orchestrator",
       "summary": "storytect.claudeInfo.summary"
