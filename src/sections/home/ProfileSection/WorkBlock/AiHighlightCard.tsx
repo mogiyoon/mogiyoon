@@ -1,0 +1,141 @@
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { formatIndex } from '../../../../utils/formatIndex';
+import RotatingChevron from '../../../../components/primitives/RotatingChevron';
+import { itemVariants } from '../animations';
+import type { AiHighlightItem } from '../types';
+
+/**
+ * AI 활용 하이라이트 카드 — Context / Approach / Verification / Impact 4단계 타임라인.
+ * 두 단계 토글: 본문 펼침 → details (4-step timeline) 펼침.
+ */
+const AiHighlightCard: React.FC<{
+  aiHighlight: AiHighlightItem;
+  index: number;
+  isOpen: boolean;
+  isDetailOpen: boolean;
+  onToggle: () => void;
+  onDetailToggle: () => void;
+  labels: {
+    context: string;
+    approach: string;
+    verification: string;
+    impact: string;
+    showDetails: string;
+    hideDetails: string;
+  };
+}> = ({ aiHighlight, index, isOpen, isDetailOpen, onToggle, onDetailToggle, labels }) => (
+  <motion.div
+    variants={itemVariants}
+    className="rounded-modal border border-line bg-surface overflow-hidden"
+  >
+    {/* Title row */}
+    <button
+      type="button"
+      onClick={onToggle}
+      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-surface-subtle transition-colors duration-150"
+    >
+      <div className="flex items-center gap-3 min-w-0">
+        <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          {formatIndex(index, 'AI·')}
+        </span>
+        <p className="text-sm font-semibold text-content truncate">{aiHighlight.title}</p>
+      </div>
+      <div className="shrink-0 ml-3 text-content-muted">
+        <RotatingChevron isRotated={isOpen} />
+      </div>
+    </button>
+
+    {/* Expanded: summary + details toggle */}
+    <AnimatePresence initial={false}>
+      {isOpen && (
+        <motion.div
+          key="body"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.22, ease: 'easeInOut' }}
+          style={{ overflow: 'hidden' }}
+        >
+          <div className="px-5 pt-2 pb-5">
+            <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">
+              {aiHighlight.summary}
+            </p>
+
+            {/* Details toggle */}
+            <button
+              type="button"
+              onClick={onDetailToggle}
+              className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-content-muted hover:text-content transition-colors duration-150"
+            >
+              <span>{isDetailOpen ? labels.hideDetails : labels.showDetails}</span>
+              <RotatingChevron isRotated={isDetailOpen} size="xs" strokeWidth={2.5} />
+            </button>
+
+            {/* Details: 4-step timeline */}
+            <AnimatePresence initial={false}>
+              {isDetailOpen && (
+                <motion.div
+                  key="detail"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.22, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  <div className="relative pl-6 mt-5">
+                    <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
+
+                    {/* Context */}
+                    <div className="relative pb-6">
+                      <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
+                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
+                        {labels.context}
+                      </span>
+                      <p className="text-sm text-content-muted leading-relaxed whitespace-pre-line">{aiHighlight.context}</p>
+                    </div>
+
+                    {/* Approach */}
+                    <div className="relative pb-6">
+                      <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-500" />
+                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
+                        {labels.approach}
+                      </span>
+                      <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
+                        <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{aiHighlight.approach}</p>
+                      </div>
+                    </div>
+
+                    {/* Verification */}
+                    <div className="relative pb-6">
+                      <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-700" />
+                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
+                        {labels.verification}
+                      </span>
+                      <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
+                        <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{aiHighlight.verification}</p>
+                      </div>
+                    </div>
+
+                    {/* Impact */}
+                    <div className="relative">
+                      <div className="absolute -left-[25px] top-hairline w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
+                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
+                        {labels.impact}
+                      </span>
+                      <div className="rounded-card bg-slate-900 px-4 py-3">
+                        <p className="text-sm font-semibold text-white leading-relaxed whitespace-pre-line">{aiHighlight.impact}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </motion.div>
+);
+
+export default AiHighlightCard;

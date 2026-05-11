@@ -1,260 +1,25 @@
 import React from 'react';
-import type { AiDevKitFlowLoop, AiDevKitStepDetail } from './types';
-
-interface FlowStep {
-  // index is zero-based and always points back to the original steps array.
-  step: string;
-  index: number;
-  detail?: AiDevKitStepDetail;
-}
-
-interface FlowDiagramProps {
-  idBase: string;
-  steps: string[];
-  loops?: AiDevKitFlowLoop[];
-  stepDetails?: AiDevKitStepDetail[];
-}
-
-type FlowBlock =
-  // Desktop layout is built from top-level blocks: normal step cards or one loop cluster.
-  | {
-      type: 'step';
-      width: number;
-      stepItem: FlowStep;
-    }
-  | {
-      type: 'loop';
-      width: number;
-      stepItem: null;
-    };
-
-const STEP_WIDTH = 190;
-const STEP_HEIGHT = 150;
-const LOOP_CARD_WIDTH = 190;
-const LOOP_CARD_HEIGHT = 136;
-const LOOP_BLOCK_WIDTH = 620;
-const BLOCK_GAP = 52;
-const OUTER_ARROW_PADDING = 24;
-const LOOP_ARROW_PADDING = 112;
-const MIN_ARROW_SEGMENT = 18;
-const readableTextStyle: React.CSSProperties = {
-  wordBreak: 'keep-all',
-  overflowWrap: 'anywhere',
-};
-
-// Convert plain step labels into objects that remember their original step number.
-const toStepItems = (
-  steps: string[],
-  offset = 0,
-  stepDetails: AiDevKitStepDetail[] = []
-): FlowStep[] =>
-  steps.map((step, index) => ({
-    step,
-    index: index + offset,
-    detail: stepDetails[index + offset],
-  }));
-
-const sanitizeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, '-');
-
-// Draw a straight arrow between two points, then trim both ends so the arrow sits in the gap.
-const getArrowPath = (
-  from: { x: number; y: number },
-  to: { x: number; y: number },
-  startPadding = 46,
-  endPadding = 46
-) => {
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  const length = Math.sqrt(dx * dx + dy * dy) || 1;
-  const ux = dx / length;
-  const uy = dy / length;
-  const maxPadding = Math.max(0, (length - MIN_ARROW_SEGMENT) / 2);
-  const safeStartPadding = Math.min(startPadding, maxPadding);
-  const safeEndPadding = Math.min(endPadding, maxPadding);
-
-  return `M ${from.x + ux * safeStartPadding} ${
-    from.y + uy * safeStartPadding
-  } L ${to.x - ux * safeEndPadding} ${to.y - uy * safeEndPadding}`;
-};
-
-// Hand-tuned positions keep common loop sizes readable without pulling in a graph layout library.
-const getLoopNodePositions = (loopSize: number, loopBlockHeight: number) => {
-  if (loopSize === 2) {
-    return [
-      { left: 70, top: 147 },
-      { left: 360, top: 147 },
-    ];
-  }
-
-  if (loopSize === 3) {
-    return [
-      { left: 45, top: 80 },
-      { left: 385, top: 80 },
-      { left: 215, top: 274 },
-    ];
-  }
-
-  if (loopSize === 4) {
-    return [
-      { left: 30, top: 222 },
-      { left: 215, top: 26 },
-      { left: 400, top: 222 },
-      { left: 215, top: 418 },
-    ];
-  }
-
-  const centerX = LOOP_BLOCK_WIDTH / 2 - LOOP_CARD_WIDTH / 2;
-  const centerY = loopBlockHeight / 2 - LOOP_CARD_HEIGHT / 2;
-  const radiusX = 205;
-  const radiusY = 180;
-
-  return Array.from({ length: loopSize }, (_, index) => {
-    const angle = Math.PI + (index / loopSize) * Math.PI * 2;
-
-    return {
-      left: centerX + Math.cos(angle) * radiusX,
-      top: centerY + Math.sin(angle) * radiusY,
-    };
-  });
-};
-
-// Mobile uses the same step semantics, but renders the linear flow vertically.
-const DownArrow: React.FC = () => (
-  <div className="flex items-center justify-center gap-1 text-accent-500">
-    <div className="h-4 w-px bg-line" />
-    <svg
-      className="h-3.5 w-3.5 rotate-90"
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M3 8H13M13 8L9 4M13 8L9 12"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-    <div className="h-4 w-px bg-line" />
-  </div>
-);
-
-// Main-line cards are shared by desktop and mobile.
-const FlowStepCard: React.FC<{
-  item: FlowStep;
-  highlighted?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}> = ({ item, highlighted = false, className = '', style }) => (
-  <div
-    className={`${className} flex min-h-[132px] flex-col items-center justify-center rounded-card px-4 py-3 text-center ${
-      highlighted
-        ? 'border-2 border-accent-100 bg-accent-50'
-        : 'border border-line/70 bg-surface'
-    }`}
-    style={style}
-  >
-    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">
-      Step {item.index + 1}
-    </span>
-    {item.detail?.actor && (
-      <span
-        className="mt-1 max-w-full rounded-full bg-surface px-2 py-0.5 text-[10px] font-bold text-accent-700"
-        style={readableTextStyle}
-      >
-        {item.detail.actor}
-      </span>
-    )}
-    <span className="mt-1 text-sm font-bold text-content" style={readableTextStyle}>
-      {item.step}
-    </span>
-    {item.detail?.action && (
-      <span
-        className="mt-1 text-[11px] font-medium leading-snug text-content-secondary"
-        style={readableTextStyle}
-      >
-        {item.detail.action}
-      </span>
-    )}
-  </div>
-);
-
-// Loop cards are smaller because several of them need to fit inside one cluster.
-const LoopStepCard: React.FC<{
-  item: FlowStep;
-  className?: string;
-  style?: React.CSSProperties;
-}> = ({ item, className = '', style }) => (
-  <div
-    className={`${className} flex flex-col items-center justify-center rounded-card border-2 border-accent-100 bg-accent-50 px-3 py-2.5 text-center`}
-    style={style}
-  >
-    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">
-      Step {item.index + 1}
-    </span>
-    {item.detail?.actor && (
-      <span
-        className="mt-0.5 max-w-full rounded-full bg-surface px-1.5 py-0.5 text-[9px] font-bold text-accent-700"
-        style={readableTextStyle}
-      >
-        {item.detail.actor}
-      </span>
-    )}
-    <span
-      className="mt-0.5 text-xs font-bold leading-tight text-content"
-      style={readableTextStyle}
-    >
-      {item.step}
-    </span>
-    {item.detail?.action && (
-      <span
-        className="mt-0.5 text-[10px] font-medium leading-tight text-content-secondary"
-        style={readableTextStyle}
-      >
-        {item.detail.action}
-      </span>
-    )}
-  </div>
-);
-
-// Keep loop explanations close to the diagram without coupling them to the SVG layout.
-const LoopLabels: React.FC<{ loops: AiDevKitFlowLoop[] }> = ({ loops }) => {
-  const labelledLoops = loops.filter((loop) => loop.label);
-
-  if (labelledLoops.length === 0) return null;
-
-  return (
-    <div className="mt-4 space-y-2">
-      {labelledLoops.map((loop, index) => (
-        <p
-          key={`${loop.fromStep}-${loop.toStep}-${index}`}
-          className="flex items-start gap-2 text-xs font-medium leading-relaxed text-content-secondary"
-        >
-          <span className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent-600 text-surface">
-            <svg
-              className="h-2.5 w-2.5"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M4.5 5.5H2.5V3.5M2.75 5.25C3.7 3.8 5.23 3 7 3C9.76 3 12 5.24 12 8M11.5 10.5H13.5V12.5M13.25 10.75C12.3 12.2 10.77 13 9 13C6.24 13 4 10.76 4 8"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-          {loop.label}
-        </p>
-      ))}
-    </div>
-  );
-};
+import {
+  BLOCK_GAP,
+  LOOP_ARROW_PADDING,
+  LOOP_BLOCK_WIDTH,
+  LOOP_CARD_HEIGHT,
+  LOOP_CARD_WIDTH,
+  OUTER_ARROW_PADDING,
+  STEP_HEIGHT,
+  STEP_WIDTH,
+} from './constants';
+import {
+  getArrowPath,
+  getLoopNodePositions,
+  sanitizeId,
+  toStepItems,
+} from './layout';
+import type { FlowBlock, FlowDiagramProps } from './types';
+import DownArrow from './DownArrow';
+import FlowStepCard from './FlowStepCard';
+import LoopStepCard from './LoopStepCard';
+import LoopLabels from './LoopLabels';
 
 const FlowDiagram: React.FC<FlowDiagramProps> = ({
   idBase,
@@ -268,7 +33,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
       loop.fromStep >= 1 &&
       loop.fromStep <= steps.length &&
       loop.toStep >= 1 &&
-      loop.toStep <= steps.length
+      loop.toStep <= steps.length,
   );
   // The first backward edge defines the visible circular loop cluster.
   const primaryLoop = validLoops.find((loop) => loop.fromStep > loop.toStep);
@@ -300,14 +65,11 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
   const loopStepIndexes = new Set<number>(
     hasCircularLoop
       ? loopStepItems.map(({ index }) => index)
-      : validLoops.flatMap((loop) => [loop.fromStep - 1, loop.toStep - 1])
+      : validLoops.flatMap((loop) => [loop.fromStep - 1, loop.toStep - 1]),
   );
   const loopBlockHeight = loopStepItems.length >= 4 ? 580 : 430;
   const flowHeight = hasCircularLoop ? loopBlockHeight : STEP_HEIGHT;
-  const flowCenter = {
-    x: 0,
-    y: flowHeight / 2,
-  };
+  const flowCenter = { x: 0, y: flowHeight / 2 };
   // The desktop flow treats the loop as one block between pre-loop and post-loop steps.
   const flowBlocks: FlowBlock[] = hasCircularLoop
     ? [
@@ -342,25 +104,18 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
   }, []);
   const totalWidth =
     flowBlocks.length > 0
-      ? blockLefts[blockLefts.length - 1] +
-        flowBlocks[flowBlocks.length - 1].width
+      ? blockLefts[blockLefts.length - 1] + flowBlocks[flowBlocks.length - 1].width
       : 0;
   // If there is a loop block, all loop-card coordinates are offset by this left position.
   const loopBlockIndex = flowBlocks.findIndex((block) => block.type === 'loop');
   const loopBlockLeft = loopBlockIndex >= 0 ? blockLefts[loopBlockIndex] : 0;
-  const loopNodePositions = getLoopNodePositions(
-    loopStepItems.length,
-    loopBlockHeight
-  );
+  const loopNodePositions = getLoopNodePositions(loopStepItems.length, loopBlockHeight);
   const arrowMarkerId = sanitizeId(`flow-arrow-${idBase}`);
   const innerArrowMarkerId = sanitizeId(`flow-inner-arrow-${idBase}`);
   const stepTop = (flowHeight - STEP_HEIGHT) / 2;
   // Local loop-node positions become absolute SVG coordinates when includeBlockOffset is true.
   const loopNodeCenter = (localIndex: number, includeBlockOffset = true) => {
-    const position = loopNodePositions[localIndex] ?? loopNodePositions[0] ?? {
-      left: 0,
-      top: 0,
-    };
+    const position = loopNodePositions[localIndex] ?? loopNodePositions[0] ?? { left: 0, top: 0 };
     const offsetX = includeBlockOffset ? loopBlockLeft : 0;
 
     return {
@@ -371,10 +126,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
   // External arrows should live in the blank gap between cards.
   // Use loop-card edges here, not loop-card centers, so arrowheads do not hide under cards.
   const loopNodeBox = (localIndex: number, includeBlockOffset = true) => {
-    const position = loopNodePositions[localIndex] ?? loopNodePositions[0] ?? {
-      left: 0,
-      top: 0,
-    };
+    const position = loopNodePositions[localIndex] ?? loopNodePositions[0] ?? { left: 0, top: 0 };
     const offsetX = includeBlockOffset ? loopBlockLeft : 0;
     const left = offsetX + position.left;
     const top = position.top;
@@ -392,7 +144,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
   // For 2 -> 3 -> 4 -> 2 followed by 5, the outgoing edge starts at step 3 and points to 5.
   const loopExitLocalIndex = Math.max(
     0,
-    Math.min(loopStepItems.length - 1, loopEndIndex - loopStartIndex - 1)
+    Math.min(loopStepItems.length - 1, loopEndIndex - loopStartIndex - 1),
   );
 
   return (
@@ -402,10 +154,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
         <div className="overflow-x-auto pb-2">
           <div
             className="relative mx-auto min-w-max"
-            style={{
-              width: `${totalWidth}px`,
-              height: `${flowHeight}px`,
-            }}
+            style={{ width: `${totalWidth}px`, height: `${flowHeight}px` }}
           >
             <svg
               className="pointer-events-none absolute left-0 top-0 z-0 text-accent-500"
@@ -452,34 +201,17 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
                 const exitLoopBox = loopNodeBox(loopExitLocalIndex);
                 const from =
                   block.type === 'loop'
-                    ? {
-                        x: exitLoopBox.right,
-                        y: exitLoopBox.centerY,
-                      }
-                    : {
-                        x: currentLeft + block.width,
-                        y: flowCenter.y,
-                      };
+                    ? { x: exitLoopBox.right, y: exitLoopBox.centerY }
+                    : { x: currentLeft + block.width, y: flowCenter.y };
                 const to =
                   nextBlock.type === 'loop'
-                    ? {
-                        x: entryLoopBox.left,
-                        y: entryLoopBox.centerY,
-                      }
-                    : {
-                        x: nextLeft,
-                        y: flowCenter.y,
-                      };
+                    ? { x: entryLoopBox.left, y: entryLoopBox.centerY }
+                    : { x: nextLeft, y: flowCenter.y };
 
                 return (
                   <path
                     key={`${idBase}-block-arrow-${blockIndex}`}
-                    d={getArrowPath(
-                      from,
-                      to,
-                      OUTER_ARROW_PADDING,
-                      OUTER_ARROW_PADDING
-                    )}
+                    d={getArrowPath(from, to, OUTER_ARROW_PADDING, OUTER_ARROW_PADDING)}
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
@@ -501,7 +233,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
                         loopNodeCenter(localIndex),
                         loopNodeCenter(nextIndex),
                         LOOP_ARROW_PADDING,
-                        LOOP_ARROW_PADDING
+                        LOOP_ARROW_PADDING,
                       )}
                       stroke="currentColor"
                       strokeWidth="1.6"
@@ -571,10 +303,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
             <div className="overflow-x-auto pb-1">
               <div
                 className="relative mx-auto"
-                style={{
-                  width: `${LOOP_BLOCK_WIDTH}px`,
-                  height: `${loopBlockHeight}px`,
-                }}
+                style={{ width: `${LOOP_BLOCK_WIDTH}px`, height: `${loopBlockHeight}px` }}
               >
                 <svg
                   className="pointer-events-none absolute left-0 top-0 z-0 text-accent-500"
@@ -608,7 +337,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
                           loopNodeCenter(localIndex, false),
                           loopNodeCenter(nextIndex, false),
                           LOOP_ARROW_PADDING,
-                          LOOP_ARROW_PADDING
+                          LOOP_ARROW_PADDING,
                         )}
                         stroke="currentColor"
                         strokeWidth="1.6"
@@ -653,10 +382,7 @@ const FlowDiagram: React.FC<FlowDiagramProps> = ({
         ) : (
           linearSteps.map((item, index) => (
             <React.Fragment key={`${idBase}-mobile-linear-${item.index}`}>
-              <FlowStepCard
-                item={item}
-                highlighted={loopStepIndexes.has(item.index)}
-              />
+              <FlowStepCard item={item} highlighted={loopStepIndexes.has(item.index)} />
               {index < linearSteps.length - 1 && <DownArrow />}
             </React.Fragment>
           ))
