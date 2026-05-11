@@ -7,8 +7,8 @@
 추출 완료된 프리미티브:
 
 - Hooks: `useDisclosure`, `useBodyScrollLock`, `useEscapeKey`, `useClickOutside`, `useCopyToClipboardWithToast`
-- Components: `Chip`, `ModalShell`, `FlippableCard` (모두 `src/components/primitives/`)
-- Utils: `placeholders.ts` (`PLACEHOLDER_*` 상수), `imageFallback.ts` (`createImageFallbackHandler`)
+- Components: `Chip`, `ModalShell`, `FlippableCard`, `RotatingChevron`, `BulletList` (모두 `src/components/primitives/`)
+- Utils: `placeholders.ts` (`PLACEHOLDER_*` 상수), `imageFallback.ts` (`createImageFallbackHandler`), `formatIndex.ts` (`formatIndex`)
 - Tokens (design-tokens.ts 추가분): `easings.{projectCard, toast, standard}`, `TOAST_VISIBLE_MS`
 
 신규 프리미티브 제안은 동일/유사 패턴이 2곳 이상에서 필요해질 때만 한다. Deferred 목록 (D-001 ~ D-013) 에 있는 항목은 오케스트레이터가 후속 처리하므로 직접 추출하지 말 것.

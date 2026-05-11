@@ -15,6 +15,9 @@
 | 작은 라벨 / 태그 / 배지 (pill) | `Chip` | `src/components/primitives/Chip.tsx` |
 | 모달 셸 (백드롭 + 패널 + Esc + 스크롤락) | `ModalShell` | `src/components/primitives/ModalShell.tsx` |
 | 카드 앞면 ↔ 뒷면 3D flip | `FlippableCard` | `src/components/primitives/FlippableCard.tsx` |
+| 아코디언/토글 chevron 아이콘 (열림 시 180도 회전) | `RotatingChevron` | `src/components/primitives/RotatingChevron.tsx` |
+| 빈 항목 자동 필터 disc bullet 리스트 | `BulletList` | `src/components/primitives/BulletList.tsx` |
+| 1-based 인덱스를 "01" / "AI·01" 같은 0-padded 문자열로 | `formatIndex` | `src/utils/formatIndex.ts` |
 | 펼침 / 접힘 boolean 상태 (`isOpen / open / close / toggle`) | `useDisclosure` | `src/hooks/useDisclosure.ts` |
 | 모달 / 오버레이가 열린 동안 body 스크롤 잠그기 | `useBodyScrollLock` | `src/hooks/useBodyScrollLock.ts` |
 | Esc 키로 닫기 | `useEscapeKey` | `src/hooks/useEscapeKey.ts` |
@@ -131,6 +134,75 @@ import FlippableCard from '@/components/primitives/FlippableCard';
 - aspect / sizing 을 primitive 안에 넣으려 함 → 그 책임은 호출자에게 있다. `className` (외곽 wrapper) 으로 aspect-square / aspect-[3/4] 등을 지정
 - flip 트리거 (hover vs click vs auto rotate) 를 primitive 가 결정하게 만들지 말 것 → `isFlipped` boolean 만 받고, 호출자가 driver 결정
 - duration 은 700ms 로 하드코딩되어 있음. 다른 값이 필요하면 `innerClassName` 으로 override (예: `duration-500`) 가능하지만, 디자인 시스템상 700ms 가 표준임
+
+---
+
+### `RotatingChevron` (`src/components/primitives/RotatingChevron.tsx`)
+
+**언제 쓰나**
+
+- 아코디언 / 토글 버튼의 펼침-접힘 표시용 아래쪽 chevron 아이콘
+- `isRotated` boolean 으로 180도 회전 트리거 (framer-motion `motion.svg`)
+- ProfileSection / WorkExperienceCard / WorkSection 등 7군데 이상에서 사용 중
+
+**기본 사용법**
+
+```tsx
+import RotatingChevron from '@/components/primitives/RotatingChevron';
+
+<div className="text-content-muted">
+  <RotatingChevron isRotated={isOpen} />
+</div>
+
+// 사이즈 / 색상 / 속도 커스터마이즈
+<RotatingChevron
+  isRotated={isOpen}
+  size="md"            // xs(w-3) / sm(default w-3.5) / md(w-4) / lg(w-5)
+  duration={0.2}       // 회전 애니메이션 (default 0.18)
+  strokeWidth={2.5}    // svg 굵기 (default 2)
+  className="text-accent-500"
+/>
+```
+
+**제공되는 동작**
+
+- 색상은 부모의 `text-*` 클래스를 `currentColor` 로 상속받음. svg 에 직접 색을 지정할 필요 없음
+- 사이즈는 4단계 토큰 (`xs` / `sm` / `md` / `lg`) 으로 제공
+- `motion.svg` 로 회전 — 반드시 framer-motion 컨텍스트 필요 (앱 전역에 이미 깔려 있음)
+
+**자주 하는 실수**
+
+- 인라인으로 `<motion.svg animate={{ rotate: isOpen ? 180 : 0 }}>...path d="M19 9l-7 7-7-7"...` 작성 → RotatingChevron 을 먼저 검토할 것
+- 외곽 `<motion.div>` 로 한 번 더 감싸기 → 이미 motion 컴포넌트이므로 plain `<div>` 로 감싸도 됨
+
+---
+
+### `BulletList` (`src/components/primitives/BulletList.tsx`)
+
+**언제 쓰나**
+
+- 빈 문자열 / null / undefined 가 섞일 수 있는 배열을 disc bullet 리스트로 표시할 때
+- AwardCard / WorkExperienceCard / WorkSection 의 동일 패턴 `items?.filter(Boolean).length ? <ul>... : null` 을 추출
+
+**기본 사용법**
+
+```tsx
+import BulletList from '@/components/primitives/BulletList';
+
+<BulletList items={description} tone="meta" className="mt-3" />
+<BulletList items={achievements} tone="secondary" />
+```
+
+**제공되는 동작**
+
+- 모든 아이템이 빈 값이면 아예 렌더링하지 않음 (`null` 반환)
+- `tone`: `meta` (default — `text-content-meta`) / `secondary` (`text-content-secondary`) / `muted` (`text-content-muted`)
+- `className` 으로 외부 마진/패딩 추가 가능 (예: `"mt-3"`)
+
+**자주 하는 실수**
+
+- 호출 측에서 다시 `filter(Boolean)` 을 돌림 → primitive 가 내부에서 처리하므로 중복
+- 빈 배열일 때 호출 측에서 또 조건 분기 → primitive 가 빈 결과면 `null` 반환하므로 그냥 호출하면 됨
 
 ---
 
@@ -341,6 +413,33 @@ import { PLACEHOLDER_NOT_FOUND_300x300 } from '@/utils/placeholders';
 
 - `https://placehold.co/...` URL 을 코드에 직접 박음 → 동일 dimension 의 상수가 이미 있을 가능성이 높다. 새 dimension 이 필요하면 이 파일에 명명된 상수를 추가
 - 다른 placeholder 호스트 (예: via.placeholder.com, dummyimage.com) 사용 → `placehold.co` 로 통일
+
+---
+
+### `formatIndex` (`src/utils/formatIndex.ts`)
+
+**언제 쓰나**
+
+- 0-based 인덱스를 `"01"`, `"02"`, ... 처럼 사람이 읽기 좋은 1-based 0-padded 문자열로 변환할 때
+- ProfileSection / AiDevKitModal 의 DetailItems / SkillGroups 등 5군데 이상에서 사용 중
+
+**기본 사용법**
+
+```ts
+import { formatIndex } from '@/utils/formatIndex';
+
+formatIndex(0)              // "01"
+formatIndex(11)             // "12"
+formatIndex(99)             // "100" (truncate 하지 않음)
+formatIndex(0, 'AI·')       // "AI·01"
+formatIndex(4, '#')         // "#05"
+formatIndex(0, undefined, 3) // "001" (3자리 padding)
+```
+
+**자주 하는 실수**
+
+- 인라인으로 `String(index + 1).padStart(2, '0')` 작성 → `formatIndex(index)` 로 교체
+- prefix 를 직접 concat (`'AI·' + String(...).padStart(...)`) → 두 번째 인자로 넘기면 됨
 
 ---
 

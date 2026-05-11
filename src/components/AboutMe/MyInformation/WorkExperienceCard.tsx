@@ -1,5 +1,6 @@
 import type React from "react";
 import { Chip } from "../../primitives/Chip";
+import BulletList from "../../primitives/BulletList";
 
 export const WorkExperienceCard: React.FC<{
   company: React.ReactNode;
@@ -72,11 +73,7 @@ export const WorkExperienceCard: React.FC<{
           {achievements?.filter(Boolean).length ? (
             <div className="mt-2 rounded-modal border border-line/70 bg-surface p-5">
               <p className="text-sm font-bold text-content">Key Achievements</p>
-              <ul className="mt-3 list-disc pl-5 text-sm text-content-secondary">
-                {achievements.filter(Boolean).map((a, idx) => (
-                  <li key={idx}>{a}</li>
-                ))}
-              </ul>
+              <BulletList items={achievements} tone="secondary" className="mt-3" />
             </div>
           ) : null}
 
