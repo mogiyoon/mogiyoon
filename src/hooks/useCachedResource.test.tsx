@@ -43,4 +43,31 @@ describe('useCachedResource', () => {
     await waitFor(() => expect(first.result.current.data).toEqual({ value: 7 }));
     await waitFor(() => expect(second.result.current.data).toEqual({ value: 7 }));
   });
+
+  it('does NOT call loader on creation when eager option is false / omitted (lazy)', () => {
+    const loader = vi.fn(async () => ({ value: 1 }));
+    createCachedResource(loader);
+    expect(loader).not.toHaveBeenCalled();
+  });
+
+  it('calls loader immediately on creation when eager: true (prefetch)', () => {
+    const loader = vi.fn(async () => ({ value: 1 }));
+    createCachedResource(loader, { eager: true });
+    expect(loader).toHaveBeenCalledTimes(1);
+  });
+
+  it('eager-loaded resource is cached and reused by useCachedResource without re-fetch', async () => {
+    const loader = vi.fn(async () => ({ value: 99 }));
+    const resource = createCachedResource(loader, { eager: true });
+
+    // Wait for eager load to complete.
+    await waitFor(() => expect(resource.getCached()).toEqual({ value: 99 }));
+
+    const hook = renderHook(() => useCachedResource(resource));
+
+    // Already cached → no loading flash, data available immediately.
+    expect(hook.result.current.isLoading).toBe(false);
+    expect(hook.result.current.data).toEqual({ value: 99 });
+    expect(loader).toHaveBeenCalledTimes(1);
+  });
 });
