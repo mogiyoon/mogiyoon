@@ -1,9 +1,49 @@
 [
   {
+    "id": "storytect",
+    "title": "storytect.title",
+    "subtitle": "storytect.subtitle",
+    "projectType": "storytect.overview.projectType",
+    "period": "2026.05",
+    "screenshots": [{ "src": "/images/storytect/Icon.svg", "alt": "Storytect Thumbnail" }],
+    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "MCP"],
+    "claudeInfo": {
+      "method": "orchestrator",
+      "summary": "storytect.claudeInfo.summary"
+    }
+  },
+  {
+    "id": "react-stable-timeline",
+    "title": "react-stable-timeline.title",
+    "subtitle": "react-stable-timeline.subtitle",
+    "projectType": "react-stable-timeline.overview.projectType",
+    "period": "2026.05",
+    "screenshots": [{ "src": "/images/reactStableTimeline/Icon.svg", "alt": "react-stable-timeline Thumbnail" }],
+    "techStack": ["React", "TypeScript", "Canvas2D", "tsup", "npm Package"],
+    "claudeInfo": {
+      "method": "direct",
+      "summary": "react-stable-timeline.claudeInfo.summary"
+    }
+  },
+  {
+    "id": "boj-snippets",
+    "title": "boj-snippets.title",
+    "subtitle": "boj-snippets.subtitle",
+    "projectType": "boj-snippets.overview.projectType",
+    "period": "2026.04",
+    "screenshots": [{ "src": "/images/bojSnippets/Icon.png", "alt": "BOJ Snippets Thumbnail" }],
+    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"],
+    "claudeInfo": {
+      "method": "direct",
+      "summary": "boj-snippets.claudeInfo.summary"
+    }
+  },
+  {
     "id": "seoul-meari",
     "title": "seoul-meari.title",
     "subtitle": "seoul-meari.subtitle",
     "projectType": "seoul-meari.overview.projectType",
+    "period": "2025.08 ~ 2025.09",
     "screenshots": [{ "src": "/images/seoulMeari/Icon.png", "alt": "seoul-meari Thumbnail" }],
     "techStack": ["React", "Nest.js", "FastAPI", "Unity", "AR/VR", "AWS", "PostgreSQL"],
     "stickerText": "1",
@@ -14,14 +54,16 @@
     "title": "recho.title",
     "subtitle": "recho.subtitle",
     "projectType": "recho.overview.projectType",
+    "period": "2025.06 ~ 2025.07",
     "screenshots": [{ "src": "/images/recho/Icon.svg", "alt": "Recho Thumbnail" }],
     "techStack": ["Nest.js", "React", "React Native", "ffmpeg", "AWS", "PostgreSQL"]
-  },  
+  },
   {
     "id": "test-maker",
     "title": "test-maker.title",
     "subtitle": "test-maker.subtitle",
     "projectType": "test-maker.overview.projectType",
+    "period": "2024.11 ~ 2025.02",
     "screenshots": [{ "src": "/images/testMaker/Icon.png", "alt": "Test Maker Thumbnail" }],
     "techStack": ["React Native", "Google Vision API", "Redux"]
   },
@@ -30,6 +72,7 @@
     "title": "mrnsg.title",
     "subtitle": "mrnsg.subtitle",
     "projectType": "mrnsg.overview.projectType",
+    "period": "2025.01",
     "screenshots": [{ "src": "/images/mrnsg/Icon.svg", "alt": "mogiyoon-react-native-simple-grid Thumbnail" }],
     "techStack": ["TypeScript"]
   },
@@ -38,19 +81,8 @@
     "title": "teacher-test.title",
     "subtitle": "teacher-test.subtitle",
     "projectType": "teacher-test.overview.projectType",
+    "period": "2024.01 ~ 2024.02",
     "screenshots": [{ "src": "/images/teacherTest/Icon.png", "alt": "Tea Time Thumbnail" }],
     "techStack": ["Flutter", "Provider", "Material Design", "Firebase"]
-  },
-  {
-    "id": "boj-snippets",
-    "title": "boj-snippets.title",
-    "subtitle": "boj-snippets.subtitle",
-    "projectType": "boj-snippets.overview.projectType",
-    "screenshots": [{ "src": "/images/bojSnippets/Icon.png", "alt": "BOJ Snippets Thumbnail" }],
-    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"],
-    "claudeInfo": {
-      "method": "direct",
-      "summary": "boj-snippets.claudeInfo.summary"
-    }
   }
 ]

@@ -47,6 +47,7 @@ export interface ProjectSummary {
     title: string;
     subtitle: string;
     projectType: string;
+    period?: string;
     screenshots: { src: string; alt: string; }[];
     techStack: string[];
     stickerText?: string;

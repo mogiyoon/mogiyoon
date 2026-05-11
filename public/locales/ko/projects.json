@@ -679,5 +679,19 @@
     "overview": {
       "projectType": "개인 프로젝트"
     }
+  },
+  "react-stable-timeline": {
+    "title": "@mogiyoon/react-stable-timeline",
+    "subtitle": "팬·줌 중에도 사건 카드의 행이 고정되는 React 타임라인 라이브러리",
+    "overview": {
+      "projectType": "개인 프로젝트"
+    }
+  },
+  "storytect": {
+    "title": "Storytect",
+    "subtitle": "이야기를 도감처럼 펼쳐 자기만의 세계관으로 엮는 데스크톱 에디터",
+    "overview": {
+      "projectType": "개인 프로젝트"
+    }
   }
 }
