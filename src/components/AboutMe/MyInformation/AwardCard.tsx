@@ -1,4 +1,5 @@
 import type React from "react";
+import BulletList from "../../primitives/BulletList";
 
 const medalByRank: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
@@ -26,13 +27,7 @@ export const AwardCard: React.FC<{
           <h3 className="text-base font-bold text-content leading-snug">{title}</h3>
           <p className="mt-1 text-sm text-content-tertiary">{period}</p>
 
-          {description?.filter(Boolean).length ? (
-            <ul className="mt-3 list-disc pl-5 text-sm text-content-meta">
-              {description.filter(Boolean).map((d, idx) => (
-                <li key={idx}>{d}</li>
-              ))}
-            </ul>
-          ) : null}
+          <BulletList items={description} tone="meta" className="mt-3" />
         </div>
       </div>
     </div>

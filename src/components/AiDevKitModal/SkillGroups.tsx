@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDisclosure } from '../../hooks/useDisclosure';
+import { formatIndex } from '../../utils/formatIndex';
 import { ChevronIcon, InlineArrowIcon } from './icons';
 import type {
   AiDevKitDetailItem,
@@ -297,7 +298,7 @@ const SkillModuleDiagram: React.FC<{ skillItem: AiDevKitSkillItem }> = ({
               <div className="absolute left-1/2 top-0 h-6 w-px -translate-x-1/2 bg-line" />
               <div className="flex h-full w-full flex-col items-center justify-start rounded-card border border-line/70 bg-surface px-3 py-3 text-center shadow-sm">
                 <div className="inline-flex h-6 min-w-[28px] items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-surface">
-                  {String(index + 1).padStart(2, '0')}
+                  {formatIndex(index)}
                 </div>
                 <div className="mt-1.5 text-sm font-bold text-content">
                   {groupSection.title}
@@ -343,7 +344,7 @@ const SkillSectionCard: React.FC<{
         </span>
         <div className="min-w-0">
           <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-accent-700">
-            {String(index + 1).padStart(2, '0')}
+            {formatIndex(index)}
           </div>
           <h6 className="mt-0.5 text-sm font-bold text-content">
             {section.title}

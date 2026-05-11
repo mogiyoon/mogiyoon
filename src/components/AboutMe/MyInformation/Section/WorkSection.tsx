@@ -2,6 +2,7 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Chip } from "../../../primitives/Chip";
+import BulletList from "../../../primitives/BulletList";
 
 export type WorkItem = {
   title: string;        // "deeptrade.title"
@@ -82,11 +83,7 @@ export const WorkSection: React.FC<{ items: WorkItem[] }> = ({ items }) => {
                   </p>
 
                   {desc.length > 0 ? (
-                    <ul className="mt-3 list-disc pl-5 text-sm text-content-secondary">
-                      {desc.map((d, i) => (
-                        <li key={i}>{d}</li>
-                      ))}
-                    </ul>
+                    <BulletList items={desc} tone="secondary" className="mt-3" />
                   ) : (
                     <p className="mt-3 text-sm text-content-muted">
                       {t("no_description", {

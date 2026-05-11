@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { animation } from "../../design-tokens";
+import { formatIndex } from "../../utils/formatIndex";
+import RotatingChevron from "../../components/primitives/RotatingChevron";
 import {
   loadLocalizedResumeProfile,
   type ResumeProfileSourceData,
@@ -134,15 +136,9 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                   </p>
                 </div>
                 {hasProjects && (
-                  <motion.div
-                    animate={{ rotate: isWorkOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="shrink-0 text-content-muted"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </motion.div>
+                  <div className="shrink-0 text-content-muted">
+                    <RotatingChevron isRotated={isWorkOpen} size="md" duration={0.2} />
+                  </div>
                 )}
               </div>
             </button>
@@ -199,17 +195,10 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                 {tCommon("highlight.section.development")}
                               </span>
                               <div className="flex-1 h-px bg-slate-200" />
-                              <motion.svg
-                                animate={{ rotate: isDevSectionOpen ? 180 : 0 }}
-                                transition={{ duration: 0.18 }}
-                                className="w-3.5 h-3.5 text-content-muted group-hover:text-content transition-colors"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                              >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                              </motion.svg>
+                              <RotatingChevron
+                                isRotated={isDevSectionOpen}
+                                className="text-content-muted group-hover:text-content transition-colors"
+                              />
                             </button>
                           )}
 
@@ -249,19 +238,13 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                     >
                                       <div className="flex items-center gap-3 min-w-0">
                                         <span className="shrink-0 text-xs font-semibold text-slate-300">
-                                          {String(i + 1).padStart(2, "0")}
+                                          {formatIndex(i)}
                                         </span>
                                         <p className="text-sm font-semibold text-content truncate">{h.title}</p>
                                       </div>
-                                      <motion.div
-                                        animate={{ rotate: isHOpen ? 180 : 0 }}
-                                        transition={{ duration: 0.18 }}
-                                        className="shrink-0 ml-3 text-content-muted"
-                                      >
-                                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                      </motion.div>
+                                      <div className="shrink-0 ml-3 text-content-muted">
+                                        <RotatingChevron isRotated={isHOpen} />
+                                      </div>
                                     </button>
 
                                     {/* Expanded detail */}
@@ -337,17 +320,10 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                   {tCommon("highlight.section.aiUsage")}
                                 </span>
                                 <div className="flex-1 h-px bg-slate-200" />
-                                <motion.svg
-                                  animate={{ rotate: isAiSectionOpen ? 180 : 0 }}
-                                  transition={{ duration: 0.18 }}
-                                  className="w-3.5 h-3.5 text-content-muted group-hover:text-content transition-colors"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                >
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                </motion.svg>
+                                <RotatingChevron
+                                  isRotated={isAiSectionOpen}
+                                  className="text-content-muted group-hover:text-content transition-colors"
+                                />
                               </button>
 
                               <AnimatePresence initial={false}>
@@ -386,19 +362,13 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                       >
                                         <div className="flex items-center gap-3 min-w-0">
                                           <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                                            AI·{String(i + 1).padStart(2, "0")}
+                                            {formatIndex(i, "AI·")}
                                           </span>
                                           <p className="text-sm font-semibold text-content truncate">{a.title}</p>
                                         </div>
-                                        <motion.div
-                                          animate={{ rotate: isAOpen ? 180 : 0 }}
-                                          transition={{ duration: 0.18 }}
-                                          className="shrink-0 ml-3 text-content-muted"
-                                        >
-                                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                          </svg>
-                                        </motion.div>
+                                        <div className="shrink-0 ml-3 text-content-muted">
+                                          <RotatingChevron isRotated={isAOpen} />
+                                        </div>
                                       </button>
 
                                       {/* Expanded: summary + details toggle */}
@@ -429,17 +399,11 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                                     ? tCommon("highlight.hideDetails")
                                                     : tCommon("highlight.showDetails")}
                                                 </span>
-                                                <motion.svg
-                                                  animate={{ rotate: isDetailOpen ? 180 : 0 }}
-                                                  transition={{ duration: 0.18 }}
-                                                  className="w-3 h-3"
-                                                  fill="none"
-                                                  viewBox="0 0 24 24"
-                                                  stroke="currentColor"
+                                                <RotatingChevron
+                                                  isRotated={isDetailOpen}
+                                                  size="xs"
                                                   strokeWidth={2.5}
-                                                >
-                                                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                                </motion.svg>
+                                                />
                                               </button>
 
                                               {/* Details: 4-step timeline */}
