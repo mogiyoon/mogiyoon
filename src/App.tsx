@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import ContactModal from "./components/ContactModal";
 import PageHeader from "./components/PageHeader";
 import { AnimatePresence } from 'framer-motion';
+import { useDisclosure } from "./hooks/useDisclosure";
 
 const getInitialTab = () => {
   if (window.location.pathname.startsWith('/project/')) {
@@ -21,7 +22,7 @@ const getInitialTab = () => {
 };
 
 const AppContent: React.FC = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const { isOpen: isContactModalOpen, open: openContactModal, close: closeContactModal } = useDisclosure(false);
   const [activeTab, setActiveTab] = useState(getInitialTab);
   const HEADER_HEIGHT = 80;
   const [headerTranslate, setHeaderTranslate] = useState(() =>
@@ -78,10 +79,6 @@ const AppContent: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  }
-
   return (
     <main>
       <div
@@ -93,7 +90,7 @@ const AppContent: React.FC = () => {
         className="fixed top-0 left-0 right-0 z-40 bg-surface shadow-md"
       >
         <PageHeader
-          setModalOpen={handleModalOpen}
+          onOpenContactModal={openContactModal}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
@@ -107,7 +104,7 @@ const AppContent: React.FC = () => {
           <Route path="/resume-preview" element={<ResumePreviewPage />} />
         </Routes>
       </AnimatePresence>
-      <ContactModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      <ContactModal isOpen={isContactModalOpen} onClose={closeContactModal} />
     </main>
   );
 };

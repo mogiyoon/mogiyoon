@@ -8,20 +8,21 @@ import {
 } from '../../../utils/resumePreview';
 
 import { contentVariants } from './animations';
-import { cachedData, dataPromise } from './prefetch';
+import { dataResource } from './prefetch';
 import type { ProfileData, TabId } from './types';
 import BasicsTab from './BasicsTab';
 import WorkSkillsTab from './WorkSkillsTab';
 import EducationTab from './EducationTab';
 import AwardsAndCertsTab from './AwardsAndCertsTab';
+import { useCachedResource } from '../../../hooks/useCachedResource';
 
 const ProfileSection: React.FC = () => {
   const { t, i18n } = useTranslation('common');
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabId>('basics');
-  const [data, setData] = useState<ProfileData | null>(cachedData);
   const [resumeProfile, setResumeProfile] = useState<ResumeProfileSourceData | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const { data } = useCachedResource<ProfileData>(dataResource);
 
   const tabs: { id: TabId; labelKey: string }[] = [
     { id: 'basics', labelKey: 'profileTabs.basics' },
@@ -29,13 +30,6 @@ const ProfileSection: React.FC = () => {
     { id: 'education', labelKey: 'profileTabs.education' },
     { id: 'awardsAndCerts', labelKey: 'profileTabs.awardsAndCerts' },
   ];
-
-  useEffect(() => {
-    if (data) return;
-    dataPromise.then((json) => {
-      if (json) setData(json);
-    });
-  }, [data]);
 
   useEffect(() => {
     let isMounted = true;

@@ -22,6 +22,8 @@ export interface InfoCellProps {
   value: React.ReactNode;
   variant?: InfoCellVariant;
   className?: string;
+  labelClassName?: string;
+  valueClassName?: string;
 }
 
 /**
@@ -38,10 +40,12 @@ const InfoCell: React.FC<InfoCellProps> = ({
   value,
   variant = 'subtle',
   className = '',
+  labelClassName = '',
+  valueClassName = '',
 }) => (
   <div className={`${CONTAINER_CLASSES[variant]} ${className}`.trim()}>
-    <p className={LABEL_CLASSES[variant]}>{label}</p>
-    <p className={VALUE_CLASSES[variant]}>{value}</p>
+    <p className={`${LABEL_CLASSES[variant]} ${labelClassName}`.trim()}>{label}</p>
+    <p className={`${VALUE_CLASSES[variant]} ${valueClassName}`.trim()}>{value}</p>
   </div>
 );
 

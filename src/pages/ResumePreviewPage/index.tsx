@@ -29,6 +29,7 @@ import { useResumeDraftUpdaters } from "./useResumeDraftUpdaters";
 import { useResumeSelectors } from "./useResumeSelectors";
 import { useToggleSet } from "../../hooks/useToggleSet";
 import ExternalLink from "../../components/primitives/ExternalLink";
+import { usePrerenderReadyEvent } from "../../hooks/usePrerenderReadyEvent";
 
 const ResumePreviewPage: React.FC = () => {
   const { t, i18n } = useTranslation("common");
@@ -39,6 +40,8 @@ const ResumePreviewPage: React.FC = () => {
   const [draft, setDraft] = useState<ResumeBuilderData | null>(null);
   const selectedBlockIds = useToggleSet<string>();
   const includedProjectIds = useToggleSet<string>();
+  const { reset: resetSelectedBlockIds } = selectedBlockIds;
+  const { reset: resetIncludedProjectIds } = includedProjectIds;
   const [openPanel, setOpenPanel] = useState<string | null>(null);
   const closedSubPanels = useToggleSet<string>();
   const [isLoading, setIsLoading] = useState(true);
@@ -58,8 +61,8 @@ const ResumePreviewPage: React.FC = () => {
 
         setSourceData(loadedData);
         setDraft(cloneResumeData(loadedData));
-        selectedBlockIds.reset(loadedData.defaultSelectedBlockIds);
-        includedProjectIds.reset(loadedData.defaultIncludedProjectIds);
+        resetSelectedBlockIds(loadedData.defaultSelectedBlockIds);
+        resetIncludedProjectIds(loadedData.defaultIncludedProjectIds);
       } catch (error) {
         console.error(error);
         if (isMounted) {
@@ -77,19 +80,15 @@ const ResumePreviewPage: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [i18n.language, i18n.resolvedLanguage, t]);
+  }, [i18n.language, i18n.resolvedLanguage, resetIncludedProjectIds, resetSelectedBlockIds, t]);
 
-  useEffect(() => {
-    if (!isLoading) {
-      document.dispatchEvent(new Event("render-event"));
-    }
-  }, [isLoading]);
+  usePrerenderReadyEvent(!isLoading);
 
   const resetDraft = () => {
     if (!sourceData) return;
     setDraft(cloneResumeData(sourceData));
-    selectedBlockIds.reset(sourceData.defaultSelectedBlockIds);
-    includedProjectIds.reset(sourceData.defaultIncludedProjectIds);
+    resetSelectedBlockIds(sourceData.defaultSelectedBlockIds);
+    resetIncludedProjectIds(sourceData.defaultIncludedProjectIds);
   };
 
   const {

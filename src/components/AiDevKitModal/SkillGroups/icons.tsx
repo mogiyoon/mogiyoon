@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  matchItemIconKey,
+  resolveSkillGroupIcon,
+  type SkillGroupIconKey,
+} from './iconMatcher';
 
 /**
  * SkillGroups 전용 아이콘 모음.
@@ -109,29 +114,18 @@ const CheckSquareIcon: IconComponent = ({ className = 'h-4 w-4' }) => (
   </svg>
 );
 
-/**
- * 키워드별 ItemIcon 매핑 테이블. 위에서 아래로 순회하다 첫 매칭에서 멈춤.
- * keywords 는 모두 소문자. ko/en 키워드를 같은 행에 섞어 둠.
- */
-const ITEM_ICON_PATTERNS: ReadonlyArray<{ keywords: readonly string[]; Icon: IconComponent }> = [
-  { keywords: ['decomposition', 'role', 'hierarchy', '분해', '역할', '계층'], Icon: DecompositionIcon },
-  { keywords: ['merge', 'convergence', 'handoff', '병합', '수렴'], Icon: MergeIcon },
-  { keywords: ['loop', 'retry', 'termination', 'feedback', '루프', '재시도', '종료'], Icon: LoopIcon },
-  { keywords: ['routing', 'conditional', 'branch', '라우팅', '분기'], Icon: RoutingIcon },
-  { keywords: ['diagram', 'document', 'output', 'overview', '개요', '그림', '문서', '산출'], Icon: DocumentIcon },
-  { keywords: ['trigger', 'collaborative', 'pipeline', '작업', '트리거'], Icon: TriggerIcon },
-];
-
-export const matchItemIcon = (title: string, index: number): IconComponent => {
-  const normalized = title.toLowerCase();
-  const matched = ITEM_ICON_PATTERNS.find(({ keywords }) =>
-    keywords.some((keyword) => normalized.includes(keyword)),
-  );
-  if (matched) return matched.Icon;
-  return index % 2 === 0 ? ForwardArrowIcon : CheckSquareIcon;
+const ITEM_ICONS: Record<SkillGroupIconKey, IconComponent> = {
+  decomposition: DecompositionIcon,
+  merge: MergeIcon,
+  loop: LoopIcon,
+  routing: RoutingIcon,
+  document: DocumentIcon,
+  trigger: TriggerIcon,
+  forward: ForwardArrowIcon,
+  check: CheckSquareIcon,
 };
 
 export const ItemIcon: React.FC<{ title: string; index: number }> = ({ title, index }) => {
-  const Icon = matchItemIcon(title, index);
+  const Icon = resolveSkillGroupIcon(matchItemIconKey(title, index), ITEM_ICONS);
   return <Icon />;
 };

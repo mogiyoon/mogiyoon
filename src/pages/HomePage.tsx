@@ -6,6 +6,7 @@ import PostsSection from '../sections/home/PostSection';
 import ProfileSection from '../sections/home/ProfileSection';
 import Seo from '../components/Seo';
 import { SEO_COPY, pickSeoLocale } from '../seo-copy';
+import { usePrerenderReadyEvent } from '../hooks/usePrerenderReadyEvent';
 
 interface HomePageProps {
   activeTab: string;
@@ -18,9 +19,7 @@ const HomePage: React.FC<HomePageProps> = ({ activeTab }) => {
   const sections = SEO_COPY[seoLocale].sections;
   const sectionLabel = (sections as Record<string, string>)[activeTab] ?? sections.about;
 
-  useEffect(() => {
-    document.dispatchEvent(new Event('render-event'));
-  }, []);
+  usePrerenderReadyEvent();
 
   useEffect(() => {
     const isAboutTab = activeTab === 'about';

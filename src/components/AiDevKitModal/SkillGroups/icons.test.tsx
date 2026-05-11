@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { matchItemIcon } from './icons';
+import { matchItemIconKey } from './iconMatcher';
 
-describe('matchItemIcon', () => {
+describe('matchItemIconKey', () => {
   it('matches by exact English keyword', () => {
-    const decomposition = matchItemIcon('Decomposition pattern', 0);
-    const merge = matchItemIcon('Merge step', 0);
-    const loop = matchItemIcon('Loop control', 0);
-    const routing = matchItemIcon('Routing condition', 0);
-    const document = matchItemIcon('Document output', 0);
-    const trigger = matchItemIcon('Trigger pipeline', 0);
+    const decomposition = matchItemIconKey('Decomposition pattern', 0);
+    const merge = matchItemIconKey('Merge step', 0);
+    const loop = matchItemIconKey('Loop control', 0);
+    const routing = matchItemIconKey('Routing condition', 0);
+    const document = matchItemIconKey('Document output', 0);
+    const trigger = matchItemIconKey('Trigger pipeline', 0);
 
     expect(decomposition).not.toBe(merge);
     expect(merge).not.toBe(loop);
@@ -18,30 +18,30 @@ describe('matchItemIcon', () => {
   });
 
   it('matches by Korean keyword', () => {
-    expect(matchItemIcon('역할 분해', 0)).toBe(matchItemIcon('decomposition', 0));
-    expect(matchItemIcon('병합', 0)).toBe(matchItemIcon('merge', 0));
-    expect(matchItemIcon('루프', 0)).toBe(matchItemIcon('loop', 0));
-    expect(matchItemIcon('분기', 0)).toBe(matchItemIcon('routing', 0));
-    expect(matchItemIcon('산출 문서', 0)).toBe(matchItemIcon('document', 0));
-    expect(matchItemIcon('트리거', 0)).toBe(matchItemIcon('trigger', 0));
+    expect(matchItemIconKey('역할 분해', 0)).toBe(matchItemIconKey('decomposition', 0));
+    expect(matchItemIconKey('병합', 0)).toBe(matchItemIconKey('merge', 0));
+    expect(matchItemIconKey('루프', 0)).toBe(matchItemIconKey('loop', 0));
+    expect(matchItemIconKey('분기', 0)).toBe(matchItemIconKey('routing', 0));
+    expect(matchItemIconKey('산출 문서', 0)).toBe(matchItemIconKey('document', 0));
+    expect(matchItemIconKey('트리거', 0)).toBe(matchItemIconKey('trigger', 0));
   });
 
   it('case-insensitive matching', () => {
-    expect(matchItemIcon('DECOMPOSITION', 0)).toBe(matchItemIcon('decomposition', 0));
-    expect(matchItemIcon('Merge', 0)).toBe(matchItemIcon('merge', 0));
+    expect(matchItemIconKey('DECOMPOSITION', 0)).toBe(matchItemIconKey('decomposition', 0));
+    expect(matchItemIconKey('Merge', 0)).toBe(matchItemIconKey('merge', 0));
   });
 
   it('returns alternating fallback when no keyword matches (index parity)', () => {
-    const evenFallback = matchItemIcon('totally unmatched title', 0);
-    const oddFallback = matchItemIcon('totally unmatched title', 1);
+    const evenFallback = matchItemIconKey('totally unmatched title', 0);
+    const oddFallback = matchItemIconKey('totally unmatched title', 1);
 
     expect(evenFallback).not.toBe(oddFallback);
-    expect(matchItemIcon('xxx', 2)).toBe(evenFallback);
-    expect(matchItemIcon('xxx', 3)).toBe(oddFallback);
+    expect(matchItemIconKey('xxx', 2)).toBe(evenFallback);
+    expect(matchItemIconKey('xxx', 3)).toBe(oddFallback);
   });
 
   it('first matching pattern wins when title has multiple keywords', () => {
     // "decomposition" comes before "merge" in the pattern table
-    expect(matchItemIcon('decomposition and merge', 0)).toBe(matchItemIcon('decomposition', 0));
+    expect(matchItemIconKey('decomposition and merge', 0)).toBe(matchItemIconKey('decomposition', 0));
   });
 });
