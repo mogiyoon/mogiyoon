@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatIndex } from '../../../../utils/formatIndex';
+import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { AiHighlightItem } from '../types';
@@ -49,14 +50,7 @@ const AiHighlightCard: React.FC<{
     {/* Expanded: summary + details toggle */}
     <AnimatePresence initial={false}>
       {isOpen && (
-        <motion.div
-          key="body"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.22, ease: 'easeInOut' }}
-          style={{ overflow: 'hidden' }}
-        >
+        <motion.div key="body" {...collapseVerticalPreset(0.22)}>
           <div className="px-5 pt-2 pb-5">
             <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">
               {aiHighlight.summary}
@@ -75,14 +69,7 @@ const AiHighlightCard: React.FC<{
             {/* Details: 4-step timeline */}
             <AnimatePresence initial={false}>
               {isDetailOpen && (
-                <motion.div
-                  key="detail"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.22, ease: 'easeInOut' }}
-                  style={{ overflow: 'hidden' }}
-                >
+                <motion.div key="detail" {...collapseVerticalPreset(0.22)}>
                   <div className="relative pl-6 mt-5">
                     <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
 

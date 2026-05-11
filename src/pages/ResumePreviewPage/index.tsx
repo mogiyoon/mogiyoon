@@ -26,6 +26,7 @@ import {
 import { DetailPreviewItem } from "./preview";
 import { useSidebarPin } from "./useSidebarPin";
 import { useToggleSet } from "../../hooks/useToggleSet";
+import ExternalLink from "../../components/primitives/ExternalLink";
 
 const ResumePreviewPage: React.FC = () => {
   const { t, i18n } = useTranslation("common");
@@ -388,15 +389,13 @@ const ResumePreviewPage: React.FC = () => {
               : "Demo";
 
         return (
-          <a
+          <ExternalLink
             key={`${project.id}-${key}`}
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-xs font-medium text-slate-600 underline underline-offset-2"
           >
             {label}: {href}
-          </a>
+          </ExternalLink>
         );
       })
       .filter(Boolean);

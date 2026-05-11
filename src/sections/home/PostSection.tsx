@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
+import ExternalLink from '../../components/primitives/ExternalLink';
 
 const imageVariants = {
   hidden: (custom: { x: number; y: number }) => ({
@@ -111,10 +112,8 @@ const PostsSection: React.FC = () => {
           {t('postsPreparingMessage2')}
         </p>
 
-        <a
+        <ExternalLink
           href={velogUrl}
-          target="_blank"
-          rel="noopener noreferrer"
           className="
             inline-block px-8 py-3
             font-semibold text-white bg-slate-800
@@ -125,7 +124,7 @@ const PostsSection: React.FC = () => {
           "
         >
           {t('visitVelog')}
-        </a>
+        </ExternalLink>
       </div>
     </motion.div>
   );

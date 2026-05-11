@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { useToggleSet } from '../../../../hooks/useToggleSet';
+import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import { listVariants } from '../animations';
 import type { AiHighlightItem, HighlightItem, WorkItem } from '../types';
 import HighlightCard from './HighlightCard';
@@ -68,14 +69,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
             {/* Projects accordion */}
             <AnimatePresence initial={false}>
               {isWorkOpen && hasProjects && (
-                <motion.div
-                  key="body"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.28, ease: 'easeInOut' }}
-                  style={{ overflow: 'hidden' }}
-                >
+                <motion.div key="body" {...collapseVerticalPreset(0.28)}>
                   <div className="px-6 pb-7 space-y-6">
                     {projects.map((proj) => {
                       const highlights = tIntro(
@@ -129,14 +123,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                           {hasDev && (
                             <AnimatePresence initial={false}>
                               {(!hasAi || isDevSectionOpen) && (
-                                <motion.div
-                                  key="dev-collapse"
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: 'auto', opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                  style={{ overflow: 'hidden' }}
-                                >
+                                <motion.div key="dev-collapse" {...collapseVerticalPreset(0.25)}>
                                   <motion.div
                                     variants={listVariants}
                                     initial="hidden"
@@ -182,14 +169,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                               <AnimatePresence initial={false}>
                                 {isAiSectionOpen && (
-                                  <motion.div
-                                    key="ai-collapse"
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: 'auto', opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                    style={{ overflow: 'hidden' }}
-                                  >
+                                  <motion.div key="ai-collapse" {...collapseVerticalPreset(0.25)}>
                                     <motion.div
                                       variants={listVariants}
                                       initial="hidden"
