@@ -11,27 +11,28 @@
   },
   "photoPlaceholder": true,
   "intro": {
-    "line": "매 순간, 상태가 업데이트되는 풀스택 개발자 노기윤입니다.",
+    "line": "학습과 개발의 반복 문제를 앱, 확장 프로그램, 라이브러리로 해결해온 개발자",
     "bullets": [
       {
-        "text": "Npm 라이브러리, 임용 퀴즈 어플, 개인 홈페이지 등을 제작하며 얻은 구현부터 배포까지의 경험",
-        "bold": ["Npm 라이브러리", "개인 홈페이지", "구현부터 배포까지의 경험"],
+        "text": "학습 앱, Chrome 확장 프로그램, NPM 라이브러리를 직접 만들고 배포하며 개인의 불편을 다시 쓰이는 도구로 바꿔온 경험",
+        "bold": ["학습 앱", "Chrome 확장 프로그램", "NPM 라이브러리", "직접 만들고 배포", "다시 쓰이는 도구"],
         "links": [
-          { "text": "Npm 라이브러리", "url": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid" },
-          { "text": "개인 홈페이지", "url": "https://mogiyoon.com" }
+          { "text": "학습 앱", "url": "https://play.google.com/store/apps/details?id=com.test_maker" },
+          { "text": "Chrome 확장 프로그램", "url": "https://chromewebstore.google.com/detail/boj-snippets-mogiyoon/omehpjefcoebjfcbiegjaaklfeelkpam" },
+          { "text": "NPM 라이브러리", "url": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid" }
         ]
       },
       {
-        "text": "멀티모달 파이프라인부터 Yolo, CNN 등 프로젝트에서 다양하게 AI를 사용해본 경험",
-        "bold": ["AI를 사용해본 경험"]
+        "text": "멀티모달·컴퓨터 비전 기능과 AI 활용 테스트·문서화 워크플로를 실제 제품 개발에 연결해온 경험",
+        "bold": ["멀티모달·컴퓨터 비전 기능", "AI 활용 테스트·문서화 워크플로", "실제 제품 개발"]
       },
       {
-        "text": "웹, 앱 프로젝트에서 문제를 끝까지 파고들며 얻은 원리 기반 문제 해결력",
-        "bold": ["원리 기반 문제 해결력"]
+        "text": "구조·데이터 흐름·성능 이슈를 추적해 메인 로딩 2~3초를 0.6초로, 중복 API 호출을 수십 회에서 3~4회로 줄인 성능 개선 경험",
+        "bold": ["구조·데이터 흐름·성능 이슈", "메인 로딩 2~3초를 0.6초로", "중복 API 호출을 수십 회에서 3~4회로", "성능 개선 경험"]
       },
       {
-        "text": "발명 대회 은상부터 해커톤 대상까지, 기초와 개념 기반의 창의성",
-        "bold": ["창의성"]
+        "text": "20 suites·217 tests·문서 11건의 테스트 체계를 구축하고 번들 크기를 110MB에서 80MB로 줄인 검증·최적화 경험",
+        "bold": ["20 suites·217 tests·문서 11건", "번들 크기를 110MB에서 80MB로", "검증·최적화 경험"]
       }
     ]
   },

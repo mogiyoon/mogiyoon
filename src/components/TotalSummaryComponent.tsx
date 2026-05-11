@@ -3,6 +3,8 @@ import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
 import { Chip } from "./primitives/Chip";
+import ExternalLink from "./primitives/ExternalLink";
+import InfoCell from "./primitives/InfoCell";
 import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToast";
 
 interface TotalSummaryComponentProps {
@@ -85,17 +87,15 @@ const renderSummaryPart = (
     case "link":
       return (
         <div key={index}>
-          <a
+          <ExternalLink
             href={part.href}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-content underline hover:no-underline transition-colors"
           >
             {part.label}
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
-          </a>
+          </ExternalLink>
         </div>
       );
     default:
@@ -105,10 +105,8 @@ const renderSummaryPart = (
 
 // ── Link button ────────────────────────────────────────────────────────────────
 const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> = ({ href, label, primary }) => (
-  <a
+  <ExternalLink
     href={href}
-    target="_blank"
-    rel="noopener noreferrer"
     className={`inline-flex items-center gap-2 rounded-modal px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
       primary
         ? "bg-slate-900 text-white hover:bg-slate-700"
@@ -119,15 +117,7 @@ const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> =
     <svg className="w-3.5 h-3.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
     </svg>
-  </a>
-);
-
-// ── Info cell ──────────────────────────────────────────────────────────────────
-const InfoCell: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
-  <div className="rounded-modal bg-surface-subtle p-4">
-    <p className="text-xs font-semibold uppercase tracking-wider text-content-muted mb-1">{label}</p>
-    <div className="text-sm font-medium text-content-strong leading-snug">{value}</div>
-  </div>
+  </ExternalLink>
 );
 
 // ── Main component ─────────────────────────────────────────────────────────────
@@ -172,13 +162,28 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
           {/* Info grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
             {overview.period && (
-              <InfoCell label={t("projectDetail.period", { ns: "common" })} value={overview.period} />
+              <InfoCell
+                label={t("projectDetail.period", { ns: "common" })}
+                value={overview.period}
+                className="rounded-modal py-4"
+                valueClassName="text-content-strong leading-snug"
+              />
             )}
             {overview.projectType && (
-              <InfoCell label={t("projectDetail.overview", { ns: "common" })} value={t(overview.projectType)} />
+              <InfoCell
+                label={t("projectDetail.overview", { ns: "common" })}
+                value={t(overview.projectType)}
+                className="rounded-modal py-4"
+                valueClassName="text-content-strong leading-snug"
+              />
             )}
             {overview.role && (
-              <InfoCell label={t("projectDetail.role", { ns: "common" })} value={t(overview.role)} />
+              <InfoCell
+                label={t("projectDetail.role", { ns: "common" })}
+                value={t(overview.role)}
+                className="rounded-modal py-4"
+                valueClassName="text-content-strong leading-snug"
+              />
             )}
             {overview.other && (
               <div className="col-span-2 sm:col-span-3 rounded-modal bg-amber-50 border border-amber-100 p-4">

@@ -11,27 +11,28 @@
   },
   "photoPlaceholder": true,
   "intro": {
-    "line": "I'm Giyoon Noh, a full-stack engineer who keeps shipping through changing state.",
+    "line": "Developer who has solved repeated problems in learning and development through apps, extensions, and libraries",
     "bullets": [
       {
-        "text": "Experience from implementation to deployment through building an npm library, a teacher-exam quiz app, and a personal portfolio site",
-        "bold": ["npm library", "personal portfolio site", "implementation to deployment"],
+        "text": "Experience building and shipping a learning app, a Chrome extension, and an npm library, turning personal friction into reusable tools",
+        "bold": ["learning app", "Chrome extension", "npm library", "building and shipping", "reusable tools"],
         "links": [
-          { "text": "npm library", "url": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid" },
-          { "text": "personal portfolio site", "url": "https://mogiyoon.com" }
+          { "text": "learning app", "url": "https://play.google.com/store/apps/details?id=com.test_maker" },
+          { "text": "Chrome extension", "url": "https://chromewebstore.google.com/detail/boj-snippets-mogiyoon/omehpjefcoebjfcbiegjaaklfeelkpam" },
+          { "text": "npm library", "url": "https://www.npmjs.com/package/mogiyoon-react-native-simple-grid" }
         ]
       },
       {
-        "text": "Hands-on experience using AI across projects, from multimodal pipelines to YOLO and CNN-based workflows",
-        "bold": ["using AI across projects"]
+        "text": "Experience connecting multimodal and computer-vision features, plus AI-assisted testing and documentation workflows, to real product development",
+        "bold": ["multimodal and computer-vision features", "AI-assisted testing and documentation workflows", "real product development"]
       },
       {
-        "text": "Principle-driven problem solving built by following tough issues through to the end in both web and app projects",
-        "bold": ["Principle-driven problem solving"]
+        "text": "Performance improvement experience from tracing structure, data flow, and runtime issues, reducing main-screen load time from 2–3 seconds to 0.6 seconds and repeated API calls from dozens to 3–4",
+        "bold": ["2–3 seconds to 0.6 seconds", "dozens to 3–4", "Performance improvement experience"]
       },
       {
-        "text": "Creativity grounded in fundamentals, from a silver prize in an invention contest to a hackathon grand prize",
-        "bold": ["Creativity grounded in fundamentals"]
+        "text": "Verification and optimization experience from building a 20-suite, 217-test, 11-document system and reducing bundle size from 110MB to 80MB",
+        "bold": ["20-suite, 217-test, 11-document system", "110MB to 80MB", "Verification and optimization experience"]
       }
     ]
   },

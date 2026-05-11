@@ -6,6 +6,7 @@ import type {
     AiDevKitModalData,
     AiDevKitSkillItem,
 } from '../components/AiDevKitModal';
+import { fetchI18nArray } from '../utils/i18nArray';
 
 export type ProjectDevKitId = 'skills' | 'mcp' | 'harness';
 
@@ -18,18 +19,10 @@ export type ProjectDevKitCardData = AiDevKitModalData & {
 export const useProjectDevKitItems = () => {
     const { t } = useTranslation('projects');
 
-    const skillItems = t('aiDevKit.skills.detail.cardItems', {
-        returnObjects: true,
-    }) as AiDevKitSkillItem[];
-    const mcpServersItems = t('aiDevKit.mcp.detail.serversItems', {
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const harnessPatternItems = t('aiDevKit.harness.detail.patternsItems', {
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
-    const harnessAbstractItems = t('aiDevKit.harness.detail.abstractItems', {
-        returnObjects: true,
-    }) as AiDevKitDetailItem[];
+    const skillItems = fetchI18nArray<AiDevKitSkillItem>(t, 'aiDevKit.skills.detail.cardItems');
+    const mcpServersItems = fetchI18nArray<AiDevKitDetailItem>(t, 'aiDevKit.mcp.detail.serversItems');
+    const harnessPatternItems = fetchI18nArray<AiDevKitDetailItem>(t, 'aiDevKit.harness.detail.patternsItems');
+    const harnessAbstractItems = fetchI18nArray<AiDevKitDetailItem>(t, 'aiDevKit.harness.detail.abstractItems');
 
     const closeLabel = t('aiDevKit.modal.close');
 
