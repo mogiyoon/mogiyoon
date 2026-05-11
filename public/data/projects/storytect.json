@@ -9,7 +9,7 @@
     "period": "2026.05",
     "introduction": "storytect.overview.introduction",
     "features": "storytect.overview.features",
-    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "Zustand"],
+    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "Zustand", "MCP", "@mogiyoon/react-stable-timeline"],
     "github": "(공개 준비 중)",
     "demo": null,
     "notion": null
@@ -48,7 +48,7 @@
           { "type": "text", "content": "storytect.summaries.development.parts.3.3" }
         ],
         [
-          { "type": "subtitle", "id": "chart_axes", "content": "storytect.summaries.development.parts.4.subtitle" },
+          { "type": "subtitle", "id": "mcp_server", "content": "storytect.summaries.development.parts.4.subtitle" },
           { "type": "text", "content": "storytect.summaries.development.parts.4.0" },
           { "type": "text", "content": "storytect.summaries.development.parts.4.1" },
           { "type": "text", "content": "storytect.summaries.development.parts.4.2" },
@@ -87,6 +87,13 @@
           { "type": "text", "content": "storytect.summaries.troubleshooting.parts.3.1" },
           { "type": "text", "content": "storytect.summaries.troubleshooting.parts.3.2" },
           { "type": "text", "content": "storytect.summaries.troubleshooting.parts.3.3" }
+        ],
+        [
+          { "type": "subtitle", "id": "chart_axes", "content": "storytect.summaries.troubleshooting.parts.4.subtitle" },
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.4.0" },
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.4.1" },
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.4.2" },
+          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.4.3" }
         ]
       ]
     },
@@ -100,7 +107,8 @@
           { "type": "text", "content": "storytect.summaries.results.parts.0.2" },
           { "type": "text", "content": "storytect.summaries.results.parts.0.3" },
           { "type": "text", "content": "storytect.summaries.results.parts.0.4" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.5" }
+          { "type": "text", "content": "storytect.summaries.results.parts.0.5" },
+          { "type": "text", "content": "storytect.summaries.results.parts.0.6" }
         ],
         [
           { "type": "subtitle", "id": "retrospect", "content": "storytect.summaries.results.parts.1.0" },
@@ -132,6 +140,11 @@
       "name": "storytect.features.3.name",
       "description": "storytect.features.3.description",
       "icon": "ShortFormIcon"
+    },
+    {
+      "name": "storytect.features.4.name",
+      "description": "storytect.features.4.description",
+      "icon": "CommunityIcon"
     }
   ],
   "screenshots": [
