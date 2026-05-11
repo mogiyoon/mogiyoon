@@ -13,7 +13,7 @@ export interface UseFetchJsonResult<T> {
  * - 언마운트 후 setState 를 피하기 위해 isMounted 가드 적용.
  * - 추가 의존성은 `deps` 배열로 넘기면 url 외에도 변경 시 refetch.
  *
- * InfoPost, ProjectDetailPage 등에서 반복되던 fetch+state+isMounted 패턴을 추출.
+ * ProjectDetailPage 등에서 반복되던 fetch+state+isMounted 패턴을 추출.
  */
 export const useFetchJson = <T,>(
   url: string | null,
