@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 
 import type { ProjectData } from '../types';
 import TotalSummaryComponent from '../components/TotalSummaryComponent';
+import Seo from '../components/Seo';
+import { SEO_COPY, pickSeoLocale } from '../seo-copy';
 import { animation } from '../design-tokens';
 import { createImageFallbackHandler } from '../utils/imageFallback';
 import { PLACEHOLDER_NOT_FOUND_250x400 } from '../utils/placeholders';
@@ -19,6 +21,10 @@ const pageTransition = animation.page.transition;
 const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { t, i18n } = useTranslation([`projects/project-${projectId}`, 'common']);
+  const seoLocale = pickSeoLocale(i18n.language);
+  const notFoundCopy = SEO_COPY[seoLocale].notFound;
+  const fallbackDescription = SEO_COPY[seoLocale].projectDetail.fallbackDescription;
+  const projectsSection = SEO_COPY[seoLocale].sections.projects;
 
   const [project, setProject] = useState<ProjectData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,6 +63,12 @@ const ProjectDetailPage: React.FC = () => {
     onAfter: () => setIsLoaded(true),
   });
 
+  useEffect(() => {
+    if (!isLoading) {
+      document.dispatchEvent(new Event('render-event'));
+    }
+  }, [isLoading]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-surface-subtle">
@@ -70,24 +82,43 @@ const ProjectDetailPage: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-surface-subtle px-4">
-        <div className="text-center p-10 bg-surface shadow-xl rounded-3xl max-w-sm w-full">
-          <p className="text-4xl mb-4">🔍</p>
-          <h1 className="text-xl font-bold text-content mb-2">
-            {t('projectNotFound', { ns: 'common' })}
-          </h1>
-          <Link
-            to="/"
-            className="mt-6 inline-block rounded-modal bg-slate-900 text-white px-6 py-3 text-sm font-semibold hover:bg-slate-700 transition-colors"
-          >
-            {t('backToMain', { ns: 'common' })}
-          </Link>
+      <>
+        <Seo
+          section={projectsSection}
+          description={notFoundCopy.description}
+          path={`/project/${projectId ?? ''}`}
+          locale={seoLocale}
+          noindex
+        />
+        <div className="min-h-screen flex items-center justify-center bg-surface-subtle px-4">
+          <div className="text-center p-10 bg-surface shadow-xl rounded-3xl max-w-sm w-full">
+            <p className="text-4xl mb-4">🔍</p>
+            <h1 className="text-xl font-bold text-content mb-2">
+              {t('projectNotFound', { ns: 'common' })}
+            </h1>
+            <Link
+              to="/"
+              className="mt-6 inline-block rounded-modal bg-slate-900 text-white px-6 py-3 text-sm font-semibold hover:bg-slate-700 transition-colors"
+            >
+              {t('backToMain', { ns: 'common' })}
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   const gifMaxW = gifType === "tablet" ? "max-w-2xl" : "max-w-xs";
+
+  const projectTitleRaw = t(project.title);
+  const projectTitle = projectTitleRaw && projectTitleRaw !== project.title
+    ? projectTitleRaw
+    : (projectId ?? 'Project');
+  const projectSubtitle = t(project.subtitle, { ns: `projects/project-${projectId}` });
+  const seoDescription = projectSubtitle && projectSubtitle !== project.subtitle
+    ? projectSubtitle
+    : fallbackDescription;
+  const seoImage = project.demoGifSrc ?? project.screenshots?.[0]?.src;
 
   return (
     <motion.div
@@ -96,6 +127,14 @@ const ProjectDetailPage: React.FC = () => {
       variants={pageVariants}
       transition={pageTransition}
     >
+      <Seo
+        section={projectTitle}
+        description={seoDescription}
+        path={`/project/${projectId ?? ''}`}
+        image={seoImage}
+        type="article"
+        locale={seoLocale}
+      />
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-8 pt-28 pb-16">
 
