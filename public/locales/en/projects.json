@@ -679,5 +679,12 @@
     "overview": {
       "projectType": "Personal Project"
     }
+  },
+  "react-stable-timeline": {
+    "title": "@mogiyoon/react-stable-timeline",
+    "subtitle": "A React timeline library where event card rows stay locked through pan and zoom",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
