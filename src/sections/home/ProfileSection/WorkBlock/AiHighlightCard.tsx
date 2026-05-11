@@ -5,6 +5,7 @@ import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { AiHighlightItem } from '../types';
+import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from './TimelineStep';
 
 /**
  * AI 활용 하이라이트 카드 — Context / Approach / Verification / Impact 4단계 타임라인.
@@ -73,47 +74,18 @@ const AiHighlightCard: React.FC<{
                   <div className="relative pl-6 mt-5">
                     <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
 
-                    {/* Context */}
-                    <div className="relative pb-6">
-                      <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
-                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
-                        {labels.context}
-                      </span>
-                      <p className="text-sm text-content-muted leading-relaxed whitespace-pre-line">{aiHighlight.context}</p>
-                    </div>
-
-                    {/* Approach */}
-                    <div className="relative pb-6">
-                      <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-500" />
-                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
-                        {labels.approach}
-                      </span>
-                      <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
-                        <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{aiHighlight.approach}</p>
-                      </div>
-                    </div>
-
-                    {/* Verification */}
-                    <div className="relative pb-6">
-                      <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-700" />
-                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
-                        {labels.verification}
-                      </span>
-                      <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
-                        <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{aiHighlight.verification}</p>
-                      </div>
-                    </div>
-
-                    {/* Impact */}
-                    <div className="relative">
-                      <div className="absolute -left-[25px] top-hairline w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
-                      <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
-                        {labels.impact}
-                      </span>
-                      <div className="rounded-card bg-slate-900 px-4 py-3">
-                        <p className="text-sm font-semibold text-white leading-relaxed whitespace-pre-line">{aiHighlight.impact}</p>
-                      </div>
-                    </div>
+                    <TimelineInitialStep label={labels.context} bodyClassName="whitespace-pre-line">
+                      {aiHighlight.context}
+                    </TimelineInitialStep>
+                    <TimelineSolidStep label={labels.approach} shade={500}>
+                      {aiHighlight.approach}
+                    </TimelineSolidStep>
+                    <TimelineSolidStep label={labels.verification} shade={700}>
+                      {aiHighlight.verification}
+                    </TimelineSolidStep>
+                    <TimelineFinalStep label={labels.impact} preserveLineBreaks>
+                      {aiHighlight.impact}
+                    </TimelineFinalStep>
                   </div>
                 </motion.div>
               )}

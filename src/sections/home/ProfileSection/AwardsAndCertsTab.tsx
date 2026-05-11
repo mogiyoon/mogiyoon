@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { fetchI18nArray } from '../../../utils/i18nArray';
 import type { AwardItem, CertItem } from './types';
 import { itemVariants, listVariants } from './animations';
 
@@ -19,10 +20,7 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
           <div className="absolute left-[11px] top-3 bottom-3 w-px bg-slate-200 hidden sm:block" />
           <div className="space-y-3">
             {awards.map((item) => {
-              const desc = t(`awards.${item.id}.description`, {
-                returnObjects: true,
-                defaultValue: [],
-              }) as string[];
+              const desc = fetchI18nArray<string>(t, `awards.${item.id}.description`);
 
               return (
                 <motion.div key={item.id} variants={itemVariants} className="sm:pl-8 relative">

@@ -5,6 +5,7 @@ import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { HighlightItem } from '../types';
+import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from './TimelineStep';
 
 /**
  * 개발 하이라이트 카드 — 문제 / 해결 / 결과 3단계 타임라인 (penned dot connector).
@@ -47,36 +48,9 @@ const HighlightCard: React.FC<{
               {/* Vertical connector */}
               <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
 
-              {/* Problem */}
-              <div className="relative pb-6">
-                <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full border-2 border-line-strong bg-surface" />
-                <span className="block text-[10px] font-semibold uppercase tracking-widest text-slate-300 mb-1">
-                  {labels.problem}
-                </span>
-                <p className="text-sm text-content-muted leading-relaxed">{highlight.problem}</p>
-              </div>
-
-              {/* Solution */}
-              <div className="relative pb-6">
-                <div className="absolute -left-6 top-hairline w-3 h-3 rounded-full bg-slate-600" />
-                <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
-                  {labels.solution}
-                </span>
-                <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
-                  <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">{highlight.solution}</p>
-                </div>
-              </div>
-
-              {/* Result */}
-              <div className="relative">
-                <div className="absolute -left-[25px] top-hairline w-[14px] h-[14px] bg-slate-900 rotate-45 rounded-sm" />
-                <span className="block text-[10px] font-semibold uppercase tracking-widest text-content-tertiary mb-2">
-                  {labels.result}
-                </span>
-                <div className="rounded-card bg-slate-900 px-4 py-3">
-                  <p className="text-sm font-semibold text-white leading-relaxed">{highlight.result}</p>
-                </div>
-              </div>
+              <TimelineInitialStep label={labels.problem}>{highlight.problem}</TimelineInitialStep>
+              <TimelineSolidStep label={labels.solution} shade={600}>{highlight.solution}</TimelineSolidStep>
+              <TimelineFinalStep label={labels.result}>{highlight.result}</TimelineFinalStep>
             </div>
           </div>
         </motion.div>

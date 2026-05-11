@@ -1,6 +1,7 @@
 import type React from "react";
 import { useTranslation } from "react-i18next";
 import { AwardCard } from '../AwardCard';
+import { fetchI18nArray } from "../../../../utils/i18nArray";
 
 export type AwardItem = {
   title: string;
@@ -15,12 +16,9 @@ export const AwardsSection: React.FC<{ items: AwardItem[] }> = ({ items }) => {
   return (
     <>
       {items.map((item) => {
-        const desc = t(`awards.${item.description}`, {
+        const desc = fetchI18nArray<string>(t, `awards.${item.description}`, {
           ns: "introduction",
-          returnObjects: true,
-        }) as string[];
-        console.log("title")
-        console.log(item.title);
+        });
 
         return (
           <AwardCard
@@ -28,7 +26,7 @@ export const AwardsSection: React.FC<{ items: AwardItem[] }> = ({ items }) => {
             rank={item.rank}
             title={t(`awards.${item.title}`, { ns: "introduction" })}
             period={t(`awards.${item.period}`, { ns: "introduction" })}
-            description={Array.isArray(desc) ? desc : []}
+            description={desc}
           />
         );
       })}

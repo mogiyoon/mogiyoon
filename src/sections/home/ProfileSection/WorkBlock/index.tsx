@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { useToggleSet } from '../../../../hooks/useToggleSet';
 import { collapseVerticalPreset } from '../../../../utils/motionPresets';
+import { fetchI18nArray } from '../../../../utils/i18nArray';
 import { listVariants } from '../animations';
 import type { AiHighlightItem, HighlightItem, WorkItem } from '../types';
 import HighlightCard from './HighlightCard';
@@ -72,14 +73,14 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                 <motion.div key="body" {...collapseVerticalPreset(0.28)}>
                   <div className="px-6 pb-7 space-y-6">
                     {projects.map((proj) => {
-                      const highlights = tIntro(
+                      const highlights = fetchI18nArray<HighlightItem>(
+                        tIntro,
                         `work.${item.id}.projects.${proj.id}.highlights`,
-                        { returnObjects: true, defaultValue: [] },
-                      ) as HighlightItem[];
-                      const aiHighlights = tIntro(
+                      );
+                      const aiHighlights = fetchI18nArray<AiHighlightItem>(
+                        tIntro,
                         `work.${item.id}.projects.${proj.id}.aiHighlights`,
-                        { returnObjects: true, defaultValue: [] },
-                      ) as AiHighlightItem[];
+                      );
                       const hasAi = Array.isArray(aiHighlights) && aiHighlights.length > 0;
                       const hasDev = Array.isArray(highlights) && highlights.length > 0;
                       const devSectionKey = `${item.id}-${proj.id}-dev`;

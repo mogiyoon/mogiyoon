@@ -20,6 +20,7 @@
 | 라벨 + 값 한 쌍 정보 셀 (이메일/학점/전공 등) | `InfoCell` | `src/components/primitives/InfoCell.tsx` |
 | `target="_blank" rel="noopener noreferrer"` 외부 링크 | `ExternalLink` | `src/components/primitives/ExternalLink.tsx` |
 | `AnimatePresence` 안의 height 0↔auto 컬랩스 motion 프리셋 | `collapseVerticalPreset` | `src/utils/motionPresets.ts` |
+| i18n 배열 리소스 fetch (`returnObjects: true` boilerplate) | `fetchI18nArray` | `src/utils/i18nArray.ts` |
 | 1-based 인덱스를 "01" / "AI·01" 같은 0-padded 문자열로 | `formatIndex` | `src/utils/formatIndex.ts` |
 | 펼침 / 접힘 boolean 상태 (`isOpen / open / close / toggle`) | `useDisclosure` | `src/hooks/useDisclosure.ts` |
 | Set<T> add/delete 토글 (다중 선택, 펼친 항목 추적 등) | `useToggleSet` | `src/hooks/useToggleSet.ts` |
