@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
+import { useToggleSet } from '../../../../hooks/useToggleSet';
 import { listVariants } from '../animations';
 import type { AiHighlightItem, HighlightItem, WorkItem } from '../types';
 import HighlightCard from './HighlightCard';
@@ -11,26 +12,8 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
   const { t: tIntro } = useTranslation('introduction');
   const { t: tCommon } = useTranslation('common');
   const [openWorkIdx, setOpenWorkIdx] = useState<number>(0);
-  const [openHighlights, setOpenHighlights] = useState<Set<string>>(new Set());
-  const [toggledSections, setToggledSections] = useState<Set<string>>(new Set());
-
-  const toggleHighlight = (key: string) => {
-    setOpenHighlights((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
-
-  const toggleSection = (key: string) => {
-    setToggledSections((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
+  const openHighlights = useToggleSet<string>();
+  const toggledSections = useToggleSet<string>();
 
   const highlightLabels = {
     problem: tCommon('highlight.problem'),
@@ -128,7 +111,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                           {hasAi && hasDev && (
                             <button
                               type="button"
-                              onClick={() => toggleSection(devSectionKey)}
+                              onClick={() => toggledSections.toggle(devSectionKey)}
                               className="w-full flex items-center gap-3 mb-3 group"
                             >
                               <span className="text-[10px] font-bold uppercase tracking-widest text-content-tertiary group-hover:text-content transition-colors">
@@ -168,7 +151,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                           highlight={h}
                                           index={i}
                                           isOpen={openHighlights.has(hKey)}
-                                          onToggle={() => toggleHighlight(hKey)}
+                                          onToggle={() => openHighlights.toggle(hKey)}
                                           labels={highlightLabels}
                                         />
                                       );
@@ -184,7 +167,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                             <>
                               <button
                                 type="button"
-                                onClick={() => toggleSection(aiSectionKey)}
+                                onClick={() => toggledSections.toggle(aiSectionKey)}
                                 className="w-full flex items-center gap-3 mb-3 mt-6 group"
                               >
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-content-tertiary group-hover:text-content transition-colors">
@@ -223,8 +206,8 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                                             index={i}
                                             isOpen={openHighlights.has(aKey)}
                                             isDetailOpen={openHighlights.has(detailKey)}
-                                            onToggle={() => toggleHighlight(aKey)}
-                                            onDetailToggle={() => toggleHighlight(detailKey)}
+                                            onToggle={() => openHighlights.toggle(aKey)}
+                                            onDetailToggle={() => openHighlights.toggle(detailKey)}
                                             labels={aiHighlightLabels}
                                           />
                                         );

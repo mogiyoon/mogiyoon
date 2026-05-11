@@ -6,8 +6,8 @@
 
 추출 완료된 프리미티브:
 
-- Hooks: `useDisclosure`, `useBodyScrollLock`, `useEscapeKey`, `useClickOutside`, `useCopyToClipboardWithToast`
-- Components: `Chip`, `ModalShell`, `FlippableCard`, `RotatingChevron`, `BulletList` (모두 `src/components/primitives/`)
+- Hooks: `useDisclosure`, `useBodyScrollLock`, `useEscapeKey`, `useClickOutside`, `useCopyToClipboardWithToast`, `useToggleSet`, `useFetchJson`
+- Components: `Chip`, `ModalShell`, `FlippableCard`, `RotatingChevron`, `BulletList`, `InfoCell` (모두 `src/components/primitives/`)
 - Utils: `placeholders.ts` (`PLACEHOLDER_*` 상수), `imageFallback.ts` (`createImageFallbackHandler`), `formatIndex.ts` (`formatIndex`)
 - Tokens (design-tokens.ts 추가분): `easings.{projectCard, toast, standard}`, `TOAST_VISIBLE_MS`
 

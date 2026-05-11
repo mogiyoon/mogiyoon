@@ -1,6 +1,7 @@
 import type React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useFetchJson } from "../../../hooks/useFetchJson";
 import type { TabStatusType } from "./MyInformation";
 
 import { WorkSection } from "./Section/WorkSection";
@@ -53,37 +54,25 @@ export const InfoPost: React.FC<{ tabStatus: TabStatusType }> = ({
   tabStatus,
 }) => {
   const { t } = useTranslation(["common", "introduction"]);
-  const [data, setData] = useState<IntroductionData | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { data: raw, error } = useFetchJson<Partial<IntroductionData>>("/data/introduction.json");
+
+  const data = useMemo<IntroductionData | null>(
+    () =>
+      raw
+        ? {
+            workExperience: raw.workExperience ?? [],
+            education: raw.education ?? [],
+            awards: raw.awards ?? [],
+            certificates: raw.certificates ?? [],
+          }
+        : null,
+    [raw],
+  );
 
   const title = useMemo(
     () => t(`info.${tabStatus}`, { ns: "common" }),
     [t, tabStatus]
   );
-
-  useEffect(() => {
-    const fetchLists = async () => {
-      try {
-        setError(null);
-        const res = await fetch("/data/introduction.json");
-        if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
-        const json = (await res.json()) as Partial<IntroductionData>;
-
-        setData({
-          workExperience: json.workExperience ?? [],
-          education: json.education ?? [],
-          awards: json.awards ?? [],
-          certificates: json.certificates ?? [],
-        });
-      } catch (e) {
-        console.error(e);
-        setError("Failed to load introduction data.");
-        setData(null);
-      }
-    };
-
-    fetchLists();
-  }, []);
 
   if (error) {
     return (

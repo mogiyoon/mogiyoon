@@ -1,5 +1,6 @@
 import type React from "react";
 import { Chip } from "../../primitives/Chip";
+import InfoCell from "../../primitives/InfoCell";
 
 export const EducationCard: React.FC<{
   title: React.ReactNode;
@@ -53,17 +54,8 @@ export const EducationCard: React.FC<{
 
       {/* Bottom Info (섹션 느낌으로 분리) */}
       <div className="p-6 pt-5 space-y-4">
-        {grade ? (
-          <div className="rounded-modal border border-line/70 bg-surface p-4">
-            <p className="text-xs font-bold text-content">Grade</p>
-            <p className="mt-1 text-sm text-content-secondary">{grade}</p>
-          </div>
-        ) : null}
-
-        <div className="rounded-modal border border-line/70 bg-surface p-4">
-          <p className="text-xs font-bold text-content">Major</p>
-          <p className="mt-1 text-sm text-content-secondary">{major}</p>
-        </div>
+        {grade ? <InfoCell label="Grade" value={grade} variant="bordered" /> : null}
+        <InfoCell label="Major" value={major} variant="bordered" />
       </div>
     </div>
   );
