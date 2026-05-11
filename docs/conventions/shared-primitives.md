@@ -15,14 +15,26 @@
 | 작은 라벨 / 태그 / 배지 (pill) | `Chip` | `src/components/primitives/Chip.tsx` |
 | 모달 셸 (백드롭 + 패널 + Esc + 스크롤락) | `ModalShell` | `src/components/primitives/ModalShell.tsx` |
 | 카드 앞면 ↔ 뒷면 3D flip | `FlippableCard` | `src/components/primitives/FlippableCard.tsx` |
+| 아코디언/토글 chevron 아이콘 (열림 시 180도 회전) | `RotatingChevron` | `src/components/primitives/RotatingChevron.tsx` |
+| 빈 항목 자동 필터 disc bullet 리스트 | `BulletList` | `src/components/primitives/BulletList.tsx` |
+| 라벨 + 값 한 쌍 정보 셀 (이메일/학점/전공 등) | `InfoCell` | `src/components/primitives/InfoCell.tsx` |
+| `target="_blank" rel="noopener noreferrer"` 외부 링크 | `ExternalLink` | `src/components/primitives/ExternalLink.tsx` |
+| `AnimatePresence` 안의 height 0↔auto 컬랩스 motion 프리셋 | `collapseVerticalPreset` | `src/utils/motionPresets.ts` |
+| i18n 배열 리소스 fetch (`returnObjects: true` boilerplate) | `fetchI18nArray` | `src/utils/i18nArray.ts` |
+| 1-based 인덱스를 "01" / "AI·01" 같은 0-padded 문자열로 | `formatIndex` | `src/utils/formatIndex.ts` |
 | 펼침 / 접힘 boolean 상태 (`isOpen / open / close / toggle`) | `useDisclosure` | `src/hooks/useDisclosure.ts` |
+| Set<T> add/delete 토글 (다중 선택, 펼친 항목 추적 등) | `useToggleSet` | `src/hooks/useToggleSet.ts` |
+| 정적 JSON 리소스 fetch + 3-state (data/isLoading/error) | `useFetchJson` | `src/hooks/useFetchJson.ts` |
+| 모듈 캐시가 필요한 정적 리소스 1회 로드 + 재사용 | `createCachedResource` + `useCachedResource` | `src/hooks/useCachedResource.ts` |
 | 모달 / 오버레이가 열린 동안 body 스크롤 잠그기 | `useBodyScrollLock` | `src/hooks/useBodyScrollLock.ts` |
 | Esc 키로 닫기 | `useEscapeKey` | `src/hooks/useEscapeKey.ts` |
 | 드롭다운 / 팝오버 외부 클릭 감지 | `useClickOutside` | `src/hooks/useClickOutside.ts` |
 | 클립보드 복사 + 토스트 자동 노출/해제 | `useCopyToClipboardWithToast` | `src/hooks/useCopyToClipboardWithToast.ts` |
+| prerender 완료 신호용 `render-event` 디스패치 | `usePrerenderReadyEvent` | `src/hooks/usePrerenderReadyEvent.ts` |
 | `<img>` 깨졌을 때 placeholder 로 swap | `createImageFallbackHandler` | `src/utils/imageFallback.ts` |
 | placeholder 이미지 URL (Image Not Found / Coming Soon / Project Image) | `PLACEHOLDER_*` 상수 | `src/utils/placeholders.ts` |
 | 카드 / 토스트 등 모션의 cubic-bezier 곡선, 토스트 노출 시간 | `easings.*`, `TOAST_VISIBLE_MS` | `src/design-tokens.ts` |
+| 공통 JSON fetch + 에러 처리 | `fetchJson` | `src/utils/fetchJson.ts` |
 
 ---
 
@@ -131,6 +143,106 @@ import FlippableCard from '@/components/primitives/FlippableCard';
 - aspect / sizing 을 primitive 안에 넣으려 함 → 그 책임은 호출자에게 있다. `className` (외곽 wrapper) 으로 aspect-square / aspect-[3/4] 등을 지정
 - flip 트리거 (hover vs click vs auto rotate) 를 primitive 가 결정하게 만들지 말 것 → `isFlipped` boolean 만 받고, 호출자가 driver 결정
 - duration 은 700ms 로 하드코딩되어 있음. 다른 값이 필요하면 `innerClassName` 으로 override (예: `duration-500`) 가능하지만, 디자인 시스템상 700ms 가 표준임
+
+---
+
+### `RotatingChevron` (`src/components/primitives/RotatingChevron.tsx`)
+
+**언제 쓰나**
+
+- 아코디언 / 토글 버튼의 펼침-접힘 표시용 아래쪽 chevron 아이콘
+- `isRotated` boolean 으로 180도 회전 트리거 (framer-motion `motion.svg`)
+- ProfileSection / WorkExperienceCard / WorkSection 등 7군데 이상에서 사용 중
+
+**기본 사용법**
+
+```tsx
+import RotatingChevron from '@/components/primitives/RotatingChevron';
+
+<div className="text-content-muted">
+  <RotatingChevron isRotated={isOpen} />
+</div>
+
+// 사이즈 / 색상 / 속도 커스터마이즈
+<RotatingChevron
+  isRotated={isOpen}
+  size="md"            // xs(w-3) / sm(default w-3.5) / md(w-4) / lg(w-5)
+  duration={0.2}       // 회전 애니메이션 (default 0.18)
+  strokeWidth={2.5}    // svg 굵기 (default 2)
+  className="text-accent-500"
+/>
+```
+
+**제공되는 동작**
+
+- 색상은 부모의 `text-*` 클래스를 `currentColor` 로 상속받음. svg 에 직접 색을 지정할 필요 없음
+- 사이즈는 4단계 토큰 (`xs` / `sm` / `md` / `lg`) 으로 제공
+- `motion.svg` 로 회전 — 반드시 framer-motion 컨텍스트 필요 (앱 전역에 이미 깔려 있음)
+
+**자주 하는 실수**
+
+- 인라인으로 `<motion.svg animate={{ rotate: isOpen ? 180 : 0 }}>...path d="M19 9l-7 7-7-7"...` 작성 → RotatingChevron 을 먼저 검토할 것
+- 외곽 `<motion.div>` 로 한 번 더 감싸기 → 이미 motion 컴포넌트이므로 plain `<div>` 로 감싸도 됨
+
+---
+
+### `BulletList` (`src/components/primitives/BulletList.tsx`)
+
+**언제 쓰나**
+
+- 빈 문자열 / null / undefined 가 섞일 수 있는 배열을 disc bullet 리스트로 표시할 때
+- AwardCard / WorkExperienceCard / WorkSection 의 동일 패턴 `items?.filter(Boolean).length ? <ul>... : null` 을 추출
+
+**기본 사용법**
+
+```tsx
+import BulletList from '@/components/primitives/BulletList';
+
+<BulletList items={description} tone="meta" className="mt-3" />
+<BulletList items={achievements} tone="secondary" />
+```
+
+**제공되는 동작**
+
+- 모든 아이템이 빈 값이면 아예 렌더링하지 않음 (`null` 반환)
+- `tone`: `meta` (default — `text-content-meta`) / `secondary` (`text-content-secondary`) / `muted` (`text-content-muted`)
+- `className` 으로 외부 마진/패딩 추가 가능 (예: `"mt-3"`)
+
+**자주 하는 실수**
+
+- 호출 측에서 다시 `filter(Boolean)` 을 돌림 → primitive 가 내부에서 처리하므로 중복
+- 빈 배열일 때 호출 측에서 또 조건 분기 → primitive 가 빈 결과면 `null` 반환하므로 그냥 호출하면 됨
+
+---
+
+### `InfoCell` (`src/components/primitives/InfoCell.tsx`)
+
+**언제 쓰나**
+
+- 라벨 + 값 한 쌍을 작은 박스 안에 보여줄 때 (이메일, 전화번호, 학점, 전공 등)
+- ResumeProfileCard (subtle) / EducationCard (bordered) 등 4 사이트에서 동일한 구조 사용
+
+**기본 사용법**
+
+```tsx
+import InfoCell from '@/components/primitives/InfoCell';
+
+// 부모 카드 안의 soft 채움 (기본값)
+<InfoCell label={t('resume.builder.email')} value={profile.email} />
+
+// 독립 정보 블록 강조 (border + bg-surface)
+<InfoCell label="Grade" value={grade} variant="bordered" />
+```
+
+**제공되는 변형 (variant)**
+
+- `subtle` (default): `rounded-2xl bg-surface-subtle px-4 py-3`, 라벨은 uppercase muted
+- `bordered`: `rounded-modal border border-line/70 bg-surface p-4`, 라벨은 bold content
+
+**자주 하는 실수**
+
+- 인라인으로 라벨 + 값 마크업을 다시 작성 → variant 안에서 처리됨. 새 변형이 필요하면 `InfoCell.tsx` 의 *_CLASSES 매핑에 추가
+- 라벨 / 값 둘 다 ReactNode 라 i18n `t()` 결과뿐 아니라 `<Trans>` 컴포넌트도 그대로 넘길 수 있음
 
 ---
 
@@ -288,6 +400,80 @@ await copy('hello@mogiyoon.com', {
 
 ---
 
+### `useToggleSet` (`src/hooks/useToggleSet.ts`)
+
+**언제 쓰나**
+
+- `Set<T>` 의 add / delete 토글이 필요한 모든 곳 (다중 선택 체크박스, 펼쳐진 아코디언 항목 추적 등)
+- WorkBlock 의 highlight / section 토글, ResumePreviewPage 의 selectedBlockIds / includedProjectIds / closedSubPanels 등
+
+**기본 사용법**
+
+```tsx
+import { useToggleSet } from '@/hooks/useToggleSet';
+
+// 단순 토글
+const openHighlights = useToggleSet<string>();
+openHighlights.toggle('item-1');
+openHighlights.has('item-1');  // true
+
+// 초기값으로 시작
+const selectedBlockIds = useToggleSet<string>(loadedData.defaultSelectedBlockIds);
+
+// 외부에서 통째로 갱신 (예: 데이터 reload 시 reset)
+selectedBlockIds.reset(sourceData.defaultSelectedBlockIds);
+```
+
+**반환값**
+
+- `ids: Set<T>` — 현재 Set (size, has, forEach 등 표준 Set API 사용 가능)
+- `has(id): boolean` — `ids.has(id)` 와 동일한 콜백
+- `toggle(id)` — 있으면 제거, 없으면 추가
+- `reset(iterable?)` — Set 전체 교체 (인자 생략 시 빈 Set)
+- `setIds(setter)` — escape hatch
+
+**자주 하는 실수**
+
+- `setIds((prev) => { const next = new Set(prev); ... })` 인라인 작성 → `toggle()` 하나로 끝
+- 외부에서 Set 을 변경하려고 `ids.add(x)` 직접 호출 → state 갱신이 안 됨. 항상 `toggle` 또는 `reset` 사용
+
+---
+
+### `useFetchJson` (`src/hooks/useFetchJson.ts`)
+
+**언제 쓰나**
+
+- 정적 JSON 리소스를 fetch + 상태 추적 (loading / error / data) 이 필요한 모든 곳
+- InfoPost / ProjectDetailPage 처럼 컴포넌트 마운트 시 한 번 받아오는 케이스에 적합
+- URL 이 동적 (예: `projectId` 따라 다름) 인 경우 자동 refetch
+
+**기본 사용법**
+
+```tsx
+import { useFetchJson } from '@/hooks/useFetchJson';
+
+const { data, isLoading, error } = useFetchJson<ProjectData>('/data/projects/x.json');
+
+// URL 이 아직 없으면 null 로 fetch 안 시작
+const url = projectId ? `/data/projects/${projectId}.json` : null;
+const { data, isLoading } = useFetchJson<ProjectData>(url);
+```
+
+**제공되는 동작**
+
+- `url` 이 `null` 이면 fetch 미실행, isLoading=false 로 즉시 반환
+- 언마운트 가드 (`isMounted`) 자동 처리 — 응답이 늦게 도착해도 setState 호출 안 함
+- 응답 `ok` 가 false 이면 `error` 에 status 메시지 채워짐
+- url 변경 시 자동 refetch (의존성으로 `[url, ...deps]` 사용)
+
+**자주 하는 실수**
+
+- 응답을 component 에서 transform 해야 하면 `useMemo` 로 래핑 (raw 가 `null` 이면 `null` 반환). InfoPost 가 이 패턴 사용
+- 인증/헤더가 필요한 fetch — 이 훅은 GET-only-public-JSON 가정. 그 외 케이스는 직접 작성
+- 의존성 추가 시 `useFetchJson(url, [otherDep])` 처럼 deps 인자로 넘김 (url 외 변경 트리거)
+
+---
+
 ## Utilities
 
 ### `createImageFallbackHandler` (`src/utils/imageFallback.ts`)
@@ -344,6 +530,33 @@ import { PLACEHOLDER_NOT_FOUND_300x300 } from '@/utils/placeholders';
 
 ---
 
+### `formatIndex` (`src/utils/formatIndex.ts`)
+
+**언제 쓰나**
+
+- 0-based 인덱스를 `"01"`, `"02"`, ... 처럼 사람이 읽기 좋은 1-based 0-padded 문자열로 변환할 때
+- ProfileSection / AiDevKitModal 의 DetailItems / SkillGroups 등 5군데 이상에서 사용 중
+
+**기본 사용법**
+
+```ts
+import { formatIndex } from '@/utils/formatIndex';
+
+formatIndex(0)              // "01"
+formatIndex(11)             // "12"
+formatIndex(99)             // "100" (truncate 하지 않음)
+formatIndex(0, 'AI·')       // "AI·01"
+formatIndex(4, '#')         // "#05"
+formatIndex(0, undefined, 3) // "001" (3자리 padding)
+```
+
+**자주 하는 실수**
+
+- 인라인으로 `String(index + 1).padStart(2, '0')` 작성 → `formatIndex(index)` 로 교체
+- prefix 를 직접 concat (`'AI·' + String(...).padStart(...)`) → 두 번째 인자로 넘기면 됨
+
+---
+
 ## Design Tokens 추가분
 
 ### `easings` (`src/design-tokens.ts`)
@@ -395,14 +608,14 @@ import { TOAST_VISIBLE_MS } from '@/design-tokens';
 
 | ID | 제목 | 임시 처리 |
 |---|---|---|
-| D-001 | useToggleSet (Set add/delete toggle) | 인라인 사용. ResumePreviewPage 의 characterization 테스트 후 추출 |
-| D-002 | useFetchJson / useLocalizedResource | 인라인 fetch 유지. InfoPost / ResumePreviewPage 테스트 부재 + 형태 다양 |
+| ~~D-001~~ | ~~useToggleSet~~ | ✅ 추출 완료 → `src/hooks/useToggleSet.ts` |
+| ~~D-002~~ | ~~useFetchJson / useLocalizedResource~~ | ✅ useFetchJson 추출 완료 → `src/hooks/useFetchJson.ts` (useLocalizedResource 는 보류) |
 | D-003 | ProjectCardFrame shell (썸네일 + 제목 + 부제 + 뱃지) | 인라인. B-013 Chip 으로 highest-value sub-extraction 선행 |
 | D-004 | ExpandableCard primitive (chevron 헤더 + collapsible body) | 인라인. max-h transition vs 조건부 render 표준화는 UX 결정 필요 |
 | D-005 | CardSkeleton placeholder | 인라인. 두 번째 loading state 가 생기면 추출 |
 | D-006 | ExternalLinkArrowIcon + icon 모듈 통합 | 인라인. 후속 icon-consolidation PR 로 묶음 |
 | D-007 | LinkButton primitive | 인라인. ContactModal / PageHeader Info 버튼 리팩터 후 두 번째 사이트 생기면 추출 |
-| D-008 | InfoCell primitive | 인라인. TotalSummaryComponent overview 리팩터와 페어링 |
+| ~~D-008~~ | ~~InfoCell primitive~~ | ✅ 추출 완료 → `src/components/primitives/InfoCell.tsx` (subtle/bordered 변형) |
 | D-009 | bg-slate-* / border-slate-* / text-slate-* → surface/content/line 토큰 sweep | 인라인 className 유지. B-013/B-014/B-015 가 정착한 뒤 sweep |
 | D-010 | card-shell utility (rounded-3xl border-line bg-surface/80 backdrop-blur) | 인라인. AwardCard / CertificationCard / WorkExperienceCard 테스트 부재 |
 | D-011 | resume-preview card primitives + hardcoded backgrounds + 임의 radii | 인라인. ResumePreviewPage 테스트 + print/PDF 회귀 도구 필요 |

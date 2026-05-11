@@ -1,43 +1,31 @@
-import { useEffect, useState } from 'react';
-
 import type { PreparingProjectData } from '../components/PreparingCard';
 import type { ProjectSummary } from '../types';
+import { createCachedResource, useCachedResource } from './useCachedResource';
+import { fetchJson } from '../utils/fetchJson';
 
 type PrefetchedLists = {
     projects: ProjectSummary[];
     preparing: PreparingProjectData[];
 };
 
-let cachedLists: PrefetchedLists | null = null;
+const projectListsResource = createCachedResource<PrefetchedLists>(
+    async () => {
+        const [projects, preparing] = await Promise.all([
+            fetchJson<ProjectSummary[]>('/data/projects-list.json'),
+            fetchJson<PreparingProjectData[]>('/data/preparing-projects-list.json'),
+        ]);
 
-const listsPromise = Promise.all([
-    fetch('/data/projects-list.json').then((response) => response.json()),
-    fetch('/data/preparing-projects-list.json').then((response) => response.json()),
-]).then(([projects, preparing]) => {
-    cachedLists = { projects, preparing };
-    return cachedLists;
-}).catch(console.error);
+        return { projects, preparing };
+    },
+    { eager: true },
+);
 
 export const useProjectLists = () => {
-    const [projects, setProjects] = useState<ProjectSummary[]>(cachedLists?.projects ?? []);
-    const [preparingProjects, setPreparingProjects] = useState<PreparingProjectData[]>(cachedLists?.preparing ?? []);
-    const [isLoading, setIsLoading] = useState(!cachedLists);
-
-    useEffect(() => {
-        if (cachedLists) return;
-
-        listsPromise.then((data) => {
-            if (data) {
-                setProjects(data.projects);
-                setPreparingProjects(data.preparing);
-            }
-            setIsLoading(false);
-        });
-    }, []);
+    const { data, isLoading } = useCachedResource(projectListsResource);
 
     return {
-        projects,
-        preparingProjects,
+        projects: data?.projects ?? [],
+        preparingProjects: data?.preparing ?? [],
         isLoading,
     };
 };
