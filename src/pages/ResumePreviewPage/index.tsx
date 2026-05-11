@@ -1,152 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   loadResumeBuilderData,
-  type ResumeBlockDetailItem,
   type ResumeBuilderData,
   type ResumeEditableBlock,
   type ResumeProjectEntry,
-} from "../utils/resumePreview";
-import Seo from "../components/Seo";
-import { SEO_COPY, pickSeoLocale } from "../seo-copy";
-
-const linkOrder = ["website", "blog", "github", "linkedin"];
-const projectLinkOrder = ["github", "demo", "notion"];
-
-const cloneResumeData = (data: ResumeBuilderData): ResumeBuilderData =>
-  JSON.parse(JSON.stringify(data)) as ResumeBuilderData;
-
-const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h2 className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">{children}</h2>
-);
-
-const FieldLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-    {children}
-  </label>
-);
-
-const CollapsibleEditorSection: React.FC<{
-  title: string;
-  isOpen: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}> = ({ title, isOpen, onToggle, children }) => (
-  <section className="rounded-paper-edge-lg border border-slate-200 bg-[#f7f8fb] p-4 shadow-lg">
-    <button
-      type="button"
-      onClick={onToggle}
-      className="flex w-full items-center justify-between gap-2.5 text-left"
-    >
-      <SectionHeading>{title}</SectionHeading>
-      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
-        <svg
-          className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </span>
-    </button>
-
-    {isOpen && <div className="mt-3">{children}</div>}
-  </section>
-);
-
-const CollapsibleSubItem: React.FC<{
-  header: React.ReactNode;
-  isOpen: boolean;
-  onToggle: () => void;
-  children?: React.ReactNode;
-}> = ({ header, isOpen, onToggle, children }) => (
-  <div className="rounded-2xl border border-slate-200 bg-white">
-    <button
-      type="button"
-      onClick={onToggle}
-      className="flex w-full items-start justify-between gap-2.5 p-3.5 text-left"
-    >
-      <div className="min-w-0 flex-1">{header}</div>
-      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
-        <svg
-          className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </span>
-    </button>
-    {isOpen && children && <div className="px-3.5 pb-3.5">{children}</div>}
-  </div>
-);
-
-const InputField: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (props) => (
-  <input
-    {...props}
-    className={`w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 ${props.className ?? ""}`}
-  />
-);
-
-const TextAreaField: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (props) => (
-  <textarea
-    {...props}
-    className={`w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 ${props.className ?? ""}`}
-  />
-);
-
-const DetailPreviewItem: React.FC<{ item: ResumeBlockDetailItem }> = ({ item }) => (
-  <div className="resume-preview-detail grid grid-cols-[3.7rem_minmax(0,1fr)] gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5">
-    <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-500">{item.label}</p>
-    <p className="text-[12.5px] leading-[1.42] text-slate-700 whitespace-pre-wrap">{item.value}</p>
-  </div>
-);
-
-type BlockSectionGroup = {
-  key: string;
-  label: string;
-  blocks: ResumeEditableBlock[];
-};
-
-const normalizeSectionKey = (label: string) => label.trim().toLowerCase();
-
-const groupBlocksBySection = (blocks: ResumeEditableBlock[], preferredLabels: string[]) => {
-  const groups = new Map<string, BlockSectionGroup>();
-
-  blocks.forEach((block) => {
-    const label = block.sectionLabel?.trim() || "";
-    const key = label ? normalizeSectionKey(label) : "default";
-    const existingGroup = groups.get(key);
-
-    if (existingGroup) {
-      existingGroup.blocks.push(block);
-      return;
-    }
-
-    groups.set(key, {
-      key,
-      label,
-      blocks: [block],
-    });
-  });
-
-  const preferredKeys = new Set(preferredLabels.map(normalizeSectionKey));
-  const prioritizedGroups = preferredLabels
-    .map((label) => groups.get(normalizeSectionKey(label)))
-    .filter((group): group is BlockSectionGroup => Boolean(group));
-  const remainingGroups = Array.from(groups.values()).filter((group) => !preferredKeys.has(group.key));
-
-  return [...prioritizedGroups, ...remainingGroups];
-};
+} from "../../utils/resumePreview";
+import Seo from "../../components/Seo";
+import { SEO_COPY, pickSeoLocale } from "../../seo-copy";
+import {
+  cloneResumeData,
+  groupBlocksBySection,
+  linkOrder,
+  projectLinkOrder,
+} from "./helpers";
+import {
+  CollapsibleEditorSection,
+  CollapsibleSubItem,
+  FieldLabel,
+  InputField,
+  SectionHeading,
+  TextAreaField,
+} from "./editor";
+import { DetailPreviewItem } from "./preview";
+import { useSidebarPin } from "./useSidebarPin";
 
 const ResumePreviewPage: React.FC = () => {
   const { t, i18n } = useTranslation("common");
@@ -161,29 +39,7 @@ const ResumePreviewPage: React.FC = () => {
   const [closedSubPanels, setClosedSubPanels] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const asideRef = useRef<HTMLElement>(null);
-  const sidebarColumnRef = useRef<HTMLDivElement>(null);
-  const [isSidebarPinned, setIsSidebarPinned] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.localStorage.getItem("resume.sidebarPinned") === "true";
-  });
-  const [pinnedTop, setPinnedTop] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem("resume.sidebarPinned", String(isSidebarPinned));
-  }, [isSidebarPinned]);
-
-  const togglePin = (checked: boolean) => {
-    if (checked && asideRef.current && sidebarColumnRef.current) {
-      const asideRect = asideRef.current.getBoundingClientRect();
-      const columnRect = sidebarColumnRef.current.getBoundingClientRect();
-      setPinnedTop(asideRect.top - columnRect.top);
-    } else {
-      setPinnedTop(null);
-    }
-    setIsSidebarPinned(checked);
-  };
+  const { asideRef, sidebarColumnRef, isSidebarPinned, pinnedTop, togglePin } = useSidebarPin();
 
   useEffect(() => {
     let isMounted = true;
