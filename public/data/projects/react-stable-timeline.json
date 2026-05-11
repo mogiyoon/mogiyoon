@@ -45,16 +45,10 @@
       "title": "react-stable-timeline.summaries.troubleshooting.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "row_jumping", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.subtitle" },
+          { "type": "subtitle", "id": "hangul_label_width", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.subtitle" },
           { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.0" },
           { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.1" },
           { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.2" }
-        ],
-        [
-          { "type": "subtitle", "id": "hangul_label_width", "content": "react-stable-timeline.summaries.troubleshooting.parts.1.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.1.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.1.1" },
-          { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.1.2" }
         ]
       ]
     },
@@ -65,8 +59,7 @@
         [
           { "type": "subtitle", "id": "result", "content": "react-stable-timeline.summaries.results.parts.0.0" },
           { "type": "text", "content": "react-stable-timeline.summaries.results.parts.0.1" },
-          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.0.2" },
-          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.0.3" }
+          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.0.2" }
         ],
         [
           { "type": "subtitle", "id": "retrospect", "content": "react-stable-timeline.summaries.results.parts.1.0" },
