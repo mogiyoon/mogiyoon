@@ -8,6 +8,7 @@ import TotalSummaryComponent from '../components/TotalSummaryComponent';
 import Seo from '../components/Seo';
 import { SEO_COPY, pickSeoLocale } from '../seo-copy';
 import { animation } from '../design-tokens';
+import { useFetchJson } from '../hooks/useFetchJson';
 import { createImageFallbackHandler } from '../utils/imageFallback';
 import { PLACEHOLDER_NOT_FOUND_250x400 } from '../utils/placeholders';
 
@@ -26,37 +27,19 @@ const ProjectDetailPage: React.FC = () => {
   const fallbackDescription = SEO_COPY[seoLocale].projectDetail.fallbackDescription;
   const projectsSection = SEO_COPY[seoLocale].sections.projects;
 
-  const [project, setProject] = useState<ProjectData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const projectUrl = projectId ? `/data/projects/${projectId}.json` : null;
+  const { data: project, isLoading } = useFetchJson<ProjectData>(projectUrl);
   const [isLoaded, setIsLoaded] = useState(false);
   const [gifType, setGifType] = useState<"mobile" | "tablet">("mobile");
 
   useEffect(() => {
-    if (!projectId) return;
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const dataResponse = await fetch(`/data/projects/${projectId}.json`);
-        if (!dataResponse.ok) throw new Error('Data not found');
-        const data: ProjectData = await dataResponse.json();
-        setProject(data);
-
-        if (data.demoGifSrc) {
-          const img = new Image();
-          img.src = data.demoGifSrc;
-          img.onload = () => {
-            setGifType(img.width / img.height > 1 ? "tablet" : "mobile");
-          };
-        }
-      } catch (error) {
-        console.error("Failed to load project:", error);
-        setProject(null);
-      } finally {
-        setIsLoading(false);
-      }
+    if (!project?.demoGifSrc) return;
+    const img = new Image();
+    img.src = project.demoGifSrc;
+    img.onload = () => {
+      setGifType(img.width / img.height > 1 ? "tablet" : "mobile");
     };
-    fetchData();
-  }, [projectId, i18n]);
+  }, [project]);
 
   const handleImageError = createImageFallbackHandler({
     fallbackSrc: PLACEHOLDER_NOT_FOUND_250x400,

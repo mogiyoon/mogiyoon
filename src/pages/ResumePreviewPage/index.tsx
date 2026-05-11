@@ -25,6 +25,7 @@ import {
 } from "./editor";
 import { DetailPreviewItem } from "./preview";
 import { useSidebarPin } from "./useSidebarPin";
+import { useToggleSet } from "../../hooks/useToggleSet";
 
 const ResumePreviewPage: React.FC = () => {
   const { t, i18n } = useTranslation("common");
@@ -33,10 +34,10 @@ const ResumePreviewPage: React.FC = () => {
   const resumeSection = SEO_COPY[seoLocale].sections.resume;
   const [sourceData, setSourceData] = useState<ResumeBuilderData | null>(null);
   const [draft, setDraft] = useState<ResumeBuilderData | null>(null);
-  const [selectedBlockIds, setSelectedBlockIds] = useState<Set<string>>(new Set());
-  const [includedProjectIds, setIncludedProjectIds] = useState<Set<string>>(new Set());
+  const selectedBlockIds = useToggleSet<string>();
+  const includedProjectIds = useToggleSet<string>();
   const [openPanel, setOpenPanel] = useState<string | null>(null);
-  const [closedSubPanels, setClosedSubPanels] = useState<Set<string>>(new Set());
+  const closedSubPanels = useToggleSet<string>();
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const { asideRef, sidebarColumnRef, isSidebarPinned, pinnedTop, togglePin } = useSidebarPin();
@@ -54,8 +55,8 @@ const ResumePreviewPage: React.FC = () => {
 
         setSourceData(loadedData);
         setDraft(cloneResumeData(loadedData));
-        setSelectedBlockIds(new Set(loadedData.defaultSelectedBlockIds));
-        setIncludedProjectIds(new Set(loadedData.defaultIncludedProjectIds));
+        selectedBlockIds.reset(loadedData.defaultSelectedBlockIds);
+        includedProjectIds.reset(loadedData.defaultIncludedProjectIds);
       } catch (error) {
         console.error(error);
         if (isMounted) {
@@ -84,8 +85,8 @@ const ResumePreviewPage: React.FC = () => {
   const resetDraft = () => {
     if (!sourceData) return;
     setDraft(cloneResumeData(sourceData));
-    setSelectedBlockIds(new Set(sourceData.defaultSelectedBlockIds));
-    setIncludedProjectIds(new Set(sourceData.defaultIncludedProjectIds));
+    selectedBlockIds.reset(sourceData.defaultSelectedBlockIds);
+    includedProjectIds.reset(sourceData.defaultIncludedProjectIds);
   };
 
   const updateProfileField = (field: "name" | "targetRole" | "email" | "phone", value: string) => {
@@ -257,35 +258,8 @@ const ResumePreviewPage: React.FC = () => {
     });
   };
 
-  const toggleBlock = (blockId: string) => {
-    setSelectedBlockIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(blockId)) next.delete(blockId);
-      else next.add(blockId);
-      return next;
-    });
-  };
-
-  const toggleIncludedProject = (projectId: string) => {
-    setIncludedProjectIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(projectId)) next.delete(projectId);
-      else next.add(projectId);
-      return next;
-    });
-  };
-
   const togglePanel = (panelId: string) => {
     setOpenPanel((prev) => (prev === panelId ? null : panelId));
-  };
-
-  const toggleSubPanel = (subId: string) => {
-    setClosedSubPanels((prev) => {
-      const next = new Set(prev);
-      if (next.has(subId)) next.delete(subId);
-      else next.add(subId);
-      return next;
-    });
   };
 
   const isSubPanelOpen = (subId: string) => !closedSubPanels.has(subId);
@@ -567,7 +541,7 @@ const ResumePreviewPage: React.FC = () => {
                   <CollapsibleSubItem
                     key={work.id}
                     isOpen={isSubPanelOpen(`work-${work.id}`)}
-                    onToggle={() => toggleSubPanel(`work-${work.id}`)}
+                    onToggle={() => closedSubPanels.toggle(`work-${work.id}`)}
                     header={
                       <>
                         <p className="text-sm font-bold text-slate-900">{work.title}</p>
@@ -600,7 +574,7 @@ const ResumePreviewPage: React.FC = () => {
                                       <input
                                         type="checkbox"
                                         checked={selectedBlockIds.has(block.id)}
-                                        onChange={() => toggleBlock(block.id)}
+                                        onChange={() => selectedBlockIds.toggle(block.id)}
                                         className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-900"
                                       />
                                       <span className="block">
@@ -635,12 +609,12 @@ const ResumePreviewPage: React.FC = () => {
                       <input
                         type="checkbox"
                         checked={projIncluded}
-                        onChange={() => toggleIncludedProject(project.id)}
+                        onChange={() => includedProjectIds.toggle(project.id)}
                         className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-900"
                       />
                       <button
                         type="button"
-                        onClick={() => toggleSubPanel(`proj-${project.id}`)}
+                        onClick={() => closedSubPanels.toggle(`proj-${project.id}`)}
                         className="flex flex-1 items-start justify-between gap-2.5 text-left"
                       >
                         <span>
@@ -674,7 +648,7 @@ const ResumePreviewPage: React.FC = () => {
                             <input
                               type="checkbox"
                               checked={selectedBlockIds.has(block.id)}
-                              onChange={() => toggleBlock(block.id)}
+                              onChange={() => selectedBlockIds.toggle(block.id)}
                               className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-900"
                             />
                             <span>
@@ -703,7 +677,7 @@ const ResumePreviewPage: React.FC = () => {
                   <CollapsibleSubItem
                     key={`summary-${project.id}`}
                     isOpen={isSubPanelOpen(`summary-${project.id}`)}
-                    onToggle={() => toggleSubPanel(`summary-${project.id}`)}
+                    onToggle={() => closedSubPanels.toggle(`summary-${project.id}`)}
                     header={
                       <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                         {project.title} · {t("resume.builder.projectSummary")}
@@ -722,7 +696,7 @@ const ResumePreviewPage: React.FC = () => {
                   <CollapsibleSubItem
                     key={`editor-${block.id}`}
                     isOpen={isSubPanelOpen(`sw-${block.id}`)}
-                    onToggle={() => toggleSubPanel(`sw-${block.id}`)}
+                    onToggle={() => closedSubPanels.toggle(`sw-${block.id}`)}
                     header={
                       <div>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
@@ -771,7 +745,7 @@ const ResumePreviewPage: React.FC = () => {
                   <CollapsibleSubItem
                     key={`editor-${block.id}`}
                     isOpen={isSubPanelOpen(`sp-${block.id}`)}
-                    onToggle={() => toggleSubPanel(`sp-${block.id}`)}
+                    onToggle={() => closedSubPanels.toggle(`sp-${block.id}`)}
                     header={
                       <div>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">

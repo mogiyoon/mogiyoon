@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ResumeProfileSourceData } from '../../../utils/resumePreview';
+import InfoCell from '../../../components/primitives/InfoCell';
 import { resumeLinkOrder } from './animations';
 
 const ResumeProfileCard: React.FC<{
@@ -26,19 +27,9 @@ const ResumeProfileCard: React.FC<{
       </div>
 
       <div className={`mt-5 grid gap-3 ${profile.phone ? 'sm:grid-cols-2' : ''}`}>
-        <div className="rounded-2xl bg-surface-subtle px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
-            {t('resume.builder.email')}
-          </p>
-          <p className="mt-1 text-sm font-medium text-content-secondary">{profile.email}</p>
-        </div>
+        <InfoCell label={t('resume.builder.email')} value={profile.email} />
         {profile.phone && (
-          <div className="rounded-2xl bg-surface-subtle px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-content-muted">
-              {t('resume.builder.phone')}
-            </p>
-            <p className="mt-1 text-sm font-medium text-content-secondary">{profile.phone}</p>
-          </div>
+          <InfoCell label={t('resume.builder.phone')} value={profile.phone} />
         )}
       </div>
 
