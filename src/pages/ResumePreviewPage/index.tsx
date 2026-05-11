@@ -25,6 +25,8 @@ import {
 } from "./editor";
 import { DetailPreviewItem } from "./preview";
 import { useSidebarPin } from "./useSidebarPin";
+import { useResumeDraftUpdaters } from "./useResumeDraftUpdaters";
+import { useResumeSelectors } from "./useResumeSelectors";
 import { useToggleSet } from "../../hooks/useToggleSet";
 import ExternalLink from "../../components/primitives/ExternalLink";
 
@@ -90,174 +92,22 @@ const ResumePreviewPage: React.FC = () => {
     includedProjectIds.reset(sourceData.defaultIncludedProjectIds);
   };
 
-  const updateProfileField = (field: "name" | "targetRole" | "email" | "phone", value: string) => {
-    setDraft((prev) =>
-      prev
-        ? {
-            ...prev,
-            profile: {
-              ...prev.profile,
-              [field]: value,
-            },
-          }
-        : prev
-    );
-  };
+  const {
+    updateProfileField,
+    updateProfileLink,
+    updateIntroLine,
+    updateIntroBullet,
+    updateWorkBlock,
+    updateWorkBlockDetailItem,
+    updateProjectSummary,
+    updateProjectBlock,
+  } = useResumeDraftUpdaters(setDraft);
 
-  const updateProfileLink = (key: string, value: string) => {
-    setDraft((prev) =>
-      prev
-        ? {
-            ...prev,
-            profile: {
-              ...prev.profile,
-              links: {
-                ...prev.profile.links,
-                [key]: value,
-              },
-            },
-          }
-        : prev
-    );
-  };
-
-  const updateIntroLine = (value: string) => {
-    setDraft((prev) =>
-      prev
-        ? {
-            ...prev,
-            profile: {
-              ...prev.profile,
-              intro: {
-                ...prev.profile.intro,
-                line: value,
-              },
-            },
-          }
-        : prev
-    );
-  };
-
-  const updateIntroBullet = (index: number, value: string) => {
-    setDraft((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        profile: {
-          ...prev.profile,
-          intro: {
-            ...prev.profile.intro,
-            bullets: prev.profile.intro.bullets.map((bullet, bulletIndex) =>
-              bulletIndex === index ? { ...bullet, text: value } : bullet
-            ),
-          },
-        },
-      };
-    });
-  };
-
-  const updateWorkBlock = (blockId: string, field: "title" | "body", value: string) => {
-    setDraft((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        workExperience: prev.workExperience.map((work) => ({
-          ...work,
-          projects: work.projects.map((project) => ({
-            ...project,
-            blocks: project.blocks.map((block) =>
-              block.id === blockId
-                ? {
-                    ...block,
-                    [field]: value,
-                  }
-                : block
-            ),
-          })),
-        })),
-      };
-    });
-  };
-
-  const updateWorkBlockDetailItem = (blockId: string, detailId: string, value: string) => {
-    setDraft((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        workExperience: prev.workExperience.map((work) => ({
-          ...work,
-          projects: work.projects.map((project) => ({
-            ...project,
-            blocks: project.blocks.map((block) => {
-              if (block.id !== blockId || !block.detailItems) {
-                return block;
-              }
-
-              const detailItems = block.detailItems.map((item) =>
-                item.id === detailId
-                  ? {
-                      ...item,
-                      value,
-                    }
-                  : item
-              );
-
-              return {
-                ...block,
-                detailItems,
-                body: detailItems
-                  .map((item) => item.value.trim())
-                  .filter(Boolean)
-                  .join("\n\n"),
-              };
-            }),
-          })),
-        })),
-      };
-    });
-  };
-
-  const updateProjectSummary = (projectId: string, value: string) => {
-    setDraft((prev) =>
-      prev
-        ? {
-            ...prev,
-            projects: prev.projects.map((project) =>
-              project.id === projectId
-                ? {
-                    ...project,
-                    summary: value,
-                  }
-                : project
-            ),
-          }
-        : prev
-    );
-  };
-
-  const updateProjectBlock = (blockId: string, field: "title" | "body", value: string) => {
-    setDraft((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        projects: prev.projects.map((project) => ({
-          ...project,
-          blocks: project.blocks.map((block) =>
-            block.id === blockId
-              ? {
-                  ...block,
-                  [field]: value,
-                }
-              : block
-          ),
-        })),
-      };
-    });
-  };
+  const { selectedWorkBlocks, includedProjects, selectedProjectBlocks } = useResumeSelectors(
+    draft,
+    selectedBlockIds.ids,
+    includedProjectIds.ids,
+  );
 
   const togglePanel = (panelId: string) => {
     setOpenPanel((prev) => (prev === panelId ? null : panelId));
@@ -315,29 +165,6 @@ const ResumePreviewPage: React.FC = () => {
     );
   }
 
-  const selectedWorkBlocks = draft.workExperience.flatMap((work) =>
-    work.projects.flatMap((project) =>
-      project.blocks
-        .filter((block) => selectedBlockIds.has(block.id))
-        .map((block) => ({
-          workId: work.id,
-          projectId: project.id,
-          projectName: project.name,
-          block,
-        }))
-    )
-  );
-
-  const includedProjects = draft.projects.filter((project) => includedProjectIds.has(project.id));
-  const selectedProjectBlocks = includedProjects.flatMap((project) =>
-    project.blocks
-      .filter((block) => selectedBlockIds.has(block.id))
-      .map((block) => ({
-        projectId: project.id,
-        projectName: project.title,
-        block,
-      }))
-  );
   const developmentLabel = String(t("highlight.section.development"));
   const aiUsageLabel = String(t("highlight.section.aiUsage"));
   const workSectionOrder = [developmentLabel, aiUsageLabel];
