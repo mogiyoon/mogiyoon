@@ -682,7 +682,7 @@
   },
   "react-stable-timeline": {
     "title": "@mogiyoon/react-stable-timeline",
-    "subtitle": "팬/줌 시 행이 흔들리지 않는 React 타임라인 라이브러리",
+    "subtitle": "팬·줌 중에도 사건 카드의 행이 고정되는 React 타임라인 라이브러리",
     "overview": {
       "projectType": "개인 프로젝트"
     }
