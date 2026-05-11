@@ -686,5 +686,12 @@
     "overview": {
       "projectType": "Personal Project"
     }
+  },
+  "storytect": {
+    "title": "Storytect",
+    "subtitle": "A desktop editor that unfolds a story as a codex and weaves it into your own worldbuilding",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
