@@ -1,5 +1,6 @@
 import i18n from "../i18n";
 import type { ProjectData, SummaryPart } from "../types";
+import { fetchJson } from "./fetchJson";
 
 type ResumeProfileBulletLink = {
   text: string;
@@ -156,14 +157,6 @@ export type ResumeBuilderData = {
 
 const normalizeLanguage = (language: string) =>
   language.toLowerCase().startsWith("en") ? "en" : "ko";
-
-const fetchJson = async <T,>(path: string): Promise<T> => {
-  const response = await fetch(path);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${path}`);
-  }
-  return (await response.json()) as T;
-};
 
 const fetchLocalizedResumeProfile = async (language: string) => {
   const normalizedLanguage = normalizeLanguage(language);
