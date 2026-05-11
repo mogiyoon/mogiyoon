@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDisclosure } from '../../hooks/useDisclosure';
+import { formatIndex } from '../../utils/formatIndex';
 import { Chip } from '../primitives/Chip';
 import FlowDiagram from './FlowDiagram';
 import { ChevronIcon, DetailIcon, GroupIcon } from './icons';
@@ -147,7 +148,7 @@ const DiagramItems: React.FC<DetailItemsProps> = ({ section }) => (
           className="rounded-card border border-line/70 bg-surface p-4 shadow-sm"
         >
           <div className="mb-3 inline-flex h-6 min-w-[28px] items-center justify-center rounded-full bg-accent-600 px-1.5 text-[11px] font-bold text-surface">
-            {String(index + 1).padStart(2, '0')}
+            {formatIndex(index)}
           </div>
           <DetailItemHeading item={detailItem} />
         </article>

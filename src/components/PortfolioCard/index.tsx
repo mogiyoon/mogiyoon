@@ -69,45 +69,6 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
           </Chip>
         </div>
       </div>
-      {project.claudeInfo && (
-        <div
-          className="
-                                        pointer-events-none select-none
-                                        absolute top-3 right-3
-                                        flex items-center gap-1.5
-                                        pl-2 pr-2.5 py-1
-                                        rounded-full
-                                        border border-white/40
-                                        bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-indigo-400/20
-                                        backdrop-blur-md
-                                        shadow-glow-accent
-                                    "
-          aria-hidden
-        >
-          {/* sparkle icon */}
-          <svg
-            className="w-3.5 h-3.5 shrink-0 drop-shadow-glow-accent-sm"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z"
-              fill="white"
-            />
-          </svg>
-          <span
-            className="
-                                            text-[10px] font-bold tracking-wide
-                                            bg-gradient-to-r from-indigo-600 via-violet-500 to-indigo-500
-                                            bg-clip-text text-transparent
-                                        "
-          >
-            Vibe
-          </span>
-          {/* secondary sparkle dot */}
-          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-glow-accent-xs" />
-        </div>
-      )}
       {project.stickerText && (
         <div
           className={`
@@ -178,7 +139,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
   return (
     <div
       onClick={handleCardClick}
-      className={`block cursor-pointer ${className || ""}`}
+      className={`relative block cursor-pointer ${className || ""}`}
     >
       <FlippableCard
         isFlipped={isFlipped}
@@ -188,6 +149,45 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
         front={front}
         back={back}
       />
+      {project.claudeInfo && (
+        <div
+          className="
+                                        pointer-events-none select-none
+                                        absolute top-3 right-3 z-10
+                                        flex items-center gap-1.5
+                                        pl-2 pr-2.5 py-1
+                                        rounded-full
+                                        border border-white/40
+                                        bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-indigo-400/20
+                                        backdrop-blur-md
+                                        shadow-glow-accent
+                                    "
+          aria-hidden
+        >
+          {/* sparkle icon */}
+          <svg
+            className="w-3.5 h-3.5 shrink-0 drop-shadow-glow-accent-sm"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M12 2L13.5 9.5L20 8L14.5 12L20 16L13.5 14.5L12 22L10.5 14.5L4 16L9.5 12L4 8L10.5 9.5L12 2Z"
+              fill="white"
+            />
+          </svg>
+          <span
+            className="
+                                            text-[10px] font-bold tracking-wide
+                                            bg-gradient-to-r from-indigo-600 via-violet-500 to-indigo-500
+                                            bg-clip-text text-transparent
+                                        "
+          >
+            Vibe
+          </span>
+          {/* secondary sparkle dot */}
+          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-glow-accent-xs" />
+        </div>
+      )}
     </div>
   );
 };

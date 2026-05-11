@@ -679,5 +679,19 @@
     "overview": {
       "projectType": "Personal Project"
     }
+  },
+  "react-stable-timeline": {
+    "title": "@mogiyoon/react-stable-timeline",
+    "subtitle": "A React timeline library where event card rows stay locked through pan and zoom",
+    "overview": {
+      "projectType": "Personal Project"
+    }
+  },
+  "storytect": {
+    "title": "Storytect",
+    "subtitle": "A desktop editor that unfolds a story as a codex and weaves it into your own worldbuilding",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
