@@ -1,19 +1,21 @@
 // src/components/PageHeader.tsx
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { useClickOutside } from '../hooks/useClickOutside';
+import { useDisclosure } from '../hooks/useDisclosure';
+import RotatingChevron from './primitives/RotatingChevron';
 
 interface PageHeaderProps {
-  setModalOpen: () => void;
+  onOpenContactModal: () => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setActiveTab }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ onOpenContactModal, activeTab, setActiveTab }) => {
   const { t, i18n } = useTranslation();
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const { isOpen: isDropdownOpen, close: closeDropdown, toggle: toggleDropdown } = useDisclosure(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const tabs = [
@@ -25,11 +27,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
 
   const handleLanguageChange = (lang: string) => {
     i18n.changeLanguage(lang);
-    setDropdownOpen(false); // 언어 선택 후 드롭다운 닫기
+    closeDropdown();
   };
 
-  // 드롭다운 외부 클릭 시 닫기
-  const closeDropdown = useCallback(() => setDropdownOpen(false), []);
   useClickOutside(dropdownRef, closeDropdown, isDropdownOpen);
 
   return (
@@ -65,17 +65,17 @@ const PageHeader: React.FC<PageHeaderProps> = ({ setModalOpen, activeTab, setAct
         </nav>
 
         <div className="flex items-center gap-4">
-          <button onClick={setModalOpen} className="text-content-secondary hover:text-white hover:bg-slate-900 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center">
+          <button onClick={onOpenContactModal} className="text-content-secondary hover:text-white hover:bg-slate-900 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center">
             Info
           </button>
           
           <div className="relative" ref={dropdownRef}>
             <button
-              onClick={() => setDropdownOpen(!isDropdownOpen)}
+              onClick={toggleDropdown}
               className="text-content-secondary px-1 py-2 rounded-lg transition-colors duration-300 flex items-center hover:bg-surface-muted"
             >
               <span className="hidden lg:inline">{t('language')}</span>&nbsp;🌐
-              <svg className={`w-4 h-4 ml-1 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              <RotatingChevron isRotated={isDropdownOpen} className="ml-1" />
             </button>
             
             {isDropdownOpen && (

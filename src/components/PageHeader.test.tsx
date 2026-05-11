@@ -21,13 +21,13 @@ import PageHeader from './PageHeader';
 
 const renderHeader = (
   overrides: Partial<{
-    setModalOpen: () => void;
+    onOpenContactModal: () => void;
     activeTab: string;
     setActiveTab: (tab: string) => void;
   }> = {}
 ) => {
   const props = {
-    setModalOpen: vi.fn(),
+    onOpenContactModal: vi.fn(),
     activeTab: 'about',
     setActiveTab: vi.fn(),
     ...overrides,
@@ -71,12 +71,12 @@ describe('PageHeader', () => {
     expect(inactiveLink?.className).not.toContain('text-white');
   });
 
-  it('invokes setModalOpen when the Info button is clicked', () => {
+  it('invokes onOpenContactModal when the Info button is clicked', () => {
     const { props } = renderHeader();
 
     fireEvent.click(screen.getByRole('button', { name: /info/i }));
 
-    expect(props.setModalOpen).toHaveBeenCalledTimes(1);
+    expect(props.onOpenContactModal).toHaveBeenCalledTimes(1);
   });
 
   it('toggles the language dropdown open and closed', () => {

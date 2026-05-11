@@ -3,7 +3,7 @@ import type { TFunction } from 'i18next';
 import { fetchI18nArray } from './i18nArray';
 
 const makeT = (response: unknown) =>
-  (((..._args: unknown[]) => response) as unknown) as TFunction;
+  ((() => response) as unknown) as TFunction;
 
 describe('fetchI18nArray', () => {
   it('returns the array when t() resolves to an array', () => {

@@ -25,13 +25,16 @@
 | 펼침 / 접힘 boolean 상태 (`isOpen / open / close / toggle`) | `useDisclosure` | `src/hooks/useDisclosure.ts` |
 | Set<T> add/delete 토글 (다중 선택, 펼친 항목 추적 등) | `useToggleSet` | `src/hooks/useToggleSet.ts` |
 | 정적 JSON 리소스 fetch + 3-state (data/isLoading/error) | `useFetchJson` | `src/hooks/useFetchJson.ts` |
+| 모듈 캐시가 필요한 정적 리소스 1회 로드 + 재사용 | `createCachedResource` + `useCachedResource` | `src/hooks/useCachedResource.ts` |
 | 모달 / 오버레이가 열린 동안 body 스크롤 잠그기 | `useBodyScrollLock` | `src/hooks/useBodyScrollLock.ts` |
 | Esc 키로 닫기 | `useEscapeKey` | `src/hooks/useEscapeKey.ts` |
 | 드롭다운 / 팝오버 외부 클릭 감지 | `useClickOutside` | `src/hooks/useClickOutside.ts` |
 | 클립보드 복사 + 토스트 자동 노출/해제 | `useCopyToClipboardWithToast` | `src/hooks/useCopyToClipboardWithToast.ts` |
+| prerender 완료 신호용 `render-event` 디스패치 | `usePrerenderReadyEvent` | `src/hooks/usePrerenderReadyEvent.ts` |
 | `<img>` 깨졌을 때 placeholder 로 swap | `createImageFallbackHandler` | `src/utils/imageFallback.ts` |
 | placeholder 이미지 URL (Image Not Found / Coming Soon / Project Image) | `PLACEHOLDER_*` 상수 | `src/utils/placeholders.ts` |
 | 카드 / 토스트 등 모션의 cubic-bezier 곡선, 토스트 노출 시간 | `easings.*`, `TOAST_VISIBLE_MS` | `src/design-tokens.ts` |
+| 공통 JSON fetch + 에러 처리 | `fetchJson` | `src/utils/fetchJson.ts` |
 
 ---
 

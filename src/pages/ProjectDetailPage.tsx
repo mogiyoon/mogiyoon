@@ -9,6 +9,7 @@ import Seo from '../components/Seo';
 import { SEO_COPY, pickSeoLocale } from '../seo-copy';
 import { animation } from '../design-tokens';
 import { useFetchJson } from '../hooks/useFetchJson';
+import { usePrerenderReadyEvent } from '../hooks/usePrerenderReadyEvent';
 import { createImageFallbackHandler } from '../utils/imageFallback';
 import { PLACEHOLDER_NOT_FOUND_250x400 } from '../utils/placeholders';
 import ExternalLink from '../components/primitives/ExternalLink';
@@ -47,11 +48,7 @@ const ProjectDetailPage: React.FC = () => {
     onAfter: () => setIsLoaded(true),
   });
 
-  useEffect(() => {
-    if (!isLoading) {
-      document.dispatchEvent(new Event('render-event'));
-    }
-  }, [isLoading]);
+  usePrerenderReadyEvent(!isLoading);
 
   if (isLoading) {
     return (

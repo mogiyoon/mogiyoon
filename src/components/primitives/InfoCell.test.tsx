@@ -39,4 +39,18 @@ describe('InfoCell', () => {
 
     expect(cell.className).toContain('mt-3');
   });
+
+  it('appends extra class names to label and value independently', () => {
+    const { getByText } = render(
+      <InfoCell
+        label="Label"
+        value="Value"
+        labelClassName="text-red-500"
+        valueClassName="text-blue-500"
+      />,
+    );
+
+    expect(getByText('Label').className).toContain('text-red-500');
+    expect(getByText('Value').className).toContain('text-blue-500');
+  });
 });

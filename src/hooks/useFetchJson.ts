@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { fetchJson } from '../utils/fetchJson';
 
 export interface UseFetchJsonResult<T> {
   data: T | null;
@@ -35,11 +36,7 @@ export const useFetchJson = <T,>(
     setIsLoading(true);
     setError(null);
 
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
-        return res.json() as Promise<T>;
-      })
+    fetchJson<T>(url)
       .then((json) => {
         if (!isMounted) return;
         setData(json);
