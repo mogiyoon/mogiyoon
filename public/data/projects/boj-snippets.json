@@ -6,7 +6,7 @@
   "description": "boj-snippets.description",
   "overview": {
     "projectType": "boj-snippets.overview.projectType",
-    "period": "2025.04",
+    "period": "2026.04",
     "introduction": "boj-snippets.overview.introduction",
     "features": "boj-snippets.overview.features",
     "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"],
