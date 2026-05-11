@@ -31,7 +31,7 @@ export interface InfoCellProps {
  * - `subtle`: 부모 카드 안에 들어가는 soft 채움 (bg-surface-subtle, 경계선 없음)
  * - `bordered`: 독립 정보 블록 강조 (rounded-modal + border)
  *
- * ResumeProfileCard (email/phone) / EducationCard (grade/major) 등에서 반복되어 추출.
+ * ResumeProfileCard (email/phone) 등에서 반복되어 추출.
  */
 const InfoCell: React.FC<InfoCellProps> = ({
   label,
