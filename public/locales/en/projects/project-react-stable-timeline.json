@@ -6,7 +6,7 @@
     "overview": {
       "projectType": "Personal Project",
       "introduction": "A React timeline component library where event card rows stay locked through pan and zoom",
-      "features": "Full-dataset first-fit row placement, Canvas2D label width measurement, Photoshop-style zoom %, trackpad-friendly interaction, controlled and uncontrolled viewport modes"
+      "features": "Full-dataset first-fit row placement, Canvas2D label width measurement, zoom controls, trackpad-friendly interaction, controlled and uncontrolled viewport modes"
     },
     "summaries": {
       "development": {
@@ -14,23 +14,23 @@
         "parts": {
           "0": {
             "subtitle": "Switching to a Custom Implementation Because Rows Kept Reshuffling on Pan and Zoom",
-            "0": "The timeline component for the chronological catalog page was first built on vis-timeline. The packing behavior — stacking events that overlap in time onto separate rows so they don't collide — worked, but the layout recomputed against only the items currently visible. Pan and zoom therefore produced a visual discontinuity: the same event card landed on a different row depending on the viewport.",
-            "1": "The library's underlying assumption was \"reflow the layout to whatever is currently visible,\" while the assumption the user needed was \"once a row is assigned, it stays through pan and zoom.\" The mismatch was at the level of the placement rule itself, not a tunable option, so vis-timeline was removed in favor of a custom implementation that includes a row-stable mode."
+            "0": "The timeline component for the chronological catalog page was first built on vis-timeline. The stacking behavior that prevents events at the same time from colliding worked correctly, but since row positions were recalculated against only the currently visible viewport, event cards shifted rows during pan and zoom.",
+            "1": "Keeping each row assignment stable through pan and zoom was judged to be the better UX. Since the mismatch was at the level of the placement rule itself rather than a tunable option, vis-timeline was removed in favor of a custom implementation that includes a row-stable mode."
           },
           "1": {
             "subtitle": "Designing the Row-Stable Placement Algorithm and Its TypeScript Implementation",
-            "0": "The core of the row-stable mode is separating row computation from viewport movement: rows are decided once against the full dataset, and pan/zoom only translate coordinates afterwards. The pseudocode the user wrote in Korean by hand assumes a queue A (an ordered list of items to process) and a dictionary B (a key-value map of each row index to its rightmost end point). It reads: \"Sort items into queue A by (start time, name). Initialize dictionary B keyed by row index, valued by end point. Pop component C, compare its start to B[0]'s end point — if C starts later, place it on row 0 and update the end point; otherwise iterate the dictionary. If no row fits, insert into the row whose end-point distance is smallest in absolute value.\" That description is exactly first-fit interval partitioning — scanning the empty rows in order and dropping each item into the first one it fits.",
-            "1": "The TypeScript implementation maps queue A to a (start, label)-sorted array and dictionary B to a rowEndsPx array. Only the overflow case diverges from the user's proposal: the user said \"insert into the closest row,\" while the implementation opens a new row to avoid label collisions. Time complexity is O(n log n) for the sort plus O(n·R) for placement, and the result is deterministic — the same input always produces the same output."
+            "0": "The core of the row-stable mode is separating row computation from viewport movement: rows are decided once against the full dataset, and pan/zoom only translate coordinates afterwards. The hand-written pseudocode assumes a queue A (an ordered list of items to process) and a dictionary B (a key-value map of each row index to its rightmost end point). It reads: \"Sort items into queue A by (start time, name). Initialize dictionary B keyed by row index, valued by end point. Pop component C, compare its start to B[0]'s end point — if C starts later, place it on row 0 and update the end point; otherwise iterate the dictionary. If no row fits, insert into the row whose end-point distance is smallest in absolute value.\"",
+            "1": "The actual implementation was refined to map queue A onto a (start, label)-sorted array and dictionary B onto a rowEndsPx array. The original proposal said \"insert into the closest row,\" but the implementation opens a new row instead to avoid label collisions. Time complexity is O(n log n) for the sort plus O(n·R) for placement, and the result is deterministic — the same input always produces the same output."
           },
           "2": {
             "subtitle": "Measuring Real Pixel Widths Instead of Estimating from Character Count",
             "0": "Character-count-based estimates underrepresented Hangul's actual pixel width by about 30%, leaving visible collisions between labels. To close that gap, Canvas2D measureText (the browser's text-width API) is used, and a measurer function wraps it so the value can flow into the placement calculation.",
-            "1": "When a label is wider than its time slot, the extra width is folded into the gap calculation against the next event card so they cannot overlap. In SSR (server-side rendering) environments where there is no document object, a character-count fallback runs automatically, keeping the library behavior aligned across client and server. The measurer is exported, so layouts can also be precomputed in a worker (a separate thread)."
+            "1": "When a label is wider than its time slot, the label width drives the gap calculation against the next event card to prevent overlap; when the time slot is wider, the slot width is used instead."
           },
           "3": {
             "subtitle": "Cursor-Anchored Zoom and Multiple Pan Inputs",
-            "0": "Zoom ranges from 100% (fit, the default ratio that puts the entire dataset on screen) up to 5000%. Cmd/Ctrl + wheel anchors at the cursor position, while the toolbar +/− buttons anchor at the center of the viewport (the currently visible time range). The zoomFactor value tunes the per-step multiplier anywhere between 1.05 and 1.5.",
-            "1": "Panning supports two-finger horizontal scroll, Shift + vertical wheel, and a 4px-threshold drag (the minimum movement before a click is treated as a drag). Setting zoomStable to true freezes the row layout at fit zoom so rows stay still through every zoom level afterwards. The default is false, in which case rows recompute against the current viewport on each zoom."
+            "0": "Zoom ranges from 100% (fit, the default ratio that puts the entire dataset on screen) up to 5000%. The zoomFactor value tunes the per-step multiplier anywhere between 1.05 and 1.5.",
+            "1": "Panning supports two-finger horizontal scroll and Shift + vertical wheel. Setting zoomStable to true freezes the row layout at fit zoom so rows stay still through every zoom level afterwards; the default is false, in which case rows recompute against the current viewport on each zoom."
           }
         }
       },
@@ -40,14 +40,8 @@
           "0": {
             "subtitle": "Hangul Label Widths Underestimated by ~30% via Character-Count Estimation",
             "0": "Problem: With character-count-based label width estimation, Hangul's actual pixel width was calculated about 30% smaller than reality, leaving visible collisions between adjacent labels.",
-            "1": "Resolution\n\n\t1. Compared the estimate against the real measurement across various font and text combinations.\n\t2. Adopted Canvas2D measureText to obtain pixel widths that reflect the current font settings.\n\t3. Branched into a character-count fallback for SSR environments without a document object.",
-            "2": "Result: Label widths now measure accurately across Hangul, CJK (Chinese/Japanese/Korean-region scripts), Latin, and mixed-script text, and the label collisions are gone."
-          },
-          "1": {
-            "subtitle": "Controlled-Mode Viewport Clamp Bug Found While Validating in Storytect",
-            "0": "Problem: While validating the library inside Storytect, the worldbuilding editor that consumes it, the global timebar spanning 35 years would snap to fitWindow span (the initial fit range, 5 years here) on the first pan — the library was clamping every viewport update, overwriting the parent's intended viewport.",
-            "1": "Resolution\n\n\t1. The user wrote the fix code directly in the prompt — `const clamped = isControlled ? { start, end } : clampViewport(start, end)` — instructing useViewport.setViewport to branch the clamp (the routine that forces the viewport range to stay within bounds) on whether the component is in controlled mode (where the parent drives the viewport externally).\n\t2. Confirmed the root cause by dynamically widening zoomMinPct (the minimum zoom ratio) and watching the jump disappear once the clamp was effectively skipped.\n\t3. In controlled mode the parent's intent is forwarded straight to onViewportChange; the safety net for uncontrolled mode (the variant that manages viewport state internally) stays in place.",
-            "2": "Result: Two-way sync between Storytect's global timebar and the diagram-level viewport became smooth, and the fix shipped to the consumer immediately as the 0.2.1 patch release."
+            "1": "Resolution\n\n\t1. Compared the estimate against the real measurement across various font and text combinations.\n\t2. Adopted Canvas2D measureText to obtain pixel widths that reflect the current font settings.",
+            "2": "Result: Label widths now measure accurately across Hangul, Latin, and mixed-script text, and the label collisions are gone."
           }
         }
       },
@@ -56,14 +50,13 @@
         "parts": {
           "0": {
             "0": "Results",
-            "1": "Published a first-fit row placement library on NPM that mirrors the user's pseudocode directly",
-            "2": "Caught and patched a controlled-mode clamp bug in 0.2.1 via the Storytect validation cycle, picked up by the consumer immediately",
-            "3": "Eliminated label collisions in Hangul, CJK, and mixed-script text via Canvas2D measurement, and exported the first-fit placement function so layouts can also be precomputed in a worker"
+            "1": "Published a first-fit row placement library on NPM, building on hand-designed data structures and algorithm and optimizing the implementation together with AI",
+            "2": "Eliminated label collisions in Hangul, CJK, and mixed-script text via Canvas2D measurement, and exported the first-fit placement function so layouts can also be precomputed in a worker"
           },
           "1": {
             "0": "Retrospective",
             "1": "Recognized that the mismatch was at the assumption level — not a tunable option — and built a tool that fits the use case instead of bending the use case to fit the library",
-            "2": "Saw clearly that the user's hand-written queue + dictionary pseudocode in Korean was already a definition of first-fit interval partitioning, and the TypeScript work was a faithful mapping rather than algorithm design from scratch",
+            "2": "Saw clearly that the queue + dictionary pseudocode was already a definition of first-fit interval partitioning, while the actual implementation was a joint effort with AI",
             "3": "Experienced firsthand a cross-project feedback loop where the consumer (Storytect) surfaced the controlled-mode clamp bug almost immediately after validation began"
           }
         }
@@ -82,7 +75,7 @@
         "description": "Canvas2D measureText measures Hangul, CJK, and mixed-script text accurately"
       },
       {
-        "name": "🔍 Photoshop-Style Zoom %",
+        "name": "🔍 Zoom Controls",
         "description": "Supports 100% (fit) to 5000% zoom with cursor-anchored zoom"
       },
       {
