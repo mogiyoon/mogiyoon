@@ -4,7 +4,7 @@ import { formatSectionTitle, type SeoLocale } from '../seo-copy';
 
 export const SITE_URL = 'https://mogiyoon.com';
 export const SITE_NAME = 'Mogiyoon';
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/logo.svg`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/logo.png`;
 
 const toAbsoluteUrl = (input: string | undefined, base: string): string | undefined => {
   if (!input) return undefined;
