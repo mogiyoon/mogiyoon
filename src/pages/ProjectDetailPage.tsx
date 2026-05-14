@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 
 import type { ProjectData } from '../types';
 import TotalSummaryComponent from '../components/TotalSummaryComponent';
+import ReactStableTimelineDemo from '../components/ReactStableTimelineDemo';
 import Seo from '../components/Seo';
 import { SEO_COPY, pickSeoLocale } from '../seo-copy';
 import { animation } from '../design-tokens';
@@ -137,21 +138,27 @@ const ProjectDetailPage: React.FC = () => {
             )}
           </header>
 
-          {/* Demo GIF */}
-          <section className="mb-14 flex justify-center">
-            <div className={`w-full ${gifMaxW}`}>
-              {!isLoaded && (
-                <div className={`rounded-modal bg-slate-200 animate-pulse w-full ${gifType === 'mobile' ? 'h-[444px]' : 'aspect-video'}`} />
-              )}
-              <img
-                src={project.demoGifSrc}
-                alt={`${t(project.title)} Demo`}
-                className={`w-full rounded-modal shadow-xl border border-line transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
-                onLoad={() => setIsLoaded(true)}
-                onError={handleImageError}
-              />
-            </div>
-          </section>
+          {/* Demo: 라이브러리 프로젝트는 GIF 대신 실제 라이브러리를 임베드해 라이브 데모를 노출 */}
+          {projectId === 'react-stable-timeline' ? (
+            <section className="mb-14">
+              <ReactStableTimelineDemo />
+            </section>
+          ) : (
+            <section className="mb-14 flex justify-center">
+              <div className={`w-full ${gifMaxW}`}>
+                {!isLoaded && (
+                  <div className={`rounded-modal bg-slate-200 animate-pulse w-full ${gifType === 'mobile' ? 'h-[444px]' : 'aspect-video'}`} />
+                )}
+                <img
+                  src={project.demoGifSrc}
+                  alt={`${t(project.title)} Demo`}
+                  className={`w-full rounded-modal shadow-xl border border-line transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+                  onLoad={() => setIsLoaded(true)}
+                  onError={handleImageError}
+                />
+              </div>
+            </section>
+          )}
 
           {/* Content */}
           <div className="bg-surface rounded-3xl shadow-sm border border-line overflow-hidden">
