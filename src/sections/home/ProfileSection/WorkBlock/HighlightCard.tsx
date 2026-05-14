@@ -5,7 +5,7 @@ import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { HighlightItem } from '../types';
-import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from './TimelineStep';
+import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from '../../../../components/primitives/TimelineStep';
 
 /**
  * 개발 하이라이트 카드 — 문제 / 해결 / 결과 3단계 타임라인 (penned dot connector).
