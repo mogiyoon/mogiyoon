@@ -100,6 +100,7 @@ const ResumePreviewPage: React.FC = () => {
     updateWorkBlockDetailItem,
     updateProjectSummary,
     updateProjectBlock,
+    updateProjectBlockDetailItem,
   } = useResumeDraftUpdaters(setDraft);
 
   const { selectedWorkBlocks, includedProjects, selectedProjectBlocks } = useResumeSelectors(
@@ -168,34 +169,33 @@ const ResumePreviewPage: React.FC = () => {
   const aiUsageLabel = String(t("highlight.section.aiUsage"));
   const workSectionOrder = [developmentLabel, aiUsageLabel];
 
-  const renderPreviewBlock = (block: ResumeEditableBlock) => (
-    <div key={block.id} className="resume-preview-block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-      <h4 className="text-[13px] font-bold text-slate-900">{block.title}</h4>
-      <div className="mt-1 space-y-1">
-        {block.body
-          .split("\n")
-          .filter((line) => line.trim())
-          .map((line, index) => (
-            <p key={`${block.id}-${index}`} className="text-[12.5px] leading-[1.42] text-slate-700 whitespace-pre-wrap">
-              {line}
-            </p>
-          ))}
-      </div>
-    </div>
-  );
-
-  const renderWorkPreviewBlock = (block: ResumeEditableBlock) => {
-    if (!block.detailItems?.length) {
-      return renderPreviewBlock(block);
+  // detailItems 가 있으면 label/value 그리드로, 없으면 body 텍스트로 렌더.
+  // 경력 highlight 와 프로젝트 highlight 가 동일한 미리보기 모양을 공유한다.
+  const renderPreviewBlock = (block: ResumeEditableBlock) => {
+    if (block.detailItems?.length) {
+      return (
+        <div key={block.id} className="resume-preview-block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+          <h4 className="text-[13px] font-bold text-slate-900">{block.title}</h4>
+          <div className="mt-1.5 space-y-1.5">
+            {block.detailItems.map((item) => (
+              <DetailPreviewItem key={`${block.id}-${item.id}`} item={item} />
+            ))}
+          </div>
+        </div>
+      );
     }
-
     return (
-      <div key={block.id} className="resume-preview-block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+      <div key={block.id} className="resume-preview-block rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
         <h4 className="text-[13px] font-bold text-slate-900">{block.title}</h4>
-        <div className="mt-1.5 space-y-1.5">
-          {block.detailItems.map((item) => (
-            <DetailPreviewItem key={`${block.id}-${item.id}`} item={item} />
-          ))}
+        <div className="mt-1 space-y-1">
+          {block.body
+            .split("\n")
+            .filter((line) => line.trim())
+            .map((line, index) => (
+              <p key={`${block.id}-${index}`} className="text-[12.5px] leading-[1.42] text-slate-700 whitespace-pre-wrap">
+                {line}
+              </p>
+            ))}
         </div>
       </div>
     );
@@ -587,14 +587,29 @@ const ResumePreviewPage: React.FC = () => {
                         onChange={(e) => updateProjectBlock(block.id, "title", e.target.value)}
                       />
                     </div>
-                    <div className="mt-3">
-                      <FieldLabel>{t("resume.builder.body")}</FieldLabel>
-                      <TextAreaField
-                        rows={6}
-                        value={block.body}
-                        onChange={(e) => updateProjectBlock(block.id, "body", e.target.value)}
-                      />
-                    </div>
+                    {block.detailItems?.length ? (
+                      <div className="mt-3 space-y-3">
+                        {block.detailItems.map((item) => (
+                          <div key={`${block.id}-${item.id}`}>
+                            <FieldLabel>{item.label}</FieldLabel>
+                            <TextAreaField
+                              rows={3}
+                              value={item.value}
+                              onChange={(e) => updateProjectBlockDetailItem(block.id, item.id, e.target.value)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="mt-3">
+                        <FieldLabel>{t("resume.builder.body")}</FieldLabel>
+                        <TextAreaField
+                          rows={6}
+                          value={block.body}
+                          onChange={(e) => updateProjectBlock(block.id, "body", e.target.value)}
+                        />
+                      </div>
+                    )}
                   </CollapsibleSubItem>
                 ))}
 
@@ -707,7 +722,7 @@ const ResumePreviewPage: React.FC = () => {
                                         </p>
                                       )}
                                       <div className="mt-1.5 space-y-1.5">
-                                        {group.blocks.map((block) => renderWorkPreviewBlock(block))}
+                                        {group.blocks.map((block) => renderPreviewBlock(block))}
                                       </div>
                                     </div>
                                   ))}
