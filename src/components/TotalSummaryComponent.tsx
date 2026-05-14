@@ -1,10 +1,15 @@
-import type { ProjectData, SummaryPart } from "../types";
+import type { ProjectData, SummaryPart, SummaryTextCategory } from "../types";
 import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
 import { Chip } from "./primitives/Chip";
 import ExternalLink from "./primitives/ExternalLink";
 import InfoCell from "./primitives/InfoCell";
+import {
+  TimelineFinalStep,
+  TimelineInitialStep,
+  TimelineSolidStep,
+} from "./primitives/TimelineStep";
 import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToast";
 
 interface TotalSummaryComponentProps {
@@ -12,7 +17,92 @@ interface TotalSummaryComponentProps {
   t: TFunction;
 }
 
-// ── Summary part renderer ──────────────────────────────────────────────────────
+type CategorizedTextPart = Extract<SummaryPart, { type: "text" }> & {
+  category: SummaryTextCategory;
+};
+
+const isCategorizedText = (part: SummaryPart): part is CategorizedTextPart =>
+  part.type === "text" && Boolean(part.category);
+
+// ── Categorized timeline step ─────────────────────────────────────────────────
+// 카테고리별로 ProfileSection HighlightCard 와 동일한 타임라인 시각 단계에 매핑.
+const renderTimelineStep = (
+  part: CategorizedTextPart,
+  t: TFunction,
+  key: React.Key
+) => {
+  const label = t(`summaryCategory.${part.category}`, { ns: "common" });
+  const body = t(part.content || "");
+  switch (part.category) {
+    case "problem":
+      return (
+        <TimelineInitialStep key={key} label={label} bodyClassName="whitespace-pre-wrap">
+          {body}
+        </TimelineInitialStep>
+      );
+    case "analysis":
+      return (
+        <TimelineSolidStep key={key} label={label} shade={500}>
+          {body}
+        </TimelineSolidStep>
+      );
+    case "solution":
+      return (
+        <TimelineSolidStep key={key} label={label} shade={600}>
+          {body}
+        </TimelineSolidStep>
+      );
+    case "result":
+      return (
+        <TimelineFinalStep key={key} label={label} preserveLineBreaks>
+          {body}
+        </TimelineFinalStep>
+      );
+  }
+};
+
+// ── Part group renderer ───────────────────────────────────────────────────────
+// 연속된 categorized text 들을 하나의 타임라인으로 묶어, 단일 connector 위에
+// problem → analysis → solution → result 단계가 시각적으로 이어지도록 렌더링.
+const renderPartGroup = (
+  partGroup: SummaryPart[],
+  t: TFunction,
+  onSubtitleClick: (id: string) => void
+): React.ReactNode => {
+  const nodes: React.ReactNode[] = [];
+  let buffer: CategorizedTextPart[] = [];
+  let bufferStartIndex = 0;
+
+  const flushBuffer = () => {
+    if (buffer.length === 0) return;
+    const steps = buffer;
+    const startIndex = bufferStartIndex;
+    nodes.push(
+      <div key={`tl-${startIndex}`} className="relative pl-6">
+        <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
+        {steps.map((part, i) =>
+          renderTimelineStep(part, t, `${startIndex}-${i}`)
+        )}
+      </div>
+    );
+    buffer = [];
+  };
+
+  partGroup.forEach((part, index) => {
+    if (isCategorizedText(part)) {
+      if (buffer.length === 0) bufferStartIndex = index;
+      buffer.push(part);
+      return;
+    }
+    flushBuffer();
+    nodes.push(renderSummaryPart(part, index, t, onSubtitleClick));
+  });
+  flushBuffer();
+
+  return nodes;
+};
+
+// ── Summary part renderer (uncategorized / non-text parts) ────────────────────
 const renderSummaryPart = (
   part: SummaryPart,
   index: number,
@@ -22,7 +112,10 @@ const renderSummaryPart = (
   switch (part.type) {
     case "text":
       return (
-        <p key={index} className="text-base text-content-secondary leading-relaxed whitespace-pre-wrap">
+        <p
+          key={index}
+          className="text-base text-content-secondary leading-relaxed whitespace-pre-wrap"
+        >
           {t(part.content || "")}
         </p>
       );
@@ -254,9 +347,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
                       {t(section.title || "")}
                     </h2>
                   )}
-                  {partGroup.map((part, partIndex) =>
-                    renderSummaryPart(part, partIndex, t, handleCopyLink)
-                  )}
+                  {renderPartGroup(partGroup, t, handleCopyLink)}
                 </div>
               ))}
             </section>
