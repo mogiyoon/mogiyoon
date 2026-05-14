@@ -5,7 +5,7 @@ import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { AiHighlightItem } from '../types';
-import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from './TimelineStep';
+import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from '../../../../components/primitives/TimelineStep';
 
 /**
  * AI 활용 하이라이트 카드 — Context / Approach / Verification / Impact 4단계 타임라인.
