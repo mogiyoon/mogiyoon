@@ -39,9 +39,9 @@
             "caption": "Create React Native Library documentation"
           },
           "1": {
-            "0": "Problem: Faced difficulties with bundling configuration and dependency setup for the first NPM release.",
-            "1": "Solution Process\n\n\t1. Studied documentation on NPM publishing processes and TypeScript library bundling.\n\t2. Utilized and analyzed Create React Native Library to complete the publishing process.",
-            "2": "Result: Gained a deeper understanding of the NPM publishing ecosystem and successfully released the package."
+            "0": "Faced difficulties with bundling configuration and dependency setup for the first NPM release.",
+            "1": "1. Studied documentation on NPM publishing processes and TypeScript library bundling.\n\t2. Utilized and analyzed Create React Native Library to complete the publishing process.",
+            "2": "Gained a deeper understanding of the NPM publishing ecosystem and successfully released the package."
           }
         }
       },

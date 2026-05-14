@@ -48,9 +48,9 @@
         [
           { "type": "subtitle","id": "word_test","content": "test-maker.summaries.troubleshooting.parts.0.subtitle" },
           { "type": "image", "src": "/images/testMaker/overview/TroubleShooting.png", "alt": "트러블슈팅", "caption": "test-maker.summaries.troubleshooting.parts.0.caption" },
-          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.0.0" },
-          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.0.1" },
-          { "type": "text", "content": "test-maker.summaries.troubleshooting.parts.0.2" }
+          { "type": "text", "category": "problem", "content": "test-maker.summaries.troubleshooting.parts.0.0" },
+          { "type": "text", "category": "solution", "content": "test-maker.summaries.troubleshooting.parts.0.1" },
+          { "type": "text", "category": "result", "content": "test-maker.summaries.troubleshooting.parts.0.2" }
         ]
       ]
     },

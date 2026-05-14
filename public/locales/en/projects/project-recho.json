@@ -52,16 +52,16 @@
           "0": {
             "subtitle": "Implementing Video Playback and Simultaneous Recording",
             "caption": "Video Playback and Simultaneous Recording Screen",
-            "0": "Problem: To implement the ensemble feature, video playback and camera recording needed to run simultaneously.",
-            "1": "Solution Process\n\n\t1. mixWithOthers: set to 'mix' → failed\n\t\t- Setting this option in React Native Video did not work.\n\t\t- Reason: iOS default audio session policy disables mixWithOthers; enabling it requires native code modification.\n\n\t2. Added mixWithOthers bridge in a native module → failed\n\t\t- VisionCamera had this feature, but Video library did not.\n\t\t- Even after adding the bridge, it didn’t work.\n\n\t3. Modified Video library native code to add option → failed\n\t\t- Added mixWithOthers option directly but still didn’t work.\n\n\t4. Set disableAudioSessionManagement: true → success\n\t\t- Found disableAudioSessionManagement option in the library.\n\t\t- Enabling it allowed video playback and camera audio to run simultaneously.\n",
-            "2": "Result: Enabled simultaneous camera recording and video playback, highlighting the importance of understanding library internals."
+            "0": "To implement the ensemble feature, video playback and camera recording needed to run simultaneously.",
+            "1": "1. mixWithOthers: set to 'mix' → failed\n\t\t- Setting this option in React Native Video did not work.\n\t\t- Reason: iOS default audio session policy disables mixWithOthers; enabling it requires native code modification.\n\n\t2. Added mixWithOthers bridge in a native module → failed\n\t\t- VisionCamera had this feature, but Video library did not.\n\t\t- Even after adding the bridge, it didn’t work.\n\n\t3. Modified Video library native code to add option → failed\n\t\t- Added mixWithOthers option directly but still didn’t work.\n\n\t4. Set disableAudioSessionManagement: true → success\n\t\t- Found disableAudioSessionManagement option in the library.\n\t\t- Enabling it allowed video playback and camera audio to run simultaneously.\n",
+            "2": "Enabled simultaneous camera recording and video playback, highlighting the importance of understanding library internals."
           },
           "1": {
             "subtitle": "Caching Images and Videos with CloudFront CDN",
             "caption": "Using CloudFront CDN for Caching",
-            "0": "Problem: Video and image loading speed was slow.",
-            "1": "Solution Process\n\t- Explored methods to store/cache videos and images.\n\t- Switched from directly loading video/image data from S3 buckets to using CloudFront CDN caching.",
-            "2": "Result: Average response speed improved by about 2x."
+            "0": "Video and image loading speed was slow.",
+            "1": "- Explored methods to store/cache videos and images.\n\t- Switched from directly loading video/image data from S3 buckets to using CloudFront CDN caching.",
+            "2": "Average response speed improved by about 2x."
           }
         }
       },

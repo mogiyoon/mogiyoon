@@ -18,6 +18,7 @@
 | 아코디언/토글 chevron 아이콘 (열림 시 180도 회전) | `RotatingChevron` | `src/components/primitives/RotatingChevron.tsx` |
 | 빈 항목 자동 필터 disc bullet 리스트 | `BulletList` | `src/components/primitives/BulletList.tsx` |
 | 라벨 + 값 한 쌍 정보 셀 (이메일/학점/전공 등) | `InfoCell` | `src/components/primitives/InfoCell.tsx` |
+| Problem→Analysis→Solution→Result 4단계 수직 타임라인 (점·라인·다크 카드) | `TimelineInitialStep` / `TimelineSolidStep` / `TimelineFinalStep` | `src/components/primitives/TimelineStep.tsx` |
 | `target="_blank" rel="noopener noreferrer"` 외부 링크 | `ExternalLink` | `src/components/primitives/ExternalLink.tsx` |
 | `AnimatePresence` 안의 height 0↔auto 컬랩스 motion 프리셋 | `collapseVerticalPreset` | `src/utils/motionPresets.ts` |
 | i18n 배열 리소스 fetch (`returnObjects: true` boilerplate) | `fetchI18nArray` | `src/utils/i18nArray.ts` |
