@@ -168,6 +168,38 @@ export const useResumeDraftUpdaters = (
       });
     };
 
+    const updateProjectBlockDetailItem = (
+      blockId: string,
+      detailId: string,
+      value: string,
+    ) => {
+      setDraft((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          projects: prev.projects.map((project) => ({
+            ...project,
+            blocks: project.blocks.map((block) => {
+              if (block.id !== blockId || !block.detailItems) return block;
+
+              const detailItems = block.detailItems.map((item) =>
+                item.id === detailId ? { ...item, value } : item,
+              );
+
+              return {
+                ...block,
+                detailItems,
+                body: detailItems
+                  .map((item) => item.value.trim())
+                  .filter(Boolean)
+                  .join('\n\n'),
+              };
+            }),
+          })),
+        };
+      });
+    };
+
     return {
       updateProfileField,
       updateProfileLink,
@@ -177,5 +209,6 @@ export const useResumeDraftUpdaters = (
       updateWorkBlockDetailItem,
       updateProjectSummary,
       updateProjectBlock,
+      updateProjectBlockDetailItem,
     };
   }, [setDraft]);

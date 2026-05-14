@@ -1,5 +1,5 @@
 import i18n from "../i18n";
-import type { ProjectData, SummaryPart } from "../types";
+import type { ProjectData, SummaryPart, SummaryTextCategory } from "../types";
 import { fetchJson } from "./fetchJson";
 
 type ResumeProfileBulletLink = {
@@ -58,6 +58,7 @@ type ProjectListItem = {
 type HighlightItem = {
   title: string;
   problem: string;
+  analysis?: string;
   solution: string;
   result: string;
 };
@@ -192,9 +193,11 @@ const flattenSummaryGroup = (
   sectionTitle: string,
   group: SummaryPart[],
   index: number,
-  tProject: (key: string, options?: Record<string, unknown>) => unknown
+  tProject: (key: string, options?: Record<string, unknown>) => unknown,
+  tCommon: (key: string, options?: Record<string, unknown>) => unknown
 ) => {
-  const texts: string[] = [];
+  type TextEntry = { category?: SummaryTextCategory; text: string };
+  const textEntries: TextEntry[] = [];
   const links: string[] = [];
   let title = "";
 
@@ -208,7 +211,7 @@ const flattenSummaryGroup = (
     if (part.type === "text") {
       const text = tProject(part.content || "", { defaultValue: part.content || "" });
       if (typeof text === "string" && text.trim()) {
-        texts.push(text.trim());
+        textEntries.push({ category: part.category, text: text.trim() });
       }
       return;
     }
@@ -218,7 +221,33 @@ const flattenSummaryGroup = (
     }
   });
 
-  const body = [...texts, ...links].filter(Boolean).join("\n\n");
+  const labelOf = (cat: SummaryTextCategory) =>
+    extractTextValue(tCommon, `summaryCategory.${cat}`);
+
+  // 그룹의 모든 텍스트가 카테고리를 가진 순수 highlight 형태일 때만
+  // detailItems 로 분리해 경력 highlight 와 동일한 라벨/값 그리드 UI 를 쓴다.
+  // 카테고리 없는 plain 텍스트나 link 가 섞이면 단일 body 로만 노출한다.
+  const allCategorized =
+    textEntries.length > 0 &&
+    textEntries.every((entry) => entry.category) &&
+    links.length === 0;
+
+  const detailItems: ResumeBlockDetailItem[] | undefined = allCategorized
+    ? textEntries.map((entry) => ({
+        id: entry.category as SummaryTextCategory,
+        label: labelOf(entry.category as SummaryTextCategory),
+        value: entry.text,
+      }))
+    : undefined;
+
+  // detailItems 가 있을 때는 본문도 라벨 없이 값만 join (경력 highlight 와 동일).
+  // 없을 때만 카테고리 접두어를 인라인으로 붙여 plain body 에 넣는다.
+  const bodyTexts = detailItems
+    ? textEntries.map((entry) => entry.text)
+    : textEntries.map((entry) =>
+        entry.category ? `${labelOf(entry.category)}: ${entry.text}` : entry.text
+      );
+  const body = [...bodyTexts, ...links].filter(Boolean).join("\n\n");
 
   if (!body.trim()) {
     return null;
@@ -230,6 +259,7 @@ const flattenSummaryGroup = (
     body,
     sectionLabel: sectionTitle,
     defaultSelected: false,
+    detailItems,
   } satisfies ResumeEditableBlock;
 };
 
@@ -279,29 +309,39 @@ export const loadResumeBuilderData = async (language: string): Promise<ResumeBui
       standardHighlights.forEach((highlight, index) => {
         const blockId = `work:${workItem.id}:${project.id}:highlight:${index}`;
         defaultSelectedBlockIds.push(blockId);
+        const detailItems: ResumeBlockDetailItem[] = [
+          {
+            id: "problem",
+            label: extractTextValue(tCommon, "highlight.problem"),
+            value: highlight.problem,
+          },
+        ];
+        if (highlight.analysis) {
+          detailItems.push({
+            id: "analysis",
+            label: extractTextValue(tCommon, "highlight.analysis"),
+            value: highlight.analysis,
+          });
+        }
+        detailItems.push(
+          {
+            id: "solution",
+            label: extractTextValue(tCommon, "highlight.solution"),
+            value: highlight.solution,
+          },
+          {
+            id: "result",
+            label: extractTextValue(tCommon, "highlight.result"),
+            value: highlight.result,
+          },
+        );
         blocks.push({
           id: blockId,
           title: highlight.title,
-          body: [highlight.problem, highlight.solution, highlight.result].filter(Boolean).join("\n\n"),
+          body: detailItems.map((item) => item.value).filter(Boolean).join("\n\n"),
           sectionLabel: extractTextValue(tCommon, "highlight.section.development"),
           defaultSelected: true,
-          detailItems: [
-            {
-              id: "problem",
-              label: extractTextValue(tCommon, "highlight.problem"),
-              value: highlight.problem,
-            },
-            {
-              id: "solution",
-              label: extractTextValue(tCommon, "highlight.solution"),
-              value: highlight.solution,
-            },
-            {
-              id: "result",
-              label: extractTextValue(tCommon, "highlight.result"),
-              value: highlight.result,
-            },
-          ],
+          detailItems,
         });
       });
 
@@ -395,7 +435,7 @@ export const loadResumeBuilderData = async (language: string): Promise<ResumeBui
     project.summaries.forEach((section) => {
       const sectionTitle = extractTextValue(tProject, section.title || "");
       section.parts.forEach((group, index) => {
-        const flattened = flattenSummaryGroup(project.id, section.id, sectionTitle, group, index, tProject);
+        const flattened = flattenSummaryGroup(project.id, section.id, sectionTitle, group, index, tProject, tCommon);
         if (flattened) {
           blocks.push(flattened);
         }
