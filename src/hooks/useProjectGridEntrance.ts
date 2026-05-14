@@ -1,5 +1,4 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useInView } from 'framer-motion';
 
 import { easings } from '../design-tokens';
 import type { ProjectSummary } from '../types';
@@ -28,10 +27,6 @@ export const useProjectGridEntrance = ({
 }: UseProjectGridEntranceArgs) => {
     const projectsGridRef = useRef<HTMLDivElement | null>(null);
     const projectCardRefs = useRef<Record<string, HTMLDivElement | null>>({});
-    const isProjectsGridInView = useInView(projectsGridRef, {
-        once: true,
-        amount: 0.18,
-    });
 
     const [projectCardOffsets, setProjectCardOffsets] = useState<Record<string, ProjectCardOffset>>({});
     const [hasPlayedProjectEntrance, setHasPlayedProjectEntrance] = useState(false);
@@ -81,8 +76,11 @@ export const useProjectGridEntrance = ({
     const projectCardOffsetsReady =
         projects.length > 0 && projects.every((project) => Boolean(projectCardOffsets[project.id]));
 
+    // offsets 가 준비되는 즉시 entrance 애니메이션을 발화한다.
+    // 모바일 레이아웃에서 사이드바가 위 / 그리드가 아래에 쌓여 그리드가 초기 fold 아래에 있을 때,
+    // viewport 진입을 게이트로 두면 사용자가 스크롤하기 전까지 카드들이 opacity: 0 인 채 보이지 않는다.
     useEffect(() => {
-        if (!projectCardOffsetsReady || hasPlayedProjectEntrance || !isProjectsGridInView) return;
+        if (!projectCardOffsetsReady || hasPlayedProjectEntrance) return;
 
         const animationFrame = window.requestAnimationFrame(() => {
             setHasPlayedProjectEntrance(true);
@@ -91,7 +89,7 @@ export const useProjectGridEntrance = ({
         return () => {
             window.cancelAnimationFrame(animationFrame);
         };
-    }, [projectCardOffsetsReady, hasPlayedProjectEntrance, isProjectsGridInView]);
+    }, [projectCardOffsetsReady, hasPlayedProjectEntrance]);
 
     useEffect(() => {
         if (!hasPlayedProjectEntrance || showAiDevKit) return;
