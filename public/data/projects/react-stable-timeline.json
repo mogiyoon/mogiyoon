@@ -20,23 +20,23 @@
       "parts": [
         [
           { "type": "subtitle", "id": "motivation", "content": "react-stable-timeline.summaries.development.parts.0.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.0.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.0.1" }
+          { "type": "text", "category": "analysis", "content": "react-stable-timeline.summaries.development.parts.0.0" },
+          { "type": "text", "category": "solution", "content": "react-stable-timeline.summaries.development.parts.0.1" }
         ],
         [
           { "type": "subtitle", "id": "first_fit_packing", "content": "react-stable-timeline.summaries.development.parts.1.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.1.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.1.1" }
+          { "type": "text", "category": "analysis", "content": "react-stable-timeline.summaries.development.parts.1.0" },
+          { "type": "text", "category": "solution", "content": "react-stable-timeline.summaries.development.parts.1.1" }
         ],
         [
           { "type": "subtitle", "id": "label_measurement", "content": "react-stable-timeline.summaries.development.parts.2.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.2.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.2.1" }
+          { "type": "text", "category": "analysis", "content": "react-stable-timeline.summaries.development.parts.2.0" },
+          { "type": "text", "category": "solution", "content": "react-stable-timeline.summaries.development.parts.2.1" }
         ],
         [
           { "type": "subtitle", "id": "zoom_interaction", "content": "react-stable-timeline.summaries.development.parts.3.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.3.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.3.1" }
+          { "type": "text", "category": "solution", "content": "react-stable-timeline.summaries.development.parts.3.0" },
+          { "type": "text", "category": "solution", "content": "react-stable-timeline.summaries.development.parts.3.1" }
         ]
       ]
     },

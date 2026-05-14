@@ -27,6 +27,7 @@
           },
           {
             "type": "text",
+            "category": "analysis",
             "content": "boj-snippets.summaries.development.parts.0.0"
           }
         ],
@@ -38,10 +39,12 @@
           },
           {
             "type": "text",
+            "category": "analysis",
             "content": "boj-snippets.summaries.development.parts.1.0"
           },
           {
             "type": "text",
+            "category": "solution",
             "content": "boj-snippets.summaries.development.parts.1.1"
           }
         ],
@@ -53,10 +56,12 @@
           },
           {
             "type": "text",
+            "category": "solution",
             "content": "boj-snippets.summaries.development.parts.2.0"
           },
           {
             "type": "text",
+            "category": "solution",
             "content": "boj-snippets.summaries.development.parts.2.1"
           }
         ]
@@ -74,10 +79,12 @@
           },
           {
             "type": "text",
+            "category": "problem",
             "content": "boj-snippets.summaries.troubleshooting.parts.0.0"
           },
           {
             "type": "text",
+            "category": "solution",
             "content": "boj-snippets.summaries.troubleshooting.parts.0.1"
           },
           {
@@ -101,6 +108,7 @@
           },
           {
             "type": "text",
+            "category": "problem",
             "content": "boj-snippets.summaries.troubleshooting.parts.1.0"
           },
           { "type": "text", "category": "solution", "content": "boj-snippets.summaries.troubleshooting.parts.1.1" }
@@ -113,10 +121,12 @@
           },
           {
             "type": "text",
+            "category": "problem",
             "content": "boj-snippets.summaries.troubleshooting.parts.2.0"
           },
           {
             "type": "text",
+            "category": "solution",
             "content": "boj-snippets.summaries.troubleshooting.parts.2.1"
           }
         ]
