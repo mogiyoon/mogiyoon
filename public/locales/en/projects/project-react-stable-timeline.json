@@ -39,9 +39,9 @@
         "parts": {
           "0": {
             "subtitle": "Hangul Label Widths Underestimated by ~30% via Character-Count Estimation",
-            "0": "Problem: With character-count-based label width estimation, Hangul's actual pixel width was calculated about 30% smaller than reality, leaving visible collisions between adjacent labels.",
-            "1": "Resolution\n\n\t1. Compared the estimate against the real measurement across various font and text combinations.\n\t2. Adopted Canvas2D measureText to obtain pixel widths that reflect the current font settings.",
-            "2": "Result: Label widths now measure accurately across Hangul, Latin, and mixed-script text, and the label collisions are gone."
+            "0": "With character-count-based label width estimation, Hangul's actual pixel width was calculated about 30% smaller than reality, leaving visible collisions between adjacent labels.",
+            "1": "1. Compared the estimate against the real measurement across various font and text combinations.\n\t2. Adopted Canvas2D measureText to obtain pixel widths that reflect the current font settings.",
+            "2": "Label widths now measure accurately across Hangul, Latin, and mixed-script text, and the label collisions are gone."
           }
         }
       },

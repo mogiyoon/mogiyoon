@@ -16,7 +16,7 @@ const HighlightCard: React.FC<{
   index: number;
   isOpen: boolean;
   onToggle: () => void;
-  labels: { problem: string; solution: string; result: string };
+  labels: { problem: string; analysis: string; solution: string; result: string };
 }> = ({ highlight, index, isOpen, onToggle, labels }) => (
   <motion.div
     variants={itemVariants}
@@ -49,6 +49,9 @@ const HighlightCard: React.FC<{
               <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
 
               <TimelineInitialStep label={labels.problem}>{highlight.problem}</TimelineInitialStep>
+              {highlight.analysis && (
+                <TimelineSolidStep label={labels.analysis} shade={500}>{highlight.analysis}</TimelineSolidStep>
+              )}
               <TimelineSolidStep label={labels.solution} shade={600}>{highlight.solution}</TimelineSolidStep>
               <TimelineFinalStep label={labels.result}>{highlight.result}</TimelineFinalStep>
             </div>

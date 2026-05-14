@@ -10,6 +10,7 @@
   "profile": "Profile",
   "highlight": {
     "problem": "Problem",
+    "analysis": "Analysis",
     "solution": "Solution",
     "result": "Result",
     "context": "Context",
@@ -90,6 +91,13 @@
   "crazyAboutBlockCoding": "Block Coding",
   "crazyAboutMusicComposition": "Music Composition",
   "comingSoon": "Coming Soon",
+
+  "summaryCategory": {
+    "problem": "Problem",
+    "analysis": "Analysis",
+    "solution": "Solution",
+    "result": "Result"
+  },
 
   "projectDetail": {
     "overview": "Overview",
