@@ -44,11 +44,11 @@
         [
           { "type": "subtitle", "id": "troubleshooting", "content": "mrnsg.summaries.troubleshooting.parts.0.subtitle" },
           { "type": "image", "alt": "Document 사이트", "src": "/images/mrnsg/overview/TroubleShooting1.png", "caption": "mrnsg.summaries.troubleshooting.parts.0.caption" },
-          { "type": "text", "content": "mrnsg.summaries.troubleshooting.parts.1.0" },
-          { "type": "text", "content": "mrnsg.summaries.troubleshooting.parts.1.1" },
+          { "type": "text", "category": "problem", "content": "mrnsg.summaries.troubleshooting.parts.1.0" },
+          { "type": "text", "category": "solution", "content": "mrnsg.summaries.troubleshooting.parts.1.1" },
           { "type": "link", "label": "Create React Native Library NPM", "href": "https://www.npmjs.com/package/create-react-native-library" },
           { "type": "link", "label": "Create React Native Library Document", "href": "https://callstack.github.io/react-native-builder-bob/create" },
-          { "type": "text", "content": "mrnsg.summaries.troubleshooting.parts.1.2" }
+          { "type": "text", "category": "result", "content": "mrnsg.summaries.troubleshooting.parts.1.2" }
         ]
       ]
     },

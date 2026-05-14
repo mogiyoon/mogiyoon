@@ -103,10 +103,7 @@
             "type": "text",
             "content": "boj-snippets.summaries.troubleshooting.parts.1.0"
           },
-          {
-            "type": "text",
-            "content": "boj-snippets.summaries.troubleshooting.parts.1.1"
-          }
+          { "type": "text", "category": "solution", "content": "boj-snippets.summaries.troubleshooting.parts.1.1" }
         ],
         [
           {

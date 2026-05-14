@@ -42,7 +42,7 @@
           "1": {
             "subtitle": "Chosen Library Event Detection",
             "0": "BOJ uses the Chosen UI library to style its dropdowns. The actual <select> element is hidden while Chosen displays a custom UI, making the standard change event unreliable for detecting language changes.",
-            "1": "Solution: Implemented a triple-monitoring system — (1) standard change event listener, (2) MutationObserver for DOM attribute changes, (3) polling every 500ms to check for value changes. Using all three methods ensures language changes are never missed."
+            "1": "Implemented a triple-monitoring system — (1) standard change event listener, (2) MutationObserver for DOM attribute changes, (3) polling every 500ms to check for value changes. Using all three methods ensures language changes are never missed."
           },
           "2": {
             "subtitle": "Extension Context Invalidated Error",

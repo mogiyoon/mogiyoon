@@ -42,7 +42,7 @@
           "1": {
             "subtitle": "Chosen 라이브러리 이벤트 감지 문제",
             "0": "백준의 Chosen UI 라이브러리 기반 드롭다운 렌더링 구조. 실제 <select> 태그 은닉 상태, Chosen 생성 커스텀 UI 표시 구조로 change 이벤트만으로 언어 변경 안정 감지 불가.",
-            "1": "해결: 3중 감시 체계 구축. (1) 기본 change 이벤트 리스너, (2) MutationObserver 기반 DOM 속성 변경 감시, (3) 500ms 간격 폴링 기반 값 변경 확인. 세 가지 방식 병행을 통한 모든 상황의 언어 변경 감지."
+            "1": "3중 감시 체계 구축. (1) 기본 change 이벤트 리스너, (2) MutationObserver 기반 DOM 속성 변경 감시, (3) 500ms 간격 폴링 기반 값 변경 확인. 세 가지 방식 병행을 통한 모든 상황의 언어 변경 감지."
           },
           "2": {
             "subtitle": "Extension Context Invalidated 에러",

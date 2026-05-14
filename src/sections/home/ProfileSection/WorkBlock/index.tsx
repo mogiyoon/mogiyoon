@@ -19,6 +19,7 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
   const highlightLabels = {
     problem: tCommon('highlight.problem'),
+    analysis: tCommon('highlight.analysis'),
     solution: tCommon('highlight.solution'),
     result: tCommon('highlight.result'),
   };
