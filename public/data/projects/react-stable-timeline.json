@@ -46,9 +46,9 @@
       "parts": [
         [
           { "type": "subtitle", "id": "hangul_label_width", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.1" },
-          { "type": "text", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.2" }
+          { "type": "text", "category": "problem", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.0" },
+          { "type": "text", "category": "solution", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.1" },
+          { "type": "text", "category": "result", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.2" }
         ]
       ]
     },

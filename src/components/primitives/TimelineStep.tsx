@@ -1,8 +1,9 @@
 import React from 'react';
 
 /**
- * 세로 타임라인 한 단계를 그리는 헬퍼들. HighlightCard (Problem/Solution/Result 3단계) 와
- * AiHighlightCard (Context/Approach/Verification/Impact 4단계) 가 동일한 시각 패턴을 사용함.
+ * 세로 타임라인 한 단계를 그리는 헬퍼들. HighlightCard (Problem/Analysis/Solution/Result),
+ * AiHighlightCard (Context/Approach/Verification/Impact), TotalSummaryComponent (프로젝트 카테고리)
+ * 가 동일한 시각 패턴을 공유함.
  *
  * 단계는 시각적으로 3종류:
  * - `TimelineInitialStep` : 외곽선 원, 부드러운 텍스트 (시작 단계)

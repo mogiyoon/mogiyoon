@@ -40,9 +40,9 @@
           "0": {
             "subtitle": "Tree Structuring of Categories",
             "caption": "Word management screen",
-            "0": "Problem: Categories were restructured into a nested hierarchy, making the existing search structure unusable.",
-            "1": "Solution Process\n\t- Applied a tree structure inspired by folder systems.\n\t- Implemented word search with recursive functions.",
-            "2": "Result: Vocabulary could be searched regardless of subcategory depth."
+            "0": "Categories were restructured into a nested hierarchy, making the existing search structure unusable.",
+            "1": "- Applied a tree structure inspired by folder systems.\n\t- Implemented word search with recursive functions.",
+            "2": "Vocabulary could be searched regardless of subcategory depth."
           }
         }
       },

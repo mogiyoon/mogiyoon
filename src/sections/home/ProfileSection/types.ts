@@ -3,6 +3,7 @@ export type TabId = 'basics' | 'workSkills' | 'education' | 'awardsAndCerts';
 export type HighlightItem = {
   title: string;
   problem: string;
+  analysis?: string;
   solution: string;
   result: string;
 };

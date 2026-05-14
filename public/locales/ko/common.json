@@ -10,6 +10,7 @@
   "profile": "프로필",
   "highlight": {
     "problem": "문제",
+    "analysis": "분석",
     "solution": "해결",
     "result": "결과",
     "context": "배경",
@@ -90,6 +91,13 @@
   "crazyAboutBlockCoding": "블록 코딩",
   "crazyAboutMusicComposition": "음악 작곡",
   "comingSoon": "준비 중",
+
+  "summaryCategory": {
+    "problem": "문제",
+    "analysis": "분석",
+    "solution": "해결",
+    "result": "결과"
+  },
 
   "projectDetail": {
     "overview": "개요",
