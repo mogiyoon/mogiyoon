@@ -50,7 +50,7 @@ export const TimelineSolidStep: React.FC<{
     <div className={`absolute -left-6 top-hairline w-3 h-3 rounded-full ${SOLID_DOT_SHADE[shade]}`} />
     <span className={`${EYEBROW_BASE} text-content-tertiary mb-2`}>{label}</span>
     <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
-      <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-line">
+      <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-wrap">
         {children}
       </p>
     </div>
@@ -60,7 +60,7 @@ export const TimelineSolidStep: React.FC<{
 export const TimelineFinalStep: React.FC<{
   label: StepLabel;
   children: StepContent;
-  /** 본문에 `whitespace-pre-line` 적용 여부 (멀티라인 description 일 때 true) */
+  /** 본문에 `whitespace-pre-wrap` 적용 여부 (멀티라인 description 일 때 true) */
   preserveLineBreaks?: boolean;
 }> = ({ label, children, preserveLineBreaks = false }) => (
   <div className="relative">
@@ -69,7 +69,7 @@ export const TimelineFinalStep: React.FC<{
     <div className="rounded-card bg-slate-900 px-4 py-3">
       <p
         className={`text-sm font-semibold text-white leading-relaxed ${
-          preserveLineBreaks ? 'whitespace-pre-line' : ''
+          preserveLineBreaks ? 'whitespace-pre-wrap' : ''
         }`.trim()}
       >
         {children}
