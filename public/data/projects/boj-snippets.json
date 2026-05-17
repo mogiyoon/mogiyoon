@@ -9,7 +9,11 @@
     "period": "2026.04",
     "introduction": "boj-snippets.overview.introduction",
     "features": "boj-snippets.overview.features",
-    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"],
+    "techStack": [
+      "Chrome Extension",
+      "Manifest V3",
+      "JavaScript"
+    ],
     "github": "https://github.com/mogiyoon/boj-snippets",
     "demo": "https://chromewebstore.google.com/detail/boj-snippets-mogiyoon/omehpjefcoebjfcbiegjaaklfeelkpam",
     "notion": null
@@ -27,7 +31,7 @@
           },
           {
             "type": "text",
-            "category": "analysis",
+            "category": "problem",
             "content": "boj-snippets.summaries.development.parts.0.0"
           }
         ],
@@ -44,8 +48,13 @@
           },
           {
             "type": "text",
-            "category": "solution",
+            "category": "analysis",
             "content": "boj-snippets.summaries.development.parts.1.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "boj-snippets.summaries.development.parts.1.2"
           }
         ],
         [
@@ -63,6 +72,11 @@
             "type": "text",
             "category": "solution",
             "content": "boj-snippets.summaries.development.parts.2.1"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "boj-snippets.summaries.development.parts.2.2"
           }
         ]
       ]
@@ -84,34 +98,29 @@
           },
           {
             "type": "text",
-            "category": "solution",
+            "category": "analysis",
             "content": "boj-snippets.summaries.troubleshooting.parts.0.1"
           },
           {
             "type": "text",
+            "category": "analysis",
             "content": "boj-snippets.summaries.troubleshooting.parts.0.2"
           },
           {
             "type": "text",
+            "category": "analysis",
             "content": "boj-snippets.summaries.troubleshooting.parts.0.3"
           },
           {
             "type": "text",
+            "category": "solution",
             "content": "boj-snippets.summaries.troubleshooting.parts.0.4"
-          }
-        ],
-        [
-          {
-            "type": "subtitle",
-            "id": "chosen_library",
-            "content": "boj-snippets.summaries.troubleshooting.parts.1.subtitle"
           },
           {
             "type": "text",
-            "category": "problem",
-            "content": "boj-snippets.summaries.troubleshooting.parts.1.0"
-          },
-          { "type": "text", "category": "solution", "content": "boj-snippets.summaries.troubleshooting.parts.1.1" }
+            "category": "result",
+            "content": "boj-snippets.summaries.troubleshooting.parts.0.5"
+          }
         ],
         [
           {
@@ -176,7 +185,11 @@
         ]
       ]
     },
-    { "id": "blank", "title": "boj-snippets.summaries.blank.title", "parts": [] }
+    {
+      "id": "blank",
+      "title": "boj-snippets.summaries.blank.title",
+      "parts": []
+    }
   ],
   "features": [
     {
@@ -201,7 +214,10 @@
     }
   ],
   "screenshots": [
-    { "title": "boj-snippets 아이콘", "src": "/images/bojSnippets/Icon.png" }
+    {
+      "title": "boj-snippets 아이콘",
+      "src": "/images/bojSnippets/Icon.png"
+    }
   ],
   "developmentProcess": [
     {
@@ -217,7 +233,10 @@
       "content": "boj-snippets.developmentProcess.2.content"
     }
   ],
-  "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" },
+  "license": {
+    "name": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
   "claudeInfo": {
     "method": "direct",
     "summary": "boj-snippets.claudeInfo.summary",

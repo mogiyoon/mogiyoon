@@ -10,7 +10,15 @@
     "period": "2025.08 ~ 2025.09",
     "introduction": "seoul-meari.overview.introduction",
     "features": "seoul-meari.overview.features",
-    "techStack": ["React", "Nest.js", "FastAPI", "Unity", "AR/VR", "AWS", "PostgreSQL"],
+    "techStack": [
+      "React",
+      "Nest.js",
+      "FastAPI",
+      "Unity",
+      "AR/VR",
+      "AWS",
+      "PostgreSQL"
+    ],
     "role": "seoul-meari.overview.role",
     "github": "https://github.com/Seoul-Meari",
     "demo": null,
@@ -36,7 +44,6 @@
           },
           {
             "type": "text",
-            "category": "solution",
             "content": "seoul-meari.summaries.development.parts.0.0"
           }
         ],
@@ -55,12 +62,10 @@
           },
           {
             "type": "text",
-            "category": "solution",
             "content": "seoul-meari.summaries.development.parts.1.0"
           },
           {
             "type": "text",
-            "category": "solution",
             "content": "seoul-meari.summaries.development.parts.1.1"
           }
         ],
@@ -79,7 +84,6 @@
           },
           {
             "type": "text",
-            "category": "solution",
             "content": "seoul-meari.summaries.development.parts.2.0"
           }
         ],
@@ -97,12 +101,10 @@
           },
           {
             "type": "text",
-            "category": "solution",
             "content": "seoul-meari.summaries.development.parts.3.0"
           },
           {
             "type": "text",
-            "category": "solution",
             "content": "seoul-meari.summaries.development.parts.3.1"
           }
         ]
@@ -144,8 +146,13 @@
           },
           {
             "type": "text",
-            "category": "result",
+            "category": "solution",
             "content": "seoul-meari.summaries.troubleshooting.parts.0.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "seoul-meari.summaries.troubleshooting.parts.0.3"
           }
         ],
         [
@@ -170,12 +177,12 @@
           },
           {
             "type": "text",
-            "category": "solution",
+            "category": "analysis",
             "content": "seoul-meari.summaries.troubleshooting.parts.1.0"
           },
           {
             "type": "text",
-            "category": "solution",
+            "category": "analysis",
             "content": "seoul-meari.summaries.troubleshooting.parts.1.1"
           },
           {
@@ -236,6 +243,11 @@
             "type": "text",
             "category": "problem",
             "content": "seoul-meari.summaries.troubleshooting.parts.2.6"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "seoul-meari.summaries.troubleshooting.parts.2.7"
           }
         ]
       ]
@@ -296,7 +308,11 @@
         ]
       ]
     },
-    { "id": "blank", "title": "seoul-meari.summaries.blank.title", "parts": [] }
+    {
+      "id": "blank",
+      "title": "seoul-meari.summaries.blank.title",
+      "parts": []
+    }
   ],
   "features": [
     {
@@ -321,7 +337,10 @@
     }
   ],
   "screenshots": [
-    { "title": "seoul-meari 앱 로고", "src": "/images/seoulMeari/Icon.svg" }
+    {
+      "title": "seoul-meari 앱 로고",
+      "src": "/images/seoulMeari/Icon.svg"
+    }
   ],
   "developmentProcess": [
     {
@@ -337,5 +356,8 @@
       "content": "seoul-meari.developmentProcess.2.content"
     }
   ],
-  "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" }
+  "license": {
+    "name": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  }
 }
