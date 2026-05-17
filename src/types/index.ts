@@ -1,6 +1,6 @@
 import React from 'react';
 // '요약'의 각 파트를 위한 타입 (글 또는 이미지)
-export type SummaryTextCategory = 'problem' | 'analysis' | 'solution' | 'result';
+export type SummaryTextCategory = 'problem' | 'analysis' | 'solution' | 'result' | 'caption';
 type SummaryTextPart = { type: 'text'; content: string; category?: SummaryTextCategory; };
 type SummaryLinkPart = { type: 'link'; label: string; href: string };
 type SummaryImagePart = { type: 'image'; src: string; alt: string; caption?: string; width?: string; ratio?: string; };

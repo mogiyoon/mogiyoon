@@ -1,4 +1,4 @@
-import type { ProjectData, SummaryPart, SummaryTextCategory } from "../types";
+import type { ProjectData, SummaryPart } from "../types";
 import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
@@ -17,26 +17,41 @@ interface TotalSummaryComponentProps {
   t: TFunction;
 }
 
-type CategorizedTextPart = Extract<SummaryPart, { type: "text" }> & {
-  category: SummaryTextCategory;
-};
+type TextPart = Extract<SummaryPart, { type: "text" }>;
 
-const isCategorizedText = (part: SummaryPart): part is CategorizedTextPart =>
-  part.type === "text" && Boolean(part.category);
+// caption 은 본문이 아니라 부가 설명(예: 용어 풀이) 이라 타임라인/박스에서 제외하고
+// 작은 회색 인라인 글로 따로 렌더링한다.
+const isTimelineTextPart = (part: SummaryPart): part is TextPart =>
+  part.type === "text" && part.category !== "caption";
 
-// ── Categorized timeline step ─────────────────────────────────────────────────
-// 카테고리별로 ProfileSection HighlightCard 와 동일한 타임라인 시각 단계에 매핑.
+const isCaptionPart = (part: SummaryPart): part is TextPart =>
+  part.type === "text" && part.category === "caption";
+
+// ── Timeline step (categorized + uncategorized) ───────────────────────────────
+// 카테고리가 있으면 ProfileSection HighlightCard 와 동일한 시각 단계에 매핑하고,
+// 없으면 같은 connector 바 아래 매달리는 라벨/점 없는 plain box 로 렌더링함.
 const renderTimelineStep = (
-  part: CategorizedTextPart,
+  part: TextPart,
   t: TFunction,
   key: React.Key
 ) => {
-  const label = t(`summaryCategory.${part.category}`, { ns: "common" });
   const body = t(part.content || "");
+  if (!part.category) {
+    return (
+      <div key={key} className="relative pb-6">
+        <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
+          <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-wrap">
+            {body}
+          </p>
+        </div>
+      </div>
+    );
+  }
+  const label = t(`summaryCategory.${part.category}`, { ns: "common" });
   switch (part.category) {
     case "problem":
       return (
-        <TimelineInitialStep key={key} label={label} bodyClassName="whitespace-pre-wrap">
+        <TimelineInitialStep key={key} label={label} accent="subtle" bodyClassName="whitespace-pre-wrap">
           {body}
         </TimelineInitialStep>
       );
@@ -48,7 +63,7 @@ const renderTimelineStep = (
       );
     case "solution":
       return (
-        <TimelineSolidStep key={key} label={label} shade={600}>
+        <TimelineSolidStep key={key} label={label} shade={600} accent="accent">
           {body}
         </TimelineSolidStep>
       );
@@ -58,28 +73,46 @@ const renderTimelineStep = (
           {body}
         </TimelineFinalStep>
       );
+    case "caption":
+      return null; // 타임라인 버퍼에서 제외되므로 도달하지 않음
   }
 };
 
+const renderCaption = (part: TextPart, t: TFunction, key: React.Key) => (
+  <p
+    key={key}
+    className="text-xs text-content-muted leading-relaxed whitespace-pre-wrap"
+  >
+    {t(part.content || "")}
+  </p>
+);
+
 // ── Part group renderer ───────────────────────────────────────────────────────
-// 연속된 categorized text 들을 하나의 타임라인으로 묶어, 단일 connector 위에
-// problem → analysis → solution → result 단계가 시각적으로 이어지도록 렌더링.
+// 연속된 text 들을 하나의 타임라인으로 묶어, 단일 connector 위에 카테고리 단계와
+// uncategorized 박스가 한 줄로 이어지도록 렌더링. caption 은 타임라인에서 제외.
 const renderPartGroup = (
   partGroup: SummaryPart[],
   t: TFunction,
   onSubtitleClick: (id: string) => void
 ): React.ReactNode => {
   const nodes: React.ReactNode[] = [];
-  let buffer: CategorizedTextPart[] = [];
+  let buffer: TextPart[] = [];
   let bufferStartIndex = 0;
 
   const flushBuffer = () => {
     if (buffer.length === 0) return;
     const steps = buffer;
     const startIndex = bufferStartIndex;
+    const hasCategorized = steps.some((step) => Boolean(step.category));
+    // 카테고리 단계가 하나라도 있으면 기존 problem→result 그라데이션 connector 유지.
+    // 비분류만 모인 그룹은 균일한 단색 connector — 첫 카드 윗변(top-0) ~ 마지막 카드 바닥
+    // (bottom-6, 마지막 step 의 pb-6 만큼 잘라냄) 까지로 카드 수직 중심에 정확히 정렬.
+    const barClassName = hasCategorized
+      ? "absolute left-[5.5px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900"
+      : "absolute left-[5.5px] top-0 bottom-6 w-px bg-line-strong";
     nodes.push(
       <div key={`tl-${startIndex}`} className="relative pl-6">
-        <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
+        <div className={barClassName} />
         {steps.map((part, i) =>
           renderTimelineStep(part, t, `${startIndex}-${i}`)
         )}
@@ -89,12 +122,16 @@ const renderPartGroup = (
   };
 
   partGroup.forEach((part, index) => {
-    if (isCategorizedText(part)) {
+    if (isTimelineTextPart(part)) {
       if (buffer.length === 0) bufferStartIndex = index;
       buffer.push(part);
       return;
     }
     flushBuffer();
+    if (isCaptionPart(part)) {
+      nodes.push(renderCaption(part, t, index));
+      return;
+    }
     nodes.push(renderSummaryPart(part, index, t, onSubtitleClick));
   });
   flushBuffer();
@@ -102,23 +139,15 @@ const renderPartGroup = (
   return nodes;
 };
 
-// ── Summary part renderer (uncategorized / non-text parts) ────────────────────
+// ── Summary part renderer (non-text parts) ────────────────────────────────────
+// text 파트는 renderPartGroup 의 타임라인 버퍼에서 모두 처리되므로 여기 도달하지 않음.
 const renderSummaryPart = (
-  part: SummaryPart,
+  part: Exclude<SummaryPart, { type: "text" }>,
   index: number,
   t: TFunction,
   onSubtitleClick: (id: string) => void
 ) => {
   switch (part.type) {
-    case "text":
-      return (
-        <p
-          key={index}
-          className="text-base text-content-secondary leading-relaxed whitespace-pre-wrap"
-        >
-          {t(part.content || "")}
-        </p>
-      );
     case "subtitle":
       return (
         <div key={index} id={part.id} className="mt-8 mb-3 scroll-mt-24">
