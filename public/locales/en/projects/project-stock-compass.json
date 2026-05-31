@@ -1,0 +1,95 @@
+{
+  "stock-compass": {
+    "title": "Stock Compass",
+    "subtitle": "A solo-use screener that mirrors the author's KR/US equity trading principles",
+    "description": "A solo-use web app that mirrors the author's own decision flow for trading Korean and US equities. Filters narrow candidate stocks by financial and growth criteria first, then per-stock issues and themes are surfaced by calling the claude CLI (an AI tool driven from the terminal) with a web search for each stock once. The two stages are wired into a single screen flow.\n\nBuilt as a single-process web app with FastAPI (Python web framework), SQLAlchemy (Python ORM, object-relational mapping), and SQLite (file-based database). Market adapters `markets/kr` and `markets/us` keep the Korean market and US NASDAQ separated within the same codebase. Data collection runs on yfinance (an unofficial Yahoo Finance client), per-stock analysis runs on the claude CLI, and APScheduler (a Python job scheduler) dispatches work per market.",
+    "overview": {
+      "projectType": "Personal Project",
+      "introduction": "A solo-use web app that ports the author's KR/US equity decision flow — multi-condition screening, per-stock AI theme discovery, and detailed review — into a single tool",
+      "features": "Multi-condition screener, per-stock AI analysis with one call per ticker, financial and price visualization, automatic AI theme mapping"
+    },
+    "summaries": {
+      "development": {
+        "title": "Features and Development Process",
+        "parts": {
+          "0": {
+            "subtitle": "Single Codebase with KR/US Separated by Market Adapters",
+            "caption": "`markets/{kr,us}` packages, region discriminator",
+            "0": "The Korean and US markets differ in ticker identifiers (`.KS` suffix vs none), fiscal year-end, and trading halt handling. Add divergent rules for penny-stock and mega-cap exclusions, and bolting `if-else` branches onto a single codebase makes one side's change likely to break the other.",
+            "1": "A market adapter pattern (a structure that hides per-market differences behind a shared entry point) was introduced. `markets/base.py` defines an abstract base class (a class that declares only the contract) that collects the per-market entry points: stock seed lists, ticker conversion, prompts, filter labels, and market-cap thresholds. `markets/kr/` and `markets/us/` implement those contracts, while shared logic such as the filter engine, analysis runner, and DB session stays in `core`.",
+            "2": "The DB schema remains single-table but gains a `Stock.region` discriminator (a column that distinguishes markets). Collection, filtering, snapshot persistence, theme grouping, and the UI all branch on the `region` toggle. Per-market constants live in `markets/{kr,us}/config.py`, while the global `config.py` keeps only market-agnostic constants.",
+            "3": "The US market was folded in without disturbing the stabilized KR side. Labels, filter fields, and run schedules now live inside each adapter. Schedules split into KR 23:00 KST and US 18:00 Eastern Time (ET), and policies — mega-cap exclusion above $100B, penny threshold at $5, ADR (American Depositary Receipts) classification — are isolated per market."
+          },
+          "1": {
+            "subtitle": "Splitting AI Calls Per Stock for Deeper Theme Discovery",
+            "caption": "1–3 minutes per ticker, capped to top market caps",
+            "0": "When a single AI call covers multiple stocks at once, the context budget makes per-stock theme search shallow. Topics such as political or policy plays and social momentum (the flow of online reactions), whose primary sources are scattered, get reduced to surface-level results.",
+            "1": "The flow was split to one call per stock. Each analysis spawns a separate subprocess and prompts the claude CLI to dig deeply with WebSearch and WebFetch (web search and retrieval tools). Korean-market prompts require multiple searches in the form of \"<stock> related stocks\" and \"<theme> related stocks,\" plus a dedicated pass on political or policy themes, and pin reference counts at 7 or more (2 brokerage reports + 5 blog or community posts).",
+            "2": "The prompt forces the response to end with a stock-to-theme mapping JSON (a structured data format). The parser retrieves only the last JSON code block and writes it into the `stock_themes` table, grouping identical themes by a whitespace-stripped key to avoid duplicate rows.",
+            "3": "Each per-stock run takes 1–3 minutes but secures 7+ reference links on average and surfaces political or policy plays alongside industry themes. Targets are capped to the top market caps (KR 30, US 50) so the cost of one screening (stock-selection) pass stays predictable."
+          },
+          "2": {
+            "subtitle": "Instant Cancel for Background Analysis via Popen + SIGTERM",
+            "caption": "Terminates within ~1s, independent of page navigation",
+            "0": "Splitting calls per stock turned a single run into a background job that fires 30–50 subprocesses sequentially. When users notice the wrong universe was selected, waiting it out costs too much, so an instant-cancel mechanism was needed.",
+            "1": "claude calls were switched from `subprocess.run` to `subprocess.Popen`, and the live process handle is registered in a module-level global. When `cancel_analysis()` is invoked, the registered process receives SIGTERM (the standard termination signal) and the current per-stock analysis stops at once. The outer loop checks a `cancel_requested` flag before the next iteration and exits.",
+            "2": "The UI surfaces the current stock name in the panel during the \"analyzing\" state, refreshed from the polling response's `current` field. The cancel button goes through a confirmation dialog and posts to `/api/analyze/cancel`. Because the background job keeps running independent of page transitions or refreshes, any screen sees the same polled state.",
+            "3": "On average the in-flight claude call ends within one second of a cancel request, and the analysis loop unwinds cleanly. The UI shifts to a \"cancelled\" state so the user can move on — editing filters and rerunning the analysis right away."
+          },
+          "3": {
+            "subtitle": "Whitespace-Insensitive Theme Matching with a Korean Initial Index",
+            "caption": "Absorbs spelling drift, keeps theme cards converging",
+            "0": "Theme names returned by AI analysis drift in spelling. \"2차전지 분리막\" and \"2차전지분리막\" can land as separate themes, or the same theme can be saved under slightly different names per stock, piling duplicate cards on the theme page.",
+            "1": "Theme names are normalized by stripping all whitespace into a comparison key (normalization). `_theme_key()` produces this key, and during writes the lookup uses `func.replace(Theme.name, \" \", \"\") == norm` to group new entries under the matching existing theme. Existing labels are preserved so users keep seeing the first spelling they encountered.",
+            "2": "A short theme description is also collected. Prompts emit a `theme_desc` object alongside the mapping JSON, and the parser fills only empty descriptions to avoid overwriting existing copy. The theme list page exposes navigability through a first-character Korean initial index (ㄱ·ㄴ·ㄷ··· plus A–Z and #).",
+            "3": "Theme cards remain meaningful over time. Even as analysis results accumulate, the card count on the theme page does not balloon, and the inline descriptions make otherwise ambiguous theme names readable at a glance."
+          }
+        }
+      },
+      "results": {
+        "title": "Results and Retrospective",
+        "parts": {
+          "0": {
+            "0": "Results",
+            "1": "Built an AI analysis flow on top of the claude CLI's web search (one call per stock, 7+ references on average)",
+            "2": "Integrated KR and US markets into a single codebase via a market adapter pattern",
+            "3": "Implemented instant cancel for background analysis (Popen + SIGTERM, terminates within ~1s)",
+            "4": "Converged duplicate theme cards through automatic mapping and whitespace-insensitive normalization",
+            "5": "All 40 commits were co-authored with Claude"
+          },
+          "1": {
+            "0": "Retrospective",
+            "1": "Logging each decision rationale into DECISIONS.md one line at a time made it possible to trace prior reasoning even through a major restructure like the KR/US integration. Retrospective notes proved useful in-flight, not only after the fact.",
+            "2": "Depth of AI analysis is strongly tied to how many stocks share a single call. The cost of splitting was lower than the context cost, and one call per stock turned out to be the cost-versus-depth equilibrium.",
+            "3": "Running planning, implementation, and audit as discrete stages of a multi-agent orchestrator let me focus on prioritization and review rather than doing every step by hand."
+          }
+        }
+      },
+      "blank": {
+        "title": "Thank you."
+      }
+    },
+    "features": [
+      {
+        "name": "🔍 Multi-Condition Screener",
+        "description": "Filters candidates by PER, PBR, ROE, debt ratio, and N-year consecutive trend conditions"
+      },
+      {
+        "name": "🤖 Per-Stock AI Analysis (One Call Each)",
+        "description": "The claude CLI performs one deep web-search pass per stock to uncover themes, related tickers, and news"
+      },
+      {
+        "name": "📊 Financial and Price Visualization",
+        "description": "Stock details render daily/monthly/yearly prices and annual financial metrics with Chart.js"
+      },
+      {
+        "name": "🏷️ Automatic AI Theme Mapping",
+        "description": "Persists stock-theme relations from analysis output, merges duplicates with whitespace-insensitive matching, and indexes the list by Korean initials"
+      }
+    ],
+    "claudeInfo": {
+      "summary": "Ran planning, implementation, and refactoring across a multi-agent orchestrator",
+      "details": "Built around Claude Code's Agent tooling, a multi-agent orchestrator split planning, implementation, and refactoring into discrete stages. The initial KR seed was authored directly. During the US Stock Scanner expansion, the `program-planner` agent ran a three-round interview to settle open questions: codebase strategy, market scope, data source, theme definition, financial metrics, and MVP (minimum viable product) screens. The `implement` orchestrator then fanned the build out to per-phase implementation agents. In the stabilization phase, general-purpose agents handled dead-code, naming, and light audits, while only the application priorities were decided directly. All 40 commits were co-authored with Claude."
+    }
+  }
+}
