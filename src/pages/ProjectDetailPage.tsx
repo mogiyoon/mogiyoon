@@ -137,7 +137,7 @@ const ProjectDetailPage: React.FC = () => {
             )}
           </header>
 
-          {/* Demo GIF */}
+          {/* Demo: 모든 프로젝트는 도입부에 GIF 데모를 노출 */}
           <section className="mb-14 flex justify-center">
             <div className={`w-full ${gifMaxW}`}>
               {!isLoaded && (
@@ -155,7 +155,7 @@ const ProjectDetailPage: React.FC = () => {
 
           {/* Content */}
           <div className="bg-surface rounded-3xl shadow-sm border border-line overflow-hidden">
-            <TotalSummaryComponent project={project} t={t} />
+            <TotalSummaryComponent project={project} t={t} projectId={projectId} />
 
             {/* License */}
             <div className="px-6 sm:px-10 py-8 border-t border-line">
