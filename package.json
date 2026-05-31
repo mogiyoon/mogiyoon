@@ -14,7 +14,7 @@
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
-    "@mogiyoon/react-stable-timeline": "^0.2.2",
+    "@mogiyoon/react-stable-timeline": "^0.3.0",
     "@prerenderer/renderer-puppeteer": "^1.2.4",
     "@prerenderer/rollup-plugin": "^0.3.12",
     "framer-motion": "^12.23.12",
