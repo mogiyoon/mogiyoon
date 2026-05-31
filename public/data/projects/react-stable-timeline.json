@@ -9,7 +9,13 @@
     "period": "2026.05",
     "introduction": "react-stable-timeline.overview.introduction",
     "features": "react-stable-timeline.overview.features",
-    "techStack": ["React", "TypeScript", "Canvas2D", "tsup", "npm Package"],
+    "techStack": [
+      "React",
+      "TypeScript",
+      "Canvas2D",
+      "tsup",
+      "npm Package"
+    ],
     "github": "https://github.com/mogiyoon/react-stable-timeline",
     "demo": "https://www.npmjs.com/package/@mogiyoon/react-stable-timeline"
   },
@@ -19,24 +25,85 @@
       "title": "react-stable-timeline.summaries.development.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "motivation", "content": "react-stable-timeline.summaries.development.parts.0.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.0.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.0.1" }
+          {
+            "type": "subtitle",
+            "id": "motivation",
+            "content": "react-stable-timeline.summaries.development.parts.0.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "react-stable-timeline.summaries.development.parts.0.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "react-stable-timeline.summaries.development.parts.0.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "react-stable-timeline.summaries.development.parts.0.2"
+          }
         ],
         [
-          { "type": "subtitle", "id": "first_fit_packing", "content": "react-stable-timeline.summaries.development.parts.1.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.1.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.1.1" }
+          {
+            "type": "subtitle",
+            "id": "first_fit_packing",
+            "content": "react-stable-timeline.summaries.development.parts.1.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "react-stable-timeline.summaries.development.parts.1.0"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "react-stable-timeline.summaries.development.parts.1.1"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "react-stable-timeline.summaries.development.parts.1.2"
+          }
         ],
         [
-          { "type": "subtitle", "id": "label_measurement", "content": "react-stable-timeline.summaries.development.parts.2.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.2.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.2.1" }
+          {
+            "type": "subtitle",
+            "id": "label_measurement",
+            "content": "react-stable-timeline.summaries.development.parts.2.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "react-stable-timeline.summaries.development.parts.2.0"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "react-stable-timeline.summaries.development.parts.2.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "react-stable-timeline.summaries.development.parts.2.2"
+          }
         ],
         [
-          { "type": "subtitle", "id": "zoom_interaction", "content": "react-stable-timeline.summaries.development.parts.3.subtitle" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.3.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.development.parts.3.1" }
+          {
+            "type": "subtitle",
+            "id": "zoom_interaction",
+            "content": "react-stable-timeline.summaries.development.parts.3.subtitle"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.development.parts.3.0"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.development.parts.3.1"
+          }
         ]
       ]
     },
@@ -45,10 +112,31 @@
       "title": "react-stable-timeline.summaries.troubleshooting.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "hangul_label_width", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.subtitle" },
-          { "type": "text", "category": "problem", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.0" },
-          { "type": "text", "category": "solution", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.1" },
-          { "type": "text", "category": "result", "content": "react-stable-timeline.summaries.troubleshooting.parts.0.2" }
+          {
+            "type": "subtitle",
+            "id": "hangul_label_width",
+            "content": "react-stable-timeline.summaries.troubleshooting.parts.0.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "react-stable-timeline.summaries.troubleshooting.parts.0.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "react-stable-timeline.summaries.troubleshooting.parts.0.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "react-stable-timeline.summaries.troubleshooting.parts.0.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "react-stable-timeline.summaries.troubleshooting.parts.0.3"
+          }
         ]
       ]
     },
@@ -57,36 +145,98 @@
       "title": "react-stable-timeline.summaries.results.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "result", "content": "react-stable-timeline.summaries.results.parts.0.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.0.1" },
-          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.0.2" }
+          {
+            "type": "subtitle",
+            "id": "result",
+            "content": "react-stable-timeline.summaries.results.parts.0.0"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.results.parts.0.1"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.results.parts.0.2"
+          }
         ],
         [
-          { "type": "subtitle", "id": "retrospect", "content": "react-stable-timeline.summaries.results.parts.1.0" },
-          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.1.1" },
-          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.1.2" },
-          { "type": "text", "content": "react-stable-timeline.summaries.results.parts.1.3" }
+          {
+            "type": "subtitle",
+            "id": "retrospect",
+            "content": "react-stable-timeline.summaries.results.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.results.parts.1.1"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.results.parts.1.2"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.results.parts.1.3"
+          }
         ]
       ]
     },
-    { "id": "blank", "title": "react-stable-timeline.summaries.blank.title", "parts": [] }
+    {
+      "id": "blank",
+      "title": "react-stable-timeline.summaries.blank.title",
+      "parts": []
+    }
   ],
   "features": [
-    { "name": "react-stable-timeline.features.0.name", "description": "react-stable-timeline.features.0.description", "icon": "CommunityIcon" },
-    { "name": "react-stable-timeline.features.1.name", "description": "react-stable-timeline.features.1.description", "icon": "VideoIcon" },
-    { "name": "react-stable-timeline.features.2.name", "description": "react-stable-timeline.features.2.description", "icon": "ShortFormIcon" },
-    { "name": "react-stable-timeline.features.3.name", "description": "react-stable-timeline.features.3.description", "icon": "MarketIcon" },
-    { "name": "react-stable-timeline.features.4.name", "description": "react-stable-timeline.features.4.description", "icon": "CommunityIcon" }
+    {
+      "name": "react-stable-timeline.features.0.name",
+      "description": "react-stable-timeline.features.0.description",
+      "icon": "CommunityIcon"
+    },
+    {
+      "name": "react-stable-timeline.features.1.name",
+      "description": "react-stable-timeline.features.1.description",
+      "icon": "VideoIcon"
+    },
+    {
+      "name": "react-stable-timeline.features.2.name",
+      "description": "react-stable-timeline.features.2.description",
+      "icon": "ShortFormIcon"
+    },
+    {
+      "name": "react-stable-timeline.features.3.name",
+      "description": "react-stable-timeline.features.3.description",
+      "icon": "MarketIcon"
+    },
+    {
+      "name": "react-stable-timeline.features.4.name",
+      "description": "react-stable-timeline.features.4.description",
+      "icon": "CommunityIcon"
+    }
   ],
   "screenshots": [
-    { "title": "react-stable-timeline 아이콘", "src": "/images/reactStableTimeline/Icon.svg" }
+    {
+      "title": "react-stable-timeline 아이콘",
+      "src": "/images/reactStableTimeline/Icon.svg"
+    }
   ],
   "developmentProcess": [
-    { "title": "react-stable-timeline.developmentProcess.0.title", "content": "react-stable-timeline.developmentProcess.0.content" },
-    { "title": "react-stable-timeline.developmentProcess.1.title", "content": "react-stable-timeline.developmentProcess.1.content" },
-    { "title": "react-stable-timeline.developmentProcess.2.title", "content": "react-stable-timeline.developmentProcess.2.content" }
+    {
+      "title": "react-stable-timeline.developmentProcess.0.title",
+      "content": "react-stable-timeline.developmentProcess.0.content"
+    },
+    {
+      "title": "react-stable-timeline.developmentProcess.1.title",
+      "content": "react-stable-timeline.developmentProcess.1.content"
+    },
+    {
+      "title": "react-stable-timeline.developmentProcess.2.title",
+      "content": "react-stable-timeline.developmentProcess.2.content"
+    }
   ],
-  "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" },
+  "license": {
+    "name": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
   "claudeInfo": {
     "method": "direct",
     "summary": "react-stable-timeline.claudeInfo.summary",
