@@ -5,7 +5,7 @@ import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { AiHighlightItem } from '../types';
-import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from './TimelineStep';
+import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from '../../../../components/primitives/TimelineStep';
 
 /**
  * AI 활용 하이라이트 카드 — Context / Approach / Verification / Impact 4단계 타임라인.
@@ -72,7 +72,7 @@ const AiHighlightCard: React.FC<{
               {isDetailOpen && (
                 <motion.div key="detail" {...collapseVerticalPreset(0.22)}>
                   <div className="relative pl-6 mt-5">
-                    <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
+                    <div className="absolute left-[5.5px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
 
                     <TimelineInitialStep label={labels.context} bodyClassName="whitespace-pre-line">
                       {aiHighlight.context}

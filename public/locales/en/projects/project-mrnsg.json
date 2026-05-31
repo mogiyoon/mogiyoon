@@ -15,7 +15,8 @@
           "0": {
             "subtitle": "Motivation",
             "caption": "Existing grid component libraries",
-            "0": "During the 'Test Maker' project, I needed a simple grid component and searched through libraries on NPM. However, the most widely used React Native grid component hadn’t been updated in six years and was incompatible with newer versions. Other available libraries either lacked required features or had insufficient documentation. This led me to implement and publish my own lightweight library."
+            "0": "During the 'Test Maker' project, I needed a simple grid component.",
+            "1": "I searched through libraries on NPM. However, the most widely used React Native grid component hadn't been updated in six years and was incompatible with newer versions. Other available libraries either lacked required features or had insufficient documentation. This led me to implement and publish my own lightweight library."
           },
           "1": {
             "subtitle": "Development Process",
@@ -39,9 +40,10 @@
             "caption": "Create React Native Library documentation"
           },
           "1": {
-            "0": "Problem: Faced difficulties with bundling configuration and dependency setup for the first NPM release.",
-            "1": "Solution Process\n\n\t1. Studied documentation on NPM publishing processes and TypeScript library bundling.\n\t2. Utilized and analyzed Create React Native Library to complete the publishing process.",
-            "2": "Result: Gained a deeper understanding of the NPM publishing ecosystem and successfully released the package."
+            "0": "Faced difficulties with bundling configuration and dependency setup for the first NPM release.",
+            "1": "1. Studied documentation on NPM publishing processes and TypeScript library bundling.",
+            "2": "2. Utilized and analyzed Create React Native Library to complete the publishing process.",
+            "3": "Gained a deeper understanding of the NPM publishing ecosystem and successfully released the package."
           }
         }
       },
