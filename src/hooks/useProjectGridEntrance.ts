@@ -105,6 +105,9 @@ export const useProjectGridEntrance = ({
         };
     }, [hasPlayedProjectEntrance, projects.length, showAiDevKit]);
 
+    // 카드 진입 cluster 상태. filter: blur 는 모바일 GPU 에서 컴포지터를 강제로 광역 재합성하게 만들어
+    // staggered 다중 카드 시 끊김이 두드러지므로 제거. opacity + scale + translate 조합만 사용해
+    // GPU 친화적인 transform/composite 경로로만 애니메이션한다.
     const getProjectCardClusterState = ({ id, index }: ProjectCardCustom) => {
         const offset = projectCardOffsets[id];
 
@@ -115,7 +118,6 @@ export const useProjectGridEntrance = ({
                 x: 0,
                 y: 0,
                 rotate: 0,
-                filter: 'blur(12px)',
                 zIndex: projects.length - index,
             };
         }
@@ -126,7 +128,6 @@ export const useProjectGridEntrance = ({
             x: offset.x,
             y: offset.y,
             rotate: 0,
-            filter: 'blur(12px)',
             zIndex: offset.zIndex,
         };
     };
@@ -142,7 +143,6 @@ export const useProjectGridEntrance = ({
             x: 0,
             y: 0,
             rotate: 0,
-            filter: 'blur(0px)',
             zIndex: 1,
             transition: {
                 delay: 0.08 + index * 0.05,

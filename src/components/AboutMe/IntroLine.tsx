@@ -137,7 +137,7 @@ export const IntroLine: React.FC = () => {
   };
 
   return (
-    <section ref={targetRef} className="relative h-[1000vh]">
+    <section ref={targetRef} className="relative h-[1000vh] bg-white">
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white">
         <PanelLayer
           opacity={startPanelOpacity}

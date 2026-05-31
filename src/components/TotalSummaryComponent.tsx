@@ -2,6 +2,7 @@ import type { ProjectData, SummaryPart } from "../types";
 import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
+import ReactStableTimelineDemo from "./ReactStableTimelineDemo";
 import { Chip } from "./primitives/Chip";
 import ExternalLink from "./primitives/ExternalLink";
 import InfoCell from "./primitives/InfoCell";
@@ -15,6 +16,7 @@ import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToas
 interface TotalSummaryComponentProps {
   project: ProjectData;
   t: TFunction;
+  projectId?: string;
 }
 
 type TextPart = Extract<SummaryPart, { type: "text" }>;
@@ -243,7 +245,7 @@ const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> =
 );
 
 // ── Main component ─────────────────────────────────────────────────────────────
-const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t }) => {
+const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t, projectId }) => {
   const { toast, copy } = useCopyToClipboardWithToast();
 
   const handleCopyLink = (sectionId: string) => {
@@ -262,6 +264,13 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
 
         {/* ── Overview ── */}
         <section className="mb-10">
+          {/* Live demo: 라이브러리 프로젝트는 개요 칸 제일 위에 실제 라이브러리를 임베드 */}
+          {projectId === "react-stable-timeline" && (
+            <div className="mb-6">
+              <ReactStableTimelineDemo />
+            </div>
+          )}
+
           <p className="text-xs font-semibold uppercase tracking-widest text-content-muted mb-5">
             {t("projectDetail.overview", { ns: "common" })}
           </p>
