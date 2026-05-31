@@ -2,14 +2,24 @@
   "id": "storytect",
   "title": "storytect.title",
   "subtitle": "storytect.subtitle",
-  "demoGifSrc": "/images/storytect/Icon.svg",
+  "demoGifSrc": "/images/storytect/appGif.gif",
   "description": "storytect.description",
   "overview": {
     "projectType": "storytect.overview.projectType",
     "period": "2026.05",
     "introduction": "storytect.overview.introduction",
     "features": "storytect.overview.features",
-    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "Zustand", "MCP", "@mogiyoon/react-stable-timeline"],
+    "techStack": [
+      "Tauri",
+      "Rust",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "@xyflow/react",
+      "Zustand",
+      "MCP",
+      "@mogiyoon/react-stable-timeline"
+    ],
     "github": "(공개 준비 중)",
     "demo": null,
     "notion": null
@@ -20,39 +30,139 @@
       "title": "storytect.summaries.development.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "json_interface", "content": "storytect.summaries.development.parts.0.subtitle" },
-          { "type": "text", "content": "storytect.summaries.development.parts.0.0" },
-          { "type": "text", "content": "storytect.summaries.development.parts.0.1" },
-          { "type": "text", "content": "storytect.summaries.development.parts.0.2" },
-          { "type": "text", "content": "storytect.summaries.development.parts.0.3" }
+          {
+            "type": "subtitle",
+            "id": "json_interface",
+            "content": "storytect.summaries.development.parts.0.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.development.parts.0.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.development.parts.0.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.development.parts.0.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.development.parts.0.3"
+          }
         ],
         [
-          { "type": "subtitle", "id": "global_timebar", "content": "storytect.summaries.development.parts.1.subtitle" },
-          { "type": "text", "content": "storytect.summaries.development.parts.1.0" },
-          { "type": "text", "content": "storytect.summaries.development.parts.1.1" },
-          { "type": "text", "content": "storytect.summaries.development.parts.1.2" },
-          { "type": "text", "content": "storytect.summaries.development.parts.1.3" }
+          {
+            "type": "subtitle",
+            "id": "global_timebar",
+            "content": "storytect.summaries.development.parts.1.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.development.parts.1.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.development.parts.1.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.development.parts.1.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.development.parts.1.3"
+          }
         ],
         [
-          { "type": "subtitle", "id": "oo_model", "content": "storytect.summaries.development.parts.2.subtitle" },
-          { "type": "text", "content": "storytect.summaries.development.parts.2.0" },
-          { "type": "text", "content": "storytect.summaries.development.parts.2.1" },
-          { "type": "text", "content": "storytect.summaries.development.parts.2.2" },
-          { "type": "text", "content": "storytect.summaries.development.parts.2.3" }
+          {
+            "type": "subtitle",
+            "id": "oo_model",
+            "content": "storytect.summaries.development.parts.2.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.development.parts.2.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.development.parts.2.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.development.parts.2.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.development.parts.2.3"
+          }
         ],
         [
-          { "type": "subtitle", "id": "blank_canvas", "content": "storytect.summaries.development.parts.3.subtitle" },
-          { "type": "text", "content": "storytect.summaries.development.parts.3.0" },
-          { "type": "text", "content": "storytect.summaries.development.parts.3.1" },
-          { "type": "text", "content": "storytect.summaries.development.parts.3.2" },
-          { "type": "text", "content": "storytect.summaries.development.parts.3.3" }
+          {
+            "type": "subtitle",
+            "id": "blank_canvas",
+            "content": "storytect.summaries.development.parts.3.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.development.parts.3.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.development.parts.3.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.development.parts.3.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.development.parts.3.3"
+          }
         ],
         [
-          { "type": "subtitle", "id": "mcp_server", "content": "storytect.summaries.development.parts.4.subtitle" },
-          { "type": "text", "content": "storytect.summaries.development.parts.4.0" },
-          { "type": "text", "content": "storytect.summaries.development.parts.4.1" },
-          { "type": "text", "content": "storytect.summaries.development.parts.4.2" },
-          { "type": "text", "content": "storytect.summaries.development.parts.4.3" }
+          {
+            "type": "subtitle",
+            "id": "mcp_server",
+            "content": "storytect.summaries.development.parts.4.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.development.parts.4.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.development.parts.4.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.development.parts.4.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.development.parts.4.3"
+          }
         ]
       ]
     },
@@ -61,25 +171,90 @@
       "title": "storytect.summaries.troubleshooting.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "tauri_dragdrop", "content": "storytect.summaries.troubleshooting.parts.0.subtitle" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.0.0" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.0.1" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.0.2" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.0.3" }
+          {
+            "type": "subtitle",
+            "id": "tauri_dragdrop",
+            "content": "storytect.summaries.troubleshooting.parts.0.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.troubleshooting.parts.0.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.troubleshooting.parts.0.1"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.troubleshooting.parts.0.2"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.troubleshooting.parts.0.3"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.troubleshooting.parts.0.4"
+          }
         ],
         [
-          { "type": "subtitle", "id": "timeline_rewrite", "content": "storytect.summaries.troubleshooting.parts.1.subtitle" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.0" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.1" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.2" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.1.3" }
+          {
+            "type": "subtitle",
+            "id": "timeline_rewrite",
+            "content": "storytect.summaries.troubleshooting.parts.1.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.troubleshooting.parts.1.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.troubleshooting.parts.1.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.troubleshooting.parts.1.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.troubleshooting.parts.1.3"
+          }
         ],
         [
-          { "type": "subtitle", "id": "chart_axes", "content": "storytect.summaries.troubleshooting.parts.2.subtitle" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.0" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.1" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.2" },
-          { "type": "text", "content": "storytect.summaries.troubleshooting.parts.2.3" }
+          {
+            "type": "subtitle",
+            "id": "chart_axes",
+            "content": "storytect.summaries.troubleshooting.parts.2.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "storytect.summaries.troubleshooting.parts.2.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "storytect.summaries.troubleshooting.parts.2.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "storytect.summaries.troubleshooting.parts.2.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "storytect.summaries.troubleshooting.parts.2.3"
+          }
         ]
       ]
     },
@@ -88,23 +263,62 @@
       "title": "storytect.summaries.results.title",
       "parts": [
         [
-          { "type": "subtitle", "id": "result", "content": "storytect.summaries.results.parts.0.0" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.1" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.2" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.3" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.4" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.5" },
-          { "type": "text", "content": "storytect.summaries.results.parts.0.6" }
+          {
+            "type": "subtitle",
+            "id": "result",
+            "content": "storytect.summaries.results.parts.0.0"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.0.1"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.0.2"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.0.3"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.0.4"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.0.5"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.0.6"
+          }
         ],
         [
-          { "type": "subtitle", "id": "retrospect", "content": "storytect.summaries.results.parts.1.0" },
-          { "type": "text", "content": "storytect.summaries.results.parts.1.1" },
-          { "type": "text", "content": "storytect.summaries.results.parts.1.2" },
-          { "type": "text", "content": "storytect.summaries.results.parts.1.3" }
+          {
+            "type": "subtitle",
+            "id": "retrospect",
+            "content": "storytect.summaries.results.parts.1.0"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.1.1"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.1.2"
+          },
+          {
+            "type": "text",
+            "content": "storytect.summaries.results.parts.1.3"
+          }
         ]
       ]
     },
-    { "id": "blank", "title": "storytect.summaries.blank.title", "parts": [] }
+    {
+      "id": "blank",
+      "title": "storytect.summaries.blank.title",
+      "parts": []
+    }
   ],
   "features": [
     {
@@ -134,7 +348,10 @@
     }
   ],
   "screenshots": [
-    { "title": "Storytect 아이콘", "src": "/images/storytect/Icon.svg" }
+    {
+      "title": "Storytect 아이콘",
+      "src": "/images/storytect/Icon.svg"
+    }
   ],
   "developmentProcess": [
     {
@@ -150,7 +367,10 @@
       "content": "storytect.developmentProcess.2.content"
     }
   ],
-  "license": { "name": "TBD", "url": "" },
+  "license": {
+    "name": "TBD",
+    "url": ""
+  },
   "claudeInfo": {
     "method": "orchestrator",
     "summary": "storytect.claudeInfo.summary",

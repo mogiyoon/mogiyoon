@@ -151,7 +151,9 @@ describe('useProjectGridEntrance', () => {
         expect(result.current.hasPlayedProjectEntrance).toBe(true);
     });
 
-    it('does not play entrance when grid is not in view', async () => {
+    it('plays entrance even when the grid is below the fold (mobile layout)', async () => {
+        // 사이드바가 위 / 그리드가 아래에 쌓이는 모바일 레이아웃에서는 그리드가 초기 viewport 밖에 있어
+        // useInView 게이트가 켜져 있으면 카드들이 스크롤 전까지 invisible 인 채로 머무는 버그가 있었음.
         inViewState.current = false;
         const projects = [buildProject('alpha'), buildProject('beta')];
 
@@ -171,7 +173,7 @@ describe('useProjectGridEntrance', () => {
         });
 
         expect(result.current.projectCardOffsetsReady).toBe(true);
-        expect(result.current.hasPlayedProjectEntrance).toBe(false);
+        expect(result.current.hasPlayedProjectEntrance).toBe(true);
     });
 
     it('showAiDevKit becomes true after a delay scaled by projects.length once entrance has played', async () => {

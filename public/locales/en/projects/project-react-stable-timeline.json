@@ -15,17 +15,20 @@
           "0": {
             "subtitle": "Switching to a Custom Implementation Because Rows Kept Reshuffling on Pan and Zoom",
             "0": "The timeline component for the chronological catalog page was first built on vis-timeline. The stacking behavior that prevents events at the same time from colliding worked correctly, but since row positions were recalculated against only the currently visible viewport, event cards shifted rows during pan and zoom.",
-            "1": "Keeping each row assignment stable through pan and zoom was judged to be the better UX. Since the mismatch was at the level of the placement rule itself rather than a tunable option, vis-timeline was removed in favor of a custom implementation that includes a row-stable mode."
+            "1": "Keeping each row assignment stable through pan and zoom was judged to be the better UX.",
+            "2": "Since the mismatch was at the level of the placement rule itself rather than a tunable option, vis-timeline was removed in favor of a custom implementation that includes a row-stable mode."
           },
           "1": {
             "subtitle": "Designing the Row-Stable Placement Algorithm and Its TypeScript Implementation",
             "0": "The core of the row-stable mode is separating row computation from viewport movement: rows are decided once against the full dataset, and pan/zoom only translate coordinates afterwards. The hand-written pseudocode assumes a queue A (an ordered list of items to process) and a dictionary B (a key-value map of each row index to its rightmost end point). It reads: \"Sort items into queue A by (start time, name). Initialize dictionary B keyed by row index, valued by end point. Pop component C, compare its start to B[0]'s end point — if C starts later, place it on row 0 and update the end point; otherwise iterate the dictionary. If no row fits, insert into the row whose end-point distance is smallest in absolute value.\"",
-            "1": "The actual implementation was refined to map queue A onto a (start, label)-sorted array and dictionary B onto a rowEndsPx array. The original proposal said \"insert into the closest row,\" but the implementation opens a new row instead to avoid label collisions. Time complexity is O(n log n) for the sort plus O(n·R) for placement, and the result is deterministic — the same input always produces the same output."
+            "1": "The actual implementation was refined to map queue A onto a (start, label)-sorted array and dictionary B onto a rowEndsPx array. The original proposal said \"insert into the closest row,\" but the implementation opens a new row instead to avoid label collisions.",
+            "2": "Time complexity is O(n log n) for the sort plus O(n·R) for placement, and the result is deterministic — the same input always produces the same output."
           },
           "2": {
             "subtitle": "Measuring Real Pixel Widths Instead of Estimating from Character Count",
-            "0": "Character-count-based estimates underrepresented Hangul's actual pixel width by about 30%, leaving visible collisions between labels. To close that gap, Canvas2D measureText (the browser's text-width API) is used, and a measurer function wraps it so the value can flow into the placement calculation.",
-            "1": "When a label is wider than its time slot, the label width drives the gap calculation against the next event card to prevent overlap; when the time slot is wider, the slot width is used instead."
+            "0": "Character-count-based estimates underrepresented Hangul's actual pixel width by about 30%, leaving visible collisions between labels.",
+            "2": "When a label is wider than its time slot, the label width drives the gap calculation against the next event card to prevent overlap; when the time slot is wider, the slot width is used instead.",
+            "1": "To close that gap, Canvas2D measureText (the browser's text-width API) is used, and a measurer function wraps it so the value can flow into the placement calculation."
           },
           "3": {
             "subtitle": "Cursor-Anchored Zoom and Multiple Pan Inputs",
@@ -39,9 +42,10 @@
         "parts": {
           "0": {
             "subtitle": "Hangul Label Widths Underestimated by ~30% via Character-Count Estimation",
-            "0": "Problem: With character-count-based label width estimation, Hangul's actual pixel width was calculated about 30% smaller than reality, leaving visible collisions between adjacent labels.",
-            "1": "Resolution\n\n\t1. Compared the estimate against the real measurement across various font and text combinations.\n\t2. Adopted Canvas2D measureText to obtain pixel widths that reflect the current font settings.",
-            "2": "Result: Label widths now measure accurately across Hangul, Latin, and mixed-script text, and the label collisions are gone."
+            "0": "With character-count-based label width estimation, Hangul's actual pixel width was calculated about 30% smaller than reality, leaving visible collisions between adjacent labels.",
+            "1": "Compared the estimate against the real measurement across various font and text combinations.",
+            "2": "Adopted Canvas2D measureText to obtain pixel widths that reflect the current font settings.",
+            "3": "Label widths now measure accurately across Hangul, Latin, and mixed-script text, and the label collisions are gone."
           }
         }
       },

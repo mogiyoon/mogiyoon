@@ -16,33 +16,43 @@
           "0": {
             "subtitle": "Video Merging Logic with ffmpeg",
             "caption": "Video Editing Screen",
-            "0": "To implement the ensemble feature of merging two performance videos, it was necessary to sync the given clips and adjust the equalizer before merging. Using ffmpeg*, we created a filter chain, adjusting the equalizer based on the shorter clip to produce the edited video. Later, ffmpeg was also used for video downscaling* when uploading to S3 and to prevent conflicts with video components.",
-            "1": "*ffmpeg: an open-source project for decoding and encoding video, audio, and image formats\n*Downscaling: the process of reducing the size or resolution of raw data, videos, or images"
+            "0": "To implement the ensemble feature of merging two performance videos, it was necessary to sync the given clips and adjust the equalizer before merging.",
+            "2": "*ffmpeg: an open-source project for decoding and encoding video, audio, and image formats\n*Downscaling: the process of reducing the size or resolution of raw data, videos, or images",
+            "1": "Using ffmpeg*, we created a filter chain, adjusting the equalizer based on the shorter clip to produce the edited video. Later, ffmpeg was also used for video downscaling* when uploading to S3 and to prevent conflicts with video components."
           },
           "1": {
             "subtitle": "Component Refactoring",
             "caption": "Refactored Components",
-            "0": "Team members had individually implemented features (video upload, simultaneous playback/recording, ffmpeg native integration, video merging/editing) which needed to be refactored into a single connected workflow. We separated common components per page, refactored certain functions, and created new pages reorganized with related components and features. As a result, the code length per page decreased by about 50%."
+            "0": "Team members had individually implemented features (video upload, simultaneous playback/recording, ffmpeg native integration, video merging/editing) which needed to be refactored into a single connected workflow.",
+            "1": "We separated common components per page, refactored certain functions, and created new pages reorganized with related components and features.",
+            "2": "As a result, the code length per page decreased by about 50%."
           },
           "2": {
             "subtitle": "Ensemble Session Recruitment Board",
             "caption": "Ensemble Recruitment Board and Registration Screen",
-            "0": "A board was needed for recruiting people for ensemble sessions. The author sets the instrument and number of members, and applicants can apply to a session. Initially, instrument parts were managed as an array within the session entity, but index changes during post edits risked breaking the mapping. To solve this, we created a separate instrument part entity, managed in a post–comment–reply structure to ensure consistency and concurrency."
+            "0": "A board was needed for recruiting people for ensemble sessions. The author sets the instrument and number of members, and applicants can apply to a session. Initially, instrument parts were managed as an array within the session entity, but index changes during post edits risked breaking the mapping.",
+            "1": "To solve this, we created a separate instrument part entity, managed in a post–comment–reply structure.",
+            "2": "Consistency and concurrency are maintained."
           },
           "3": {
             "subtitle": "Refactoring Likes and Comments Module",
             "caption": "Separated Likes and Comments Feature",
-            "0": "Likes and comments were previously managed separately in each board module, which reduced scalability since features like notifications had to be implemented for every module. We refactored likes and comments into standalone modules reused across boards. As a result, the development cost for notifications decreased, cascade dependencies between posts and comments were removed, and comments could be deleted asynchronously, improving post deletion performance."
+            "0": "Likes and comments were previously managed separately in each board module, which reduced scalability since features like notifications had to be implemented for every module.",
+            "1": "We refactored likes and comments into standalone modules reused across boards.",
+            "2": "As a result, the development cost for notifications decreased, cascade dependencies between posts and comments were removed, and comments could be deleted asynchronously, improving post deletion performance."
           },
           "4": {
             "subtitle": "Server Architecture",
             "caption": "Revised Architecture",
-            "0": "While designing the deployment architecture, I considered both security and scalability. After studying React Vite’s build process, I learned it generates a CSR-based SPA. Since videos and images can be delivered directly from S3 without passing through the backend, leveraging a CDN provided efficiency in both cost and performance. Therefore, the frontend was deployed on a static hosting stack (CloudFront + S3), while backend and database servers were deployed within a VPC using ALB, EC2, and RDBMS for security and scalability."
+            "0": "While designing the deployment architecture, I considered both security and scalability. After studying React Vite’s build process, I learned it generates a CSR-based SPA. Since videos and images can be delivered directly from S3 without passing through the backend, leveraging a CDN provided efficiency in both cost and performance.",
+            "1": "Therefore, the frontend was deployed on a static hosting stack (CloudFront + S3), while backend and database servers were deployed within a VPC using ALB, EC2, and RDBMS for security and scalability."
           },
           "5": {
             "subtitle": "Issue Closure",
             "caption": "GitHub Issue Closure",
-            "0": "As the project neared completion, unresolved issues had accumulated. After finishing the core features, I prioritized and resolved issues regardless of stack to improve project stability and completeness. As a result, I personally contributed to closing about 40% of all issues, enhancing overall project quality."
+            "0": "As the project neared completion, unresolved issues had accumulated.",
+            "1": "After finishing the core features, I prioritized and resolved issues regardless of stack to improve project stability and completeness.",
+            "2": "As a result, I personally contributed to closing about 40% of all issues, enhancing overall project quality."
           }
         }
       },
@@ -52,16 +62,20 @@
           "0": {
             "subtitle": "Implementing Video Playback and Simultaneous Recording",
             "caption": "Video Playback and Simultaneous Recording Screen",
-            "0": "Problem: To implement the ensemble feature, video playback and camera recording needed to run simultaneously.",
-            "1": "Solution Process\n\n\t1. mixWithOthers: set to 'mix' → failed\n\t\t- Setting this option in React Native Video did not work.\n\t\t- Reason: iOS default audio session policy disables mixWithOthers; enabling it requires native code modification.\n\n\t2. Added mixWithOthers bridge in a native module → failed\n\t\t- VisionCamera had this feature, but Video library did not.\n\t\t- Even after adding the bridge, it didn’t work.\n\n\t3. Modified Video library native code to add option → failed\n\t\t- Added mixWithOthers option directly but still didn’t work.\n\n\t4. Set disableAudioSessionManagement: true → success\n\t\t- Found disableAudioSessionManagement option in the library.\n\t\t- Enabling it allowed video playback and camera audio to run simultaneously.\n",
-            "2": "Result: Enabled simultaneous camera recording and video playback, highlighting the importance of understanding library internals."
+            "0": "To implement the ensemble feature, video playback and camera recording needed to run simultaneously.",
+            "1": "1. mixWithOthers: set to 'mix' → failed\n\t- Setting this option in React Native Video did not work.\n\t- Reason: iOS default audio session policy disables mixWithOthers; enabling it requires native code modification.",
+            "2": "2. Added mixWithOthers bridge in a native module → failed\n\t- VisionCamera had this feature, but Video library did not.\n\t- Even after adding the bridge, it didn't work.",
+            "3": "3. Modified Video library native code to add option → failed\n\t- Added mixWithOthers option directly but still didn't work.",
+            "4": "4. Set disableAudioSessionManagement: true → success\n\t- Found disableAudioSessionManagement option in the library.\n\t- Enabling it allowed video playback and camera audio to run simultaneously.",
+            "5": "Enabled simultaneous camera recording and video playback, highlighting the importance of understanding library internals."
           },
           "1": {
             "subtitle": "Caching Images and Videos with CloudFront CDN",
             "caption": "Using CloudFront CDN for Caching",
-            "0": "Problem: Video and image loading speed was slow.",
-            "1": "Solution Process\n\t- Explored methods to store/cache videos and images.\n\t- Switched from directly loading video/image data from S3 buckets to using CloudFront CDN caching.",
-            "2": "Result: Average response speed improved by about 2x."
+            "0": "Video and image loading speed was slow.",
+            "1": "Explored methods to store/cache videos and images.",
+            "2": "Switched from directly loading video/image data from S3 buckets to using CloudFront CDN caching.",
+            "3": "Average response speed improved by about 2x."
           }
         }
       },

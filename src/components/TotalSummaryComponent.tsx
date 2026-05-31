@@ -2,30 +2,154 @@ import type { ProjectData, SummaryPart } from "../types";
 import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
+import ReactStableTimelineDemo from "./ReactStableTimelineDemo";
 import { Chip } from "./primitives/Chip";
 import ExternalLink from "./primitives/ExternalLink";
 import InfoCell from "./primitives/InfoCell";
+import {
+  TimelineFinalStep,
+  TimelineInitialStep,
+  TimelineSolidStep,
+} from "./primitives/TimelineStep";
 import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToast";
 
 interface TotalSummaryComponentProps {
   project: ProjectData;
   t: TFunction;
+  projectId?: string;
 }
 
-// ── Summary part renderer ──────────────────────────────────────────────────────
+type TextPart = Extract<SummaryPart, { type: "text" }>;
+
+// caption 은 본문이 아니라 부가 설명(예: 용어 풀이) 이라 타임라인/박스에서 제외하고
+// 작은 회색 인라인 글로 따로 렌더링한다.
+const isTimelineTextPart = (part: SummaryPart): part is TextPart =>
+  part.type === "text" && part.category !== "caption";
+
+const isCaptionPart = (part: SummaryPart): part is TextPart =>
+  part.type === "text" && part.category === "caption";
+
+// ── Timeline step (categorized + uncategorized) ───────────────────────────────
+// 카테고리가 있으면 ProfileSection HighlightCard 와 동일한 시각 단계에 매핑하고,
+// 없으면 같은 connector 바 아래 매달리는 라벨/점 없는 plain box 로 렌더링함.
+const renderTimelineStep = (
+  part: TextPart,
+  t: TFunction,
+  key: React.Key
+) => {
+  const body = t(part.content || "");
+  if (!part.category) {
+    return (
+      <div key={key} className="relative pb-6">
+        <div className="rounded-card border border-line bg-surface-subtle px-4 py-3">
+          <p className="text-sm text-content-secondary leading-relaxed whitespace-pre-wrap">
+            {body}
+          </p>
+        </div>
+      </div>
+    );
+  }
+  const label = t(`summaryCategory.${part.category}`, { ns: "common" });
+  switch (part.category) {
+    case "problem":
+      return (
+        <TimelineInitialStep key={key} label={label} accent="subtle" bodyClassName="whitespace-pre-wrap">
+          {body}
+        </TimelineInitialStep>
+      );
+    case "analysis":
+      return (
+        <TimelineSolidStep key={key} label={label} shade={500}>
+          {body}
+        </TimelineSolidStep>
+      );
+    case "solution":
+      return (
+        <TimelineSolidStep key={key} label={label} shade={600} accent="accent">
+          {body}
+        </TimelineSolidStep>
+      );
+    case "result":
+      return (
+        <TimelineFinalStep key={key} label={label} preserveLineBreaks>
+          {body}
+        </TimelineFinalStep>
+      );
+    case "caption":
+      return null; // 타임라인 버퍼에서 제외되므로 도달하지 않음
+  }
+};
+
+const renderCaption = (part: TextPart, t: TFunction, key: React.Key) => (
+  <p
+    key={key}
+    className="text-xs text-content-muted leading-relaxed whitespace-pre-wrap"
+  >
+    {t(part.content || "")}
+  </p>
+);
+
+// ── Part group renderer ───────────────────────────────────────────────────────
+// 연속된 text 들을 하나의 타임라인으로 묶어, 단일 connector 위에 카테고리 단계와
+// uncategorized 박스가 한 줄로 이어지도록 렌더링. caption 은 타임라인에서 제외.
+const renderPartGroup = (
+  partGroup: SummaryPart[],
+  t: TFunction,
+  onSubtitleClick: (id: string) => void
+): React.ReactNode => {
+  const nodes: React.ReactNode[] = [];
+  let buffer: TextPart[] = [];
+  let bufferStartIndex = 0;
+
+  const flushBuffer = () => {
+    if (buffer.length === 0) return;
+    const steps = buffer;
+    const startIndex = bufferStartIndex;
+    const hasCategorized = steps.some((step) => Boolean(step.category));
+    // 카테고리 단계가 하나라도 있으면 기존 problem→result 그라데이션 connector 유지.
+    // 비분류만 모인 그룹은 균일한 단색 connector — 첫 카드 윗변(top-0) ~ 마지막 카드 바닥
+    // (bottom-6, 마지막 step 의 pb-6 만큼 잘라냄) 까지로 카드 수직 중심에 정확히 정렬.
+    const barClassName = hasCategorized
+      ? "absolute left-[5.5px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900"
+      : "absolute left-[5.5px] top-0 bottom-6 w-px bg-line-strong";
+    nodes.push(
+      <div key={`tl-${startIndex}`} className="relative pl-6">
+        <div className={barClassName} />
+        {steps.map((part, i) =>
+          renderTimelineStep(part, t, `${startIndex}-${i}`)
+        )}
+      </div>
+    );
+    buffer = [];
+  };
+
+  partGroup.forEach((part, index) => {
+    if (isTimelineTextPart(part)) {
+      if (buffer.length === 0) bufferStartIndex = index;
+      buffer.push(part);
+      return;
+    }
+    flushBuffer();
+    if (isCaptionPart(part)) {
+      nodes.push(renderCaption(part, t, index));
+      return;
+    }
+    nodes.push(renderSummaryPart(part, index, t, onSubtitleClick));
+  });
+  flushBuffer();
+
+  return nodes;
+};
+
+// ── Summary part renderer (non-text parts) ────────────────────────────────────
+// text 파트는 renderPartGroup 의 타임라인 버퍼에서 모두 처리되므로 여기 도달하지 않음.
 const renderSummaryPart = (
-  part: SummaryPart,
+  part: Exclude<SummaryPart, { type: "text" }>,
   index: number,
   t: TFunction,
   onSubtitleClick: (id: string) => void
 ) => {
   switch (part.type) {
-    case "text":
-      return (
-        <p key={index} className="text-base text-content-secondary leading-relaxed whitespace-pre-wrap">
-          {t(part.content || "")}
-        </p>
-      );
     case "subtitle":
       return (
         <div key={index} id={part.id} className="mt-8 mb-3 scroll-mt-24">
@@ -120,8 +244,27 @@ const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> =
   </ExternalLink>
 );
 
+// github/demo/notion 값이 실제 URL 이 아니라 "(공개 예정 없음)" 같은 안내문일 때는
+// 클릭 가능한 링크 대신 클릭 불가 상태 뱃지로 표시 (깨진 링크 이동 방지).
+const isExternalUrl = (value: string) => /^https?:\/\//.test(value);
+
+const StatusBadge: React.FC<{ label: string; text: string }> = ({ label, text }) => (
+  <span className="inline-flex items-center gap-2 rounded-modal px-5 py-2.5 text-sm font-semibold border border-line bg-surface-subtle text-content-muted cursor-default select-none">
+    {label}
+    <span className="font-medium text-content-meta">{text}</span>
+  </span>
+);
+
+// URL 이면 LinkButton, 아니면 StatusBadge 로 렌더하는 분기 헬퍼.
+const ProjectLink: React.FC<{ value: string; label: string; primary?: boolean }> = ({ value, label, primary }) =>
+  isExternalUrl(value) ? (
+    <LinkButton href={value} label={label} primary={primary} />
+  ) : (
+    <StatusBadge label={label} text={value} />
+  );
+
 // ── Main component ─────────────────────────────────────────────────────────────
-const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t }) => {
+const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t, projectId }) => {
   const { toast, copy } = useCopyToClipboardWithToast();
 
   const handleCopyLink = (sectionId: string) => {
@@ -140,6 +283,13 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
 
         {/* ── Overview ── */}
         <section className="mb-10">
+          {/* Live demo: 라이브러리 프로젝트는 개요 칸 제일 위에 실제 라이브러리를 임베드 */}
+          {projectId === "react-stable-timeline" && (
+            <div className="mb-6">
+              <ReactStableTimelineDemo />
+            </div>
+          )}
+
           <p className="text-xs font-semibold uppercase tracking-widest text-content-muted mb-5">
             {t("projectDetail.overview", { ns: "common" })}
           </p>
@@ -148,13 +298,13 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
           {(overview.github || overview.demo || overview.notion) && (
             <div className="flex flex-wrap gap-2 mb-6">
               {overview.github && (
-                <LinkButton href={overview.github} label="GitHub" />
+                <ProjectLink value={overview.github} label="GitHub" />
               )}
               {overview.demo && (
-                <LinkButton href={overview.demo} label="Demo" primary />
+                <ProjectLink value={overview.demo} label="Demo" primary />
               )}
               {overview.notion && (
-                <LinkButton href={overview.notion} label="Notion" />
+                <ProjectLink value={overview.notion} label="Notion" />
               )}
             </div>
           )}
@@ -254,9 +404,7 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
                       {t(section.title || "")}
                     </h2>
                   )}
-                  {partGroup.map((part, partIndex) =>
-                    renderSummaryPart(part, partIndex, t, handleCopyLink)
-                  )}
+                  {renderPartGroup(partGroup, t, handleCopyLink)}
                 </div>
               ))}
             </section>

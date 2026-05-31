@@ -5,7 +5,7 @@ import { collapseVerticalPreset } from '../../../../utils/motionPresets';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { itemVariants } from '../animations';
 import type { HighlightItem } from '../types';
-import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from './TimelineStep';
+import { TimelineFinalStep, TimelineInitialStep, TimelineSolidStep } from '../../../../components/primitives/TimelineStep';
 
 /**
  * 개발 하이라이트 카드 — 문제 / 해결 / 결과 3단계 타임라인 (penned dot connector).
@@ -16,7 +16,7 @@ const HighlightCard: React.FC<{
   index: number;
   isOpen: boolean;
   onToggle: () => void;
-  labels: { problem: string; solution: string; result: string };
+  labels: { problem: string; analysis: string; solution: string; result: string };
 }> = ({ highlight, index, isOpen, onToggle, labels }) => (
   <motion.div
     variants={itemVariants}
@@ -46,10 +46,13 @@ const HighlightCard: React.FC<{
           <div className="px-5 pt-2 pb-6">
             <div className="relative pl-6">
               {/* Vertical connector */}
-              <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
+              <div className="absolute left-[5.5px] top-2 bottom-2 w-px bg-gradient-to-b from-slate-200 via-slate-400 to-slate-900" />
 
-              <TimelineInitialStep label={labels.problem}>{highlight.problem}</TimelineInitialStep>
-              <TimelineSolidStep label={labels.solution} shade={600}>{highlight.solution}</TimelineSolidStep>
+              <TimelineInitialStep label={labels.problem} accent="subtle">{highlight.problem}</TimelineInitialStep>
+              {highlight.analysis && (
+                <TimelineSolidStep label={labels.analysis} shade={500}>{highlight.analysis}</TimelineSolidStep>
+              )}
+              <TimelineSolidStep label={labels.solution} shade={600} accent="accent">{highlight.solution}</TimelineSolidStep>
               <TimelineFinalStep label={labels.result}>{highlight.result}</TimelineFinalStep>
             </div>
           </div>

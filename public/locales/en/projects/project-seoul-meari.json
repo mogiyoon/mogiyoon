@@ -47,7 +47,8 @@
             "caption01": "Prevented unnecessary rendering by looking up ID values in the active message dictionary",
             "0": "Applied smoothingFactor (e.g., 0.1) to update corrected coordinates and mitigate sudden position changes.",
             "1": "Visibility determination, spawning, and unloading were based on corrected coordinates; the actual spawn moment still used the latest GPS for accuracy.",
-            "2": "Objects already generated were rendered using IDs and hash tables, maintaining stable rendering despite abrupt GPS fluctuations."
+            "2": "Objects already generated were rendered using IDs and hash tables.",
+            "3": "Stable rendering was maintained despite abrupt GPS fluctuations."
           },
           "1": {
             "subtitle": "XR Camera Collision",

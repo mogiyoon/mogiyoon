@@ -15,7 +15,8 @@
           "0": {
             "subtitle": "Main Screen Features",
             "caption": "Main Screen",
-            "0": "The main screen was designed to motivate learning by displaying the countdown to the exam date and test results. Exam dates are calculated based on the weekday of November 1st: if it falls on a Sunday, the exam is set for the 7th; otherwise, the next Saturday is calculated from the weekday of the 1st. Wrong answers are managed in Firestore, with each incorrect question and timestamp uploaded after a test. On other devices, data is synchronized if the locally stored timestamp is outdated."
+            "0": "The main screen was designed to motivate learning by displaying the countdown to the exam date and test results.",
+            "1": "Exam dates are calculated based on the weekday of November 1st: if it falls on a Sunday, the exam is set for the 7th; otherwise, the next Saturday is calculated from the weekday of the 1st. Wrong answers are managed in Firestore, with each incorrect question and timestamp uploaded after a test. On other devices, data is synchronized if the locally stored timestamp is outdated."
           },
           "1": {
             "subtitle": "Curriculum Test with Multi-dimensional Arrays",
@@ -25,13 +26,17 @@
           "2": {
             "subtitle": "Managing Multi-dimensional Arrays",
             "caption": "Multi-dimensional Array Management",
-            "0": "To display and test the curriculum content table, each value needed to be componentized. Rendering also varied by grade cluster. To handle this, I implemented a multi-dimensional array structured as Subject > Grade Group > Domain > Category > Detail. This made function implementation simpler and allowed additional detail to be included when implementing the wrong answer notes."
+            "0": "To display and test the curriculum content table, each value needed to be componentized. Rendering also varied by grade cluster.",
+            "1": "To handle this, I implemented a multi-dimensional array structured as Subject > Grade Group > Domain > Category > Detail.",
+            "2": "This made function implementation simpler and allowed additional detail to be included when implementing the wrong answer notes."
           },
           "3": {
             "subtitle": "Answer Comparison",
             "caption1": "Answer Checking in Test Mode",
             "caption2": "Comparison of Original vs. User’s Answer",
-            "0": "Since identifying errors at the sentence level takes time, enabling users to see exactly where mistakes occurred helped reduce time when reviewing answers. I implemented character-by-character comparison with and without spacing considered, and highlighted incorrect parts with a red background. This significantly improved the user experience in error review."
+            "0": "Since identifying errors at the sentence level takes time, enabling users to see exactly where mistakes occurred helped reduce time when reviewing answers.",
+            "1": "I implemented character-by-character comparison with and without spacing considered, and highlighted incorrect parts with a red background.",
+            "2": "This significantly improved the user experience in error review."
           }
         }
       },

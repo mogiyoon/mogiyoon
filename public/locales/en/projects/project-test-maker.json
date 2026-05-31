@@ -15,22 +15,27 @@
           "0": {
             "subtitle": "Vocabulary Book Creation and Management",
             "caption": "Photo taken with camera and OCR extracted data",
-            "0": "To build a vocabulary book, OCR API data had to be extracted, managed, and stored. Among OCR APIs, I chose a model with high recognition accuracy for both Korean and English and fast conversion speed. Data received from the API was managed using Redux, ensuring type safety and easier debugging, while Realm was used for storage, managing word, meaning, category, error count, and more."
+            "0": "To build a vocabulary book, OCR API data had to be extracted, managed, and stored.",
+            "1": "Among OCR APIs, I chose a model with high recognition accuracy for both Korean and English and fast conversion speed. Data received from the API was managed using Redux, ensuring type safety and easier debugging, while Realm was used for storage, managing word, meaning, category, error count, and more."
           },
           "1": {
             "subtitle": "Vocabulary Category Management",
             "caption": "Text editing and adding vocabulary screen",
-            "0": "Managing words in large/mid/small categories was inflexible and lacked scalability. A folder-like structure was considered more suitable, so I implemented categories using a tree structure combined with recursive functions."
+            "0": "Managing words in large/mid/small categories was inflexible and lacked scalability.",
+            "1": "A folder-like structure was considered more suitable, so I implemented categories using a tree structure combined with recursive functions."
           },
           "2": {
             "subtitle": "Category/Word Selection Feature",
             "caption": "Category/Word selection screen",
-            "0": "After creating a vocabulary book, features were needed for testing and feedback. Users can select words and test them in both multiple-choice and short-answer formats, then review incorrect answers. Recursive functions were applied for the selection process, with selected words managed in global state. For testing, words were randomized and queued with markers added at the end to allow continuous testing. Incorrect words were stored and tracked with Realm. This structure enabled a full cycle from word selection to testing and error review."
+            "0": "After creating a vocabulary book, features were needed for testing and feedback. Users can select words and test them in both multiple-choice and short-answer formats, then review incorrect answers.",
+            "1": "Recursive functions were applied for the selection process, with selected words managed in global state. For testing, words were randomized and queued with markers added at the end to allow continuous testing. Incorrect words were stored and tracked with Realm. This structure enabled a full cycle from word selection to testing and error review."
           },
           "3": {
             "subtitle": "Word Testing Feature",
             "caption": "Multiple-choice/Short-answer test",
-            "0": "While implementing multiple-choice tests, answers had to be rendered in a grid format. However, React Native grid libraries on NPM were outdated or poorly documented. Therefore, I implemented my own grid component based on FlatList and published it to NPM using Create React Library. Through this, I gained insights into the NPM ecosystem and how node module libraries function internally."
+            "0": "While implementing multiple-choice tests, answers had to be rendered in a grid format. However, React Native grid libraries on NPM were outdated or poorly documented.",
+            "1": "Therefore, I implemented my own grid component based on FlatList and published it to NPM using Create React Library.",
+            "2": "Through this, I gained insights into the NPM ecosystem and how node module libraries function internally."
           }
         }
       },
@@ -40,9 +45,9 @@
           "0": {
             "subtitle": "Tree Structuring of Categories",
             "caption": "Word management screen",
-            "0": "Problem: Categories were restructured into a nested hierarchy, making the existing search structure unusable.",
-            "1": "Solution Process\n\t- Applied a tree structure inspired by folder systems.\n\t- Implemented word search with recursive functions.",
-            "2": "Result: Vocabulary could be searched regardless of subcategory depth."
+            "0": "Categories were restructured into a nested hierarchy, making the existing search structure unusable.",
+            "1": "- Applied a tree structure inspired by folder systems.\n\t- Implemented word search with recursive functions.",
+            "2": "Vocabulary could be searched regardless of subcategory depth."
           }
         }
       },
