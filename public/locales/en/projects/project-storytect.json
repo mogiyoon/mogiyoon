@@ -15,10 +15,11 @@
           "0": {
             "subtitle": "Standardized JSON Interface + Extraction-Rendering Separation",
             "caption": "Manifest.json as the entry point for all data",
-            "0": "When extraction logic is coupled with the visualization code, every visualization change risks shifting the extraction output format and breaking user data compatibility. The same coupling also closes the door to reusing the extraction skill with any other visualization tool.",
-            "1": "brief.md fixed extraction and visualization as fully separated stages, with the app trusting only the standardized JSON folder and reading from manifest.json as a single entry point. The separation lets the extraction skill be reused independent of the visualization tool, and lets the visualization layer assume a stable data format and be redesigned freely.",
+            "0": "When extraction logic is coupled with the visualization code, every visualization change may alter the extraction output format and break user data compatibility, and the extraction skill itself becomes locked into that visualization tool and cannot be reused with any other.",
+            "1": "brief.md fixed extraction and visualization as fully separated stages, with the app trusting only the standardized JSON folder and reading from manifest.json as a single entry point.",
             "2": "The app was built to trust only the standardized JSON folder produced by the extraction skill, with manifest.json as the entry point listing slot inventory, metadata, and available_views in one file.",
-            "3": "Data compatibility held across the visualization-layer rewrites."
+            "3": "The separation lets the extraction skill be reused independent of the visualization tool, and lets the visualization layer assume a stable data format and be redesigned freely.",
+            "4": "Data compatibility held across the visualization-layer rewrites."
           },
           "1": {
             "subtitle": "Promoting the TimeBar to a Global Axis",
@@ -41,8 +42,8 @@
             "caption": "Freeplace infinite canvas + 7 view-mode toggle",
             "0": "Predefined views and developer-facing terms (slot / edge / visualization) block the user from defining their own worldbuilding in their own words.",
             "1": "Set the direction so the editor tool mirrors the user's vocabulary and starting state directly. The friendly-language label dictionary keeps internal IDs untouched while swapping only the surface terms, lowering the entry barrier without any data model change. Putting Extract-from-text at the MVP entry further softens the blank-state barrier.",
-            "2": "New project seeds were removed so the canvas truly starts blank. Node positions persist verbatim across sessions so users keep their layout across sessions. When a time field is added, the TimeBar auto-detects it. A unified view-mode toggle put seven modes (free placement / relations / timeline / table / curve / matrix / tree) above every canvas, and developer-facing labels (slot / edge / visualization) were replaced with user-facing words like Galpi and Yeoeum. The sidebar was also redesigned from a flat list into a folder tree that groups Galpi, Yeoeum, and items into folders and exposes an 'only show where this item appears' filter.",
-            "3": "The 13-view catalog was reabsorbed as 7 modes on the canvas, friendly-language labels propagated throughout every surface, and the folder-tree sidebar keeps the codex navigable even as it grows thicker."
+            "2": "New project seeds were removed so the canvas truly starts blank. Node positions persist exactly across sessions so users keep their layout. When a time field is added, the TimeBar auto-detects it. A unified view-mode toggle put seven modes (free placement / relations / timeline / table / curve / matrix / tree) above every canvas, and developer-facing labels (slot / edge / visualization) were replaced with user-facing words like Galpi and Yeoeum. The sidebar was also redesigned from a flat list into a folder tree that groups Galpi, Yeoeum, and items into folders and exposes an 'only show where this item appears' filter.",
+            "3": "The 13-view catalog was reabsorbed as 7 modes on the canvas, friendly-language labels propagated throughout every surface, and the folder-tree sidebar keeps the codex navigable even as item count grows."
           },
           "4": {
             "subtitle": "MCP Server for External-AI Co-editing",
@@ -62,16 +63,17 @@
             "caption": "Web standards are not self-evident inside a desktop shell",
             "0": "Sidebar drag-to-reorder broke at some point. It worked fine in the browser, but inside the Tauri desktop shell the HTML5 drag events never fired at all.",
             "1": "Tauri's webview hijacks OS-level drag/drop and routes it to external file-drop handling. That is exactly why the same React HTML5 drag code works in a browser but never reaches the webview inside a desktop shell. Setting dragDropEnabled: false disables that hijacking so the webview receives standard events directly, with the side effect of also disabling external file-drop UX. Since the app does not use external file drop, that side effect carries no real cost, and a one-line config change addresses the cause precisely.",
-            "2": "1. Suspected missing event handlers → confirmed handlers were properly attached\n\t2. Traced webview console logs → confirmed drag events themselves were never being called\n\t3. Investigated Tauri webview behavior → discovered the webview intercepts drag&drop at the OS level\n\t4. Applied dragDropEnabled: false in the Tauri config → HTML5 drag events now reach the webview as expected",
-            "3": "A one-line config restored sidebar drag. Logged as a case where web standards stop being self-evident inside a desktop shell."
+            "2": "1. Suspected missing event handlers → confirmed handlers were properly attached\n\t2. Traced webview console logs → confirmed drag events themselves were never being called\n\t3. Investigated Tauri webview behavior → discovered the webview intercepts drag&drop at the OS level",
+            "4": "A one-line config restored sidebar drag. Logged as a case where web standards stop being self-evident inside a desktop shell.",
+            "3": "4. Applied dragDropEnabled: false in the Tauri config → HTML5 drag events now reach the webview as expected"
           },
           "1": {
             "subtitle": "vis-timeline → Direct SVG/HTML → Standalone npm Package",
             "caption": "Three-stage evolution of the timeline library",
-            "0": "The timeline view was first built on vis-timeline, but the same event kept landing in different rows every time the user zoomed or panned. The library was recomputing row layout against on-screen pixel coordinates on every interaction. The global TimeBar slider had related issues: dragging it made the time axis tremble, and the cursor flickered between adjacent snap positions even when the user held their hand still.",
+            "0": "The timeline view was first built on vis-timeline, but the same event kept landing in different rows every time the user zoomed or panned. The library was recomputing row layout against on-screen pixel coordinates on every interaction. The global TimeBar slider had related issues: dragging it made the time axis jitter, and the cursor flickered to adjacent snap positions even with no user input.",
             "1": "The root cause was that row layout was decided against the current viewport rather than the full dataset. As the screen zoomed or moved, pixel coordinates changed and the library re-ran row-packing each time, shifting the same event onto different rows. Stabilization options (subgroup, stackSubgroups, etc.) were tried but did not behave as expected at runtime. The conclusion was that rows had to be decided once over the full data, with zoom/pan applying only coordinate transforms. Because this conflicts with vis-timeline's core assumption, switching to a direct implementation was the right call.",
-            "2": "1. Tried every stabilization option vis-timeline exposed (subgroup, stackSubgroups, etc.) without resolving the issue\n\t2. Dropped the library and switched to a direct SVG/HTML implementation. Event rows are computed once from the full dataset, and zoom/pan only recomputes screen coordinates\n\t3. To prevent label overlap, used Canvas2D measureText to measure actual label widths and placed events with a First-Fit algorithm\n\t4. Migrated the TimeBar slider's calculation from numeric temporal-value space (year×10000 + month×100 + day) to real ms time values. This eliminated invalid dates like 'month=74, day=54' that JS Date silently overflowed into wildly different real moments\n\t5. When the snap step became finer than one slider-track pixel, small hand jitter flipped the cursor between adjacent snap targets. Clamped the snap step to be no smaller than the screen pixel resolution\n\t6. Reserved fixed widths on the cursor readout and the left/right window labels so date-format changes no longer ripple into the slider width\n\t7. Extracted the direct implementation into a standalone npm package (@mogiyoon/react-stable-timeline). Storytect consumes it through a thin wrapper",
-            "3": "Events now stay on the same row regardless of zoom or pan. The time axis no longer trembles during slider drag, and cursor jumps from hand jitter are gone. Slider squash caused by date-format width changes is also resolved. The vis-timeline dependency was removed, and the stable timeline algorithm itself lives on as an npm package reusable in other projects."
+            "2": "1. Tried every stabilization option vis-timeline exposed (subgroup, stackSubgroups, etc.) without resolving the issue\n\t2. Dropped the library and switched to a direct SVG/HTML implementation. Event rows are computed once from the full dataset, and zoom/pan only recomputes screen coordinates\n\t3. To prevent label overlap, used Canvas2D measureText to measure actual label widths and placed events with a First-Fit algorithm\n\t4. Migrated the TimeBar slider's calculation from numeric temporal-value space (year×10000 + month×100 + day) to real ms time values. This eliminated invalid dates like 'month=74, day=54' that JS Date silently overflowed into wildly different real moments\n\t5. When the snap step became finer than one slider-track pixel, small input jitter flipped the cursor between adjacent snap targets. Clamped the snap step to be no smaller than the screen pixel resolution\n\t6. Reserved fixed widths on the cursor readout and the left/right window labels so date-format changes no longer ripple into the slider width\n\t7. Extracted the direct implementation into a standalone npm package (@mogiyoon/react-stable-timeline). Storytect consumes it through a thin wrapper",
+            "3": "Events now stay on the same row regardless of zoom or pan. The time axis no longer jitters during slider drag, and cursor jumps from input jitter are gone. Slider width collapse caused by date-format width changes is also resolved. The vis-timeline dependency was removed, and the stable timeline algorithm itself lives on as an npm package reusable in other projects."
           },
           "2": {
             "subtitle": "User-Defined Chart Axes (X / Y axis picker)",
@@ -90,7 +92,7 @@
             "0": "Results",
             "1": "Validated a Tauri + Next.js 16 + Rust desktop app stack with single-binary builds",
             "2": "Built an automatic Rust ↔ TypeScript type generation pipeline using specta + tauri-specta",
-            "3": "Designed a standardized JSON interface with the extraction skill that survived two visualization-layer rewrites (Showcase → OO → Blank Canvas)",
+            "3": "Designed a standardized JSON interface with the extraction skill that survived two visualization-layer rewrites (Fixed Catalog → OO → Blank Canvas)",
             "4": "Implemented the friendly-language label dictionary (Galpi / Yeoeum), a unified 7-mode view toggle, and a folder-tree sidebar",
             "5": "Stood up an MCP server that exposes the same codex as a second entry point for external-AI co-editing",
             "6": "Built and operated two custom multi-agent orchestrators across the planning and implementation phases"
@@ -99,7 +101,7 @@
             "0": "Retrospective",
             "1": "Keeping each planning document separate (brief.md, PLANNING_OO.md, PLANNING_REVISE.md) preserved the assumptions from before and after each rewrite. The structural benefit of being able to trace decisions across both sides of every rewrite became tangible.",
             "2": "Confirmed that well-abstracted decisions survive rewrites. The global TimeBar abstraction and the extraction/rendering separation principle held intact across two full visualization rewrites.",
-            "3": "Learned the value of expanding user authority gradually. From showcase form to user-defined OO to a blank free editor, each rewrite gave the user more authority over the shape of the tool itself."
+            "3": "Learned the value of expanding user authority gradually. From fixed catalog form to user-defined OO to a blank free editor, each rewrite gave the user more authority over the shape of the tool itself."
           }
         }
       },
@@ -136,7 +138,7 @@
       },
       {
         "title": "Feature Implementation",
-        "content": "Built the 13-view showcase on the Tauri + Next.js stack, evolved into the OO 4-layer model with class_meta, then redesigned around a blank canvas with freeplace + a 7-mode view toggle + global ⌘Z split across 5 parts + a folder-tree sidebar, and added an MCP server entry point on top of the same standardized JSON folder for external-AI co-editing"
+        "content": "Built the 13-view catalog on the Tauri + Next.js stack, evolved into the OO 4-layer model with class_meta, then redesigned around a blank canvas with freeplace + a 7-mode view toggle + global ⌘Z split across 5 parts + a folder-tree sidebar, and added an MCP server entry point on top of the same standardized JSON folder for external-AI co-editing"
       },
       {
         "title": "AI Collaboration",

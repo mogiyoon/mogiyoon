@@ -85,7 +85,7 @@
                   },
                   {
                     "title": "루프 끝 정해두기",
-                    "description": "재시도 횟수·종료 조건 사전 정의를 통한 무한 반복 방지",
+                    "description": "재시도 횟수·종료 조건을 사전에 정의해 무한 반복 방지",
                     "chips": ["loop cap", "termination"]
                   }
                 ]
@@ -225,7 +225,7 @@
                 "items": [
                   {
                     "title": "정보 자동 추출",
-                    "description": "package.json, README, git log, 이미지 후보 병렬 읽기를 통한 프로젝트 메타데이터 수집",
+                    "description": "package.json, README, git log, 이미지 후보를 병렬로 읽어 프로젝트 메타데이터 수집",
                     "chips": ["package.json", "README", "git log"]
                   },
                   {
@@ -292,7 +292,7 @@
                   },
                   {
                     "title": "어투 가이드 엄격 준수",
-                    "description": "CLAUDE.md 종결 어미·금지 표현 규칙의 한국어 텍스트 동일 적용",
+                    "description": "CLAUDE.md 종결 어미·금지 표현 규칙을 한국어 텍스트에 동일하게 적용",
                     "chips": ["CLAUDE.md", "tone rules"]
                   }
                 ]
@@ -616,7 +616,7 @@
         "abstractItems": [
           {
             "title": "역할 분리",
-            "description": "계획, 구현, 평가, 리뷰 역할 분리를 통한 책임 분산 구조",
+            "description": "계획, 구현, 평가, 리뷰 역할을 분리해 책임을 분산한 구조",
             "chips": ["Plan", "Build", "Evaluate"]
           },
           {
@@ -690,6 +690,13 @@
   "storytect": {
     "title": "Storytect",
     "subtitle": "이야기를 도감처럼 펼쳐 자기만의 세계관으로 엮는 데스크톱 에디터",
+    "overview": {
+      "projectType": "개인 프로젝트"
+    }
+  },
+  "stock-compass": {
+    "title": "주식나침반",
+    "subtitle": "한국·미국 주식 매매 원칙을 그대로 옮긴 1인용 스크리너",
     "overview": {
       "projectType": "개인 프로젝트"
     }
