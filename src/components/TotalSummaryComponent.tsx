@@ -244,6 +244,25 @@ const LinkButton: React.FC<{ href: string; label: string; primary?: boolean }> =
   </ExternalLink>
 );
 
+// github/demo/notion 값이 실제 URL 이 아니라 "(공개 예정 없음)" 같은 안내문일 때는
+// 클릭 가능한 링크 대신 클릭 불가 상태 뱃지로 표시 (깨진 링크 이동 방지).
+const isExternalUrl = (value: string) => /^https?:\/\//.test(value);
+
+const StatusBadge: React.FC<{ label: string; text: string }> = ({ label, text }) => (
+  <span className="inline-flex items-center gap-2 rounded-modal px-5 py-2.5 text-sm font-semibold border border-line bg-surface-subtle text-content-muted cursor-default select-none">
+    {label}
+    <span className="font-medium text-content-meta">{text}</span>
+  </span>
+);
+
+// URL 이면 LinkButton, 아니면 StatusBadge 로 렌더하는 분기 헬퍼.
+const ProjectLink: React.FC<{ value: string; label: string; primary?: boolean }> = ({ value, label, primary }) =>
+  isExternalUrl(value) ? (
+    <LinkButton href={value} label={label} primary={primary} />
+  ) : (
+    <StatusBadge label={label} text={value} />
+  );
+
 // ── Main component ─────────────────────────────────────────────────────────────
 const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, t, projectId }) => {
   const { toast, copy } = useCopyToClipboardWithToast();
@@ -279,13 +298,13 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
           {(overview.github || overview.demo || overview.notion) && (
             <div className="flex flex-wrap gap-2 mb-6">
               {overview.github && (
-                <LinkButton href={overview.github} label="GitHub" />
+                <ProjectLink value={overview.github} label="GitHub" />
               )}
               {overview.demo && (
-                <LinkButton href={overview.demo} label="Demo" primary />
+                <ProjectLink value={overview.demo} label="Demo" primary />
               )}
               {overview.notion && (
-                <LinkButton href={overview.notion} label="Notion" />
+                <ProjectLink value={overview.notion} label="Notion" />
               )}
             </div>
           )}
