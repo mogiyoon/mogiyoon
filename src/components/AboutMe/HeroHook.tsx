@@ -1,8 +1,10 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 export const HeroHook: React.FC = () => {
   const { t } = useTranslation();
+  const { scrollY } = useScroll();
+  const scrollCueOpacity = useTransform(scrollY, [0, 200], [1, 0]);
 
   return (
     <section className="relative h-screen w-full bg-white overflow-hidden">
@@ -47,11 +49,10 @@ export const HeroHook: React.FC = () => {
 
       </div>
 
-      {/* Scroll cue: text above the ▼, centered at bottom */}
+      {/* Scroll cue: text above the ▼, centered at bottom.
+          스크롤할수록 자연스럽게 opacity 감소 (0 → 200px). */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.85 }}
+        style={{ opacity: scrollCueOpacity }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
       >
         <span className="font-latin text-xs font-medium text-content-meta">
