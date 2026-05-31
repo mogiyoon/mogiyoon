@@ -18,7 +18,7 @@
           },
           "1": {
             "subtitle": "CodeMirror 에디터 코드 주입",
-            "0": "백준의 코드 에디터는 단순 textarea가 아닌 CodeMirror 라이브러리로 구현되어 있어, CodeMirror가 제공하는 setValue() 함수를 통해서만 코드 삽입이 가능함.",
+            "0": "백준의 코드 에디터는 단순 textarea가 아닌 CodeMirror 라이브러리로 구현되어 있어, CodeMirror의 setValue() 함수로만 코드 삽입이 가능함.",
             "1": "크롬 확장프로그램의 Content Script는 Isolated World에서 실행되어 HTML 요소는 접근 가능하나 웹페이지의 JS 객체에는 접근 불가.",
             "2": "Background Service Worker에서 chrome.scripting.executeScript API를 사용하여 브라우저가 직접 웹페이지 컨텍스트에서 코드를 실행하는 방식으로 해결함."
           },
@@ -46,7 +46,7 @@
             "subtitle": "Chosen 라이브러리 이벤트 감지 문제",
             "0": "백준의 Chosen UI 라이브러리 기반 드롭다운 렌더링 구조. 실제 <select> 태그 은닉 상태, Chosen 생성 커스텀 UI 표시 구조로 change 이벤트만으로 언어 변경 안정 감지 불가.",
             "1": "3중 감시 체계 구축. (1) 기본 change 이벤트 리스너, (2) MutationObserver 기반 DOM 속성 변경 감시, (3) 500ms 간격 폴링 기반 값 변경 확인.",
-            "2": "세 가지 방식 병행을 통한 모든 상황의 언어 변경 감지."
+            "2": "세 가지 방식을 병행하여 모든 상황에서 언어 변경을 감지함."
           },
           "2": {
             "subtitle": "Extension Context Invalidated 에러",
@@ -62,7 +62,7 @@
             "0": "배운 점",
             "1": "확장프로그램과 웹페이지의 실행 환경 격리 — HTML은 공유하나 JS 변수는 격리되어 있으며, 페이지의 JS 객체 접근 시 chrome.scripting.executeScript를 통한 우회가 필요함.",
             "2": "CSP 정책의 엄격한 적용 — 3가지 스크립트 주입 방식이 모두 차단되었으며, 브라우저 자체가 실행하는 방식만이 유효했음.",
-            "3": "커스텀 UI 라이브러리의 이벤트 처리 — Chosen, Select2 등의 UI 라이브러리가 기본 이벤트를 가로채는 경우가 빈번하여, 단일 이벤트가 아닌 다중 감지 방식의 적용이 필요함."
+            "3": "커스텀 UI 라이브러리의 이벤트 처리 — Chosen, Select2 등의 UI 라이브러리가 기본 이벤트를 가로채는 경우가 빈번하여, 단일 이벤트가 아닌 다중 감지 방식을 적용해야 함."
           },
           "1": {
             "0": "회고",
