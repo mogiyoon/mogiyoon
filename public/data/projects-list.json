@@ -1,5 +1,18 @@
 [
   {
+    "id": "stock-compass",
+    "title": "stock-compass.title",
+    "subtitle": "stock-compass.subtitle",
+    "projectType": "stock-compass.overview.projectType",
+    "period": "2026.05",
+    "screenshots": [{ "src": "/images/stockCompass/Icon.png", "alt": "Stock Compass Thumbnail" }],
+    "techStack": ["FastAPI", "SQLAlchemy", "SQLite", "yfinance", "claude CLI", "APScheduler", "Chart.js"],
+    "claudeInfo": {
+      "method": "orchestrator",
+      "summary": "stock-compass.claudeInfo.summary"
+    }
+  },
+  {
     "id": "storytect",
     "title": "storytect.title",
     "subtitle": "storytect.subtitle",

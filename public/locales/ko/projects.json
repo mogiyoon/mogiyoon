@@ -693,5 +693,12 @@
     "overview": {
       "projectType": "개인 프로젝트"
     }
+  },
+  "stock-compass": {
+    "title": "주식나침반",
+    "subtitle": "한국·미국 주식 매매 원칙을 그대로 옮긴 1인용 스크리너",
+    "overview": {
+      "projectType": "개인 프로젝트"
+    }
   }
 }

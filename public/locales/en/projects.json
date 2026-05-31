@@ -693,5 +693,12 @@
     "overview": {
       "projectType": "Personal Project"
     }
+  },
+  "stock-compass": {
+    "title": "Stock Compass",
+    "subtitle": "A solo-use screener that mirrors the author's KR/US equity trading principles",
+    "overview": {
+      "projectType": "Personal Project"
+    }
   }
 }
