@@ -111,7 +111,8 @@ const ProjectsSection: React.FC = () => {
                 </div>
             </section>
 
-            <section id="preparing-projects" className="min-h-screen pt-16">
+            {/* 차기 프로젝트 섹션 — 데이터/코드는 유지하되 현재 화면에는 노출하지 않음 */}
+            <section id="preparing-projects" className="hidden min-h-screen pt-16">
                 <motion.div
                     exit={sectionExitAnimation}
                     className="mx-auto w-full max-w-7xl px-3 py-6 md:px-5 lg:px-8 animate-fade-in"
