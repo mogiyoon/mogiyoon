@@ -23,6 +23,9 @@ export const Lightbulb: React.FC<LightbulbProps> = ({
   const visible =
     isSwitchedOn !== undefined ? bulbShown !== false && isSwitchedOn : !!bulbShown;
 
+  // 스크롤 씬(phase 1-4)에서는 첫 등장 opacity 를 페이드 없이 즉시 전환한다.
+  const isScrollScene = isSwitchedOn === undefined;
+
   const imgVariants = {
     on: {
       filter: 'brightness(1.8) drop-shadow(0 0 15px rgba(255, 223, 128, 0.8))',
@@ -38,7 +41,7 @@ export const Lightbulb: React.FC<LightbulbProps> = ({
       style={{ top, left, width: size, height: size }}
       initial={{ opacity: 0 }}
       animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
+      transition={{ duration: isScrollScene ? 0 : 0.5, ease: 'easeInOut' }}
     >
       <motion.div
         className="absolute inset-0 rounded-full"

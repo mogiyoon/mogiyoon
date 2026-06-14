@@ -27,12 +27,18 @@ interface PanelReveal {
 
 const REVEAL_TRANSITION = { duration: 0.5, ease: "easeOut" } as const;
 
-// 섹션 안에서 요소가 순차 등장하는 스크롤 임계값 (각 섹션 0→1 기준)
+// title 등장 이후 카드가 시차를 두고 순차적으로 나타나는 간격 (초)
+const SEQUENTIAL_DELAY = {
+  title: 0,
+  card01: 0.2,
+  card02: 0.4,
+} as const;
+
+// 섹션 안에서 요소가 등장하는 스크롤 임계값 (각 섹션 0→1 기준).
+// title 임계점을 통과하면 title → card01 → card02 가 delay 로 순차 등장한다.
 const REVEAL_THRESHOLDS = {
   eyebrow: 0.05,
   title: 0.12,
-  card01: 0.22,
-  card02: 0.34,
 } as const;
 
 export const IntroLine: React.FC = () => {
@@ -98,12 +104,15 @@ const IntroPanelSection = ({ data, connector }: IntroPanelSectionProps) => {
     offset: ["start start", "end start"],
   });
 
-  // 임계점 통과 시 latch — 한 번 등장하면 섹션이 스크롤로 넘어갈 때까지 유지
+  // 임계점 통과 시 latch — 한 번 등장하면 섹션이 스크롤로 넘어갈 때까지 유지.
+  // title 임계점 하나로 title·card01·card02 를 함께 트리거하고,
+  // 실제 순차 등장은 각 요소의 transition delay 로 만든다.
+  const titleRevealed = useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.title);
   const reveal: PanelReveal = {
     eyebrow: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.eyebrow),
-    title: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.title),
-    card01: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.card01),
-    card02: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.card02),
+    title: titleRevealed,
+    card01: titleRevealed,
+    card02: titleRevealed,
   };
 
   return (
@@ -128,59 +137,108 @@ const IntroPanel = ({
   card02,
   reveal,
   connector,
-}: IntroPanelProps) => (
-  <div className="mx-auto h-full w-full max-w-7xl px-3 py-10 md:px-5 lg:px-8 lg:py-14">
-    <div className="grid h-full w-full grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-      {/* Left column */}
-      <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6">
+}: IntroPanelProps) => {
+  const eyebrowBlock = (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: reveal.eyebrow ? 1 : 0, y: reveal.eyebrow ? 0 : 24 }}
+      transition={REVEAL_TRANSITION}
+      className="flex items-center gap-3"
+    >
+      <span className="w-2 h-2 rounded-full bg-accent-500" />
+      <span className="font-latin text-xs sm:text-sm font-semibold tracking-[0.2em] text-accent-700 uppercase">
+        {eyebrow}
+      </span>
+      <div className="flex-1 h-px bg-accent-100 max-w-[120px]" />
+    </motion.div>
+  );
+
+  const titleBlock = (
+    <motion.h2
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: reveal.title ? 1 : 0, y: reveal.title ? 0 : 24 }}
+      transition={{ ...REVEAL_TRANSITION, delay: reveal.title ? SEQUENTIAL_DELAY.title : 0 }}
+      className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-[1.35] tracking-tight"
+    >
+      <span className="block text-content-strong">{titleLine1}</span>
+      <span className="block text-accent-600">{titleLine2}</span>
+    </motion.h2>
+  );
+
+  return (
+    <div className="mx-auto h-full w-full max-w-7xl px-3 py-10 md:px-5 lg:px-8 lg:py-14">
+      {/* Mobile / tablet layout — 사진을 타이틀 위·아래로 배치 */}
+      <div className="flex h-full w-full flex-col items-stretch justify-center gap-4 sm:gap-5 lg:hidden">
+        {eyebrowBlock}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: reveal.eyebrow ? 1 : 0, y: reveal.eyebrow ? 0 : 24 }}
-          transition={REVEAL_TRANSITION}
-          className="flex items-center gap-3"
+          animate={{ opacity: reveal.card01 ? 1 : 0, y: reveal.card01 ? 0 : 24 }}
+          transition={{ ...REVEAL_TRANSITION, delay: reveal.card01 ? SEQUENTIAL_DELAY.card01 : 0 }}
         >
-          <span className="w-2 h-2 rounded-full bg-accent-500" />
-          <span className="font-latin text-xs sm:text-sm font-semibold tracking-[0.2em] text-accent-700 uppercase">
-            {eyebrow}
-          </span>
-          <div className="flex-1 h-px bg-accent-100 max-w-[120px]" />
+          <MobileImageCard {...card01} />
         </motion.div>
-
-        <motion.h2
+        {titleBlock}
+        <motion.div
           initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: reveal.title ? 1 : 0, y: reveal.title ? 0 : 24 }}
-          transition={REVEAL_TRANSITION}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-[1.35] tracking-tight"
+          animate={{ opacity: reveal.card02 ? 1 : 0, y: reveal.card02 ? 0 : 24 }}
+          transition={{ ...REVEAL_TRANSITION, delay: reveal.card02 ? SEQUENTIAL_DELAY.card02 : 0 }}
         >
-          <span className="block text-content-strong">{titleLine1}</span>
-          <span className="block text-accent-600">{titleLine2}</span>
-        </motion.h2>
+          <MobileImageCard {...card02} />
+        </motion.div>
       </div>
 
-      {/* Right column — desktop only */}
-      <div className="hidden lg:flex relative flex-col gap-5 w-full max-h-[80vh] justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: reveal.card01 ? 1 : 0, y: reveal.card01 ? 0 : 30 }}
-          transition={REVEAL_TRANSITION}
-        >
-          <NumberedCard {...card01} />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: reveal.card01 ? 1 : 0, y: reveal.card01 ? 0 : 30 }}
-          transition={REVEAL_TRANSITION}
-        >
-          <Connector variant={connector} />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: reveal.card02 ? 1 : 0, y: reveal.card02 ? 0 : 30 }}
-          transition={REVEAL_TRANSITION}
-        >
-          <NumberedCard {...card02} />
-        </motion.div>
+      {/* Desktop layout — 2-column grid */}
+      <div className="hidden h-full w-full grid-cols-2 items-center gap-12 lg:grid xl:gap-16">
+        {/* Left column */}
+        <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6">
+          {eyebrowBlock}
+          {titleBlock}
+        </div>
+
+        {/* Right column */}
+        <div className="relative flex w-full max-h-[80vh] flex-col justify-center gap-5">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: reveal.card01 ? 1 : 0, y: reveal.card01 ? 0 : 30 }}
+            transition={{ ...REVEAL_TRANSITION, delay: reveal.card01 ? SEQUENTIAL_DELAY.card01 : 0 }}
+          >
+            <NumberedCard {...card01} />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: reveal.card01 ? 1 : 0, y: reveal.card01 ? 0 : 30 }}
+            transition={{ ...REVEAL_TRANSITION, delay: reveal.card01 ? SEQUENTIAL_DELAY.card01 : 0 }}
+          >
+            <Connector variant={connector} />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: reveal.card02 ? 1 : 0, y: reveal.card02 ? 0 : 30 }}
+            transition={{ ...REVEAL_TRANSITION, delay: reveal.card02 ? SEQUENTIAL_DELAY.card02 : 0 }}
+          >
+            <NumberedCard {...card02} />
+          </motion.div>
+        </div>
       </div>
+    </div>
+  );
+};
+
+// 모바일/태블릿 전용 컴팩트 카드 — 타이틀 위·아래에 들어가도록 높이를 뷰포트로 제한.
+const MobileImageCard = ({ label, title, image }: CardData) => (
+  <div className="relative w-full overflow-hidden rounded-2xl border border-line bg-surface-muted shadow-lg">
+    <img
+      src={image}
+      alt={title}
+      className="h-[22vh] w-full object-cover sm:h-[24vh]"
+    />
+    <div className="absolute left-2 top-2 flex items-center gap-2">
+      <span className="bg-accent-500 text-white w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold tracking-wider font-latin">
+        {label}
+      </span>
+      <span className="rounded-md bg-white/85 px-2 py-1 text-xs font-bold text-content-strong backdrop-blur-sm">
+        {title}
+      </span>
     </div>
   </div>
 );
