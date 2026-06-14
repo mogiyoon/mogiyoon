@@ -1,11 +1,7 @@
-import {
-  motion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useScrollLatch } from "./useScrollLatch";
 
 interface CardData {
   label: string;
@@ -22,83 +18,25 @@ interface IntroPanelData {
   card02: CardData;
 }
 
-interface FadeUpStyle {
-  y: MotionValue<number>;
-  opacity: MotionValue<number>;
-}
-
 interface PanelReveal {
-  eyebrow: FadeUpStyle;
-  title: FadeUpStyle;
-  card01: FadeUpStyle;
-  card02: FadeUpStyle;
+  eyebrow: boolean;
+  title: boolean;
+  card01: boolean;
+  card02: boolean;
 }
 
-function useScrollFadeUp(
-  progress: MotionValue<number>,
-  start: number,
-  duration = 0.05,
-  distance = 24
-): FadeUpStyle {
-  const y = useTransform(progress, [start, start + duration], [distance, 0]);
-  const opacity = useTransform(progress, [start, start + duration], [0, 1]);
-  return { y, opacity };
-}
+const REVEAL_TRANSITION = { duration: 0.5, ease: "easeOut" } as const;
+
+// 섹션 안에서 요소가 순차 등장하는 스크롤 임계값 (각 섹션 0→1 기준)
+const REVEAL_THRESHOLDS = {
+  eyebrow: 0.05,
+  title: 0.12,
+  card01: 0.22,
+  card02: 0.34,
+} as const;
 
 export const IntroLine: React.FC = () => {
   const { t } = useTranslation();
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end start"],
-  });
-
-  const startPanelOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.4, 0.5],
-    [1, 1, 0]
-  );
-  const startPanelY = useTransform(
-    scrollYProgress,
-    [0, 0.1, 0.4, 0.5],
-    [16, 0, 0, -24]
-  );
-  const endPanelOpacity = useTransform(
-    scrollYProgress,
-    [0.45, 0.55, 0.9, 1],
-    [0, 1, 1, 0]
-  );
-  const endPanelY = useTransform(
-    scrollYProgress,
-    [0.45, 0.6, 0.9, 1],
-    [24, 0, 0, -16]
-  );
-
-  // Per-element scroll reveals — startPanel (active 0 → 0.4)
-  const startEyebrow = useScrollFadeUp(scrollYProgress, 0.0, 0.08);
-  const startTitle = useScrollFadeUp(scrollYProgress, 0.04, 0.08);
-  const startCard1 = useScrollFadeUp(scrollYProgress, 0.09, 0.1, 30);
-  const startCard2 = useScrollFadeUp(scrollYProgress, 0.14, 0.1, 30);
-
-  // Per-element scroll reveals — endPanel (active 0.5 → 0.9)
-  const endEyebrow = useScrollFadeUp(scrollYProgress, 0.5, 0.08);
-  const endTitle = useScrollFadeUp(scrollYProgress, 0.54, 0.08);
-  const endCard1 = useScrollFadeUp(scrollYProgress, 0.59, 0.1, 30);
-  const endCard2 = useScrollFadeUp(scrollYProgress, 0.64, 0.1, 30);
-
-  const startReveal: PanelReveal = {
-    eyebrow: startEyebrow,
-    title: startTitle,
-    card01: startCard1,
-    card02: startCard2,
-  };
-
-  const endReveal: PanelReveal = {
-    eyebrow: endEyebrow,
-    title: endTitle,
-    card01: endCard1,
-    card02: endCard2,
-  };
 
   const startPanel: IntroPanelData = {
     eyebrow: t("introStart.eyebrow"),
@@ -136,43 +74,46 @@ export const IntroLine: React.FC = () => {
     },
   };
 
+  // 두 패널을 각각 독립된 sticky 섹션으로 분리한다.
+  // 한 패널이 등장한 뒤 사라지지 않고, 다음 섹션으로 자연 스크롤되며 넘어간다.
   return (
-    <section ref={targetRef} className="relative h-[1000vh] bg-white">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-white">
-        <PanelLayer
-          opacity={startPanelOpacity}
-          y={startPanelY}
-          reveal={startReveal}
-          data={startPanel}
-          connector="arrow"
-        />
-        <PanelLayer
-          opacity={endPanelOpacity}
-          y={endPanelY}
-          reveal={endReveal}
-          data={endPanel}
-          connector="plus"
-        />
-      </div>
-    </section>
+    <>
+      <IntroPanelSection data={startPanel} connector="arrow" />
+      <IntroPanelSection data={endPanel} connector="plus" />
+    </>
   );
 };
 
 type ConnectorVariant = "arrow" | "plus";
 
-interface PanelLayerProps {
-  opacity: MotionValue<number>;
-  y: MotionValue<number>;
-  reveal: PanelReveal;
+interface IntroPanelSectionProps {
   data: IntroPanelData;
   connector: ConnectorVariant;
 }
 
-const PanelLayer = ({ opacity, y, reveal, data, connector }: PanelLayerProps) => (
-  <motion.div style={{ opacity, y }} className="absolute inset-0">
-    <IntroPanel {...data} reveal={reveal} connector={connector} />
-  </motion.div>
-);
+const IntroPanelSection = ({ data, connector }: IntroPanelSectionProps) => {
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end start"],
+  });
+
+  // 임계점 통과 시 latch — 한 번 등장하면 섹션이 스크롤로 넘어갈 때까지 유지
+  const reveal: PanelReveal = {
+    eyebrow: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.eyebrow),
+    title: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.title),
+    card01: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.card01),
+    card02: useScrollLatch(scrollYProgress, REVEAL_THRESHOLDS.card02),
+  };
+
+  return (
+    <section ref={targetRef} className="relative h-[200vh] bg-white">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-white">
+        <IntroPanel {...data} reveal={reveal} connector={connector} />
+      </div>
+    </section>
+  );
+};
 
 interface IntroPanelProps extends IntroPanelData {
   reveal: PanelReveal;
@@ -193,7 +134,9 @@ const IntroPanel = ({
       {/* Left column */}
       <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6">
         <motion.div
-          style={reveal.eyebrow}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: reveal.eyebrow ? 1 : 0, y: reveal.eyebrow ? 0 : 24 }}
+          transition={REVEAL_TRANSITION}
           className="flex items-center gap-3"
         >
           <span className="w-2 h-2 rounded-full bg-accent-500" />
@@ -204,7 +147,9 @@ const IntroPanel = ({
         </motion.div>
 
         <motion.h2
-          style={reveal.title}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: reveal.title ? 1 : 0, y: reveal.title ? 0 : 24 }}
+          transition={REVEAL_TRANSITION}
           className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-[1.35] tracking-tight"
         >
           <span className="block text-content-strong">{titleLine1}</span>
@@ -214,13 +159,25 @@ const IntroPanel = ({
 
       {/* Right column — desktop only */}
       <div className="hidden lg:flex relative flex-col gap-5 w-full max-h-[80vh] justify-center">
-        <motion.div style={reveal.card01}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: reveal.card01 ? 1 : 0, y: reveal.card01 ? 0 : 30 }}
+          transition={REVEAL_TRANSITION}
+        >
           <NumberedCard {...card01} />
         </motion.div>
-        <motion.div style={reveal.card01}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: reveal.card01 ? 1 : 0, y: reveal.card01 ? 0 : 30 }}
+          transition={REVEAL_TRANSITION}
+        >
           <Connector variant={connector} />
         </motion.div>
-        <motion.div style={reveal.card02}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: reveal.card02 ? 1 : 0, y: reveal.card02 ? 0 : 30 }}
+          transition={REVEAL_TRANSITION}
+        >
           <NumberedCard {...card02} />
         </motion.div>
       </div>
