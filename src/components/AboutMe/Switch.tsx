@@ -1,19 +1,21 @@
 // Switch.tsx
-import { motion, MotionValue, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { animation } from '../../design-tokens';
 
 interface SwitchProps {
   onClick: () => void;
-  opacity: MotionValue<number>;
+  /** 표시 트리거 — 스크롤 임계점 통과 시 latch */
+  visible: boolean;
   isSwitchedOn: boolean;
 }
 
-export const Switch: React.FC<SwitchProps> = ({ onClick, opacity, isSwitchedOn }) => {
-  const pointerEvents = useTransform(opacity, (v) => (v > 0.05 ? 'auto' : 'none'));
-
+export const Switch: React.FC<SwitchProps> = ({ onClick, visible, isSwitchedOn }) => {
   return (
     <motion.div
-      style={{ opacity, pointerEvents }}
+      style={{ pointerEvents: visible ? 'auto' : 'none' }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: visible ? 1 : 0 }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
       className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2"
     >
       <button

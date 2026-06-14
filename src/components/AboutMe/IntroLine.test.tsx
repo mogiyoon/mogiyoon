@@ -71,18 +71,21 @@ describe('IntroLine', () => {
     );
   });
 
-  it('wraps content in a section with the h-[1000vh] sticky scroll container', () => {
+  it('splits the two panels into separate sticky scroll sections', () => {
     const { container } = render(<IntroLine />);
 
-    const section = container.querySelector('section');
-    expect(section).not.toBeNull();
-    expect(section?.className).toContain('h-[1000vh]');
+    const sections = container.querySelectorAll('section');
+    expect(sections).toHaveLength(2);
 
-    const sticky = section?.querySelector('.sticky');
-    expect(sticky).not.toBeNull();
-    expect(sticky?.className).toContain('top-0');
-    expect(sticky?.className).toContain('h-screen');
-    expect(sticky?.className).toContain('overflow-hidden');
+    sections.forEach((section) => {
+      expect(section.className).toContain('h-[200vh]');
+
+      const sticky = section.querySelector('.sticky');
+      expect(sticky).not.toBeNull();
+      expect(sticky?.className).toContain('top-0');
+      expect(sticky?.className).toContain('h-screen');
+      expect(sticky?.className).toContain('overflow-hidden');
+    });
   });
 
   it('forwards the section ref to the targetRef element so useScroll can attach', () => {
