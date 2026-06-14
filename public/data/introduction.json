@@ -3,7 +3,9 @@
     {
       "id": "deeptrade",
       "projects": [
-        { "id": "pension", "tech": ["React Native"] }
+        { "id": "pension", "tech": ["React Native"] },
+        { "id": "crawlers", "tech": ["Python", "Selenium"] },
+        { "id": "monitorbot", "tech": ["Python", "FastAPI", "Slack", "SQL"] }
       ]
     },
     {

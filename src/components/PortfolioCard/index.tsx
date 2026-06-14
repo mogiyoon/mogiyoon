@@ -45,7 +45,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
               : PLACEHOLDER_PROJECT_IMAGE_300x300
           }
           alt={`${t(project.title || "")} Thumbnail`}
-          className="w-full aspect-square object-contain rounded-card-chunky"
+          className="w-full aspect-[4/3] object-contain rounded-card-chunky"
           onError={handleImageError}
         />
       </div>
@@ -53,16 +53,12 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
         <h3 className="mb-2 truncate text-lg font-bold leading-snug sm:text-[1.35rem]">
           {t(project.title || "")}
         </h3>
-        <p
-          className="
-                                mb-2 min-h-[3.3rem]
-                                text-sm leading-relaxed text-content-secondary
-                                line-clamp-2
-                                sm:min-h-[3.8rem] sm:text-[0.95rem]
-                            "
-        >
-          {t(project.subtitle || "")}
-        </p>
+        {/* div 래퍼로 flex 아이템화를 막아야 line-clamp(-webkit-box)가 blockify 되지 않음 */}
+        <div className="mb-2 min-h-[2.5rem] sm:min-h-[3.8rem]">
+          <p className="text-sm leading-relaxed text-content-secondary line-clamp-2 sm:text-[0.95rem]">
+            {t(project.subtitle || "")}
+          </p>
+        </div>
         <div className="flex flex-wrap mt-auto">
           <Chip tone="accentSoft" size="sm" weight="medium">
             {t(project.projectType || "")}
@@ -145,7 +141,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
         isFlipped={isFlipped}
         onMouseEnter={open}
         onMouseLeave={close}
-        className="w-full aspect-[24/41]"
+        className="w-full aspect-[24/48] sm:aspect-[24/41]"
         front={front}
         back={back}
       />
