@@ -1,34 +1,30 @@
 // Lightbulb.tsx
-import { motion, MotionValue, useTransform, useMotionValue } from 'framer-motion'; // ✨ useMotionValue import
+import { motion } from 'framer-motion';
 
 interface LightbulbProps {
   top: string;
   left: string;
   size: number;
-  bulbOpacity?: MotionValue<number>;
+  /** 표시 트리거 — 스크롤 임계점 통과 시(또는 콘텐츠 노출 시) true 로 latch */
+  bulbShown?: boolean;
+  /** 스위치 씬(MainPhrase5to8)에서만 사용 */
   isSwitchedOn?: boolean;
-  scrollOpacity?: MotionValue<number>;
 }
 
 export const Lightbulb: React.FC<LightbulbProps> = ({
   top,
   left,
   size,
-  bulbOpacity,
+  bulbShown,
   isSwitchedOn,
-  scrollOpacity,
 }) => {
-  const hasScrollAnimation = bulbOpacity !== undefined;
+  // 스위치 씬: 콘텐츠가 노출되고(bulbShown) 스위치가 켜졌을 때만 보임
+  // 스크롤 씬(isSwitchedOn 미지정): 임계점 통과(bulbShown) 시 보임
+  const visible =
+    isSwitchedOn !== undefined ? bulbShown !== false && isSwitchedOn : !!bulbShown;
 
-  // ✨ 수정 1: prop으로 받은 MotionValue가 없을 경우를 대비한 기본 MotionValue를 생성합니다.
-  const defaultOpacity = useMotionValue(0);
-
-  // ✨ 수정 2: `|| 0` 대신 `|| defaultOpacity`를 사용하여 항상 MotionValue 타입이 되도록 보장합니다.
-  const sourceOpacity = scrollOpacity || bulbOpacity || defaultOpacity;
-
-  const combinedOpacity = useTransform(sourceOpacity, (latestOpacity) => {
-    return latestOpacity * (isSwitchedOn ? 1 : 0);
-  });
+  // 스크롤 씬(phase 1-4)에서는 첫 등장 opacity 를 페이드 없이 즉시 전환한다.
+  const isScrollScene = isSwitchedOn === undefined;
 
   const imgVariants = {
     on: {
@@ -42,13 +38,10 @@ export const Lightbulb: React.FC<LightbulbProps> = ({
   return (
     <motion.div
       className="absolute"
-      style={{
-        top,
-        left,
-        width: size,
-        height: size,
-        opacity: hasScrollAnimation ? bulbOpacity : combinedOpacity,
-      }}
+      style={{ top, left, width: size, height: size }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: visible ? 1 : 0 }}
+      transition={{ duration: isScrollScene ? 0 : 0.5, ease: 'easeInOut' }}
     >
       <motion.div
         className="absolute inset-0 rounded-full"

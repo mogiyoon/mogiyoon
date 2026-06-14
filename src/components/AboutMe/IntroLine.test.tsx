@@ -46,23 +46,24 @@ describe('IntroLine', () => {
   it('renders the eyebrow and card titles for start and end panels', () => {
     render(<IntroLine />);
 
-    expect(screen.getByText('introStart.eyebrow')).toBeInTheDocument();
-    expect(screen.getByText('introStart.card01Title')).toBeInTheDocument();
-    expect(screen.getByText('introStart.card02Title')).toBeInTheDocument();
-    expect(screen.getByText('introEnd.eyebrow')).toBeInTheDocument();
-    expect(screen.getByText('introEnd.card01Title')).toBeInTheDocument();
-    expect(screen.getByText('introEnd.card02Title')).toBeInTheDocument();
+    // 모바일/데스크톱 레이아웃이 함께 렌더되어 동일 텍스트가 여러 번 나타날 수 있음
+    expect(screen.getAllByText('introStart.eyebrow').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introStart.card01Title').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introStart.card02Title').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introEnd.eyebrow').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introEnd.card01Title').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introEnd.card02Title').length).toBeGreaterThan(0);
   });
 
-  it('renders the four intro images with the documented src paths', () => {
+  it('renders the documented intro image src paths', () => {
     const { container } = render(<IntroLine />);
 
-    const images = container.querySelectorAll('img');
-    expect(images).toHaveLength(4);
-
-    const srcs = Array.from(images).map((img) => img.getAttribute('src'));
-    expect(srcs).toEqual(
-      expect.arrayContaining([
+    // 모바일/데스크톱 레이아웃에 같은 이미지가 중복 렌더되므로 고유 경로로 검증
+    const srcs = Array.from(container.querySelectorAll('img')).map((img) =>
+      img.getAttribute('src')
+    );
+    expect(new Set(srcs)).toEqual(
+      new Set([
         '/images/aboutMe/introLine1/1.png',
         '/images/aboutMe/introLine1/2.png',
         '/images/aboutMe/introLine2/1.png',
@@ -71,18 +72,21 @@ describe('IntroLine', () => {
     );
   });
 
-  it('wraps content in a section with the h-[1000vh] sticky scroll container', () => {
+  it('splits the two panels into separate sticky scroll sections', () => {
     const { container } = render(<IntroLine />);
 
-    const section = container.querySelector('section');
-    expect(section).not.toBeNull();
-    expect(section?.className).toContain('h-[1000vh]');
+    const sections = container.querySelectorAll('section');
+    expect(sections).toHaveLength(2);
 
-    const sticky = section?.querySelector('.sticky');
-    expect(sticky).not.toBeNull();
-    expect(sticky?.className).toContain('top-0');
-    expect(sticky?.className).toContain('h-screen');
-    expect(sticky?.className).toContain('overflow-hidden');
+    sections.forEach((section) => {
+      expect(section.className).toContain('h-[200vh]');
+
+      const sticky = section.querySelector('.sticky');
+      expect(sticky).not.toBeNull();
+      expect(sticky?.className).toContain('top-0');
+      expect(sticky?.className).toContain('h-screen');
+      expect(sticky?.className).toContain('overflow-hidden');
+    });
   });
 
   it('forwards the section ref to the targetRef element so useScroll can attach', () => {

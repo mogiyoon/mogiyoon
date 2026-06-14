@@ -1,8 +1,9 @@
 // MainPhrase1to4.tsx
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BulbContainer } from './BulbContainer';
+import { useScrollThreshold } from './useScrollThreshold';
 
 // 전구들의 위치, 크기, 애니메이션 타이밍 정보를 담은 데이터
 const bulbData = [
@@ -31,11 +32,12 @@ export const MainPhrase1to4: React.FC = () => {
     offset: ['start start', 'end start'],
   });
 
-  const middleBackgroundOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]); // 범위를 조금 넓힘
-  const endBackgroundOpacity = useTransform(scrollYProgress, [0.7, 0.8], [0, 1]); // 시작점을 뒤로 미룸
+  // 스크롤 임계점 통과 시 일반 속도로 fade-in, 다시 위로 올리면 역재생
+  const middleShown = useScrollThreshold(scrollYProgress, 0.5);
+  const endShown = useScrollThreshold(scrollYProgress, 0.7);
 
   return (
-    <section ref={targetRef} className="relative h-[1600vh]">
+    <section ref={targetRef} className="relative h-[800vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className='absolute inset-0 bg-gradient-to-br from-blue-200 to-purple-200 text-content'>
           {/* 시작 콘텐츠 */}
@@ -50,8 +52,10 @@ export const MainPhrase1to4: React.FC = () => {
             style={{
               background: `radial-gradient(ellipse at center bottom, rgba(255,165,0,0.4) 0%, rgba(255,255,0,0.2) 40%, transparent 70%),
                           linear-gradient(to top, #ff6f61 0%, #ffb347 50%, #ffe0b2 100%)`,
-              opacity: middleBackgroundOpacity,
             }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: middleShown ? 1 : 0 }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
           />
 
           <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl sm:text-2xl lg:text-3xl tracking-widest whitespace-nowrap">
@@ -73,8 +77,10 @@ export const MainPhrase1to4: React.FC = () => {
 
           {/* 끝 콘텐츠 */}
           <motion.div
-            style={{ opacity: endBackgroundOpacity }}
             className='absolute inset-0 z-30 bg-slate-800 text-white'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: endShown ? 1 : 0 }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
           />
         </div>
       </div>

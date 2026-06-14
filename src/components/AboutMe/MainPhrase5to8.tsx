@@ -1,9 +1,10 @@
 // MainPhrase5to8.tsx
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BulbContainer } from './BulbContainer';
 import { Switch } from './Switch'; // 새로 만든 스위치 컴포넌트 import
+import { useScrollThreshold } from './useScrollThreshold';
 
 // 전구 데이터
 const bulbData = [
@@ -40,11 +41,10 @@ export const MainPhrase5to8: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // 섹션 중간에서 나타나고, 섹션 끝(90%~100%)에서 사라짐
-  const switchShow = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
-  const switchHide = useTransform(sectionFullProgress, [0.85, 0.95], [1, 0]);
-  const switchOpacity = useTransform(() => switchShow.get() * switchHide.get());
-  const contentOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1]);
+  // 스크롤 임계점 기준 양방향 — 콘텐츠 노출 / 스위치 숨김 (위로 올리면 역재생)
+  const contentShown = useScrollThreshold(scrollYProgress, 0.4);
+  const switchHidden = useScrollThreshold(sectionFullProgress, 0.85);
+  const switchVisible = contentShown && !switchHidden;
 
   // 🟡 스위치 클릭 핸들러 수정
   const handleSwitchClick = () => {
@@ -53,7 +53,7 @@ export const MainPhrase5to8: React.FC = () => {
   };
 
   return (
-    <section ref={targetRef} className="relative h-[500vh]">
+    <section ref={targetRef} className="relative h-[250vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 bg-slate-800 text-white">
 
@@ -63,14 +63,16 @@ export const MainPhrase5to8: React.FC = () => {
                 key={bulb.id}
                 bulb={bulb}
                 isSwitchedOn={isSwitchedOn}
-                scrollOpacity={contentOpacity} 
+                contentShown={contentShown}
               />
             ))}
           </div>
 
           <motion.div
             className={`absolute inset-0 z-20`}
-            style={{ opacity: contentOpacity }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: contentShown ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
           >
             <div className="relative z-20 flex h-full w-full items-center justify-center">
               <p
@@ -102,7 +104,7 @@ export const MainPhrase5to8: React.FC = () => {
 
           <Switch
             onClick={handleSwitchClick}
-            opacity={switchOpacity}
+            visible={switchVisible}
             isSwitchedOn={isSwitchedOn}
           />
         </div>
