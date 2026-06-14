@@ -57,7 +57,9 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                     {tIntro(`work.${item.id}.title`)}
                   </h3>
                   <p className="mt-0.5 text-sm text-content-muted">
-                    {tIntro(`work.${item.id}.position`)} · {tIntro(`work.${item.id}.period`)}
+                    {hasProjects
+                      ? tIntro(`work.${item.id}.period`)
+                      : `${tIntro(`work.${item.id}.position`)} · ${tIntro(`work.${item.id}.period`)}`}
                   </p>
                 </div>
                 {hasProjects && (
@@ -84,6 +86,12 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                       );
                       const hasAi = Array.isArray(aiHighlights) && aiHighlights.length > 0;
                       const hasDev = Array.isArray(highlights) && highlights.length > 0;
+                      const position = tIntro(`work.${item.id}.projects.${proj.id}.position`, {
+                        defaultValue: '',
+                      });
+                      const projectPeriod = tIntro(`work.${item.id}.projects.${proj.id}.period`, {
+                        defaultValue: '',
+                      });
                       const devSectionKey = `${item.id}-${proj.id}-dev`;
                       const aiSectionKey = `${item.id}-${proj.id}-ai`;
                       const isDevSectionOpen = toggledSections.has(devSectionKey);
@@ -91,11 +99,23 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
 
                       return (
                         <div key={proj.id}>
-                          {/* Project name + tech */}
-                          <div className="flex flex-wrap items-center gap-2 mb-4">
+                          {/* Project name + position */}
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
                             <span className="text-sm font-bold text-content-secondary">
                               {tIntro(`work.${item.id}.projects.${proj.id}.name`)}
                             </span>
+                            {position && (
+                              <span className="rounded-full border border-line px-2.5 py-0.5 text-xs font-medium text-content-muted">
+                                {position}
+                              </span>
+                            )}
+                          </div>
+                          {/* Project period */}
+                          {projectPeriod && (
+                            <p className="mb-2 text-xs text-content-muted">{projectPeriod}</p>
+                          )}
+                          {/* Tech stack */}
+                          <div className="flex flex-wrap items-center gap-2 mb-4">
                             {proj.tech.map((tech) => (
                               <span key={tech} className="rounded-full bg-slate-900 px-2.5 py-0.5 text-xs font-medium text-white">
                                 {tech}
@@ -103,8 +123,8 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                             ))}
                           </div>
 
-                          {/* Development accordion header (only when AI section exists) */}
-                          {hasAi && hasDev && (
+                          {/* Development accordion header — always shown when dev highlights exist */}
+                          {hasDev && (
                             <button
                               type="button"
                               onClick={() => toggledSections.toggle(devSectionKey)}
@@ -121,10 +141,10 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                             </button>
                           )}
 
-                          {/* Dev highlight cards — collapsible when hasAi, always visible otherwise */}
+                          {/* Dev highlight cards — collapsible, default collapsed */}
                           {hasDev && (
                             <AnimatePresence initial={false}>
-                              {(!hasAi || isDevSectionOpen) && (
+                              {isDevSectionOpen && (
                                 <motion.div key="dev-collapse" {...collapseVerticalPreset(0.25)}>
                                   <motion.div
                                     variants={listVariants}
