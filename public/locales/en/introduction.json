@@ -3,10 +3,11 @@
     "deeptrade": {
       "title": "Deeptrade Technologies",
       "period": "Sep 2025 – Present",
-      "position": "Frontend Engineer",
       "projects": {
         "pension": {
           "name": "Your Pension (React Native)",
+          "position": "Frontend Engineer",
+          "period": "Sep 2025 –",
           "highlights": [
             {
               "title": "API Separation & Prefetching",
@@ -69,6 +70,55 @@
               "impact": "Starting from no test cases at all, the suite grew to 20 suites / 217 tests.\nIt consists of 11 feature documents and 21 test files.\nWriting 5 new E2E tests used to take 1-2 weeks, but after introducing AI, roughly 200 tests were completed in 2 weeks.\nBy fixing business rules as document-test pairs, it became possible to secure stability through verification during new feature development and refactoring."
             }
           ]
+        },
+        "crawlers": {
+          "name": "Data Collection Crawlers (Python)",
+          "position": "Data Engineer",
+          "period": "Jan 2026 –",
+          "highlights": [
+            {
+              "title": "Extended collection coverage (full KR equities, US ETFs)",
+              "problem": "Collection was centered on major US names, with no coverage of the full Korean equity universe or US ETFs.",
+              "solution": "Added the full Korean equity market and US ETFs as new collection targets.\nAutomated universe refresh and daily price loading on separate schedules.\nReflected active and delisted symbols consistently after deduplication.",
+              "result": "New daily automated pipeline for the full Korean market (KOSPI+KOSDAQ, ~2,955 symbols) and US ETFs; full KR collection completes in ~1m 30s."
+            }
+          ],
+          "aiHighlights": [
+            {
+              "title": "Re-architected a legacy crawler codebase via a multi-agent orchestrator (/restructure)",
+              "summary": "Built a 9-agent custom pipeline that restructured a flat crawler codebase into a hexagonal-lite architecture with zero regressions.",
+              "context": "Refactoring a ~5,600-LOC, 27-file flat codebase in a single context was risky: with no domain boundaries, regression risk and verification overhead were high. A staged, verifiable multi-agent pipeline was needed.",
+              "approach": "Built nine custom agents — structure audit, data-flow mapping, domain classification, structure design/cross-review, migration planning, step execution, and regression validation — plus a /restructure command.\nRan it as Discovery → Design (cross-reviewed) → approval → Migration Plan → approval → atomic step-by-step execution.",
+              "verification": "Each step ran in an isolated git worktree and had to pass a four-way regression check — pytest, AST diff, byte-equal, and import-graph — before merging. Critical legacy logic was preserved byte-equal in a separate module.",
+              "impact": "Completed 47 migration steps and 29 unit-level refactors with no regressions, and locked in 257 characterization tests. Restructured from 27 files into a 68-file, three-layer infra / shared / jobs architecture."
+            }
+          ]
+        },
+        "monitorbot": {
+          "name": "Monitoring Bot (Python)",
+          "position": "Backend Engineer",
+          "period": "Mar 2026 –",
+          "highlights": [
+            {
+              "title": "Built a unified data-collection health-check framework",
+              "problem": "Monitors only flagged gaps at the symbol-list level, missing chunk-level gaps (a ticker missing a trading day after a batched insert), while adding a monitor piled up boilerplate and alerts were scattered across channels.",
+              "solution": "Abstracted gap detection into three layers (symbol presence, per-symbol row count vs. baseline, table-level distinct symbol count vs. baseline) with a runner, snapshot verifier, and cumulative baseline split into modules.\nConsolidated 11 check items under a single registry, removing boilerplate for new ones.\nUnified all statuses into one alert message and split the price section into US / KR.\nDiagnosed a full scan from a leftmost-prefix issue on a composite index and restored index usage via equality predicates.",
+              "result": "Chunk-level gap detection rose from 0–1 to 3–4 per week. Heaviest price health check dropped ~50s → ~2s (~25× faster). Scattered alerts consolidated into one message, surfacing 11 statuses on a single screen within ~90s."
+            },
+            {
+              "title": "Isolated scheduler registration to eliminate full outages",
+              "problem": "A bad schedule entry — invalid cron expression or missing handler — would raise during reload and abort the whole loop, halting every other job.",
+              "solution": "Wrapped the schedule rebuild loop with per-schedule try/except so one failure no longer aborts the entire reload.\nAdded a dedicated smoke-test job exercising the registration / execution path on a regular cadence.",
+              "result": "Full-scheduler outages caused by a single bad schedule no longer occur."
+            },
+            {
+              "title": "Deployment process automation",
+              "problem": "Every release required repeating the deployment manually, which was slow and left room for human error such as skipped steps.",
+              "solution": "Consolidated a multi-step deployment process into a single automated command.\nAdded automatic pre-deployment checks to block faulty releases caused by missing or wrong settings.\nStandardized the process so every release runs the same way, removing repetitive manual work.",
+              "result": "Manual deployments of ~10 minutes now complete automatically in ~10 seconds, removing repetitive manual work and the associated risk of error."
+            }
+          ],
+          "aiHighlights": []
         }
       }
     },
