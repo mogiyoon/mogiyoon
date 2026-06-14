@@ -46,23 +46,24 @@ describe('IntroLine', () => {
   it('renders the eyebrow and card titles for start and end panels', () => {
     render(<IntroLine />);
 
-    expect(screen.getByText('introStart.eyebrow')).toBeInTheDocument();
-    expect(screen.getByText('introStart.card01Title')).toBeInTheDocument();
-    expect(screen.getByText('introStart.card02Title')).toBeInTheDocument();
-    expect(screen.getByText('introEnd.eyebrow')).toBeInTheDocument();
-    expect(screen.getByText('introEnd.card01Title')).toBeInTheDocument();
-    expect(screen.getByText('introEnd.card02Title')).toBeInTheDocument();
+    // 모바일/데스크톱 레이아웃이 함께 렌더되어 동일 텍스트가 여러 번 나타날 수 있음
+    expect(screen.getAllByText('introStart.eyebrow').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introStart.card01Title').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introStart.card02Title').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introEnd.eyebrow').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introEnd.card01Title').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('introEnd.card02Title').length).toBeGreaterThan(0);
   });
 
-  it('renders the four intro images with the documented src paths', () => {
+  it('renders the documented intro image src paths', () => {
     const { container } = render(<IntroLine />);
 
-    const images = container.querySelectorAll('img');
-    expect(images).toHaveLength(4);
-
-    const srcs = Array.from(images).map((img) => img.getAttribute('src'));
-    expect(srcs).toEqual(
-      expect.arrayContaining([
+    // 모바일/데스크톱 레이아웃에 같은 이미지가 중복 렌더되므로 고유 경로로 검증
+    const srcs = Array.from(container.querySelectorAll('img')).map((img) =>
+      img.getAttribute('src')
+    );
+    expect(new Set(srcs)).toEqual(
+      new Set([
         '/images/aboutMe/introLine1/1.png',
         '/images/aboutMe/introLine1/2.png',
         '/images/aboutMe/introLine2/1.png',
