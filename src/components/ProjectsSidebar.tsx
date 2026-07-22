@@ -1,28 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 import { PROJECT_CARD_EASE } from '../hooks/useProjectGridEntrance';
 import type { ProjectDevKitCardData, ProjectDevKitId } from '../hooks/useProjectDevKitItems';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import type { ProjectSummary } from '../types';
 import AiDevKitCard from './AiDevKitCard';
 import ProjectFlipPreviewCard from './ProjectFlipPreviewCard';
 import StickySectionSidebar from './StickySectionSidebar';
-
-// Tailwind `lg` (1024px) 기준. 데스크톱은 카드 entrance 후 AI DevKit 이 blur+scale 로
-// 등장하지만, 모바일은 처음부터 마운트해 애니메이션 없이 노출 (피드백 반영).
-const useIsDesktop = () => {
-    const [isDesktop, setIsDesktop] = useState(() =>
-        typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches
-    );
-    useEffect(() => {
-        if (typeof window === 'undefined') return;
-        const mq = window.matchMedia('(min-width: 1024px)');
-        const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
-    return isDesktop;
-};
 
 interface ProjectsSidebarProps {
     title: string;
@@ -45,7 +30,9 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
     devKitItems,
     onSelectDevKit,
 }) => {
-    const isDesktop = useIsDesktop();
+    // Tailwind `lg` (1024px) 기준. 데스크톱은 카드 entrance 후 AI DevKit 이 blur+scale 로
+    // 등장하지만, 모바일은 처음부터 마운트해 애니메이션 없이 노출 (피드백 반영).
+    const isDesktop = useMediaQuery('(min-width: 1024px)');
 
     const devKitCardBlock = (
         <div className="rounded-card bg-surface p-4 shadow-lg sm:p-5">
