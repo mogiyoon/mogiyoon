@@ -28,7 +28,10 @@ import { useSidebarPin } from "./useSidebarPin";
 import { useResumeDraftUpdaters } from "./useResumeDraftUpdaters";
 import { useResumeSelectors } from "./useResumeSelectors";
 import { useToggleSet } from "../../hooks/useToggleSet";
+import { useDisclosure } from "../../hooks/useDisclosure";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import ExternalLink from "../../components/primitives/ExternalLink";
+import ModalShell from "../../components/primitives/ModalShell";
 import { usePrerenderReadyEvent } from "../../hooks/usePrerenderReadyEvent";
 
 const ResumePreviewPage: React.FC = () => {
@@ -47,6 +50,14 @@ const ResumePreviewPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const { asideRef, sidebarColumnRef, isSidebarPinned, pinnedTop, togglePin } = useSidebarPin();
+  // 사이드바를 옆에 배치할 수 있는 폭(Tailwind xl 이상)에서는 사이드바로,
+  // 그 미만(모바일·태블릿)에서는 플로팅 버튼 + 모달로 편집 패널을 제공
+  const canShowSidebar = useMediaQuery("(min-width: 1280px)");
+  const {
+    isOpen: isEditorModalOpen,
+    open: openEditorModal,
+    close: closeEditorModal,
+  } = useDisclosure(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -135,8 +146,8 @@ const ResumePreviewPage: React.FC = () => {
           <div className="h-10 w-56 rounded-2xl bg-slate-200 animate-pulse mb-6" />
           <div className="grid gap-6 xl:grid-cols-[24rem_1fr]">
             <div className="h-[70vh] rounded-paper-edge-lg bg-slate-200 animate-pulse" />
-            <div className="flex justify-center">
-              <div className="h-[297mm] w-[210mm] max-w-full rounded-paper-edge-lg bg-slate-200 animate-pulse" />
+            <div className="flex min-w-0 justify-center">
+              <div className="h-[297mm] w-full max-w-[210mm] rounded-paper-edge-lg bg-slate-200 animate-pulse" />
             </div>
           </div>
         </div>
@@ -226,66 +237,10 @@ const ResumePreviewPage: React.FC = () => {
       })
       .filter(Boolean);
 
-  return (
+  // 편집 섹션 묶음 — 데스크톱에서는 사이드바(aside)에, 모바일에서는 플로팅 버튼으로 여는
+  // 모달(ModalShell)에 동일하게 렌더링한다.
+  const editorSections = (
     <>
-    {resumeSeo}
-    <section className="min-h-screen bg-[#dfe5ec] print:bg-white">
-      <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 print:px-0 print:pt-0">
-        <div data-print-hidden="true" className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-950">{t("resume.heading")}</h1>
-            <p className="mt-1.5 text-sm text-slate-600">{t("resume.helper")}</p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link
-              to="/"
-              state={{ activeTab: "profile" }}
-              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
-            >
-              {t("resume.backToProfile")}
-            </Link>
-            <button
-              type="button"
-              onClick={resetDraft}
-              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
-            >
-              {t("resume.resetDraft")}
-            </button>
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm"
-            >
-              {t("resume.savePdf")}
-            </button>
-          </div>
-        </div>
-
-        <div className="grid gap-4 xl:grid-cols-[23rem_1fr] print:block">
-          <div ref={sidebarColumnRef} className="xl:relative">
-            <aside
-              ref={asideRef}
-              data-print-hidden="true"
-              className={`space-y-4 ${
-                isSidebarPinned
-                  ? "xl:absolute xl:left-0 xl:w-full"
-                  : "xl:sticky xl:top-24"
-              }`}
-              style={
-                isSidebarPinned && pinnedTop !== null
-                  ? { top: pinnedTop }
-                  : undefined
-              }
-            >
-            <label className="hidden xl:flex cursor-pointer items-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm">
-              <input
-                type="checkbox"
-                checked={isSidebarPinned}
-                onChange={(e) => togglePin(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 accent-slate-900"
-              />
-              {t("resume.pinSidebar")}
-            </label>
             <CollapsibleEditorSection
               title={t("resume.builder.basics")}
               isOpen={openPanel === "basics"}
@@ -618,11 +573,77 @@ const ResumePreviewPage: React.FC = () => {
                 )}
               </div>
             </CollapsibleEditorSection>
-            </aside>
-          </div>
+    </>
+  );
 
-          <div className="flex justify-center print:block">
-            <article className="resume-preview-page w-[210mm] max-w-full min-h-[297mm] rounded-paper-edge-lg bg-white px-6 py-5 shadow-resume-paper print:rounded-none print:shadow-none">
+  return (
+    <>
+    {resumeSeo}
+    <section className="min-h-screen bg-[#dfe5ec] print:bg-white">
+      <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 print:px-0 print:pt-0">
+        <div data-print-hidden="true" className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-950">{t("resume.heading")}</h1>
+            <p className="mt-1.5 text-sm text-slate-600">{t("resume.helper")}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              to="/"
+              state={{ activeTab: "profile" }}
+              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
+            >
+              {t("resume.backToProfile")}
+            </Link>
+            <button
+              type="button"
+              onClick={resetDraft}
+              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
+            >
+              {t("resume.resetDraft")}
+            </button>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm"
+            >
+              {t("resume.savePdf")}
+            </button>
+          </div>
+        </div>
+
+        <div className="grid gap-4 xl:grid-cols-[23rem_1fr] print:block">
+          {canShowSidebar && (
+            <div ref={sidebarColumnRef} className="min-w-0 xl:relative">
+              <aside
+                ref={asideRef}
+                data-print-hidden="true"
+                className={`space-y-4 ${
+                  isSidebarPinned
+                    ? "xl:absolute xl:left-0 xl:w-full"
+                    : "xl:sticky xl:top-24"
+                }`}
+                style={
+                  isSidebarPinned && pinnedTop !== null
+                    ? { top: pinnedTop }
+                    : undefined
+                }
+              >
+                <label className="hidden xl:flex cursor-pointer items-center gap-2 rounded-full border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm">
+                  <input
+                    type="checkbox"
+                    checked={isSidebarPinned}
+                    onChange={(e) => togglePin(e.target.checked)}
+                    className="h-4 w-4 rounded border-slate-300 accent-slate-900"
+                  />
+                  {t("resume.pinSidebar")}
+                </label>
+                {editorSections}
+              </aside>
+            </div>
+          )}
+
+          <div className="flex min-w-0 justify-center print:block">
+            <article className="resume-preview-page w-full max-w-[210mm] min-h-[297mm] rounded-paper-edge-lg bg-white px-6 py-5 shadow-resume-paper print:w-[210mm] print:rounded-none print:shadow-none">
               <header className="border-b border-slate-200 pb-4">
                 <div className="flex flex-wrap items-start justify-between gap-2.5">
                   <div>
@@ -644,7 +665,7 @@ const ResumePreviewPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-3.5 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[13px] text-slate-700">
+                <div className="mt-3.5 grid grid-cols-1 gap-x-4 gap-y-1.5 text-[13px] text-slate-700 sm:grid-cols-2 print:grid-cols-2">
                   {linkOrder.map((key) =>
                     draft.profile.links[key] ? (
                       <div
@@ -881,6 +902,57 @@ const ResumePreviewPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {!canShowSidebar && (
+        <button
+          type="button"
+          data-print-hidden="true"
+          onClick={openEditorModal}
+          className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3.5 text-sm font-semibold text-white shadow-xl"
+        >
+          <svg
+            className="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+          </svg>
+          {t("resume.editDraft")}
+        </button>
+      )}
+
+      <ModalShell
+        isOpen={!canShowSidebar && isEditorModalOpen}
+        onClose={closeEditorModal}
+        className="fixed inset-x-3 bottom-3 top-24 mx-auto max-w-xl flex flex-col overflow-hidden"
+      >
+        <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-3.5 py-3">
+          <h2 className="text-lg font-bold text-slate-950">{t("resume.editDraft")}</h2>
+          <button
+            type="button"
+            onClick={closeEditorModal}
+            aria-label={t("resume.closeEditor")}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500"
+          >
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="flex-1 space-y-4 overflow-y-auto p-3.5">{editorSections}</div>
+      </ModalShell>
     </section>
     </>
   );
