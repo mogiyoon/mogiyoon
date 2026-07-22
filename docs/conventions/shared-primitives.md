@@ -30,6 +30,7 @@
 | 모달 / 오버레이가 열린 동안 body 스크롤 잠그기 | `useBodyScrollLock` | `src/hooks/useBodyScrollLock.ts` |
 | Esc 키로 닫기 | `useEscapeKey` | `src/hooks/useEscapeKey.ts` |
 | 드롭다운 / 팝오버 외부 클릭 감지 | `useClickOutside` | `src/hooks/useClickOutside.ts` |
+| CSS media query 매치 여부 추적 (breakpoint 분기 등) | `useMediaQuery` | `src/hooks/useMediaQuery.ts` |
 | 클립보드 복사 + 토스트 자동 노출/해제 | `useCopyToClipboardWithToast` | `src/hooks/useCopyToClipboardWithToast.ts` |
 | prerender 완료 신호용 `render-event` 디스패치 | `usePrerenderReadyEvent` | `src/hooks/usePrerenderReadyEvent.ts` |
 | `<img>` 깨졌을 때 placeholder 로 swap | `createImageFallbackHandler` | `src/utils/imageFallback.ts` |
@@ -358,6 +359,37 @@ useClickOutside(ref, close, isOpen);
 
 - `click` 이벤트로 직접 구현 → focus 트랩 / 다중 dropdown 시 race 가 발생한다. `mousedown` 이 의도된 선택
 - `active` 인자를 빼먹어서 항상 리스너가 붙음 → 닫혀 있을 때 불필요한 리스너 비용
+
+---
+
+### `useMediaQuery` (`src/hooks/useMediaQuery.ts`)
+
+**언제 쓰나**
+
+- Tailwind breakpoint 기준으로 JS 로직을 분기해야 할 때 (모바일/데스크톱에서 다른 동작·마운트 전략)
+- `window.matchMedia` + `change` 리스너 조합을 인라인으로 작성하려고 할 때
+- App(헤더 표시 로직), ProjectsSidebar(AI DevKit 마운트 전략) 가 사용 중
+
+**기본 사용법**
+
+```tsx
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+
+const isDesktop = useMediaQuery('(min-width: 1024px)'); // Tailwind lg
+const isMobile = !useMediaQuery('(min-width: 768px)');  // Tailwind md 미만
+```
+
+**제공되는 동작**
+
+- 초기값은 마운트 시점의 `matchMedia(query).matches` 로 동기 평가 (첫 렌더부터 정확)
+- viewport 가 breakpoint 를 넘나들면 `change` 이벤트로 자동 재평가
+- `window` / `matchMedia` 가 없는 환경(SSR, jsdom 테스트)에서는 `false` 반환
+
+**자주 하는 실수**
+
+- `window.matchMedia('...')` + `addEventListener('change', ...)` 를 컴포넌트 안에 인라인 작성 → 이 훅을 사용
+- `window.innerWidth >= 768` 스냅샷 비교 → resize 에 반응하지 않는다. media query 로 표현할 수 있으면 이 훅을 사용
+- Tailwind breakpoint 와 다른 임의 픽셀값 사용 → `sm(640)` / `md(768)` / `lg(1024)` 등 Tailwind 기준값과 일치시킬 것
 
 ---
 
