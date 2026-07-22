@@ -10,6 +10,7 @@ import ContactModal from "./components/ContactModal";
 import PageHeader from "./components/PageHeader";
 import { AnimatePresence } from 'framer-motion';
 import { useDisclosure } from "./hooks/useDisclosure";
+import { useMediaQuery } from "./hooks/useMediaQuery";
 import { easings } from "./design-tokens";
 
 const getInitialTab = () => {
@@ -35,6 +36,8 @@ const AppContent: React.FC = () => {
   const [isSmoothReveal, setIsSmoothReveal] = useState(false);
   const lastScrollY = useRef(0);
   const headerRevealed = useRef(window.location.pathname !== '/');
+  // 모바일(Tailwind md 미만)에서는 숨김/호버 로직 없이 헤더 항상 노출
+  const isMobile = !useMediaQuery('(min-width: 768px)');
 
   const revealHeader = useCallback(() => {
     headerRevealed.current = true;
@@ -77,7 +80,7 @@ const AppContent: React.FC = () => {
   }, [activeTab, location.pathname]);
 
   useEffect(() => {
-    if (headerRevealed.current) {
+    if (isMobile || headerRevealed.current) {
       return;
     }
     const timer = setTimeout(() => {
@@ -86,9 +89,12 @@ const AppContent: React.FC = () => {
       }
     }, HEADER_REVEAL_DELAY_MS);
     return () => clearTimeout(timer);
-  }, [isMainPageTop, revealHeader]);
+  }, [isMobile, isMainPageTop, revealHeader]);
 
   useEffect(() => {
+    if (isMobile) {
+      return;
+    }
     const SCROLL_THRESHOLD = 20;
 
     const handleScroll = () => {
@@ -114,12 +120,12 @@ const AppContent: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobile]);
 
   return (
     <main>
       {/* 헤더가 숨겨져 있을 때 상단 가장자리 호버로 다시 나타나게 하는 감지 영역 */}
-      {headerTranslate < 0 && (
+      {!isMobile && headerTranslate < 0 && (
         <div
           data-print-hidden="true"
           style={{ height: HEADER_HEIGHT }}
@@ -129,10 +135,10 @@ const AppContent: React.FC = () => {
       )}
       <div
         data-print-hidden="true"
-        onMouseEnter={headerTranslate < 0 ? revealHeader : undefined}
-        onMouseLeave={handleHeaderMouseLeave}
+        onMouseEnter={!isMobile && headerTranslate < 0 ? revealHeader : undefined}
+        onMouseLeave={isMobile ? undefined : handleHeaderMouseLeave}
         style={{
-          transform: `translateY(${headerTranslate}px)`,
+          transform: `translateY(${isMobile ? 0 : headerTranslate}px)`,
           transition: isSmoothReveal
             ? `transform 0.4s cubic-bezier(${easings.standard.join(",")})`
             : "transform 0.1s linear",
