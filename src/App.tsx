@@ -1,6 +1,6 @@
 // test pull request
 // src/App.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
@@ -10,6 +10,7 @@ import ContactModal from "./components/ContactModal";
 import PageHeader from "./components/PageHeader";
 import { AnimatePresence } from 'framer-motion';
 import { useDisclosure } from "./hooks/useDisclosure";
+import { easings } from "./design-tokens";
 
 const getInitialTab = () => {
   if (window.location.pathname.startsWith('/project/')) {
@@ -21,15 +22,38 @@ const getInitialTab = () => {
   return 'about';
 };
 
+const HEADER_HEIGHT = 80;
+const HEADER_REVEAL_DELAY_MS = 2500;
+
 const AppContent: React.FC = () => {
   const { isOpen: isContactModalOpen, open: openContactModal, close: closeContactModal } = useDisclosure(false);
   const [activeTab, setActiveTab] = useState(getInitialTab);
-  const HEADER_HEIGHT = 80;
   const [headerTranslate, setHeaderTranslate] = useState(() =>
     window.location.pathname === '/' ? -HEADER_HEIGHT : 0
   );
+  // 타이머/호버로 나타날 때는 부드러운 ease, 스크롤 추적 중에는 짧은 linear
+  const [isSmoothReveal, setIsSmoothReveal] = useState(false);
   const lastScrollY = useRef(0);
   const headerRevealed = useRef(window.location.pathname !== '/');
+
+  const revealHeader = useCallback(() => {
+    headerRevealed.current = true;
+    setIsSmoothReveal(true);
+    setHeaderTranslate(0);
+  }, []);
+
+  // 메인 화면 + 최상단 스크롤에서만 hover-overlay 방식으로 동작
+  const isMainPageTop = useCallback(
+    () => window.location.pathname === '/' && window.scrollY <= 0,
+    []
+  );
+
+  const handleHeaderMouseLeave = useCallback(() => {
+    if (isMainPageTop()) {
+      setIsSmoothReveal(true);
+      setHeaderTranslate(-HEADER_HEIGHT);
+    }
+  }, [isMainPageTop]);
   
   const location = useLocation();
 
@@ -53,9 +77,22 @@ const AppContent: React.FC = () => {
   }, [activeTab, location.pathname]);
 
   useEffect(() => {
+    if (headerRevealed.current) {
+      return;
+    }
+    const timer = setTimeout(() => {
+      if (isMainPageTop()) {
+        revealHeader();
+      }
+    }, HEADER_REVEAL_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [isMainPageTop, revealHeader]);
+
+  useEffect(() => {
     const SCROLL_THRESHOLD = 20;
 
     const handleScroll = () => {
+      setIsSmoothReveal(false);
       const currentScrollY = window.scrollY;
       const delta = currentScrollY - lastScrollY.current;
       if (Math.abs(delta) < SCROLL_THRESHOLD) {
@@ -81,11 +118,24 @@ const AppContent: React.FC = () => {
 
   return (
     <main>
+      {/* 헤더가 숨겨져 있을 때 상단 가장자리 호버로 다시 나타나게 하는 감지 영역 */}
+      {headerTranslate < 0 && (
+        <div
+          data-print-hidden="true"
+          style={{ height: HEADER_HEIGHT }}
+          className="fixed top-0 left-0 right-0 z-30"
+          onMouseEnter={revealHeader}
+        />
+      )}
       <div
         data-print-hidden="true"
+        onMouseEnter={headerTranslate < 0 ? revealHeader : undefined}
+        onMouseLeave={handleHeaderMouseLeave}
         style={{
           transform: `translateY(${headerTranslate}px)`,
-          transition: "transform 0.1s linear",
+          transition: isSmoothReveal
+            ? `transform 0.4s cubic-bezier(${easings.standard.join(",")})`
+            : "transform 0.1s linear",
         }}
         className="fixed top-0 left-0 right-0 z-40 bg-surface shadow-md"
       >
