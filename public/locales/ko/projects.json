@@ -6,6 +6,12 @@
     "hint": "2초 간격 앞뒤 회전"
   },
   "preparingProjectSubtitle": "현재 준비 중인 프로젝트 목록",
+  "techFilter": {
+    "title": "기술 스택 필터",
+    "searchPlaceholder": "스택 검색",
+    "empty": "일치하는 스택 없음",
+    "noProjects": "선택한 스택을 사용하는 프로젝트 없음"
+  },
   "aiDevKit": {
     "title": "AI DevKit",
     "subtitle": "AI 개발 도구 목록",

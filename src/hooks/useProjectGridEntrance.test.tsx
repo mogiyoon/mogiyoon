@@ -176,42 +176,6 @@ describe('useProjectGridEntrance', () => {
         expect(result.current.hasPlayedProjectEntrance).toBe(true);
     });
 
-    it('showAiDevKit becomes true after a delay scaled by projects.length once entrance has played', async () => {
-        inViewState.current = true;
-        const projects = [buildProject('alpha'), buildProject('beta'), buildProject('gamma')];
-
-        const { result, rerender } = renderHook(
-            ({ projects: p }) => useProjectGridEntrance({ projects: p, selectedId: null }),
-            { initialProps: { projects: [] as ProjectSummary[] } },
-        );
-
-        attachGridAndCards(result, projects);
-
-        await act(async () => {
-            rerender({ projects });
-        });
-
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(32);
-        });
-
-        expect(result.current.hasPlayedProjectEntrance).toBe(true);
-
-        // delay = (0.08 + (3-1)*0.05 + 1.05) * 1000 = 1230ms
-        const expectedDelay = (0.08 + (projects.length - 1) * 0.05 + 1.05) * 1000;
-
-        // Just before the timer fires
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(expectedDelay - 10);
-        });
-        expect(result.current.showAiDevKit).toBe(false);
-
-        await act(async () => {
-            await vi.advanceTimersByTimeAsync(20);
-        });
-        expect(result.current.showAiDevKit).toBe(true);
-    });
-
     it('cardVariants.cluster returns offset-driven {x, y, zIndex} when offsets exist', async () => {
         const projects = [buildProject('alpha'), buildProject('beta')];
         const { result, rerender } = renderHook(
@@ -278,12 +242,11 @@ describe('useProjectGridEntrance', () => {
         expect(otherExit.opacity).toBe(0);
     });
 
-    it('removes the resize listener and clears timers on unmount', async () => {
+    it('removes the resize listener on unmount', async () => {
         inViewState.current = true;
         const projects = [buildProject('alpha')];
 
         const removeSpy = vi.spyOn(window, 'removeEventListener');
-        const clearTimeoutSpy = vi.spyOn(window, 'clearTimeout');
 
         const { result, rerender, unmount } = renderHook(
             ({ projects: p }) => useProjectGridEntrance({ projects: p, selectedId: null }),
@@ -296,7 +259,6 @@ describe('useProjectGridEntrance', () => {
             rerender({ projects });
         });
 
-        // Run through the entrance so that the showAiDevKit setTimeout is scheduled
         await act(async () => {
             await vi.advanceTimersByTimeAsync(32);
         });
@@ -304,6 +266,5 @@ describe('useProjectGridEntrance', () => {
         unmount();
 
         expect(removeSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-        expect(clearTimeoutSpy).toHaveBeenCalled();
     });
 });
