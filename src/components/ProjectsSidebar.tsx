@@ -66,12 +66,11 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
         </div>
     );
 
-    // 사이드바 도구 카드 묶음 (AI DevKit + 기술 스택 필터) — 애니메이션 없이 즉시 노출
+    // 사이드바 도구 카드 묶음 (기술 스택 필터 아코디언 + AI DevKit) — 애니메이션 없이 즉시 노출
     const toolCardsBlock = (
         <>
-            {devKitCardBlock}
             {stacks.length > 0 && (
-                <div className="mt-8">
+                <div className="mb-8">
                     <TechStackFilterCard
                         title={stackFilterTitle}
                         searchPlaceholder={stackSearchPlaceholder}
@@ -82,6 +81,7 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
                     />
                 </div>
             )}
+            {devKitCardBlock}
         </>
     );
 
