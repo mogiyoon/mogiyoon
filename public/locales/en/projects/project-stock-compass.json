@@ -12,14 +12,6 @@
       "development": {
         "title": "Features and Development Process",
         "parts": {
-          "0": {
-            "subtitle": "Single Codebase with KR/US Separated by Market Adapters",
-            "caption": "`markets/{kr,us}` packages, region discriminator",
-            "0": "The Korean and US markets differ in ticker identifiers (`.KS` suffix vs none), fiscal year-end, and trading halt handling. Add divergent rules for penny-stock and mega-cap exclusions, and bolting `if-else` branches onto a single codebase makes one side's change likely to break the other.",
-            "1": "A market adapter pattern (a structure that hides per-market differences behind a shared entry point) was introduced. `markets/base.py` defines an abstract base class (a class that declares only the contract) that collects the per-market entry points: stock seed lists, ticker conversion, prompts, filter labels, and market-cap thresholds. `markets/kr/` and `markets/us/` implement those contracts, while shared logic such as the filter engine, analysis runner, and DB session stays in `core`.",
-            "2": "The DB schema remains single-table but gains a `Stock.region` discriminator (a column that distinguishes markets). Collection, filtering, snapshot persistence, theme grouping, and the UI all branch on the `region` toggle. Per-market constants live in `markets/{kr,us}/config.py`, while the global `config.py` keeps only market-agnostic constants.",
-            "3": "The US market was folded in without disturbing the stabilized KR side. Labels, filter fields, and run schedules now live inside each adapter. Schedules split into KR 23:00 KST and US 18:00 Eastern Time (ET), and policies — mega-cap exclusion above $100B, penny threshold at $5, ADR (American Depositary Receipts) classification — are isolated per market."
-          },
           "1": {
             "subtitle": "Splitting AI Calls Per Stock for Deeper Theme Discovery",
             "caption": "1–3 minutes per ticker, capped to top market caps",
@@ -35,14 +27,6 @@
             "1": "claude calls were switched from `subprocess.run` to `subprocess.Popen`, and the live process handle is registered in a module-level global. When `cancel_analysis()` is invoked, the registered process receives SIGTERM (the standard termination signal) and the current per-stock analysis stops at once. The outer loop checks a `cancel_requested` flag before the next iteration and exits.",
             "2": "The UI surfaces the current stock name in the panel during the \"analyzing\" state, refreshed from the polling response's `current` field. The cancel button goes through a confirmation dialog and posts to `/api/analyze/cancel`. Because the background job keeps running independent of page transitions or refreshes, any screen sees the same polled state.",
             "3": "On average the in-flight claude call ends within one second of a cancel request, and the analysis loop unwinds cleanly. The UI shifts to a \"cancelled\" state so the user can move on — editing filters and rerunning the analysis right away."
-          },
-          "3": {
-            "subtitle": "Whitespace-Insensitive Theme Matching with a Korean Initial Index",
-            "caption": "Absorbs spelling drift, keeps theme cards converging",
-            "0": "Theme names returned by AI analysis drift in spelling. \"2차전지 분리막\" and \"2차전지분리막\" can land as separate themes, or the same theme can be saved under slightly different names per stock, piling duplicate cards on the theme page.",
-            "1": "Theme names are normalized by stripping all whitespace into a comparison key (normalization). `_theme_key()` produces this key, and during writes the lookup uses `func.replace(Theme.name, \" \", \"\") == norm` to group new entries under the matching existing theme. Existing labels are preserved so users keep seeing the first spelling they encountered.",
-            "2": "A short theme description is also collected. Prompts emit a `theme_desc` object alongside the mapping JSON, and the parser fills only empty descriptions to avoid overwriting existing copy. The theme list page exposes navigability through a first-character Korean initial index (ㄱ·ㄴ·ㄷ··· plus A–Z and #).",
-            "3": "Theme cards remain meaningful over time. Even as analysis results accumulate, the card count on the theme page does not balloon, and the inline descriptions make otherwise ambiguous theme names readable at a glance."
           }
         }
       },

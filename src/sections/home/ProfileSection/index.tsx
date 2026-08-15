@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,6 @@ const ProfileSection: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabId>('basics');
   const [resumeProfile, setResumeProfile] = useState<ResumeProfileSourceData | null>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const { data } = useCachedResource<ProfileData>(dataResource);
 
   const tabs: { id: TabId; labelKey: string }[] = [
@@ -54,11 +53,7 @@ const ProfileSection: React.FC = () => {
 
   const handleTabChange = (tab: TabId) => {
     setActiveTab(tab);
-    if (window.innerWidth >= 640) {
-      contentRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleOpenPreview = () => {
@@ -96,7 +91,7 @@ const ProfileSection: React.FC = () => {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-[3fr_7fr]">
 
           {/* Left: tabs — desktop only */}
-          <div className="hidden sm:flex sm:order-1 flex-col gap-2">
+          <div className="hidden sm:flex sm:order-1 flex-col gap-2 sm:sticky sm:top-28 sm:self-start">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -118,10 +113,7 @@ const ProfileSection: React.FC = () => {
           </div>
 
           {/* Content */}
-          <div
-            ref={contentRef}
-            className="sm:order-2 sm:overflow-y-auto sm:overscroll-contain sm:max-h-[calc(100vh-180px)] scroll-mt-14"
-          >
+          <div className="sm:order-2 scroll-mt-14">
             {!data ? (
               /* Skeleton: content only — tabs are already visible */
               <div className="space-y-4">

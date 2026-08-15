@@ -228,33 +228,6 @@
             "category": "result",
             "content": "storytect.summaries.troubleshooting.parts.1.3"
           }
-        ],
-        [
-          {
-            "type": "subtitle",
-            "id": "chart_axes",
-            "content": "storytect.summaries.troubleshooting.parts.2.subtitle"
-          },
-          {
-            "type": "text",
-            "category": "problem",
-            "content": "storytect.summaries.troubleshooting.parts.2.0"
-          },
-          {
-            "type": "text",
-            "category": "analysis",
-            "content": "storytect.summaries.troubleshooting.parts.2.1"
-          },
-          {
-            "type": "text",
-            "category": "solution",
-            "content": "storytect.summaries.troubleshooting.parts.2.2"
-          },
-          {
-            "type": "text",
-            "category": "result",
-            "content": "storytect.summaries.troubleshooting.parts.2.3"
-          }
         ]
       ]
     },

@@ -30,9 +30,9 @@
     "title": "react-stable-timeline.title",
     "subtitle": "react-stable-timeline.subtitle",
     "projectType": "react-stable-timeline.overview.projectType",
-    "period": "2026.05",
+    "period": "2026.05 ~ 2026.08",
     "screenshots": [{ "src": "/images/reactStableTimeline/Icon.svg", "alt": "react-stable-timeline Thumbnail" }],
-    "techStack": ["React", "TypeScript", "Canvas2D", "tsup", "npm Package"],
+    "techStack": ["React", "TypeScript", "Canvas2D", "tsup", "vitest", "npm Package"],
     "claudeInfo": {
       "method": "direct",
       "summary": "react-stable-timeline.claudeInfo.summary"
