@@ -26,16 +26,6 @@ const ProjectsSection: React.FC = () => {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [selectedDevKitId, setSelectedDevKitId] = useState<ProjectDevKitId | null>(null);
     const { projects, preparingProjects, isLoading } = useProjectLists();
-    const {
-        projectsGridRef,
-        projectCardRefs,
-        projectCardOffsetsReady,
-        hasPlayedProjectEntrance,
-        cardVariants,
-    } = useProjectGridEntrance({
-        projects,
-        selectedId,
-    });
     const devKitItems = useProjectDevKitItems();
     const location = useLocation();
 
@@ -73,6 +63,20 @@ const ProjectsSection: React.FC = () => {
             [...selectedStacks.ids].every((stack) => project.techStack?.includes(stack)),
         );
     }, [projects, selectedStacks.ids]);
+
+    // entrance 훅에는 실제로 렌더되는 목록을 넘긴다. 전체 목록을 넘기면 필터로
+    // 렌더되지 않은 카드의 ref 를 기다리느라 offsets 계산이 끝나지 않아
+    // 그리드와 플립 카드가 opacity 0 인 채로 남는다.
+    const {
+        projectsGridRef,
+        projectCardRefs,
+        projectCardOffsetsReady,
+        hasPlayedProjectEntrance,
+        cardVariants,
+    } = useProjectGridEntrance({
+        projects: visibleProjects,
+        selectedId,
+    });
 
     const handleCardClick = (projectId: string) => {
         setSelectedId(projectId);
