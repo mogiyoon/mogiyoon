@@ -75,28 +75,61 @@
   "skills": [
     {
       "category": "framework",
+      "primary": ["React", "React Native", "Expo"],
       "items": [
         "React",
         "React Native",
-        "NestJS"
+        "Expo",
+        "Next.js",
+        "NestJS",
+        "FastAPI",
+        "TanStack Query"
       ]
     },
     {
       "category": "language",
+      "primary": ["TypeScript", "Python"],
       "items": [
         "TypeScript",
-        "C",
-        "Python"
+        "JavaScript",
+        "Python",
+        "SQL"
+      ]
+    },
+    {
+      "category": "data",
+      "primary": ["MySQL"],
+      "items": [
+        "MySQL",
+        "PostgreSQL",
+        "Selenium"
+      ]
+    },
+    {
+      "category": "testing",
+      "primary": ["Jest"],
+      "items": [
+        "Jest",
+        "Detox",
+        "Vitest"
       ]
     },
     {
       "category": "infra",
       "items": [
-        "AWS EC2",
-        "AWS S3",
-        "AWS ALB",
-        "AWS VPC",
-        "AWS CloudFront"
+        "AWS (EC2 · S3 · ALB · VPC · CloudFront)",
+        "Docker",
+        "Firebase",
+        "EAS"
+      ]
+    },
+    {
+      "category": "ai",
+      "primary": ["Claude Code"],
+      "items": [
+        "Claude Code",
+        "MCP",
+        "Multi-Agent Orchestration"
       ]
     }
   ],

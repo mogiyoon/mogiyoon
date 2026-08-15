@@ -284,7 +284,10 @@
   "skills": {
     "framework": "Framework",
     "language": "Language",
-    "infra": "Environment"
+    "data": "Data",
+    "testing": "Testing",
+    "infra": "Environment",
+    "ai": "AI Tools"
   },
   "languages": {
     "newTeps": {

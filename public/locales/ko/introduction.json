@@ -284,7 +284,10 @@
   "skills": {
     "framework": "프레임워크",
     "language": "언어",
-    "infra": "개발 환경"
+    "data": "데이터",
+    "testing": "테스트",
+    "infra": "개발 환경",
+    "ai": "AI 도구"
   },
   "languages": {
     "newTeps": {
