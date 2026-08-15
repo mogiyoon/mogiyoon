@@ -13,6 +13,8 @@ interface TechStackFilterCardProps {
     stacks: string[];
     selectedStacks: Set<string>;
     onToggleStack: (stack: string) => void;
+    /** true 면 펼친 상태로 시작 (예: 스킬 칩에서 필터가 선택된 채 진입한 경우) */
+    defaultOpen?: boolean;
 }
 
 const TechStackFilterCard: React.FC<TechStackFilterCardProps> = ({
@@ -22,9 +24,10 @@ const TechStackFilterCard: React.FC<TechStackFilterCardProps> = ({
     stacks,
     selectedStacks,
     onToggleStack,
+    defaultOpen = false,
 }) => {
     // 기본 접힘 아코디언 — 필요할 때만 펼쳐서 사용
-    const { isOpen, toggle } = useDisclosure(false);
+    const { isOpen, toggle } = useDisclosure(defaultOpen);
     const [query, setQuery] = useState('');
     const normalizedQuery = query.trim().toLowerCase();
 
