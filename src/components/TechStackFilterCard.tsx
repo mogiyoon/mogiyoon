@@ -1,0 +1,100 @@
+import React, { useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+
+import { useDisclosure } from '../hooks/useDisclosure';
+import { collapseVerticalPreset } from '../utils/motionPresets';
+import Chip from './primitives/Chip';
+import RotatingChevron from './primitives/RotatingChevron';
+
+interface TechStackFilterCardProps {
+    title: string;
+    searchPlaceholder: string;
+    emptyText: string;
+    stacks: string[];
+    selectedStacks: Set<string>;
+    onToggleStack: (stack: string) => void;
+}
+
+const TechStackFilterCard: React.FC<TechStackFilterCardProps> = ({
+    title,
+    searchPlaceholder,
+    emptyText,
+    stacks,
+    selectedStacks,
+    onToggleStack,
+}) => {
+    // 기본 접힘 아코디언 — 필요할 때만 펼쳐서 사용
+    const { isOpen, toggle } = useDisclosure(false);
+    const [query, setQuery] = useState('');
+    const normalizedQuery = query.trim().toLowerCase();
+
+    const visibleStacks = useMemo(
+        () =>
+            normalizedQuery
+                ? stacks.filter((stack) => stack.toLowerCase().includes(normalizedQuery))
+                : stacks,
+        [stacks, normalizedQuery],
+    );
+
+    return (
+        <div className="rounded-card bg-surface p-4 shadow-lg sm:p-5">
+            <button
+                type="button"
+                onClick={toggle}
+                aria-expanded={isOpen}
+                className="flex w-full items-center justify-between gap-2 text-left"
+            >
+                <div>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-content-muted">
+                        Tech Stack
+                    </span>
+                    <div className="mt-1 flex flex-wrap items-center justify-center gap-2 lg:justify-start">
+                        <h3 className="text-lg font-bold text-title">
+                            {title}
+                        </h3>
+                    </div>
+                </div>
+                <div className="text-content-muted">
+                    <RotatingChevron isRotated={isOpen} size="md" />
+                </div>
+            </button>
+            <AnimatePresence initial={false}>
+                {isOpen && (
+                    <motion.div key="body" {...collapseVerticalPreset()}>
+                        <input
+                            type="search"
+                            value={query}
+                            onChange={(event) => setQuery(event.target.value)}
+                            placeholder={searchPlaceholder}
+                            aria-label={searchPlaceholder}
+                            className="mt-4 w-full rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm text-content-strong placeholder:text-content-muted focus:border-accent-500 focus:outline-none"
+                        />
+                        <div className="mt-3 flex flex-wrap justify-center gap-1.5 lg:justify-start">
+                            {visibleStacks.map((stack) => (
+                                <button
+                                    key={stack}
+                                    type="button"
+                                    onClick={() => onToggleStack(stack)}
+                                    aria-pressed={selectedStacks.has(stack)}
+                                    className="rounded-full"
+                                >
+                                    <Chip
+                                        tone={selectedStacks.has(stack) ? 'accentSolid' : 'outlined'}
+                                        size="md"
+                                    >
+                                        {stack}
+                                    </Chip>
+                                </button>
+                            ))}
+                            {visibleStacks.length === 0 && (
+                                <p className="text-xs text-content-muted">{emptyText}</p>
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
+
+export default TechStackFilterCard;
