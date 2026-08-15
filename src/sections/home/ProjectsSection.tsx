@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import StickySectionSidebar from "../../components/StickySectionSidebar";
 import { useProjectDevKitItems, type ProjectDevKitId } from '../../hooks/useProjectDevKitItems';
 import { useProjectGridEntrance } from '../../hooks/useProjectGridEntrance';
 import { useProjectLists } from '../../hooks/useProjectLists';
+import { useToggleSet } from '../../hooks/useToggleSet';
 import type { ProjectSummary } from '../../types';
 import { durations } from '../../design-tokens';
 
@@ -30,13 +31,35 @@ const ProjectsSection: React.FC = () => {
         projectCardRefs,
         projectCardOffsetsReady,
         hasPlayedProjectEntrance,
-        showAiDevKit,
         cardVariants,
     } = useProjectGridEntrance({
         projects,
         selectedId,
     });
     const devKitItems = useProjectDevKitItems();
+    const selectedStacks = useToggleSet<string>();
+
+    // 프로젝트들에 태그된 스택을 사용 빈도순(동률이면 이름순)으로 나열
+    const stackOptions = useMemo(() => {
+        const counts = new Map<string, number>();
+        for (const project of projects) {
+            for (const tech of project.techStack ?? []) {
+                counts.set(tech, (counts.get(tech) ?? 0) + 1);
+            }
+        }
+        return [...counts.keys()].sort((a, b) => {
+            const countDiff = (counts.get(b) ?? 0) - (counts.get(a) ?? 0);
+            return countDiff !== 0 ? countDiff : a.localeCompare(b);
+        });
+    }, [projects]);
+
+    // 선택된 스택을 모두 포함하는 프로젝트만 노출 (선택 없으면 전체)
+    const visibleProjects = useMemo(() => {
+        if (selectedStacks.ids.size === 0) return projects;
+        return projects.filter((project) =>
+            [...selectedStacks.ids].every((stack) => project.techStack?.includes(stack)),
+        );
+    }, [projects, selectedStacks.ids]);
 
     const handleCardClick = (projectId: string) => {
         setSelectedId(projectId);
@@ -76,10 +99,15 @@ const ProjectsSection: React.FC = () => {
                                 subtitle={t('projectSubtitle', { ns: 'projects' })}
                                 projects={projects}
                                 hasPlayedProjectEntrance={hasPlayedProjectEntrance}
-                                showAiDevKit={showAiDevKit}
                                 devKitTitle={t('aiDevKit.title', { ns: 'projects' })}
                                 devKitItems={devKitItems}
                                 onSelectDevKit={setSelectedDevKitId}
+                                stackFilterTitle={t('techFilter.title', { ns: 'projects' })}
+                                stackSearchPlaceholder={t('techFilter.searchPlaceholder', { ns: 'projects' })}
+                                stackEmptyText={t('techFilter.empty', { ns: 'projects' })}
+                                stacks={stackOptions}
+                                selectedStacks={selectedStacks.ids}
+                                onToggleStack={selectedStacks.toggle}
                             />
                         </motion.div>
 
@@ -89,7 +117,7 @@ const ProjectsSection: React.FC = () => {
                                 className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:px-0 xl:grid-cols-3"
                                 style={{ opacity: projectCardOffsetsReady ? 1 : 0 }}
                             >
-                                {projects.map((project, index) => (
+                                {visibleProjects.map((project, index) => (
                                     <motion.div
                                         key={project.id}
                                         ref={(element) => {
@@ -106,6 +134,11 @@ const ProjectsSection: React.FC = () => {
                                     </motion.div>
                                 ))}
                             </div>
+                            {visibleProjects.length === 0 && (
+                                <p className="py-10 text-center text-sm text-content-muted">
+                                    {t('techFilter.noProjects', { ns: 'projects' })}
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
