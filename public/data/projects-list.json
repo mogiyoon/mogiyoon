@@ -6,7 +6,7 @@
     "projectType": "stock-compass.overview.projectType",
     "period": "2026.05",
     "screenshots": [{ "src": "/images/stockCompass/Icon.png", "alt": "Stock Compass Thumbnail" }],
-    "techStack": ["FastAPI", "SQLAlchemy", "SQLite", "yfinance", "claude CLI", "APScheduler", "Chart.js"],
+    "techStack": ["FastAPI", "claude CLI"],
     "claudeInfo": {
       "method": "orchestrator",
       "summary": "stock-compass.claudeInfo.summary"
@@ -19,7 +19,7 @@
     "projectType": "storytect.overview.projectType",
     "period": "2026.05",
     "screenshots": [{ "src": "/images/storytect/Icon.svg", "alt": "Storytect Thumbnail" }],
-    "techStack": ["Tauri", "Rust", "Next.js", "React", "TypeScript", "@xyflow/react", "MCP"],
+    "techStack": ["Rust", "Next.js", "React", "TypeScript", "MCP"],
     "claudeInfo": {
       "method": "orchestrator",
       "summary": "storytect.claudeInfo.summary"
@@ -32,7 +32,7 @@
     "projectType": "react-stable-timeline.overview.projectType",
     "period": "2026.05",
     "screenshots": [{ "src": "/images/reactStableTimeline/Icon.svg", "alt": "react-stable-timeline Thumbnail" }],
-    "techStack": ["React", "TypeScript", "Canvas2D", "tsup", "npm Package"],
+    "techStack": ["React", "TypeScript", "npm Package"],
     "claudeInfo": {
       "method": "direct",
       "summary": "react-stable-timeline.claudeInfo.summary"
@@ -45,7 +45,7 @@
     "projectType": "boj-snippets.overview.projectType",
     "period": "2026.04",
     "screenshots": [{ "src": "/images/bojSnippets/Icon.png", "alt": "BOJ Snippets Thumbnail" }],
-    "techStack": ["Chrome Extension", "Manifest V3", "JavaScript"],
+    "techStack": ["Chrome Extension", "JavaScript"],
     "claudeInfo": {
       "method": "direct",
       "summary": "boj-snippets.claudeInfo.summary"
@@ -87,7 +87,7 @@
     "projectType": "mrnsg.overview.projectType",
     "period": "2025.01",
     "screenshots": [{ "src": "/images/mrnsg/Icon.svg", "alt": "mogiyoon-react-native-simple-grid Thumbnail" }],
-    "techStack": ["TypeScript"]
+    "techStack": ["TypeScript", "npm Package"]
   },
   {
     "id": "teacher-test",
@@ -96,6 +96,6 @@
     "projectType": "teacher-test.overview.projectType",
     "period": "2024.01 ~ 2024.02",
     "screenshots": [{ "src": "/images/teacherTest/Icon.png", "alt": "Tea Time Thumbnail" }],
-    "techStack": ["Flutter", "Provider", "Material Design", "Firebase"]
+    "techStack": ["Flutter", "Provider", "Firebase"]
   }
 ]
