@@ -6,7 +6,7 @@
   "description": "react-stable-timeline.description",
   "overview": {
     "projectType": "react-stable-timeline.overview.projectType",
-    "period": "2026.05",
+    "period": "2026.05 ~ 2026.08",
     "introduction": "react-stable-timeline.overview.introduction",
     "features": "react-stable-timeline.overview.features",
     "techStack": [
@@ -14,6 +14,7 @@
       "TypeScript",
       "Canvas2D",
       "tsup",
+      "vitest",
       "npm Package"
     ],
     "github": "https://github.com/mogiyoon/react-stable-timeline",
@@ -104,6 +105,33 @@
             "type": "text",
             "content": "react-stable-timeline.summaries.development.parts.3.1"
           }
+        ],
+        [
+          {
+            "type": "subtitle",
+            "id": "headless_virtualization",
+            "content": "react-stable-timeline.summaries.development.parts.4.subtitle"
+          },
+          {
+            "type": "text",
+            "category": "problem",
+            "content": "react-stable-timeline.summaries.development.parts.4.0"
+          },
+          {
+            "type": "text",
+            "category": "analysis",
+            "content": "react-stable-timeline.summaries.development.parts.4.1"
+          },
+          {
+            "type": "text",
+            "category": "solution",
+            "content": "react-stable-timeline.summaries.development.parts.4.2"
+          },
+          {
+            "type": "text",
+            "category": "result",
+            "content": "react-stable-timeline.summaries.development.parts.4.5"
+          }
         ]
       ]
     },
@@ -157,6 +185,10 @@
           {
             "type": "text",
             "content": "react-stable-timeline.summaries.results.parts.0.2"
+          },
+          {
+            "type": "text",
+            "content": "react-stable-timeline.summaries.results.parts.0.3"
           }
         ],
         [
@@ -211,6 +243,11 @@
       "name": "react-stable-timeline.features.4.name",
       "description": "react-stable-timeline.features.4.description",
       "icon": "CommunityIcon"
+    },
+    {
+      "name": "react-stable-timeline.features.5.name",
+      "description": "react-stable-timeline.features.5.description",
+      "icon": "MarketIcon"
     }
   ],
   "screenshots": [
@@ -231,6 +268,10 @@
     {
       "title": "react-stable-timeline.developmentProcess.2.title",
       "content": "react-stable-timeline.developmentProcess.2.content"
+    },
+    {
+      "title": "react-stable-timeline.developmentProcess.3.title",
+      "content": "react-stable-timeline.developmentProcess.3.content"
     }
   ],
   "license": {
