@@ -119,13 +119,11 @@ vi.mock('../../components/ProjectsSidebar', () => ({
     projects,
     devKitItems,
     hasPlayedProjectEntrance,
-    showAiDevKit,
     onSelectDevKit,
   }: {
     projects: { id: string }[];
     devKitItems: { id: string }[];
     hasPlayedProjectEntrance: boolean;
-    showAiDevKit: boolean;
     onSelectDevKit: (id: string) => void;
   }) =>
     React.createElement(
@@ -135,7 +133,6 @@ vi.mock('../../components/ProjectsSidebar', () => ({
         'data-projects-count': String(projects.length),
         'data-devkit-count': String(devKitItems.length),
         'data-has-played': String(hasPlayedProjectEntrance),
-        'data-show-aidevkit': String(showAiDevKit),
       },
       devKitItems.map((item) =>
         React.createElement(
@@ -221,7 +218,6 @@ beforeEach(() => {
     projectCardRefs: { current: {} },
     projectCardOffsetsReady: true,
     hasPlayedProjectEntrance: true,
-    showAiDevKit: true,
     cardVariants: {},
   });
 
@@ -315,7 +311,7 @@ describe('ProjectsSection', () => {
     expect(navigateMock).toHaveBeenCalledWith('/project/beta');
   });
 
-  it('passes projects, devKitItems, hasPlayedProjectEntrance, and showAiDevKit to ProjectsSidebar', () => {
+  it('passes projects, devKitItems, and hasPlayedProjectEntrance to ProjectsSidebar', () => {
     useProjectListsMock.mockReturnValue({
       projects: [baseProject('a'), baseProject('b')],
       preparingProjects: [],
@@ -326,7 +322,6 @@ describe('ProjectsSection', () => {
       projectCardRefs: { current: {} },
       projectCardOffsetsReady: true,
       hasPlayedProjectEntrance: false,
-      showAiDevKit: false,
       cardVariants: {},
     });
 
@@ -336,7 +331,6 @@ describe('ProjectsSection', () => {
     expect(sidebar.getAttribute('data-projects-count')).toBe('2');
     expect(sidebar.getAttribute('data-devkit-count')).toBe('3');
     expect(sidebar.getAttribute('data-has-played')).toBe('false');
-    expect(sidebar.getAttribute('data-show-aidevkit')).toBe('false');
   });
 
   it('AiDevKitModal receives null item until a dev-kit card is selected, then the matching item', () => {

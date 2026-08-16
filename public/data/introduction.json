@@ -3,9 +3,38 @@
     {
       "id": "deeptrade",
       "projects": [
-        { "id": "pension", "tech": ["React Native"] },
-        { "id": "crawlers", "tech": ["Python", "Selenium"] },
-        { "id": "monitorbot", "tech": ["Python", "FastAPI", "Slack", "SQL"] }
+        {
+          "id": "pension",
+          "tech": [
+            "React Native"
+          ]
+        },
+        {
+          "id": "crawlers",
+          "tech": [
+            "Python",
+            "Selenium"
+          ]
+        },
+        {
+          "id": "monitorbot",
+          "tech": [
+            "Python",
+            "FastAPI",
+            "Slack",
+            "SQL"
+          ]
+        },
+        {
+          "id": "crawlMonitorWeb",
+          "tech": [
+            "Next.js",
+            "TypeScript",
+            "MySQL",
+            "SQLite",
+            "Docker"
+          ]
+        }
       ]
     },
     {
@@ -14,25 +43,97 @@
     }
   ],
   "education": [
-    { "id": "openUniv" },
-    { "id": "jejuEdu" }
+    {
+      "id": "openUniv"
+    },
+    {
+      "id": "jejuEdu"
+    }
   ],
   "awards": [
-    { "id": "seoulAiHackathon" },
-    { "id": "kraftonJungle" },
-    { "id": "jejuInvention" }
+    {
+      "id": "seoulAiHackathon"
+    },
+    {
+      "id": "kraftonJungle"
+    },
+    {
+      "id": "jejuInvention"
+    }
   ],
   "certificates": [
-    { "id": "sqld" },
-    { "id": "infoProcessing" },
-    { "id": "teacherCert" }
+    {
+      "id": "sqld"
+    },
+    {
+      "id": "infoProcessing"
+    },
+    {
+      "id": "teacherCert"
+    }
   ],
   "skills": [
-    { "category": "framework", "items": ["React", "React Native", "NestJS"] },
-    { "category": "language", "items": ["TypeScript", "C", "Python"] },
-    { "category": "infra", "items": ["AWS EC2", "AWS S3", "AWS ALB", "AWS VPC", "AWS CloudFront"] }
-  ],
-  "languages": [
-    { "id": "newTeps" }
+    {
+      "category": "frontend",
+      "primary": ["React", "React Native", "Expo", "Next.js"],
+      "items": [
+        "React",
+        "React Native",
+        "Expo",
+        "Next.js",
+        "TanStack Query"
+      ]
+    },
+    {
+      "category": "backendData",
+      "primary": ["FastAPI", "MySQL"],
+      "items": [
+        "FastAPI",
+        "NestJS",
+        "MySQL",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "category": "language",
+      "primary": ["TypeScript", "Python"],
+      "items": [
+        "TypeScript",
+        "JavaScript",
+        "Python",
+        "SQL"
+      ]
+    },
+    {
+      "category": "tooling",
+      "primary": ["Jest"],
+      "items": [
+        "Jest",
+        "Detox",
+        "Vitest",
+        "AWS",
+        "Docker",
+        "Firebase",
+        "EAS"
+      ],
+      "resumeItems": [
+        "Jest",
+        "Detox",
+        "Vitest",
+        "AWS (EC2 · S3 · CloudFront)",
+        "Docker",
+        "Firebase",
+        "EAS"
+      ]
+    },
+    {
+      "category": "ai",
+      "primary": ["Claude Code"],
+      "items": [
+        "Claude Code",
+        "MCP",
+        "Multi-Agent Orchestration"
+      ]
+    }
   ]
 }

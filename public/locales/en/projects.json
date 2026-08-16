@@ -6,6 +6,12 @@
     "hint": "Flips every 2 seconds."
   },
   "preparingProjectSubtitle": "Projects currently in progress",
+  "techFilter": {
+    "title": "Tech Stack Filter",
+    "searchPlaceholder": "Search stacks",
+    "empty": "No matching stacks",
+    "noProjects": "No projects use the selected stacks"
+  },
   "aiDevKit": {
     "title": "AI DevKit",
     "subtitle": "AI development tool index",

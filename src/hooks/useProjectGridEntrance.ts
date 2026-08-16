@@ -30,7 +30,6 @@ export const useProjectGridEntrance = ({
 
     const [projectCardOffsets, setProjectCardOffsets] = useState<Record<string, ProjectCardOffset>>({});
     const [hasPlayedProjectEntrance, setHasPlayedProjectEntrance] = useState(false);
-    const [showAiDevKit, setShowAiDevKit] = useState(false);
 
     useLayoutEffect(() => {
         if (projects.length === 0) return;
@@ -91,20 +90,6 @@ export const useProjectGridEntrance = ({
         };
     }, [projectCardOffsetsReady, hasPlayedProjectEntrance]);
 
-    useEffect(() => {
-        if (!hasPlayedProjectEntrance || showAiDevKit) return;
-
-        const lastCardDelay = 0.08 + Math.max(projects.length - 1, 0) * 0.05;
-        const revealDelayMs = (lastCardDelay + 1.05) * 1000;
-        const timeoutId = window.setTimeout(() => {
-            setShowAiDevKit(true);
-        }, revealDelayMs);
-
-        return () => {
-            window.clearTimeout(timeoutId);
-        };
-    }, [hasPlayedProjectEntrance, projects.length, showAiDevKit]);
-
     // 카드 진입 cluster 상태. filter: blur 는 모바일 GPU 에서 컴포지터를 강제로 광역 재합성하게 만들어
     // staggered 다중 카드 시 끊김이 두드러지므로 제거. opacity + scale + translate 조합만 사용해
     // GPU 친화적인 transform/composite 경로로만 애니메이션한다.
@@ -163,7 +148,6 @@ export const useProjectGridEntrance = ({
         projectCardRefs,
         projectCardOffsetsReady,
         hasPlayedProjectEntrance,
-        showAiDevKit,
         cardVariants,
     };
 };

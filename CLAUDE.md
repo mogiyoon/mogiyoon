@@ -37,6 +37,15 @@
 ## 3. 프로젝트 목록에 등록
 - `public/data/projects-list.json` — 배열에 항목 추가 (id, title, subtitle, projectType, screenshots, techStack)
 
+### techStack 등재 기준 (2026.08 구직 사이트 수요 조사 기반)
+
+`projects-list.json`의 techStack은 프로젝트 카드와 기술 스택 필터에 노출되므로, **한국 구직 사이트(사람인·잡코리아·원티드·점핏) 채용공고에서 자격요건/우대사항 키워드로 실제 검색되는 스택만** 등재한다. 상세 페이지(`public/data/projects/{id}.json`의 overview.techStack)에는 전체 스택을 기재해도 된다.
+
+- 등재 O (채용 키워드로 다수 등장 확인됨): React, Next.js, TypeScript, JavaScript, Redux, React Native, Flutter, FastAPI, Nest.js, PostgreSQL, AWS, Unity, Firebase, Rust, Provider
+- 등재 O — 예외 유지 (채용 키워드는 아니지만 프로젝트 정체성·차별성을 드러내는 도메인/도구 키워드): claude CLI, MCP, npm Package, Chrome Extension, AR/VR, ffmpeg, Google Vision API
+- 등재 X (채용 키워드로 거의/전혀 쓰이지 않음 — 상위 개념으로 대체됨): SQLAlchemy, SQLite, yfinance, APScheduler, Chart.js, Tauri, @xyflow/react, Canvas2D, tsup, Manifest V3, Material Design
+- 목록에 없는 새 스택은 "채용공고 자격요건에 해당 키워드가 명시된 공고가 다수 존재하는가"를 기준으로 판단한다. 특정 라이브러리/도구 명칭은 대체로 언어·프레임워크(예: Python, React) 수준으로만 공고에 기재되므로 등재하지 않되, 프로젝트의 정체성을 대표하는 키워드는 예외로 등재할 수 있다.
+
 ## 4. 프로젝트 카드 번역 등록
 - `public/locales/ko/projects.json` — 한국어 title, subtitle, overview.projectType 추가
 - `public/locales/en/projects.json` — 영어 title, subtitle, overview.projectType 추가

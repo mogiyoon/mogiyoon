@@ -43,3 +43,5 @@ lerna-debug.log*
 
 *.pdf
 *.docx
+# Blog drafts (local only)
+/blog/

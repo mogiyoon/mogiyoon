@@ -2,7 +2,6 @@ import type { ProjectData, SummaryPart } from "../types";
 import React from "react";
 import type { TFunction } from "i18next";
 import ToastNotification from "./ToastNotification";
-import ReactStableTimelineDemo from "./ReactStableTimelineDemo";
 import { Chip } from "./primitives/Chip";
 import ExternalLink from "./primitives/ExternalLink";
 import InfoCell from "./primitives/InfoCell";
@@ -12,6 +11,10 @@ import {
   TimelineSolidStep,
 } from "./primitives/TimelineStep";
 import { useCopyToClipboardWithToast } from "../hooks/useCopyToClipboardWithToast";
+
+// 타임라인 라이브러리+데모는 react-stable-timeline 프로젝트 페이지에서만 쓰이므로
+// lazy 로 청크를 분리 — 다른 페이지 번들에서 제외되고, 로딩 동안 폴백만 표시됨.
+const ReactStableTimelineDemo = React.lazy(() => import("./ReactStableTimelineDemo"));
 
 interface TotalSummaryComponentProps {
   project: ProjectData;
@@ -286,7 +289,23 @@ const TotalSummaryComponent: React.FC<TotalSummaryComponentProps> = ({ project, 
           {/* Live demo: 라이브러리 프로젝트는 개요 칸 제일 위에 실제 라이브러리를 임베드 */}
           {projectId === "react-stable-timeline" && (
             <div className="mb-6">
-              <ReactStableTimelineDemo />
+              <React.Suspense
+                fallback={
+                  <div
+                    className="w-full rounded-modal bg-white shadow-xl border border-line flex items-center justify-center"
+                    style={{ height: 580 }}
+                  >
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-8 h-8 rounded-full border-2 border-line border-t-accent-500 animate-spin" />
+                      <p className="text-sm text-content-muted">
+                        {t("react-stable-timeline.demo.loading")}
+                      </p>
+                    </div>
+                  </div>
+                }
+              >
+                <ReactStableTimelineDemo />
+              </React.Suspense>
             </div>
           )}
 

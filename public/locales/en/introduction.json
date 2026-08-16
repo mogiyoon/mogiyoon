@@ -8,36 +8,41 @@
           "name": "Your Pension (React Native)",
           "position": "Frontend Engineer",
           "period": "Sep 2025 –",
+          "description": "A mobile app for viewing and managing pension assets",
           "highlights": [
             {
               "title": "API Separation & Prefetching",
-              "problem": "The user info API called on the main screen took 2–3 seconds, delaying the entire page load by the same amount.",
+              "problem": "Main-screen render time varied by user; for long-tenured accounts it sometimes took over 3 seconds.",
+              "analysis": "Measured call time for each API used on the main screen and found the user info API was the slowest.",
               "solution": "Designed a lightweight API with the backend team, selecting only the data needed for the main screen.\nShifted the heavy existing API to root-level rendering so it runs as background prefetching.\nRefactored other pages that were also redundantly calling the same API.",
-              "result": "Main screen load time: 2–3s → 0.6s. Pages with redundant calls refactored to near-zero or 0.3–0.4s."
+              "result": "Main screen load time: 3+ seconds → 0.6s. Pages with redundant calls refactored to near-zero or 0.3–0.4s."
             },
             {
               "title": "E2E Testing & Reinforcement Learning Integration",
               "problem": "Some features required visual inspection, making automated testing impossible with existing methods.",
+              "analysis": "Calls to live APIs prevented automated E2E runs. Charts and other screens that could not be verified through value comparison required visual evaluation.",
               "solution": "Mock support made E2E testing feasible, so introduced E2E (Detox) and Jest.\nWrote test code focused on key features and components.\nFor tests requiring visual judgment, integrated a CNN model trained with reinforcement learning.",
-              "result": "Automated tests for core features and components; reduced error occurrence rate."
+              "result": "Built 30+ E2E tests for account opening/transfer, rebalancing, PIN/session, and other core flows. Tests run automatically before release, with an ONNX-exported CNN scoring screenshots at key checkpoints in core logic flows."
             },
             {
               "title": "Duplicate API Removal & Cache Management with Tanstack Query",
               "problem": "APIs fetching rarely-changing values on every focus event and APIs dependent on special states were causing dozens of redundant requests per session.",
-              "solution": "Identified APIs re-fetching on every focus and those tied only to special states.\nConfigured Tanstack Query's stale time to block unnecessary re-fetches.\nAfter mutations, used query client to mark related data as stale so it refetches only when needed.\nRemoved complex useEffect-based state management code.",
+              "analysis": "Profiled per-screen call patterns to identify APIs re-fetching rarely-changing values on every focus and those tied only to special states.",
+              "solution": "Configured Tanstack Query's stale time on the identified APIs to block unnecessary re-fetches.\nAfter mutations, used query client to mark related data as stale so it refetches only when needed.\nRemoved complex useEffect-based state management code.",
               "result": "API calls per session: dozens → 3–4; improved state management productivity."
             },
             {
               "title": "API Mock Testing Feature",
               "problem": "No way to arbitrarily change frontend UI state; test account limitations made diverse scenario testing impossible.",
-              "solution": "Introduced API Mock Adaptor and implemented internal state control features for key app states.\nAdded mock coverage for APIs accounting for 80% of usage by log volume.",
-              "result": "Increased dev productivity and reduced bug occurrence rate compared to previous workflow."
+              "analysis": "Analyzed API logs to rank endpoints by usage and selected the APIs accounting for 80% of call volume as mock targets.",
+              "solution": "Introduced API Mock Adaptor and implemented internal state control features for key app states.\nAdded mock coverage for the selected APIs.",
+              "result": "Registered 50+ API mocks across accounts, auth, rebalancing, events, notifications, and related domains. States unavailable through test accounts, including pending rebalancing and transfers in progress, became instantly reproducible. Screens could be tested without server or account setup, laying the foundation for E2E automation."
             },
             {
               "title": "Bundle Optimization",
               "problem": "Test code added to the project was being included in production builds, inflating bundle size.",
               "solution": "Used babel.config and metro.config to automatically replace test-related source files with stub files at build time.\nRemoved console-related code and other production-unnecessary code.\nVerified optimization results using atlas and hbc map to analyze bundle output.",
-              "result": "Bundle size: 110mb → 80mb."
+              "result": "Bundle size: ~110MB → ~80MB."
             },
             {
               "title": "Legacy Code Cleanup & Expo Migration",
@@ -50,6 +55,27 @@
               "problem": "Need arose to add automated testing to the deployment process and enable real-time OTA deployment, but no pipeline existed.",
               "solution": "Added automated test scripts via npm commands and configured EAS build and deploy.\nAdded EAS channels for OTA updates and distributed an internal test app.\nConfigured internal test builds via babel.config and metro.config to include mock features in the bundle.\nBuilt a 4-stage pipeline: local → internal test → final test → release.",
               "result": "Incident/bug response time: 2 days (iOS App Store review cycle) → 1 hour."
+            },
+            {
+              "title": "Server-driven UI for event banners and popups",
+              "problem": "Changing the copy, imagery, or buttons of the home event banner and popup required a full app release. The event API had no field for layout content, and adding one meant a backend schema change with coordinated deploys — while the screen was already live, so nothing could alter how existing plain-text events rendered.",
+              "analysis": "Found an extension point that let the server deliver layout content with zero changes to the API contract.\nBecause it shares its slot with existing plain-text copy and its contents are unvalidated external input, format classification and failure policy had to be settled before implementation.",
+              "solution": "Centralized a single function that classifies the server-sent value into spec (JSON), text, or none, so banners and popups share the same interpretation.\nServer-sent JSON is validated with zod — broken blocks are dropped individually, and unknown versions render only a fallback line.\nButtons keep only trusted URLs, and a close button is guaranteed so users can never get trapped in a popup.\nEvery new field is optional, so screens render exactly as before when the server omits them.",
+              "result": "Banner layout, popup blocks, button sets, and suppression windows became server-controlled without an app release, leaving both the event API schema and the legacy render path untouched.\nA malformed block now degrades to that block disappearing rather than the card collapsing, and no server misconfiguration can trap a user inside the popup.\nAdded 90+ event-related tests; the full suite of 600+ tests passes."
+            },
+            {
+              "title": "Auth system v2 overhaul and token-session migration",
+              "problem": "Login decisions and session handling leaned heavily on the client, leaving the server little ability to verify authentication or control sessions.",
+              "analysis": "Designed a flow in which server-issued tokens open and close sessions. To keep server verification while minimizing backend changes, sensitive values are kept in the OS secure store and read only after biometric authentication. Excluded defensive logic outside the backend contract.",
+              "solution": "Removed the obsolete auth code and related source files. Verified single refresh for concurrent requests on token expiry, retries with the renewed token, and logout on refresh failure. Consolidated overly fragmented module files and functions.",
+              "result": "Completed the overhaul across 40+ files and several thousand lines of change. Authentication moved to server-verified token sessions."
+            },
+            {
+              "title": "Push-notification deep-link routing with RouteIntent",
+              "problem": "Notification navigation was scattered across channels. Entry before account data or the back stack was ready could stall on an intermediate screen or miss the destination.",
+              "analysis": "Reproduced channel-specific failures with mock notifications. Specified the prerequisite screens each account state must pass through first. Retained a whitelist instead of generic routing to block arbitrary screen entry.",
+              "solution": "Consolidated navigation into a channel-whitelist dispatch. Published screen work as RouteIntent objects consumed only after the target screen was ready. Cleaned up legacy fallbacks and built a tool that sends test notifications to any route.",
+              "result": "Shipped 2 notification types on this structure. New channels require only handler registration, and notification entry no longer stalls on intermediate screens."
             }
           ],
           "aiHighlights": [
@@ -59,15 +85,15 @@
               "context": "When implementing features with a single agent, defects such as race conditions in screen transitions and state management occurred with some frequency.\nIn a multi-agent setup, cases of unexpected defects being identified were repeatedly observed.\nThere was a need to lock planning, implementation, and bug analysis into a fixed pipeline.",
               "approach": "Using a self-built orchestrator-designer skill on Claude Code, two harnesses were designed and operated.\nThe Testing Harness, which does not affect live features and is dedicated to bug analysis and cross-checking, was built first.\nThen the Feature Harness was constructed for spec → design → simulation → conclusion → implementation → verification.\nThe Testing Harness was integrated into the verification stage of the Feature Harness, forming a single pipeline.",
               "verification": "By reviewing errors found during testing, the harness re-examined related areas and surfaced derivative defects.\nSome of the harness's diagnoses were discarded or revised by a human.\nAs a result, a complex app-bootstrap component was decomposed into multiple hooks with clearer responsibilities, and related tests were added.",
-              "impact": "Before and after adoption, personal metrics were measured at 5.17 → 9.25 commits/day (+79%) and 0.71 → 2.06 merged PRs/day (+190%).\nThe fix/feat ratio changed from 1.53 → 2.05, with no meaningful decrease confirmed.\nQualitatively, boundary-condition defects were caught more often, and reusable assets accumulated through documentation of the spec → implementation → verification flow."
+              "impact": "Before and after adoption, personal metrics went from about 5 → 9 commits/day (~1.8×) and about 0.7 → 2 merged PRs/day (~3×).\nThe fix/feat ratio changed from about 1.5 → 2.0, with no meaningful decrease confirmed.\nQualitatively, boundary-condition defects were caught more often, and reusable assets accumulated through documentation of the spec → implementation → verification flow."
             },
             {
               "title": "Building Jest Tests and Business Rule Documentation in Parallel",
-              "summary": "Built Jest unit and component tests alongside per-feature business rule documents with Claude Code. Established a system with 217 tests and 11 documents, where test failures function as a way to trace rule changes.",
+              "summary": "Built Jest unit and component tests alongside per-feature business rule documents with Claude Code. Established a system with 200+ tests and about 10 documents, where test failures function as a way to trace rule changes.",
               "context": "The app lacked unit and component tests, so deployment stability needed to be improved. Adding tests was chosen as a way to secure quality without heavily modifying feature code. As the number of tests grew, it became harder to trace the relationship between rules and tests. The setup was expanded into a structure that manages business rule documents and a test catalog together.",
               "approach": "Claude Code was used as the primary tool.\nBusiness rule extraction was handled by a human, test case candidate generation was done jointly by human and AI, and AI wrote the test code and per-feature documents.\nExisting E2E tests and predefined types were provided as reference material to keep conventions consistent.\nInstead of generating everything at once, tests were added sequentially by feature to keep each change reviewable.",
               "verification": "AI-written feature documents were reviewed first to confirm alignment with the rule definitions.\nThe implementation stage was handled by the Feature Harness, so the initial failure rate was low.\nAfterward, the main type of failure came from existing tests breaking during code-structure changes.\nAs of now, there has been no confirmed case of tests proactively catching a production bug. A systematic way to validate test quality itself remains an open task.",
-              "impact": "Starting from no test cases at all, the suite grew to 20 suites / 217 tests.\nIt consists of 11 feature documents and 21 test files.\nWriting 5 new E2E tests used to take 1-2 weeks, but after introducing AI, roughly 200 tests were completed in 2 weeks.\nBy fixing business rules as document-test pairs, it became possible to secure stability through verification during new feature development and refactoring."
+              "impact": "Starting from no test cases at all, the suite grew to 20+ suites / 200+ tests.\nIt consists of about 10 feature documents and 20+ test files.\nWriting 5 new E2E tests used to take 1-2 weeks, but after introducing AI, roughly 200 tests were completed in 2 weeks.\nBy fixing business rules as document-test pairs, it became possible to secure stability through verification during new feature development and refactoring."
             }
           ]
         },
@@ -75,22 +101,53 @@
           "name": "Data Collection Crawlers (Python)",
           "position": "Data Engineer",
           "period": "Jan 2026 –",
+          "description": "Crawlers that automatically collect domestic and overseas stock prices, financials, and macro indicators every day",
           "highlights": [
             {
-              "title": "Extended collection coverage (full KR equities, US ETFs)",
-              "problem": "Collection was centered on major US names, with no coverage of the full Korean equity universe or US ETFs.",
-              "solution": "Added the full Korean equity market and US ETFs as new collection targets.\nAutomated universe refresh and daily price loading on separate schedules.\nReflected active and delisted symbols consistently after deduplication.",
-              "result": "New daily automated pipeline for the full Korean market (KOSPI+KOSDAQ, ~2,955 symbols) and US ETFs; full KR collection completes in ~1m 30s."
+              "title": "Introduced vendor raw data layer",
+              "problem": "Each crawler always collected its target data directly from external sources, so data overlapping across crawlers was fetched multiple times.",
+              "analysis": "Analyzed what the crawled datasets had in common and defined the collection pools that needed to be covered.",
+              "solution": "Created a raw schema and added dedicated crawlers for each collection pool.\nConverted the existing collection crawlers to copy the data gathered by the raw crawlers.\nSince some data may fall outside the defined pools and the raw crawlers themselves can fail, kept the existing collection code as a fallback path.",
+              "result": "Existing collection jobs now make zero external API calls and only copy raw data. External call volume remains limited to raw crawlers as collection work grows. Requests per minute and vendor-side error rates also fell."
+            },
+            {
+              "title": "Handled a data vendor's exchange-code reshuffle",
+              "problem": "A data vendor's reshuffle of Korean exchange codes caused some symbols' prices to be loaded twice under a different market code.\nBecause of the price table's key design, the later-loaded bad rows could overwrite the correct prices.",
+              "analysis": "Monitoring showed the number of collected symbols dropped sharply, so checked the collected symbols in the DB and found that only a handful of symbols for one market were being collected.",
+              "solution": "Reported the issue to the vendor's support team with a concrete case and reproduction steps.\nThe vendor confirmed the error, fixed it, and replied.",
+              "result": "The vendor completed correcting the faulty data, and the affected rows remaining in our DB were cleaned up."
+            },
+            {
+              "title": "Diagnosed and Fixed a MySQL Buffer Pool Bottleneck",
+              "problem": "A job that checked and replaced every row one by one took 4 hours. The server had plenty of RAM, yet MySQL's buffer pool was still at its default.",
+              "analysis": "Drew up several hypotheses; since the job rewrote every row, an undersized buffer pool forcing repeated disk reads was the prime suspect.\nKept partitioning and index redesign as the fallback in case more memory didn't help.\nChecked memory usage of the processes already running on the server with free -h.",
+              "solution": "Sized the buffer pool conservatively at about 1–2% of total RAM, since the server was shared with other workloads.",
+              "result": "Cut the job from 4 hours to 30 minutes, without resorting to partitioning or re-indexing."
+            },
+            {
+              "title": "Built the OpenDART Korean financial-data collector",
+              "problem": "Korean listed-company financials lacked a data source, requiring a new OpenDART API collector. Inconsistent IFRS standard-account usage produced different account IDs for the same metric. The API enforced a daily call limit.",
+              "analysis": "Defined fallback order as consolidated statements (CFS), standalone statements (OFS), then account-name matching. Traced early quota exhaustion to duplicate CFS/OFS calls. Skipped tickers without financial statements and capped daily usage below the limit to preserve capacity for other jobs.",
+              "solution": "Split financial refreshes across several days. Recorded account-key-to-column mappings in a dedicated mapping table for traceability. Added a re-collection policy for data missed because of rate limits.",
+              "result": "Collected about 95% of 5,000+ reports in one run using fewer than 7,000 API calls. Quarterly and annual financials for thousands of listed and delisted tickers now land in the raw layer."
             }
           ],
           "aiHighlights": [
             {
               "title": "Re-architected a legacy crawler codebase via a multi-agent orchestrator (/restructure)",
               "summary": "Built a 9-agent custom pipeline that restructured a flat crawler codebase into a hexagonal-lite architecture with zero regressions.",
-              "context": "Refactoring a ~5,600-LOC, 27-file flat codebase in a single context was risky: with no domain boundaries, regression risk and verification overhead were high. A staged, verifiable multi-agent pipeline was needed.",
+              "context": "Refactoring a 5,000+-LOC, ~30-file flat codebase in a single context was risky: with no domain boundaries, regression risk and verification overhead were high. A staged, verifiable multi-agent pipeline was needed.",
               "approach": "Built nine custom agents — structure audit, data-flow mapping, domain classification, structure design/cross-review, migration planning, step execution, and regression validation — plus a /restructure command.\nRan it as Discovery → Design (cross-reviewed) → approval → Migration Plan → approval → atomic step-by-step execution.",
               "verification": "Each step ran in an isolated git worktree and had to pass a four-way regression check — pytest, AST diff, byte-equal, and import-graph — before merging. Critical legacy logic was preserved byte-equal in a separate module.",
-              "impact": "Completed 47 migration steps and 29 unit-level refactors with no regressions, and locked in 257 characterization tests. Restructured from 27 files into a 68-file, three-layer infra / shared / jobs architecture."
+              "impact": "Completed 40+ migration steps and nearly 30 unit-level refactors with no regressions, and locked in 250+ characterization tests. Restructured from ~30 files into a ~70-file, three-layer architecture."
+            },
+            {
+              "title": "Auto-Generated Characterization Test Campaign",
+              "summary": "Ran a 27-unit refactoring campaign (units 001–027) in which an AI agent generated characterization tests to pin existing behavior before each change.",
+              "context": "The legacy crawlers had no tests, leaving no safety net for credential removal, deferred engine initialization, or dedup consolidation.",
+              "approach": "Equipped the refactoring orchestrator with a characterization-test writer (CharTestWriter) plus safety-net, dry-run, and spec modes, iterating a pin-tests → change → verify cycle per file-scoped unit.\nRestricted all test runs to a safe_env with fake credentials so no real DB or API was ever touched.",
+              "verification": "Each unit's commit ships with a corresponding test file (30+ test files, 260+ test functions); pre-refactor pin tests judged not worth keeping were pruned by human review, with CharTestWriter hardened in the same pass.",
+              "impact": "The resulting test suite became the regression baseline for the subsequent 50+-step restructure and the round-3 dedup pass.\nNo quantitative effect beyond the test-asset count was measured."
             }
           ]
         },
@@ -98,16 +155,19 @@
           "name": "Monitoring Bot (Python)",
           "position": "Backend Engineer",
           "period": "Mar 2026 –",
+          "description": "A monitoring bot that checks collected data for gaps and delays and sends alerts",
           "highlights": [
             {
               "title": "Built a unified data-collection health-check framework",
-              "problem": "Monitors only flagged gaps at the symbol-list level, missing chunk-level gaps (a ticker missing a trading day after a batched insert), while adding a monitor piled up boilerplate and alerts were scattered across channels.",
-              "solution": "Abstracted gap detection into three layers (symbol presence, per-symbol row count vs. baseline, table-level distinct symbol count vs. baseline) with a runner, snapshot verifier, and cumulative baseline split into modules.\nConsolidated 11 check items under a single registry, removing boilerplate for new ones.\nUnified all statuses into one alert message and split the price section into US / KR.\nDiagnosed a full scan from a leftmost-prefix issue on a composite index and restored index usage via equality predicates.",
-              "result": "Chunk-level gap detection rose from 0–1 to 3–4 per week. Heaviest price health check dropped ~50s → ~2s (~25× faster). Scattered alerts consolidated into one message, surfacing 11 statuses on a single screen within ~90s."
+              "problem": "Reviewed the monitoring queries and found they only checked for missing symbol counts.",
+              "analysis": "Analyzed several days of per-symbol row-count trends and confirmed that partial data gaps went undetected.\nAlso found some queries were written without the indexes in mind, making monitoring slow.",
+              "solution": "Abstracted gap detection into three layers (symbol presence, per-symbol row count vs. baseline, table-level distinct symbol count vs. baseline) with a runner, snapshot verifier, and cumulative baseline split into modules.\nConsolidated 11 check items under a single registry, removing boilerplate for new ones.\nUnified all statuses into one alert message and split the price section into US / KR.\nRewrote the slow queries with the indexes in mind.",
+              "result": "Chunk-level gap detection rose from 0–1 to 3–4 per week. Heaviest price health check dropped from ~50s to ~2s. Scattered alerts consolidated into one message, surfacing 10+ statuses on a single screen within a minute or two."
             },
             {
               "title": "Isolated scheduler registration to eliminate full outages",
               "problem": "A bad schedule entry — invalid cron expression or missing handler — would raise during reload and abort the whole loop, halting every other job.",
+              "analysis": "Schedule reloads rebuilt the entire list at once. One invalid item aborted the rebuild and left healthy jobs unregistered.",
               "solution": "Wrapped the schedule rebuild loop with per-schedule try/except so one failure no longer aborts the entire reload.\nAdded a dedicated smoke-test job exercising the registration / execution path on a regular cadence.",
               "result": "Full-scheduler outages caused by a single bad schedule no longer occur."
             },
@@ -116,9 +176,48 @@
               "problem": "Every release required repeating the deployment manually, which was slow and left room for human error such as skipped steps.",
               "solution": "Consolidated a multi-step deployment process into a single automated command.\nAdded automatic pre-deployment checks to block faulty releases caused by missing or wrong settings.\nStandardized the process so every release runs the same way, removing repetitive manual work.",
               "result": "Manual deployments of ~10 minutes now complete automatically in ~10 seconds, removing repetitive manual work and the associated risk of error."
+            },
+            {
+              "title": "Published verdict logs and check-target roster to the DB",
+              "problem": "Bot verdicts disappeared as Slack messages scrolled away. The dashboard maintained a copied check-target roster, requiring a separate web change whenever the bot changed.",
+              "analysis": "Adopted a bot-publishes, web-reads model to remove duplicate maintenance. Designed storage and display for recovery-day re-verdicts. Preserved verdict logic and Slack delivery while requiring isolated logging failures and idempotent reruns.",
+              "solution": "UPSERTed each verdict into a verdict-log table immediately before Slack delivery. Published nearly 20 check targets to a target-roster table at runtime while retaining code as the source of truth. Applied latest-verdict and recovery-badge display rules.",
+              "result": "Check-target changes now reach the web automatically, leaving one maintenance point. The DB preserves all verdict history beyond what the truncated Slack message shows. The dashboard can browse complete re-verdict and recovery history."
             }
           ],
           "aiHighlights": []
+        },
+        "crawlMonitorWeb": {
+          "name": "Ingestion Observability Dashboard (Next.js)",
+          "position": "Sole developer",
+          "period": "Mar 2026 –",
+          "description": "An observability dashboard for checking collection status on a single screen",
+          "highlights": [
+            {
+              "title": "SSR/CSR split with a rollup-first cache",
+              "problem": "Opening the site took a long time before the first screen actually appeared.",
+              "analysis": "Since no component rendered at all, judged it to be an SSR-side issue. Commenting out the most suspicious query logic made rendering fast — meaning the initial AI implementation ran all heavy queries during SSR before returning HTML, blocking the entire first paint until the queries finished.",
+              "solution": "Moved the heavy queries to client-side fetching (CSR).\nStored previous monitoring data and same-day query results separately in a local SQLite file, and served that data through SSR.",
+              "result": "The SSR-everything version took 40+ seconds to serve HTML and open the dashboard; after the change, HTML serving plus cached-data load takes about 0.1s."
+            },
+            {
+              "title": "Unified verdicts under the bot engine",
+              "problem": "The web and bot scored the same collection DB with separate engines, producing conflicting verdicts.",
+              "analysis": "Found a macro indicator marked healthy despite missing time-series data. The web engine did not check the time series, so its status disagreed with Slack alerts. Consolidated verdict ownership under the bot.",
+              "solution": "Removed the web verdict engine and related queries, then consumed the bot's verdict log as read-only data. Displayed the bot's 4 levels (OK/WARN/CRIT/ERR) without mapping. Same-day re-verdicts use the latest row and show a recovery badge when applicable.",
+              "result": "Bot and web verdicts now remain consistent. A backfill script added over two months of historical verdicts. The period grid and full violations table show when an outage began and which items were missing."
+            }
+          ],
+          "aiHighlights": [
+            {
+              "title": "Validating AI-drafted plans against measurement",
+              "summary": "Produced structured planning artifacts first, then measured the target database directly and explicitly discarded every premise the measurements contradicted before writing implementation code.",
+              "context": "The monitored collection database had no organized schema information available at planning time, so planning had to assume table structure, scale and indexing. Implementing those assumptions unchecked would have built the entire verdict engine on a false foundation.",
+              "approach": "Fixed product definition, screens and data contracts as JSON planning artifacts up front.\nMeasured table existence, row counts, sizes, freshness-column indexing and query latency using read-only queries before implementation, recording results in a separate facts document.\nCompared measurements against planning premises and recorded each contradiction in the docs before revising the design.",
+              "verification": "Confirmed that the symbol coverage the plan assumed for one dataset did not match the actual DB, invalidating that premise throughout. Conversely, the v2 premise that vintage point-in-time data was impossible turned out to be false for price tables, reversing that decision. The v2 recollection-queue module was never built and is documented as unimplemented.",
+              "impact": "Implementation started with existence and indexing confirmed for nearly 20 target tables. No measurement was taken of how much development time this saved."
+            }
+          ]
         }
       }
     },
@@ -132,7 +231,7 @@
   "education": {
     "openUniv": {
       "title": "Korea National Open University",
-      "period": "Mar 2025 – Present",
+      "period": "Mar 2025 – Feb 2027 (Expected)",
       "grade": "B.S. (In progress)",
       "major": "Computer Science(4th Year)"
     },
@@ -183,15 +282,10 @@
     }
   },
   "skills": {
-    "framework": "Framework",
+    "frontend": "Frontend",
+    "backendData": "Backend · Data",
     "language": "Language",
-    "infra": "Environment"
-  },
-  "languages": {
-    "newTeps": {
-      "title": "New TEPS",
-      "score": "315 (Listening 109 / Vocabulary 30 / Grammar 27 / Reading 147)",
-      "period": "Jul 2024"
-    }
+    "tooling": "Testing · Env",
+    "ai": "AI"
   }
 }
