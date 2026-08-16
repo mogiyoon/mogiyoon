@@ -13,9 +13,12 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
     <motion.div variants={listVariants} className="space-y-8">
       {/* Awards */}
       <div>
-        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-content-muted">
-          {tCommon('info.awards')}
-        </p>
+        <div className="mb-4 flex items-center gap-3">
+          <p className="text-sm font-semibold uppercase tracking-widest text-content-muted">
+            {tCommon('info.awards')}
+          </p>
+          <div className="flex-1 h-px bg-slate-200" />
+        </div>
         <div className="relative">
           <div className="absolute left-[11px] top-3 bottom-3 w-px bg-slate-200 hidden sm:block" />
           <div className="space-y-3">
@@ -54,17 +57,15 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-sm font-semibold uppercase tracking-widest text-content-muted">
-          {tCommon('info.certificates')}
-        </span>
-        <div className="flex-1 h-px bg-slate-200" />
-      </div>
-
       {/* Certificates */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div>
+        <div className="mb-4 flex items-center gap-3">
+          <p className="text-sm font-semibold uppercase tracking-widest text-content-muted">
+            {tCommon('info.certificates')}
+          </p>
+          <div className="flex-1 h-px bg-slate-200" />
+        </div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {certs.map((item) => (
           <motion.div
             key={item.id}
@@ -84,6 +85,7 @@ const AwardsAndCertsTab: React.FC<{ awards: AwardItem[]; certs: CertItem[] }> = 
             </p>
           </motion.div>
         ))}
+        </div>
       </div>
     </motion.div>
   );

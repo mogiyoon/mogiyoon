@@ -74,16 +74,24 @@
   ],
   "skills": [
     {
-      "category": "framework",
-      "primary": ["React", "React Native", "Expo"],
+      "category": "frontend",
+      "primary": ["React", "React Native", "Expo", "Next.js"],
       "items": [
         "React",
         "React Native",
         "Expo",
         "Next.js",
-        "NestJS",
-        "FastAPI",
         "TanStack Query"
+      ]
+    },
+    {
+      "category": "backendData",
+      "primary": ["FastAPI", "MySQL"],
+      "items": [
+        "FastAPI",
+        "NestJS",
+        "MySQL",
+        "PostgreSQL"
       ]
     },
     {
@@ -97,27 +105,22 @@
       ]
     },
     {
-      "category": "data",
-      "primary": ["MySQL"],
-      "items": [
-        "MySQL",
-        "PostgreSQL",
-        "Selenium"
-      ]
-    },
-    {
-      "category": "testing",
+      "category": "tooling",
       "primary": ["Jest"],
       "items": [
         "Jest",
         "Detox",
-        "Vitest"
-      ]
-    },
-    {
-      "category": "infra",
-      "items": [
-        "AWS (EC2 · S3 · ALB · VPC · CloudFront)",
+        "Vitest",
+        "AWS",
+        "Docker",
+        "Firebase",
+        "EAS"
+      ],
+      "resumeItems": [
+        "Jest",
+        "Detox",
+        "Vitest",
+        "AWS (EC2 · S3 · CloudFront)",
         "Docker",
         "Firebase",
         "EAS"
@@ -131,11 +134,6 @@
         "MCP",
         "Multi-Agent Orchestration"
       ]
-    }
-  ],
-  "languages": [
-    {
-      "id": "newTeps"
     }
   ]
 }

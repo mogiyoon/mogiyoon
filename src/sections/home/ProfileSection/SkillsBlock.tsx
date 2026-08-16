@@ -28,48 +28,56 @@ const SkillsBlock: React.FC<{ data: SkillGroup[] }> = ({ data }) => {
 
   return (
     <div className="divide-y divide-slate-100">
-      {data.map((group) => (
-        <div key={group.category} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
-          <span className="shrink-0 w-24 pt-0.5 text-sm font-semibold uppercase tracking-widest text-content-muted">
-            {t(`skills.${group.category}`, { defaultValue: group.category })}
-          </span>
-          <div className="flex flex-wrap gap-1.5">
-            {group.items.map((item) => {
-              const tone = group.primary?.includes(item)
-                ? CHIP_TONE_CLASSES.primary
-                : CHIP_TONE_CLASSES.default;
+      {data.map((group) => {
+        const primarySet = new Set(group.primary ?? []);
+        // 주력 스택을 그룹 내 맨 앞으로 (stable sort — 나머지는 데이터 순서 유지)
+        const orderedItems = [...group.items].sort(
+          (a, b) => Number(primarySet.has(b)) - Number(primarySet.has(a)),
+        );
 
-              if (projectStacks.has(item)) {
+        return (
+          <div key={group.category} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
+            <span className="shrink-0 w-24 pt-0.5 text-sm font-semibold uppercase tracking-widest text-content-muted">
+              {t(`skills.${group.category}`, { defaultValue: group.category })}
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {orderedItems.map((item) => {
+                const tone = primarySet.has(item)
+                  ? CHIP_TONE_CLASSES.primary
+                  : CHIP_TONE_CLASSES.default;
+
+                if (projectStacks.has(item)) {
+                  return (
+                    <motion.button
+                      key={item}
+                      type="button"
+                      whileHover={{ y: -2 }}
+                      transition={animation.chipHover.transition}
+                      onClick={() =>
+                        navigate('/', { state: { activeTab: 'projects', stackFilter: item } })
+                      }
+                      className={`${CHIP_BASE_CLASS} ${tone} cursor-pointer hover:underline underline-offset-2`}
+                    >
+                      {item}
+                    </motion.button>
+                  );
+                }
+
                 return (
-                  <motion.button
+                  <motion.span
                     key={item}
-                    type="button"
                     whileHover={{ y: -2 }}
                     transition={animation.chipHover.transition}
-                    onClick={() =>
-                      navigate('/', { state: { activeTab: 'projects', stackFilter: item } })
-                    }
-                    className={`${CHIP_BASE_CLASS} ${tone} cursor-pointer`}
+                    className={`${CHIP_BASE_CLASS} ${tone} cursor-default`}
                   >
                     {item}
-                  </motion.button>
+                  </motion.span>
                 );
-              }
-
-              return (
-                <motion.span
-                  key={item}
-                  whileHover={{ y: -2 }}
-                  transition={animation.chipHover.transition}
-                  className={`${CHIP_BASE_CLASS} ${tone} cursor-default`}
-                >
-                  {item}
-                </motion.span>
-              );
-            })}
+              })}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

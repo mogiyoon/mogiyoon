@@ -25,11 +25,12 @@
   },
   "profileTabs": {
     "basics": "Basics",
-    "workSkills": "Experience & Skills",
+    "workSkills": "Skills & Experience",
     "education": "Education",
     "awardsAndCerts": "Awards & Certs"
   },
   "info": {
+    "skills": "Skills",
     "workExperience": "Work Experience",
     "education": "Education & Background",
     "awards": "Awards & Other",
