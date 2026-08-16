@@ -93,6 +93,10 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                       const projectPeriod = tIntro(`work.${item.id}.projects.${proj.id}.period`, {
                         defaultValue: '',
                       });
+                      const projectDescription = tIntro(
+                        `work.${item.id}.projects.${proj.id}.description`,
+                        { defaultValue: '' },
+                      );
                       const devSectionKey = `${item.id}-${proj.id}-dev`;
                       const aiSectionKey = `${item.id}-${proj.id}-ai`;
                       const isDevSectionOpen = toggledSections.has(devSectionKey);
@@ -114,6 +118,12 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                           {/* Project period */}
                           {projectPeriod && (
                             <p className="mb-2 text-xs text-content-muted">{projectPeriod}</p>
+                          )}
+                          {/* Project description — i18n 에 description 키가 있을 때만 표시 */}
+                          {projectDescription && (
+                            <p className="mb-2 text-sm leading-relaxed text-content-meta">
+                              {projectDescription}
+                            </p>
                           )}
                           {/* Tech stack */}
                           <div className="flex flex-wrap items-center gap-2 mb-4">
