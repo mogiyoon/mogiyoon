@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import PortfolioCard from "../../components/PortfolioCard";
 import PreparingCard from "../../components/PreparingCard";
@@ -26,18 +26,21 @@ const ProjectsSection: React.FC = () => {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [selectedDevKitId, setSelectedDevKitId] = useState<ProjectDevKitId | null>(null);
     const { projects, preparingProjects, isLoading } = useProjectLists();
-    const {
-        projectsGridRef,
-        projectCardRefs,
-        projectCardOffsetsReady,
-        hasPlayedProjectEntrance,
-        cardVariants,
-    } = useProjectGridEntrance({
-        projects,
-        selectedId,
-    });
     const devKitItems = useProjectDevKitItems();
-    const selectedStacks = useToggleSet<string>();
+    const location = useLocation();
+
+    // 스킬 칩 클릭 등으로 route state 에 stackFilter 가 실려 오면 해당 스택을 선택한 채 시작
+    const [initialStackFilter] = useState(
+        () => (location.state as { stackFilter?: string } | null)?.stackFilter ?? null,
+    );
+    const selectedStacks = useToggleSet<string>(initialStackFilter ? [initialStackFilter] : undefined);
+
+    // 뒤로가기/재마운트 시 필터가 다시 적용되지 않도록 소비한 state 는 제거
+    useEffect(() => {
+        if ((location.state as { stackFilter?: string } | null)?.stackFilter) {
+            navigate('/', { replace: true, state: { activeTab: 'projects' } });
+        }
+    }, [location.state, navigate]);
 
     // 프로젝트들에 태그된 스택을 사용 빈도순(동률이면 이름순)으로 나열
     const stackOptions = useMemo(() => {
@@ -60,6 +63,20 @@ const ProjectsSection: React.FC = () => {
             [...selectedStacks.ids].every((stack) => project.techStack?.includes(stack)),
         );
     }, [projects, selectedStacks.ids]);
+
+    // entrance 훅에는 실제로 렌더되는 목록을 넘긴다. 전체 목록을 넘기면 필터로
+    // 렌더되지 않은 카드의 ref 를 기다리느라 offsets 계산이 끝나지 않아
+    // 그리드와 플립 카드가 opacity 0 인 채로 남는다.
+    const {
+        projectsGridRef,
+        projectCardRefs,
+        projectCardOffsetsReady,
+        hasPlayedProjectEntrance,
+        cardVariants,
+    } = useProjectGridEntrance({
+        projects: visibleProjects,
+        selectedId,
+    });
 
     const handleCardClick = (projectId: string) => {
         setSelectedId(projectId);
@@ -108,6 +125,7 @@ const ProjectsSection: React.FC = () => {
                                 stacks={stackOptions}
                                 selectedStacks={selectedStacks.ids}
                                 onToggleStack={selectedStacks.toggle}
+                                stackFilterDefaultOpen={Boolean(initialStackFilter)}
                             />
                         </motion.div>
 

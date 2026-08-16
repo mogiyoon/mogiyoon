@@ -2,11 +2,11 @@
   "react-stable-timeline": {
     "title": "@mogiyoon/react-stable-timeline",
     "subtitle": "A React timeline library where event card rows stay locked through pan and zoom",
-    "description": "A React timeline component library that lays events side by side along a time axis, the way a chronological catalog page would. It started on vis-timeline, but the same event card kept hopping to a different row whenever the user panned or zoomed, so the row-placement pseudocode was authored in Korean by hand, reimplemented from scratch, and then extracted as a standalone library package.\n\nDistributed as a React 18+ / TypeScript package bundled with tsup. Label widths are measured directly in the browser, eliminating the label collisions that character-count estimates produced in Hangul- and CJK-mixed text. A viewport-clamp bug surfaced while validating the library inside Storytect (the worldbuilding editor that consumes it) was patched in 0.2.1.",
+    "description": "A React timeline component library that lays events side by side along a time axis, the way a chronological catalog page would. It started on vis-timeline, but the same event card kept hopping to a different row whenever the user panned or zoomed, so the row-placement pseudocode was authored in Korean by hand, reimplemented from scratch, and then extracted as a standalone library package.\n\nDistributed as a React 18+ / TypeScript package bundled with tsup. Label widths are measured directly in the browser, eliminating the label collisions that character-count estimates produced in Hangul- and CJK-mixed text. The library is validated inside Storytect, the worldbuilding editor that consumes it. Version 0.4.0 extracted the whole engine into the useTimeline headless hook (an API that exposes state and behavior without rendering anything) and added virtualized rendering, drag & drop, keyboard accessibility, and touch input.",
     "overview": {
       "projectType": "Personal Project",
       "introduction": "A React timeline component library where event card rows stay locked through pan and zoom",
-      "features": "Full-dataset first-fit row placement, Canvas2D label width measurement, zoom controls, trackpad-friendly interaction, controlled and uncontrolled viewport modes"
+      "features": "Full-dataset first-fit row placement, Canvas2D label width measurement, anchored zoom, trackpad and touch interaction, drag & drop, useTimeline headless hook, virtualized rendering, controlled and uncontrolled viewport modes"
     },
     "summaries": {
       "development": {
@@ -22,7 +22,7 @@
             "subtitle": "Designing the Row-Stable Placement Algorithm and Its TypeScript Implementation",
             "0": "The core of the row-stable mode is separating row computation from viewport movement: rows are decided once against the full dataset, and pan/zoom only translate coordinates afterwards. The hand-written pseudocode assumes a queue A (an ordered list of items to process) and a dictionary B (a key-value map of each row index to its rightmost end point). It reads: \"Sort items into queue A by (start time, name). Initialize dictionary B keyed by row index, valued by end point. Pop component C, compare its start to B[0]'s end point — if C starts later, place it on row 0 and update the end point; otherwise iterate the dictionary. If no row fits, insert into the row whose end-point distance is smallest in absolute value.\"",
             "1": "The actual implementation was refined to map queue A onto a (start, label)-sorted array and dictionary B onto a rowEndsPx array. The original proposal said \"insert into the closest row,\" but the implementation opens a new row instead to avoid label collisions.",
-            "2": "Time complexity is O(n log n) for the sort plus O(n·R) for placement, and the result is deterministic — the same input always produces the same output."
+            "2": "Row placement was switched from a linear scan to a segment tree, making both the sort and the placement O(n log n). The result is deterministic — the same input always produces the same output."
           },
           "2": {
             "subtitle": "Measuring Real Pixel Widths Instead of Estimating from Character Count",
@@ -34,6 +34,13 @@
             "subtitle": "Cursor-Anchored Zoom and Multiple Pan Inputs",
             "0": "Zoom ranges from 100% (fit, the default ratio that puts the entire dataset on screen) up to 5000%. The zoomFactor value tunes the per-step multiplier anywhere between 1.05 and 1.5.",
             "1": "Panning supports two-finger horizontal scroll and Shift + vertical wheel. Setting zoomStable to true freezes the row layout at fit zoom so rows stay still through every zoom level afterwards; the default is false, in which case rows recompute against the current viewport on each zoom."
+          },
+          "4": {
+            "subtitle": "Headless Hook Extraction Plus Virtualization and Drag & Drop",
+            "0": "The fixed default UI left little room for customization in projects with different design requirements, and once events grew into the tens of thousands, rendering every card to the DOM (the structure the browser uses to manage on-screen elements) made pan and zoom noticeably sluggish.",
+            "1": "Because row placement is fixed against the full dataset up front, every card's coordinates can be computed before anything renders. That property makes both a headless split — separating rendering from logic — and virtualization — culling off-screen cards from the DOM — achievable on the same foundation.",
+            "2": "Rendering and logic were separated: the useTimeline hook manages zoom, pan, row placement, and drag state, while the Timeline component only draws the UI. On top of that, virtualization renders only the cards in view to the DOM, and drag & drop lets cards be moved or resized along the time axis. Drags never mutate the data — new time values are passed through a callback (controlled) — and keyboard and touch are supported.",
+            "5": "Even with 20,000 events the DOM holds only about 200 nodes, and consumers can pick their customization depth in three steps: the default UI, the renderItem prop, or the fully headless hook."
           }
         }
       },
@@ -55,7 +62,8 @@
           "0": {
             "0": "Results",
             "1": "Published a first-fit row placement library on NPM, building on hand-designed data structures and algorithm and optimizing the implementation together with AI",
-            "2": "Eliminated label collisions in Hangul, CJK, and mixed-script text via Canvas2D measurement, and exported the first-fit placement function so layouts can also be precomputed in a worker"
+            "2": "Eliminated label collisions in Hangul, CJK, and mixed-script text via Canvas2D measurement, and exported the first-fit placement function so layouts can also be precomputed in a worker",
+            "3": "Added the useTimeline headless hook and virtualization in 0.4.0, keeping the DOM at about 200 nodes for a 20,000-event dataset"
           },
           "1": {
             "0": "Retrospective",
@@ -79,12 +87,16 @@
         "description": "Canvas2D measureText measures Hangul, CJK, and mixed-script text accurately"
       },
       {
-        "name": "🔍 Zoom Controls",
-        "description": "Supports 100% (fit) to 5000% zoom with cursor-anchored zoom"
+        "name": "🔍 Zoom & Pan Interaction",
+        "description": "100% (fit) to 5000% anchored zoom, two-finger scroll panning, Cmd/Ctrl + wheel zoom, and touch pinch zoom all supported"
       },
       {
-        "name": "🖱 Trackpad Interaction",
-        "description": "Two-finger horizontal scroll panning, Cmd/Ctrl + wheel anchored zoom, and drag panning all supported"
+        "name": "✋ Drag & Drop",
+        "description": "Move cards and resize ranges by drag or keyboard; the source data is never mutated — new times arrive through a callback"
+      },
+      {
+        "name": "🧩 Headless & Virtualized",
+        "description": "The useTimeline hook exposes the engine on its own, and virtualization renders 20,000 events with about 200 DOM nodes"
       },
       {
         "name": "🎚 Controlled / Uncontrolled",
@@ -103,11 +115,65 @@
       {
         "title": "Library Extraction + Validation",
         "content": "Extracted Storytect's internal timeline component as a standalone npm package bundled with tsup and shipped with TypeScript type definitions, then iterated up to 0.2.1 through the consumer-side validation cycle"
+      },
+      {
+        "title": "Headless Refactor + Feature Expansion",
+        "content": "Version 0.4.0 extracted the core logic into the useTimeline hook and added virtualization, drag & drop, keyboard accessibility, and touch input. A vitest suite (an automated test runner) and an esbuild-based demo playground guard against regressions"
       }
     ],
     "claudeInfo": {
       "summary": "User-designed algorithm + Claude-implemented TypeScript",
-      "details": "While working on Storytect, the user designed the queue + dictionary first-fit pseudocode in Korean by hand. Claude Code CLI as a single agent carried out the TypeScript implementation, the Canvas2D label-measurement infrastructure, the hooks-and-subcomponents refactor, and the documentation. Only the overflow case diverged from the user's proposal — instead of \"insert into the closest row,\" the implementation opens a new row to avoid label collisions. The controlled-mode clamp bug surfaced during in-app validation was fixed using a one-line patch the user wrote directly in the prompt."
+      "details": "While working on Storytect, the user designed the queue + dictionary first-fit pseudocode in Korean by hand. Claude Code CLI as a single agent carried out the TypeScript implementation, the Canvas2D label-measurement infrastructure, the hooks-and-subcomponents refactor, and the documentation. Only the overflow case diverged from the user's proposal — instead of \"insert into the closest row,\" the implementation opens a new row to avoid label collisions. The controlled-mode clamp bug surfaced during in-app validation was fixed using a one-line patch the user wrote directly in the prompt. The 0.4.0 headless refactor, virtualization, drag & drop, accessibility, and touch input were implemented together with Claude, and a vitest suite was added to guard against regressions."
+    },
+    "demo": {
+      "dataset": {
+        "real": "Real data",
+        "stress": "Stress (20k)"
+      },
+      "reset": "Reset changes",
+      "group": {
+        "interaction": "Drag",
+        "snap": "Snap",
+        "zoom": "Zoom",
+        "display": "Display"
+      },
+      "options": {
+        "move": "Move",
+        "resize": "Resize",
+        "snap": {
+          "none": "None",
+          "day": "1 day",
+          "week": "1 week"
+        },
+        "zoomStable": "Stable rows",
+        "blurCommit": "Commit on blur",
+        "hideToolbar": "Hide toolbar",
+        "cursor": "Now cursor",
+        "customRender": "Custom render",
+        "virtualization": "Virtualization"
+      },
+      "labels": {
+        "fit": "Fit",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "zoomRatio": "Zoom",
+        "empty": "No items to display",
+        "timeline": "Timeline"
+      },
+      "selected": {
+        "title": "Selected",
+        "empty": "Click an item to see its details"
+      },
+      "viewport": "Viewport",
+      "legend": {
+        "project": "Projects",
+        "work": "Work",
+        "education": "Education",
+        "award": "Awards",
+        "certificate": "Certificates"
+      },
+      "hint": "Drag to pan, ⌘/Ctrl+wheel to zoom. Enable drag toggles to move or resize items.",
+      "loading": "Loading timeline demo…"
     }
   }
 }

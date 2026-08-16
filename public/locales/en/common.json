@@ -3,10 +3,8 @@
   "projects": "Projects",
   "posts": "Posts",
   "lab": "Lab",
-
   "period": "Period",
   "position": "Position",
-
   "profile": "Profile",
   "highlight": {
     "problem": "Problem",
@@ -27,18 +25,17 @@
   },
   "profileTabs": {
     "basics": "Basics",
-    "workSkills": "Experience & Skills",
+    "workSkills": "Skills & Experience",
     "education": "Education",
     "awardsAndCerts": "Awards & Certs"
   },
-
   "info": {
+    "skills": "Skills",
     "workExperience": "Work Experience",
     "education": "Education & Background",
     "awards": "Awards & Other",
     "certificates": "Certificates"
   },
-
   "heroHook": {
     "eyebrow": "FROM FRICTION TO FLOW",
     "headlineLine1": "Tools that helped me study and pass—",
@@ -48,7 +45,6 @@
     "subAfter": ".",
     "scrollCue": "scroll to start"
   },
-
   "introLine1": "From using game editors",
   "introLine1-1": "back in elementary school",
   "introLine2": "To a quiz program",
@@ -77,13 +73,10 @@
   "mainPhrase8": "",
   "developerIntro": "I'm Giyoon Noh, a developer.",
   "language": "Language",
-
   "projectTitle": "PROJECT",
   "preparingProjectTitle": "UPCOMING PROJECTS",
-
   "postsPreparingMessage2": "In the meantime, you can check out my posts on Velog below.",
   "visitVelog": "Visit My Velog",
-
   "crazyAboutIntro1": "Moments of deep focus that went beyond simple curiosity.",
   "crazyAboutIntro2": "I'll be sharing the full stories soon.",
   "crazyAboutGameEditors": "Game Editors",
@@ -91,14 +84,12 @@
   "crazyAboutBlockCoding": "Block Coding",
   "crazyAboutMusicComposition": "Music Composition",
   "comingSoon": "Coming Soon",
-
   "summaryCategory": {
     "problem": "Problem",
     "analysis": "Analysis",
     "solution": "Solution",
     "result": "Result"
   },
-
   "projectDetail": {
     "overview": "Overview",
     "period": "Period",
@@ -116,7 +107,6 @@
     "license": "License",
     "licenseText": "This project is licensed under the <1>{{licenseName}}</1> license."
   },
-
   "answerChecker": {
     "problemLabel": "Problem",
     "correctAnswer": "Curriculum",
@@ -126,15 +116,12 @@
     "clearButton": "Clear",
     "resultLabel": "Result"
   },
-
   "backToMain": "Back to Main",
   "projectNotFound": "Project Not Found",
   "license": "License",
   "licenseText": "Licensed under the <0>{{licenseName}}</0>.",
-
   "linkCopied": "Link copied!",
   "linkCopyFailed": "Copy failed...",
-
   "resume": {
     "download": "Download Resume (DOCX)",
     "generating": "Generating resume...",
@@ -165,7 +152,11 @@
       "introBullets": "Intro Copy",
       "title": "Title",
       "body": "Body",
-      "empty": "Select the blocks you want to include and refine the wording here."
+      "empty": "Select the blocks you want to include and refine the wording here.",
+      "photo": "Photo",
+      "photoUpload": "Upload photo",
+      "photoChange": "Change photo",
+      "photoRemove": "Remove photo"
     },
     "previewSection": {
       "profile": "Profile",

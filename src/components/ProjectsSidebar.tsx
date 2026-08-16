@@ -23,6 +23,7 @@ interface ProjectsSidebarProps {
     stacks: string[];
     selectedStacks: Set<string>;
     onToggleStack: (stack: string) => void;
+    stackFilterDefaultOpen?: boolean;
 }
 
 const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
@@ -39,6 +40,7 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
     stacks,
     selectedStacks,
     onToggleStack,
+    stackFilterDefaultOpen = false,
 }) => {
     const devKitCardBlock = (
         <div className="rounded-card bg-surface p-4 shadow-lg sm:p-5">
@@ -78,6 +80,7 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
                         stacks={stacks}
                         selectedStacks={selectedStacks}
                         onToggleStack={onToggleStack}
+                        defaultOpen={stackFilterDefaultOpen}
                     />
                 </div>
             )}

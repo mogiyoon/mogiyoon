@@ -6,7 +6,7 @@
     "overview": {
       "projectType": "Personal Project",
       "introduction": "Desktop app that unfolds extracted story data as a codex, letting users browse it across multiple views and design their own Galpi (categories) and Yeoeum (diagrams) to construct their worldbuilding",
-      "features": "Instant JSON visualization, user-defined OO editor, global TimeBar, MCP server for external AI co-editing"
+      "features": "Instant JSON visualization, user-defined class editor, global TimeBar, MCP server for external AI co-editing"
     },
     "summaries": {
       "development": {
@@ -25,16 +25,16 @@
             "subtitle": "Promoting the TimeBar to a Global Axis",
             "caption": "A single time axis shared by every view",
             "0": "When the time axis lives only inside the timeline view, every other view (relations, wiki) needs duplicated time-handling code to highlight the same moment, or the time context is lost when switching views.",
-            "1": "PLANNING_REVISE redefined time as a semantic axis rather than a layout shape, and made it a principle that any time field auto-registers itself onto the TimeBar. Pulling the TimeBar out of view modes and placing it as a single component above every canvas also dovetails naturally with the user-defined OO model. The trade-off is that every item must carry a time field.",
+            "1": "PLANNING_REVISE redefined time as a semantic axis rather than a layout shape, and made it a principle that any time field auto-registers itself onto the TimeBar. Pulling the TimeBar out of view modes and placing it as a single component above every canvas also dovetails naturally with the user-defined class declaration model. The trade-off is that every item must carry a time field.",
             "2": "Promoted the existing time axis from inside the timeline view to a global component. The TimeBar sits pinned at the top of every view, and dragging it highlights items present at that point while fading the rest.",
             "3": "Consistent moment-highlighting works across every view including relations and wiki. The abstraction survived both visualization rewrites untouched."
           },
           "2": {
-            "subtitle": "User-Defined 4-Layer Object-Oriented Model (PLANNING_OO)",
-            "caption": "Template / Class / Field / Instance",
+            "subtitle": "User-Defined 4-Layer Class Model (PLANNING_OO)",
+            "caption": "Galpi (Class) / Field / Item (Instance) / Yeoeum (Diagram)",
             "0": "Listing 13 views drifted away from the single picture worldbuilders carried in their heads, and adding more views did not close the gap.",
             "1": "PLANNING_OO verified up-front via a 13-view → 6-template mapping table (Graph / Timeline / Matrix / Curve / List / Tree) that user-defined territory could expand without losing expressive power. Moving slot type declarations from code into user metadata unifies characters, events, and relations under one data shape, so meta-driven validation and inline wiki relation editing land naturally on the same structure.",
-            "2": "The OOP model was lifted into the editor as a four-layer structure of Galpi / fields / items / Yeoeum (PLANNING_OO.md). Relations were treated as items so that characters, events, and relationships share the same data shape, and SlotMeta.class_meta moved slot type declarations into user metadata.",
+            "2": "The editor adopted a four-layer class declaration model consisting of Galpi, fields, items, and Yeoeum (PLANNING_OO.md). Relations were treated as items so that characters, events, and relationships share the same data shape, and SlotMeta.class_meta moved slot type declarations into user metadata.",
             "3": "The slot type declaration UI, meta-driven validation, and inline relation editing in the wiki accumulated on top of the same structure."
           },
           "3": {
@@ -74,14 +74,6 @@
             "1": "The root cause was that row layout was decided against the current viewport rather than the full dataset. As the screen zoomed or moved, pixel coordinates changed and the library re-ran row-packing each time, shifting the same event onto different rows. Stabilization options (subgroup, stackSubgroups, etc.) were tried but did not behave as expected at runtime. The conclusion was that rows had to be decided once over the full data, with zoom/pan applying only coordinate transforms. Because this conflicts with vis-timeline's core assumption, switching to a direct implementation was the right call.",
             "2": "1. Tried every stabilization option vis-timeline exposed (subgroup, stackSubgroups, etc.) without resolving the issue\n\t2. Dropped the library and switched to a direct SVG/HTML implementation. Event rows are computed once from the full dataset, and zoom/pan only recomputes screen coordinates\n\t3. To prevent label overlap, used Canvas2D measureText to measure actual label widths and placed events with a First-Fit algorithm\n\t4. Migrated the TimeBar slider's calculation from numeric temporal-value space (year×10000 + month×100 + day) to real ms time values. This eliminated invalid dates like 'month=74, day=54' that JS Date silently overflowed into wildly different real moments\n\t5. When the snap step became finer than one slider-track pixel, small input jitter flipped the cursor between adjacent snap targets. Clamped the snap step to be no smaller than the screen pixel resolution\n\t6. Reserved fixed widths on the cursor readout and the left/right window labels so date-format changes no longer ripple into the slider width\n\t7. Extracted the direct implementation into a standalone npm package (@mogiyoon/react-stable-timeline). Storytect consumes it through a thin wrapper",
             "3": "Events now stay on the same row regardless of zoom or pan. The time axis no longer jitters during slider drag, and cursor jumps from input jitter are gone. Slider width collapse caused by date-format width changes is also resolved. The vis-timeline dependency was removed, and the stable timeline algorithm itself lives on as an npm package reusable in other projects."
-          },
-          "2": {
-            "subtitle": "User-Defined Chart Axes (X / Y axis picker)",
-            "caption": "Mapping Galpi, Galpi values, and time freely onto two axes",
-            "0": "In chart and matrix views, axes only accepted Galpi (class) categories, which kept users from shaping charts that fit their own worldbuilding. As the dataset grew, the lack of per-chart pan/zoom also blocked visibility into wider ranges.",
-            "1": "A visualization tool's freedom is ultimately bounded by what data can be mapped onto which axis. Letting users freely combine three axis sources — Galpi categories, Galpi field values (e.g. a character's age), and time — preserves the data freedom gained from the OO model into the visualization layer. Variant pickers that switch between line / bar / pie and per-axis pan/zoom belong to the same freedom-expansion arc.",
-            "2": "Introduced an X / Y axis picker into the diagram wizard so users choose which of Galpi, Galpi values, or time goes on each axis. Wired a variant picker that toggles the same data between line / bar / pie shapes. Added per-axis pan/zoom so the horizontal and vertical axes can be scaled and panned independently. Adopted an ms-based scale on the time axis so coordinate semantics align with the global TimeBar.",
-            "3": "Following the OO model rewrite and blank-canvas, this third round of visualization-freedom expansion lets users compare the same dataset across multiple axis combinations and chart shapes."
           }
         }
       },
@@ -92,7 +84,7 @@
             "0": "Results",
             "1": "Validated a Tauri + Next.js 16 + Rust desktop app stack with single-binary builds",
             "2": "Built an automatic Rust ↔ TypeScript type generation pipeline using specta + tauri-specta",
-            "3": "Designed a standardized JSON interface with the extraction skill that survived two visualization-layer rewrites (Fixed Catalog → OO → Blank Canvas)",
+            "3": "Designed a standardized JSON interface with the extraction skill that survived two visualization-layer rewrites (Fixed Catalog → User-Defined Class Declarations → Blank Canvas)",
             "4": "Implemented the friendly-language label dictionary (Galpi / Yeoeum), a unified 7-mode view toggle, and a folder-tree sidebar",
             "5": "Stood up an MCP server that exposes the same codex as a second entry point for external-AI co-editing",
             "6": "Built and operated two custom multi-agent orchestrators across the planning and implementation phases"
@@ -101,7 +93,7 @@
             "0": "Retrospective",
             "1": "Keeping each planning document separate (brief.md, PLANNING_OO.md, PLANNING_REVISE.md) preserved the assumptions from before and after each rewrite. The structural benefit of being able to trace decisions across both sides of every rewrite became tangible.",
             "2": "Confirmed that well-abstracted decisions survive rewrites. The global TimeBar abstraction and the extraction/rendering separation principle held intact across two full visualization rewrites.",
-            "3": "Learned the value of expanding user authority gradually. From fixed catalog form to user-defined OO to a blank free editor, each rewrite gave the user more authority over the shape of the tool itself."
+            "3": "Learned the value of expanding user authority gradually. From a fixed catalog, through user-defined class declarations, to a blank-canvas editor, each rewrite gave the user more authority over the shape of the tool itself."
           }
         }
       },
@@ -115,7 +107,7 @@
         "description": "Renders any standardized JSON folder produced by the extraction skill into wiki, relations graph, and timeline views immediately"
       },
       {
-        "name": "🧩 User-Defined OO Editor",
+        "name": "🧩 User-Defined Class Editor",
         "description": "Lets users design their own worldbuilding model across four layers: Galpi (class), fields, items, and Yeoeum (diagram)"
       },
       {
@@ -138,7 +130,7 @@
       },
       {
         "title": "Feature Implementation",
-        "content": "Built the 13-view catalog on the Tauri + Next.js stack, evolved into the OO 4-layer model with class_meta, then redesigned around a blank canvas with freeplace + a 7-mode view toggle + global ⌘Z split across 5 parts + a folder-tree sidebar, and added an MCP server entry point on top of the same standardized JSON folder for external-AI co-editing"
+        "content": "Built the 13-view catalog on the Tauri + Next.js stack, evolved into the 4-layer class model with class_meta, then redesigned around a blank canvas with freeplace + a 7-mode view toggle + global ⌘Z split across 5 parts + a folder-tree sidebar, and added an MCP server entry point on top of the same standardized JSON folder for external-AI co-editing"
       },
       {
         "title": "AI Collaboration",

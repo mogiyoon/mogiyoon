@@ -41,6 +41,9 @@ const ResumePreviewPage: React.FC = () => {
   const resumeSection = SEO_COPY[seoLocale].sections.resume;
   const [sourceData, setSourceData] = useState<ResumeBuilderData | null>(null);
   const [draft, setDraft] = useState<ResumeBuilderData | null>(null);
+  // 이력서 사진 — 배포 데이터에는 포함되지 않는 페이지 로컬 상태.
+  // 업로드 시 data URL 로 보관해 미리보기와 인쇄에 그대로 사용한다.
+  const [photoDataUrl, setPhotoDataUrl] = useState<string | null>(null);
   const selectedBlockIds = useToggleSet<string>();
   const includedProjectIds = useToggleSet<string>();
   const { reset: resetSelectedBlockIds } = selectedBlockIds;
@@ -100,6 +103,18 @@ const ResumePreviewPage: React.FC = () => {
     setDraft(cloneResumeData(sourceData));
     resetSelectedBlockIds(sourceData.defaultSelectedBlockIds);
     resetIncludedProjectIds(sourceData.defaultIncludedProjectIds);
+    setPhotoDataUrl(null);
+  };
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () =>
+      setPhotoDataUrl(typeof reader.result === "string" ? reader.result : null);
+    reader.readAsDataURL(file);
+    // 같은 파일을 다시 선택해도 change 가 발생하도록 입력값 초기화
+    e.target.value = "";
   };
 
   const {
@@ -247,6 +262,38 @@ const ResumePreviewPage: React.FC = () => {
               onToggle={() => togglePanel("basics")}
             >
               <div className="space-y-3.5">
+                <div>
+                  <FieldLabel>{t("resume.builder.photo")}</FieldLabel>
+                  <div className="flex items-center gap-3">
+                    {photoDataUrl && (
+                      <img
+                        src={photoDataUrl}
+                        alt=""
+                        className="h-20 w-[60px] shrink-0 rounded-lg border border-slate-200 bg-white object-cover shadow-sm"
+                      />
+                    )}
+                    <div className="flex flex-col items-start gap-1.5">
+                      <label className="cursor-pointer rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:border-slate-400">
+                        {t(photoDataUrl ? "resume.builder.photoChange" : "resume.builder.photoUpload")}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handlePhotoChange}
+                        />
+                      </label>
+                      {photoDataUrl && (
+                        <button
+                          type="button"
+                          onClick={() => setPhotoDataUrl(null)}
+                          className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-500 shadow-sm transition hover:border-red-300 hover:text-red-500"
+                        >
+                          {t("resume.builder.photoRemove")}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 <div>
                   <FieldLabel>{t("resume.builder.name")}</FieldLabel>
                   <InputField value={draft.profile.name} onChange={(e) => updateProfileField("name", e.target.value)} />
@@ -645,23 +692,28 @@ const ResumePreviewPage: React.FC = () => {
           <div className="flex min-w-0 justify-center print:block">
             <article className="resume-preview-page w-full max-w-[210mm] min-h-[297mm] rounded-paper-edge-lg bg-white px-6 py-5 shadow-resume-paper print:w-[210mm] print:rounded-none print:shadow-none">
               <header className="border-b border-slate-200 pb-4">
-                <div className="flex flex-wrap items-start justify-between gap-2.5">
+                <div className="flex items-center gap-5">
+                  {/* 업로드된 경우에만 표시 — 배포 기본 상태에는 사진 없음 */}
+                  {photoDataUrl && (
+                    <img
+                      src={photoDataUrl}
+                      alt=""
+                      className="h-36 w-[108px] shrink-0 rounded-md border border-slate-200 object-cover"
+                    />
+                  )}
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                      {t("resume.previewSection.profile")}
-                    </p>
-                    <h1 className="mt-1.5 text-[2rem] font-bold leading-none tracking-tight text-slate-950">
+                    <h1 className="text-[2rem] font-bold leading-none tracking-tight text-slate-950">
                       {draft.profile.name}
                     </h1>
                     <p className="mt-1 text-[15px] font-medium text-slate-600">{draft.profile.targetRole}</p>
-                  </div>
-                  <div className="grid gap-1 text-[13px] text-slate-700">
-                    <p>
-                      <span className="font-semibold text-slate-950">{t("resume.builder.email")}</span>: {draft.profile.email}
-                    </p>
-                    <p>
-                      <span className="font-semibold text-slate-950">{t("resume.builder.phone")}</span>: {draft.profile.phone}
-                    </p>
+                    <div className="mt-2.5 grid gap-1 text-[13px] text-slate-700">
+                      <p>
+                        <span className="font-semibold text-slate-950">{t("resume.builder.email")}</span>: {draft.profile.email}
+                      </p>
+                      <p>
+                        <span className="font-semibold text-slate-950">{t("resume.builder.phone")}</span>: {draft.profile.phone}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -692,6 +744,32 @@ const ResumePreviewPage: React.FC = () => {
               </header>
 
               <div className="mt-4 space-y-4">
+                <section className="resume-preview-section">
+                  <SectionHeading>{t("resume.previewSection.skills")}</SectionHeading>
+                  <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
+                    {draft.skills.map((skillGroup) => (
+                      <div
+                        key={`preview-skill-${skillGroup.category}`}
+                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
+                      >
+                        <p className="text-[13px] font-semibold text-slate-900">{skillGroup.label}</p>
+                        <p className="mt-1 text-[12.5px] leading-[1.42] text-slate-700">
+                          {skillGroup.items.map((item, itemIndex) => (
+                            <React.Fragment key={item}>
+                              {itemIndex > 0 && ", "}
+                              {skillGroup.primary?.includes(item) ? (
+                                <span className="font-semibold text-slate-900">{item}</span>
+                              ) : (
+                                item
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
                 <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.workExperience")}</SectionHeading>
                   <div className="mt-2.5 space-y-3">
@@ -816,21 +894,6 @@ const ResumePreviewPage: React.FC = () => {
                         <p className="mt-0.5 text-[12.5px] text-slate-700">{item.major}</p>
                         <p className="mt-1 text-[12.5px] text-slate-500">{item.grade}</p>
                         <p className="mt-2 text-[12.5px] font-medium text-slate-500">{item.period}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="resume-preview-section">
-                  <SectionHeading>{t("resume.previewSection.skills")}</SectionHeading>
-                  <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
-                    {draft.skills.map((skillGroup) => (
-                      <div
-                        key={`preview-skill-${skillGroup.category}`}
-                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
-                      >
-                        <p className="text-[13px] font-semibold text-slate-900">{skillGroup.label}</p>
-                        <p className="mt-1 text-[12.5px] leading-[1.42] text-slate-700">{skillGroup.items.join(", ")}</p>
                       </div>
                     ))}
                   </div>
