@@ -8,12 +8,14 @@
           "name": "Your Pension (React Native)",
           "position": "Frontend Engineer",
           "period": "Sep 2025 –",
+          "description": "A mobile app for viewing and managing pension assets",
           "highlights": [
             {
               "title": "API Separation & Prefetching",
-              "problem": "The user info API called on the main screen took 2–3 seconds, delaying the entire page load by the same amount.",
+              "problem": "Main-screen render time varied by user; for long-tenured accounts it sometimes took over 3 seconds.",
+              "analysis": "Measured call time for each API used on the main screen and found the user info API was the slowest.",
               "solution": "Designed a lightweight API with the backend team, selecting only the data needed for the main screen.\nShifted the heavy existing API to root-level rendering so it runs as background prefetching.\nRefactored other pages that were also redundantly calling the same API.",
-              "result": "Main screen load time: 2–3s → 0.6s. Pages with redundant calls refactored to near-zero or 0.3–0.4s."
+              "result": "Main screen load time: 3+ seconds → 0.6s. Pages with redundant calls refactored to near-zero or 0.3–0.4s."
             },
             {
               "title": "E2E Testing & Reinforcement Learning Integration",
@@ -24,13 +26,15 @@
             {
               "title": "Duplicate API Removal & Cache Management with Tanstack Query",
               "problem": "APIs fetching rarely-changing values on every focus event and APIs dependent on special states were causing dozens of redundant requests per session.",
-              "solution": "Identified APIs re-fetching on every focus and those tied only to special states.\nConfigured Tanstack Query's stale time to block unnecessary re-fetches.\nAfter mutations, used query client to mark related data as stale so it refetches only when needed.\nRemoved complex useEffect-based state management code.",
+              "analysis": "Profiled per-screen call patterns to identify APIs re-fetching rarely-changing values on every focus and those tied only to special states.",
+              "solution": "Configured Tanstack Query's stale time on the identified APIs to block unnecessary re-fetches.\nAfter mutations, used query client to mark related data as stale so it refetches only when needed.\nRemoved complex useEffect-based state management code.",
               "result": "API calls per session: dozens → 3–4; improved state management productivity."
             },
             {
               "title": "API Mock Testing Feature",
               "problem": "No way to arbitrarily change frontend UI state; test account limitations made diverse scenario testing impossible.",
-              "solution": "Introduced API Mock Adaptor and implemented internal state control features for key app states.\nAdded mock coverage for APIs accounting for 80% of usage by log volume.",
+              "analysis": "Analyzed API logs to rank endpoints by usage and selected the APIs accounting for 80% of call volume as mock targets.",
+              "solution": "Introduced API Mock Adaptor and implemented internal state control features for key app states.\nAdded mock coverage for the selected APIs.",
               "result": "Increased dev productivity and reduced bug occurrence rate compared to previous workflow."
             },
             {
@@ -50,6 +54,13 @@
               "problem": "Need arose to add automated testing to the deployment process and enable real-time OTA deployment, but no pipeline existed.",
               "solution": "Added automated test scripts via npm commands and configured EAS build and deploy.\nAdded EAS channels for OTA updates and distributed an internal test app.\nConfigured internal test builds via babel.config and metro.config to include mock features in the bundle.\nBuilt a 4-stage pipeline: local → internal test → final test → release.",
               "result": "Incident/bug response time: 2 days (iOS App Store review cycle) → 1 hour."
+            },
+            {
+              "title": "Server-driven UI for event banners and popups",
+              "problem": "Changing the copy, imagery, or buttons of the home event banner and popup required a full app release. The event list API had no field for marketing content, and adding one meant a backend schema change with coordinated deploys — while the screen was already live, so nothing could alter how existing plain-text events rendered.",
+              "analysis": "Identified the existing free-form description column as a content carrier, which made server-driven UI possible with zero changes to the API contract.\nBecause that column already held plain-text descriptions and its contents are unvalidated external input, format classification and failure policy had to be settled before implementation.",
+              "solution": "Centralized a single function that classifies description into spec (JSON), text, or none, so banners and popups share the same interpretation.\nServer-sent JSON is validated with zod — broken blocks are dropped individually, and unknown versions render only a fallback line.\nButtons keep only trusted URLs, and a close button is guaranteed so users can never get trapped in a popup.\nEvery new field is optional, so screens render exactly as before when the server omits them.",
+              "result": "Banner layout, popup blocks, button sets, and suppression windows became server-controlled without an app release, leaving both the event API schema and the legacy render path untouched.\nA malformed block now degrades to that block disappearing rather than the card collapsing, and no server misconfiguration can trap a user inside the popup.\nAdded 96 event-related tests (93 across 9 new files, 3 in existing files); the full suite of 52 files and 622 tests passes."
             }
           ],
           "aiHighlights": [
@@ -75,12 +86,28 @@
           "name": "Data Collection Crawlers (Python)",
           "position": "Data Engineer",
           "period": "Jan 2026 –",
+          "description": "Crawlers that automatically collect domestic and overseas stock prices, financials, and macro indicators every day",
           "highlights": [
             {
-              "title": "Extended collection coverage (full KR equities, US ETFs)",
-              "problem": "Collection was centered on major US names, with no coverage of the full Korean equity universe or US ETFs.",
-              "solution": "Added the full Korean equity market and US ETFs as new collection targets.\nAutomated universe refresh and daily price loading on separate schedules.\nReflected active and delisted symbols consistently after deduplication.",
-              "result": "New daily automated pipeline for the full Korean market (KOSPI+KOSDAQ, ~2,955 symbols) and US ETFs; full KR collection completes in ~1m 30s."
+              "title": "Introduced vendor raw data layer",
+              "problem": "Each crawler always collected its target data directly from external sources, so data overlapping across crawlers was fetched multiple times.",
+              "analysis": "Analyzed what the crawled datasets had in common and defined the collection pools that needed to be covered.",
+              "solution": "Created a raw_data schema and added dedicated crawlers for each collection pool.\nConverted the existing collection crawlers to copy the data gathered by the raw_data crawlers.\nSince some data may fall outside the defined pools and the raw crawlers themselves can fail, kept the existing collection code as a fallback path.",
+              "result": "Reduced duplicate collection cut API costs and token usage. In particular, even as new collection tasks are added, API costs and token usage stay fixed at current levels.\nFewer requests per minute also lowered the error rate."
+            },
+            {
+              "title": "Handled KR exchange-code reshuffle",
+              "problem": "EODHD's KR exchange-code reshuffle (legacy KS → split KO/KQ) left KOSPI stocks duplicated as ghost copies under KOSDAQ.\nThe price table's unique key was only (stock_id, date), so later-loaded ghost prices overwrote real KOSPI prices.",
+              "analysis": "Monitoring showed the number of collected symbols dropped sharply, so checked the collected symbols in the DB and found only around 20 KOSDAQ (KQ) symbols were being collected.",
+              "solution": "Reported the issue to EODHD support with a concrete case and reproduction steps.\nEODHD confirmed the error, fixed it, and replied by email.",
+              "result": "EODHD completed correcting the faulty data, and the contaminated rows remaining in our DB were removed."
+            },
+            {
+              "title": "Diagnosed and Fixed a MySQL Buffer Pool Bottleneck",
+              "problem": "A job that checked and replaced every row one by one took 4 hours. The server had 1TB of RAM, yet MySQL's buffer pool was still at its 128MB default.",
+              "analysis": "Drew up several hypotheses; since the job rewrote every row, an undersized buffer pool forcing repeated disk reads was the prime suspect.\nKept partitioning and index redesign as the fallback in case more memory didn't help.\nChecked memory usage of the processes already running on the server with free -h.",
+              "solution": "Sized the buffer pool conservatively at 16GB — about 1–2% of total RAM — since the server was shared with experiment workloads.",
+              "result": "Cut the job from 4 hours to 30 minutes, without resorting to partitioning or re-indexing."
             }
           ],
           "aiHighlights": [
@@ -91,6 +118,14 @@
               "approach": "Built nine custom agents — structure audit, data-flow mapping, domain classification, structure design/cross-review, migration planning, step execution, and regression validation — plus a /restructure command.\nRan it as Discovery → Design (cross-reviewed) → approval → Migration Plan → approval → atomic step-by-step execution.",
               "verification": "Each step ran in an isolated git worktree and had to pass a four-way regression check — pytest, AST diff, byte-equal, and import-graph — before merging. Critical legacy logic was preserved byte-equal in a separate module.",
               "impact": "Completed 47 migration steps and 29 unit-level refactors with no regressions, and locked in 257 characterization tests. Restructured from 27 files into a 68-file, three-layer infra / shared / jobs architecture."
+            },
+            {
+              "title": "Auto-Generated Characterization Test Campaign",
+              "summary": "Ran a 27-unit refactoring campaign (units 001–027) in which an AI agent generated characterization tests to pin existing behavior before each change.",
+              "context": "The legacy crawlers had no tests, leaving no safety net for credential removal, deferred engine initialization, or dedup consolidation.",
+              "approach": "Equipped the refactoring orchestrator with a characterization-test writer (CharTestWriter) plus safety-net, dry-run, and spec modes, iterating a pin-tests → change → verify cycle per file-scoped unit.\nRestricted all test runs to a safe_env with fake credentials so no real DB or API was ever touched.",
+              "verification": "Each unit's commit ships with a corresponding test file (33 tests/test_*_unit_0NN.py files, 267 test functions); pre-refactor pin tests judged not worth keeping were pruned by human review, with CharTestWriter hardened in the same pass.",
+              "impact": "The resulting test suite became the regression baseline for the subsequent 50-step restructure and the round-3 dedup pass.\nNo quantitative effect beyond the test-asset count was measured."
             }
           ]
         },
@@ -98,11 +133,13 @@
           "name": "Monitoring Bot (Python)",
           "position": "Backend Engineer",
           "period": "Mar 2026 –",
+          "description": "A monitoring bot that checks collected data for gaps and delays and sends alerts",
           "highlights": [
             {
               "title": "Built a unified data-collection health-check framework",
-              "problem": "Monitors only flagged gaps at the symbol-list level, missing chunk-level gaps (a ticker missing a trading day after a batched insert), while adding a monitor piled up boilerplate and alerts were scattered across channels.",
-              "solution": "Abstracted gap detection into three layers (symbol presence, per-symbol row count vs. baseline, table-level distinct symbol count vs. baseline) with a runner, snapshot verifier, and cumulative baseline split into modules.\nConsolidated 11 check items under a single registry, removing boilerplate for new ones.\nUnified all statuses into one alert message and split the price section into US / KR.\nDiagnosed a full scan from a leftmost-prefix issue on a composite index and restored index usage via equality predicates.",
+              "problem": "Reviewed the monitoring queries and found they only checked for missing symbol counts.",
+              "analysis": "Analyzed several days of per-symbol row-count trends and confirmed that partial data gaps went undetected.\nAlso found some queries were written without the indexes in mind, making monitoring slow.",
+              "solution": "Abstracted gap detection into three layers (symbol presence, per-symbol row count vs. baseline, table-level distinct symbol count vs. baseline) with a runner, snapshot verifier, and cumulative baseline split into modules.\nConsolidated 11 check items under a single registry, removing boilerplate for new ones.\nUnified all statuses into one alert message and split the price section into US / KR.\nRewrote the slow queries with the indexes in mind.",
               "result": "Chunk-level gap detection rose from 0–1 to 3–4 per week. Heaviest price health check dropped ~50s → ~2s (~25× faster). Scattered alerts consolidated into one message, surfacing 11 statuses on a single screen within ~90s."
             },
             {
@@ -119,6 +156,31 @@
             }
           ],
           "aiHighlights": []
+        },
+        "crawlMonitorWeb": {
+          "name": "Ingestion Observability Dashboard (Next.js)",
+          "position": "Sole developer",
+          "period": "Mar 2026 –",
+          "description": "An observability dashboard for checking collection status on a single screen",
+          "highlights": [
+            {
+              "title": "SSR/CSR split with a rollup-first cache",
+              "problem": "Opening the site took a long time before the first screen actually appeared.",
+              "analysis": "Since no component rendered at all, judged it to be an SSR-side issue. Commenting out the most suspicious query logic made rendering fast — meaning the initial AI implementation ran all heavy queries during SSR before returning HTML, blocking the entire first paint until the queries finished.",
+              "solution": "Moved the heavy queries to client-side fetching (CSR).\nStored previous monitoring data and same-day query results separately in a local SQLite file, and served that data through SSR.",
+              "result": "The SSR-everything version took 46.6s to serve HTML and open the dashboard; after the change, HTML serving plus cached-data load takes 117ms."
+            }
+          ],
+          "aiHighlights": [
+            {
+              "title": "Validating AI-drafted plans against measurement",
+              "summary": "Produced structured planning artifacts first, then measured the target database directly and explicitly discarded every premise the measurements contradicted before writing implementation code.",
+              "context": "The monitored database is an internal collection server with no schema documentation, so planning had to assume table structure, scale and indexing. Implementing those assumptions unchecked would have built the entire verdict engine on a false foundation.",
+              "approach": "Fixed product definition, screens and data contracts as JSON planning artifacts up front.\nMeasured table existence, row counts, sizes, freshness-column indexing and query latency using read-only queries before implementation, recording results in a separate facts document.\nCompared measurements against planning premises and recorded each contradiction in the docs before revising the design.",
+              "verification": "Confirmed that what the plan assumed to be a 500-symbol S&P500 universe is actually a top-71 universe, invalidating that premise throughout. Conversely, the v2 premise that vintage point-in-time data was impossible turned out to be false for price tables, reversing that decision. The v2 recollection-queue module was never built and is documented as unimplemented.",
+              "impact": "Implementation started with existence and indexing confirmed for all 19 target tables. No measurement was taken of how much development time this saved."
+            }
+          ]
         }
       }
     },
@@ -132,7 +194,7 @@
   "education": {
     "openUniv": {
       "title": "Korea National Open University",
-      "period": "Mar 2025 – Present",
+      "period": "Mar 2025 – Feb 2027 (Expected)",
       "grade": "B.S. (In progress)",
       "major": "Computer Science(4th Year)"
     },
@@ -183,15 +245,10 @@
     }
   },
   "skills": {
-    "framework": "Framework",
+    "frontend": "Frontend",
+    "backendData": "Backend · Data",
     "language": "Language",
-    "infra": "Environment"
-  },
-  "languages": {
-    "newTeps": {
-      "title": "New TEPS",
-      "score": "315 (Listening 109 / Vocabulary 30 / Grammar 27 / Reading 147)",
-      "period": "Jul 2024"
-    }
+    "tooling": "Testing · Env",
+    "ai": "AI"
   }
 }

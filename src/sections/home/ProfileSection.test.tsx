@@ -219,19 +219,20 @@ describe('ProfileSection', () => {
     expect(screen.getByText('certificate.certB.title')).toBeInTheDocument();
   });
 
-  it('WorkBlock starts with openWorkIdx=0 and lets user toggle the section open state', async () => {
+  it('WorkBlock starts with every company accordion closed and lets user toggle the open state', async () => {
     await renderSection();
 
     await clickDesktopTab('profileTabs.workSkills');
 
-    // companyA has projects → openWorkIdx defaults to 0 → its project name is visible
+    // 모든 회사 아코디언이 닫힌 채 시작 → 프로젝트 이름이 보이지 않음
     await waitFor(() => {
-      expect(
-        screen.getByText('work.companyA.projects.projA.name')
-      ).toBeInTheDocument();
+      expect(screen.getByText('work.companyA.title')).toBeInTheDocument();
     });
+    expect(
+      screen.queryByText('work.companyA.projects.projA.name')
+    ).not.toBeInTheDocument();
 
-    // toggle: clicking its header collapses the accordion
+    // open: clicking its header expands the accordion
     const companyAHeader = screen
       .getByText('work.companyA.title')
       .closest('button');
@@ -242,18 +243,18 @@ describe('ProfileSection', () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByText('work.companyA.projects.projA.name')
-      ).not.toBeInTheDocument();
+        screen.getByText('work.companyA.projects.projA.name')
+      ).toBeInTheDocument();
     });
 
-    // re-open
+    // toggle again: collapses back
     await act(async () => {
       fireEvent.click(companyAHeader!);
     });
     await waitFor(() => {
       expect(
-        screen.getByText('work.companyA.projects.projA.name')
-      ).toBeInTheDocument();
+        screen.queryByText('work.companyA.projects.projA.name')
+      ).not.toBeInTheDocument();
     });
   });
 

@@ -46,7 +46,7 @@ type IntroData = {
   education: Array<{ id: string }>;
   awards: Array<{ id: string }>;
   certificates: Array<{ id: string }>;
-  skills: Array<{ category: string; items: string[] }>;
+  skills: Array<{ category: string; items: string[]; primary?: string[]; resumeItems?: string[] }>;
   languages?: Array<{ id: string }>;
 };
 
@@ -150,7 +150,7 @@ export type ResumeBuilderData = {
   education: ResumeEducationEntry[];
   awards: ResumeAwardEntry[];
   certificates: ResumeCertificateEntry[];
-  skills: Array<{ category: string; label: string; items: string[] }>;
+  skills: Array<{ category: string; label: string; items: string[]; primary: string[] }>;
   languages: ResumeLanguageEntry[];
   defaultSelectedBlockIds: string[];
   defaultIncludedProjectIds: string[];
@@ -493,7 +493,9 @@ export const loadResumeBuilderData = async (language: string): Promise<ResumeBui
   const skills = introData.skills.map((skillGroup) => ({
     category: skillGroup.category,
     label: extractTextValue(tIntro, `skills.${skillGroup.category}`),
-    items: skillGroup.items,
+    // 이력서 전용 표기(resumeItems)가 있으면 우선 사용 (예: AWS 세부 서비스 병기)
+    items: skillGroup.resumeItems ?? skillGroup.items,
+    primary: skillGroup.primary ?? [],
   }));
 
   const languages = (introData.languages ?? []).map((item) => ({

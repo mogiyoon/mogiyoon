@@ -45,10 +45,13 @@ const AppContent: React.FC = () => {
     setHeaderTranslate(0);
   }, []);
 
-  // 메인 화면 + 최상단 스크롤에서만 hover-overlay 방식으로 동작
+  // 헤더 숨김/호버 동작은 자기소개 탭에서만 유지 — 다른 탭/페이지는 항상 노출
+  const isAboutTab = activeTab === 'about';
+
+  // 메인 화면(자기소개 탭) + 최상단 스크롤에서만 hover-overlay 방식으로 동작
   const isMainPageTop = useCallback(
-    () => window.location.pathname === '/' && window.scrollY <= 0,
-    []
+    () => window.location.pathname === '/' && window.scrollY <= 0 && isAboutTab,
+    [isAboutTab]
   );
 
   const handleHeaderMouseLeave = useCallback(() => {
@@ -95,6 +98,13 @@ const AppContent: React.FC = () => {
     if (isMobile) {
       return;
     }
+    // 자기소개 탭이 아니면 스크롤 숨김 없이 항상 노출
+    if (!(location.pathname === '/' && isAboutTab)) {
+      headerRevealed.current = true;
+      setIsSmoothReveal(true);
+      setHeaderTranslate(0);
+      return;
+    }
     const SCROLL_THRESHOLD = 20;
 
     const handleScroll = () => {
@@ -120,7 +130,7 @@ const AppContent: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobile]);
+  }, [isMobile, isAboutTab, location.pathname]);
 
   return (
     <main>
