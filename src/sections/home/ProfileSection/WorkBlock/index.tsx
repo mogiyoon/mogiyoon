@@ -13,7 +13,8 @@ import AiHighlightCard from './AiHighlightCard';
 const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
   const { t: tIntro } = useTranslation('introduction');
   const { t: tCommon } = useTranslation('common');
-  const [openWorkIdx, setOpenWorkIdx] = useState<number>(0);
+  // 회사 아코디언은 모두 닫힌 상태로 시작 (-1 = 열린 항목 없음)
+  const [openWorkIdx, setOpenWorkIdx] = useState<number>(-1);
   const openHighlights = useToggleSet<string>();
   const toggledSections = useToggleSet<string>();
 

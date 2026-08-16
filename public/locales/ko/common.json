@@ -25,11 +25,12 @@
   },
   "profileTabs": {
     "basics": "기본정보",
-    "workSkills": "경력 & 스킬",
+    "workSkills": "스킬 & 경력",
     "education": "학력",
     "awardsAndCerts": "수상 & 자격증"
   },
   "info": {
+    "skills": "스킬",
     "workExperience": "경력",
     "education": "교육 및 학력",
     "awards": "수상 및 기타",

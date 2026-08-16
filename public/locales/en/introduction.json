@@ -260,18 +260,10 @@
     }
   },
   "skills": {
-    "framework": "Framework · Library",
+    "frontend": "Frontend",
+    "backendData": "Backend · Data",
     "language": "Language",
-    "data": "Data",
-    "testing": "Testing",
-    "infra": "Environment",
-    "ai": "AI Tools"
-  },
-  "languages": {
-    "newTeps": {
-      "title": "New TEPS",
-      "score": "315 (Listening 109 / Vocabulary 30 / Grammar 27 / Reading 147)",
-      "period": "Jul 2024"
-    }
+    "tooling": "Testing · Env",
+    "ai": "AI"
   }
 }

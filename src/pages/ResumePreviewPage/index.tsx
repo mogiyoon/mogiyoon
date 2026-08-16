@@ -745,6 +745,32 @@ const ResumePreviewPage: React.FC = () => {
 
               <div className="mt-4 space-y-4">
                 <section className="resume-preview-section">
+                  <SectionHeading>{t("resume.previewSection.skills")}</SectionHeading>
+                  <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
+                    {draft.skills.map((skillGroup) => (
+                      <div
+                        key={`preview-skill-${skillGroup.category}`}
+                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
+                      >
+                        <p className="text-[13px] font-semibold text-slate-900">{skillGroup.label}</p>
+                        <p className="mt-1 text-[12.5px] leading-[1.42] text-slate-700">
+                          {skillGroup.items.map((item, itemIndex) => (
+                            <React.Fragment key={item}>
+                              {itemIndex > 0 && ", "}
+                              {skillGroup.primary?.includes(item) ? (
+                                <span className="font-semibold text-slate-900">{item}</span>
+                              ) : (
+                                item
+                              )}
+                            </React.Fragment>
+                          ))}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="resume-preview-section">
                   <SectionHeading>{t("resume.previewSection.workExperience")}</SectionHeading>
                   <div className="mt-2.5 space-y-3">
                     {draft.workExperience.map((work) => {
@@ -868,21 +894,6 @@ const ResumePreviewPage: React.FC = () => {
                         <p className="mt-0.5 text-[12.5px] text-slate-700">{item.major}</p>
                         <p className="mt-1 text-[12.5px] text-slate-500">{item.grade}</p>
                         <p className="mt-2 text-[12.5px] font-medium text-slate-500">{item.period}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="resume-preview-section">
-                  <SectionHeading>{t("resume.previewSection.skills")}</SectionHeading>
-                  <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
-                    {draft.skills.map((skillGroup) => (
-                      <div
-                        key={`preview-skill-${skillGroup.category}`}
-                        className="resume-preview-card rounded-paper-edge border border-slate-200 bg-white px-3.5 py-3"
-                      >
-                        <p className="text-[13px] font-semibold text-slate-900">{skillGroup.label}</p>
-                        <p className="mt-1 text-[12.5px] leading-[1.42] text-slate-700">{skillGroup.items.join(", ")}</p>
                       </div>
                     ))}
                   </div>
