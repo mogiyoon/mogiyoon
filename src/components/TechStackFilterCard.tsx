@@ -41,23 +41,22 @@ const TechStackFilterCard: React.FC<TechStackFilterCardProps> = ({
 
     return (
         <div className="rounded-card bg-surface p-4 shadow-lg sm:p-5">
+            {/* AI DevKit 카드와 동일한 정렬 (모바일 가운데, lg 왼쪽) — chevron 은 absolute 로 우측 고정 */}
             <button
                 type="button"
                 onClick={toggle}
                 aria-expanded={isOpen}
-                className="flex w-full items-center justify-between gap-2 text-left"
+                className="relative block w-full text-center lg:text-left"
             >
-                <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-content-muted">
-                        Tech Stack
-                    </span>
-                    <div className="mt-1 flex flex-wrap items-center justify-center gap-2 lg:justify-start">
-                        <h3 className="text-lg font-bold text-title">
-                            {title}
-                        </h3>
-                    </div>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-content-muted">
+                    Tech Stack
+                </span>
+                <div className="mt-1 flex flex-wrap items-center justify-center gap-2 lg:justify-start">
+                    <h3 className="text-lg font-bold text-title">
+                        {title}
+                    </h3>
                 </div>
-                <div className="text-content-muted">
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 text-content-muted">
                     <RotatingChevron isRotated={isOpen} size="md" />
                 </div>
             </button>
