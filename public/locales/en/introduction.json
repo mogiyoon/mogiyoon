@@ -8,6 +8,7 @@
           "name": "Your Pension (React Native)",
           "position": "Frontend Engineer",
           "period": "Sep 2025 –",
+          "description": "A mobile app for viewing and managing pension assets",
           "highlights": [
             {
               "title": "API Separation & Prefetching",
@@ -85,6 +86,7 @@
           "name": "Data Collection Crawlers (Python)",
           "position": "Data Engineer",
           "period": "Jan 2026 –",
+          "description": "Crawlers that automatically collect domestic and overseas stock prices, financials, and macro indicators every day",
           "highlights": [
             {
               "title": "Introduced vendor raw data layer",
@@ -131,6 +133,7 @@
           "name": "Monitoring Bot (Python)",
           "position": "Backend Engineer",
           "period": "Mar 2026 –",
+          "description": "A monitoring bot that checks collected data for gaps and delays and sends alerts",
           "highlights": [
             {
               "title": "Built a unified data-collection health-check framework",
@@ -158,32 +161,14 @@
           "name": "Ingestion Observability Dashboard (Next.js)",
           "position": "Sole developer",
           "period": "Mar 2026 –",
+          "description": "An observability dashboard for checking collection status on a single screen",
           "highlights": [
             {
               "title": "SSR/CSR split with a rollup-first cache",
-              "problem": "Verdicts had to be recomputed against a 170M-row, 29GB vintage price table that re-ingests full history under a new filing_date every day. Three query classes blew past the 25s statement ceiling, and two freshness columns had no index at all (13.1s and 4.7s). Dashboard traffic risked starving the crawl jobs sharing the same server.\nThe initial implementation ran all of these heavy queries during SSR before returning HTML, blocking the entire first paint until every query finished.",
-              "analysis": "Benchmarked 19 queries directly against the server before writing the app, recording row counts, table sizes, index coverage and latency. Index position on the freshness column proved to be the only variable driving cost — and it can be detected from information_schema at boot.",
-              "solution": "Split rendering into two paths: SSR returns the first HTML from cached local SQLite only, while monitoring queries against the collection DB moved to the client (CSR) after the page loads.\nPersisted every verdict to a local SQLite rollup; the dashboard reads the rollup first and recomputes only what is past TTL.\nSplit TTL into two tiers — 300s for indexed tasks, 6h for unindexed ones.\nCapped the pool at 4 connections and re-applied MAX_EXECUTION_TIME on every checkout, since pooled connections carry prior session state.\nPushed every aggregation over 25s to a nightly warmer and served all exploration screens entirely from local SQLite.",
-              "result": "Cut dashboard load from 46.6s cold to 117ms warm (measurement recorded in the project README). Trend charts, heatmaps and sparklines no longer touch MySQL, so filter interaction adds zero load to the collection server."
-            },
-            {
-              "title": "Coverage for the raw-ingestion blind spot",
-              "problem": "After the vendor read-through migration, the raw schema became the only place calling vendor APIs — but the existing monitoring bot only watched the curated schema. Curated jobs run in copy mode, so when raw stalls they silently re-copy yesterday's data and exit 0. Logs looked clean and no alert ever fired.",
-              "analysis": "Raw tables are append-only, so curated thresholds do not transfer: KR daily bars swing between 2,065 and 3,888 symbols a day and one copy job writes 4 rows on a normal day. Gating on symbol count would have flagged half of all healthy days. Cron runs Mon–Sat, so measuring lag in calendar days would turn every Monday red.\nAlso measured read costs up front: freshness MAX reads take 4–7ms while vintage DISTINCT aggregations take 7.8s — a four-order-of-magnitude gap.",
-              "solution": "Declared 9 raw jobs in a registry and built a separate verdict path treating freshness as the primary signal and row count as secondary.\nMeasured lag as missed runs excluding Sundays rather than elapsed days — one miss warns, two or more fails.\nBuilt a reconciliation table pairing raw and curated freshness maxima, surfacing copy-only operation as a distinct state.\nClassified dates preceding a table's first ingestion as indeterminate rather than failed, so the pre-migration window is not recorded as one long incident.\nKept only the light freshness reads on the request path and deferred vintage aggregations to the warmer — the inverse of the curated caching strategy, documented inline with the measurements behind it.",
-              "result": "Surfaced two defects the existing alerting had never reported: a KR financials raw job stalled since 2026-07-27, and an S&P500 raw job collecting only 501 of 503 symbols. For the latter, traced the ticker-notation mismatch to both the producer (requesting dash notation) and the consumer (assuming dot notation) and wrote up a one-line fix."
-            },
-            {
-              "title": "Automated upstream drift detection",
-              "problem": "Task definitions live in a monitoring-bot repo and raw job definitions in a crawler repo — both outside this repository. Hand-copying them means a newly added upstream task leaves the dashboard quietly showing all-green, and in a monitoring tool that failure mode never raises an alert.",
-              "solution": "Wrote an extractor that parses registry.py via ast instead of importing it, so it runs without any of the bot's runtime dependencies.\nStored the source sha256 alongside the output; a --check mode exits 1 on hash mismatch and prints exactly which tasks were added or removed.\nRaw jobs have no upstream declaration to extract, so added a second check that walks the crawler job tree, matches raw table references against the hand-written registry, and verifies that the source paths quoted in the UI's rerun commands actually exist.\nReused the extracted table and column lists as the SQL identifier allowlist, so definitions and the query builder share one source of truth.\nWhere the upstream repo is absent, the check passes but prints that verification did not happen — distinguishing a passing check from a skipped one.",
-              "result": "Any drift across 11 tasks and 9 raw jobs surfaces from a single command. The Docker build re-extracts when the upstream source is mounted, eliminating image-to-upstream divergence."
-            },
-            {
-              "title": "Cross-platform NAS container delivery",
-              "problem": "The deployment target is an internal NAS operated only through a GUI. Building on an Apple Silicon machine yields an arm64 image, and native modules like better-sqlite3 keep the container from even starting on the x86 NAS.",
-              "solution": "Wrote a build script that cross-builds an x86 image via buildx, exports it to a tar, and prints the resulting architecture immediately so a wrong-arch image never reaches the NAS.\nUsed Next.js standalone output so the image runs without node_modules, and kept credentials and the local SQLite file out of the image.",
-              "result": "Deployment reduced to entering port, volume and DB credentials in a GUI form. The verdict-history volume survives container deletion, and SQLite migrations run automatically at startup."
+              "problem": "Opening the site took a long time before the first screen actually appeared.",
+              "analysis": "Since no component rendered at all, judged it to be an SSR-side issue. Commenting out the most suspicious query logic made rendering fast — meaning the initial AI implementation ran all heavy queries during SSR before returning HTML, blocking the entire first paint until the queries finished.",
+              "solution": "Moved the heavy queries to client-side fetching (CSR).\nStored previous monitoring data and same-day query results separately in a local SQLite file, and served that data through SSR.",
+              "result": "The SSR-everything version took 46.6s to serve HTML and open the dashboard; after the change, HTML serving plus cached-data load takes 117ms."
             }
           ],
           "aiHighlights": [
