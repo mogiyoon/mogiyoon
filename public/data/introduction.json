@@ -75,13 +75,15 @@
   "skills": [
     {
       "category": "frontend",
-      "primary": ["React", "React Native", "Expo", "Next.js"],
+      "primary": ["React", "React Native", "Expo", "Next.js", "Redux"],
       "items": [
         "React",
         "React Native",
         "Expo",
         "Next.js",
-        "TanStack Query"
+        "TanStack Query",
+        "Redux",
+        "Tailwind CSS"
       ]
     },
     {
@@ -91,7 +93,16 @@
         "FastAPI",
         "NestJS",
         "MySQL",
-        "PostgreSQL"
+        "PostgreSQL",
+        "Redis"
+      ]
+    },
+    {
+      "category": "data",
+      "primary": ["pandas", "Selenium"],
+      "items": [
+        "pandas",
+        "Selenium"
       ]
     },
     {
@@ -109,21 +120,15 @@
       "primary": ["Jest"],
       "items": [
         "Jest",
-        "Detox",
-        "Vitest",
         "AWS",
         "Docker",
-        "Firebase",
-        "EAS"
+        "Firebase"
       ],
       "resumeItems": [
         "Jest",
-        "Detox",
-        "Vitest",
         "AWS (EC2 · S3 · CloudFront)",
         "Docker",
-        "Firebase",
-        "EAS"
+        "Firebase"
       ]
     },
     {
@@ -132,7 +137,8 @@
       "items": [
         "Claude Code",
         "MCP",
-        "Multi-Agent Orchestration"
+        "Multi-Agent Orchestration",
+        "OpenAI API"
       ]
     }
   ]
