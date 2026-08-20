@@ -5,6 +5,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  /* 히어로 스택 서브 줄 무한 루프 마퀴 — 내용을 2벌 이어붙이고 절반만큼 이동을 반복.
+     prefers-reduced-motion 사용자는 아래 @layer base 의 축소 규칙으로 정지됨 */
+  .stack-marquee {
+    display: flex;
+    width: max-content;
+    animation: stack-marquee 24s linear infinite;
+  }
+  .stack-marquee:hover {
+    animation-play-state: paused;
+  }
+  @keyframes stack-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
 @layer base {
   /* 키보드 포커스 표시 (WCAG 2.4.7). 마우스 클릭에는 나타나지 않도록 :focus-visible 만 사용.
      색은 design-tokens 의 accent indigo500 과 동일. */
