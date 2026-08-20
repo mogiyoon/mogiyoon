@@ -63,9 +63,10 @@ const HomePage: React.FC<HomePageProps> = ({ activeTab }) => {
         path="/"
         locale={seoLocale}
       />
-      <main className={mainClassName}>
+      {/* main 랜드마크는 App 에 하나만 둔다 (중첩 main 방지) */}
+      <div className={mainClassName}>
         {renderContent()}
-      </main>
+      </div>
     </>
   );
 };

@@ -17,7 +17,7 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ item, onClose }) => (
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-700">
           {item.eyebrow}
         </p>
-        <h3 className="mt-2 text-2xl font-bold text-content sm:text-3xl">
+        <h3 id="ai-devkit-modal-title" className="mt-2 text-2xl font-bold text-content sm:text-3xl">
           {item.title}
         </h3>
       </div>

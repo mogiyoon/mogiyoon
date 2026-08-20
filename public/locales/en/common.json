@@ -6,6 +6,9 @@
   "period": "Period",
   "position": "Position",
   "profile": "Profile",
+  "skipToContent": "Skip to content",
+  "mainNavigation": "Main navigation",
+  "contactInfo": "Contact info",
   "highlight": {
     "problem": "Problem",
     "analysis": "Analysis",

@@ -6,6 +6,9 @@
   "period": "기간",
   "position": "직무",
   "profile": "프로필",
+  "skipToContent": "본문으로 건너뛰기",
+  "mainNavigation": "주요 메뉴",
+  "contactInfo": "연락처 보기",
   "highlight": {
     "problem": "문제",
     "analysis": "분석",

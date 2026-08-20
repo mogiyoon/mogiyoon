@@ -5,6 +5,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* 키보드 포커스 표시 (WCAG 2.4.7). 마우스 클릭에는 나타나지 않도록 :focus-visible 만 사용.
+     색은 design-tokens 의 accent indigo500 과 동일. */
+  :focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+
+  /* OS 의 '동작 줄이기' 설정을 켠 사용자에게는 CSS 애니메이션/전환을 사실상 즉시 끝낸다.
+     (framer-motion 쪽은 App 의 MotionConfig reducedMotion="user" 가 담당) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
 html,
 body,
 #root {

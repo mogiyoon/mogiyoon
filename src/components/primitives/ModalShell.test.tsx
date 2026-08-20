@@ -128,4 +128,26 @@ describe('ModalShell', () => {
     expect(backdrop.className).toContain('custom-backdrop');
     expect(backdrop.className).toContain('bg-black/50');
   });
+
+  it('exposes the panel as a modal dialog named by ariaLabelledBy', () => {
+    render(
+      <ModalShell isOpen={true} onClose={() => undefined} ariaLabelledBy="shell-title">
+        <h2 id="shell-title">Title</h2>
+      </ModalShell>
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Title' });
+    expect(dialog.getAttribute('aria-modal')).toBe('true');
+    expect(dialog.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('falls back to ariaLabel when no ariaLabelledBy is given', () => {
+    render(
+      <ModalShell isOpen={true} onClose={() => undefined} ariaLabel="Fallback name">
+        <p>body</p>
+      </ModalShell>
+    );
+
+    expect(screen.getByRole('dialog', { name: 'Fallback name' })).toBeInTheDocument();
+  });
 });

@@ -32,4 +32,13 @@ i18n
     },
   });
 
+// <html lang> 을 현재 언어와 맞춘다 (WCAG 3.1.1 페이지 언어). index.html 은 ko 고정이라
+// 영어로 바꾼 뒤에도 스크린리더가 한국어 발음 규칙으로 읽는 문제를 막는다.
+const syncDocumentLanguage = (language: string) => {
+  if (typeof document === 'undefined') return;
+  document.documentElement.lang = language.startsWith('en') ? 'en' : 'ko';
+};
+syncDocumentLanguage(i18n.language ?? 'ko');
+i18n.on('languageChanged', syncDocumentLanguage);
+
 export default i18n;

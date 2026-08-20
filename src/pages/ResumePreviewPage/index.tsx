@@ -992,9 +992,10 @@ const ResumePreviewPage: React.FC = () => {
         isOpen={!canShowSidebar && isEditorModalOpen}
         onClose={closeEditorModal}
         className="fixed inset-x-3 bottom-3 top-24 mx-auto max-w-xl flex flex-col overflow-hidden"
+        ariaLabelledBy="resume-editor-modal-title"
       >
         <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-3.5 py-3">
-          <h2 className="text-lg font-bold text-slate-950">{t("resume.editDraft")}</h2>
+          <h2 id="resume-editor-modal-title" className="text-lg font-bold text-slate-950">{t("resume.editDraft")}</h2>
           <button
             type="button"
             onClick={closeEditorModal}

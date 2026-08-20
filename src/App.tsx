@@ -2,13 +2,14 @@
 // src/App.tsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ResumePreviewPage from "./pages/ResumePreviewPage";
 import ScrollToTop from "./components/ScrollToTop";
 import ContactModal from "./components/ContactModal";
 import PageHeader from "./components/PageHeader";
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { useDisclosure } from "./hooks/useDisclosure";
 import { useMediaQuery } from "./hooks/useMediaQuery";
 import { easings } from "./design-tokens";
@@ -27,6 +28,7 @@ const HEADER_HEIGHT = 80;
 const HEADER_REVEAL_DELAY_MS = 2500;
 
 const AppContent: React.FC = () => {
+  const { t } = useTranslation();
   const { isOpen: isContactModalOpen, open: openContactModal, close: closeContactModal } = useDisclosure(false);
   const [activeTab, setActiveTab] = useState(getInitialTab);
   const [headerTranslate, setHeaderTranslate] = useState(() =>
@@ -133,7 +135,15 @@ const AppContent: React.FC = () => {
   }, [isMobile, isAboutTab, location.pathname]);
 
   return (
-    <main>
+    <div>
+      {/* 키보드 사용자가 헤더를 건너뛰고 본문으로 바로 갈 수 있는 링크 (WCAG 2.4.1 / KWCAG 6.4.1).
+          평소엔 sr-only, 포커스가 오면 화면 좌상단에 나타난다. */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-card focus:bg-slate-900 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+      >
+        {t('skipToContent')}
+      </a>
       {/* 헤더가 숨겨져 있을 때 상단 가장자리 호버로 다시 나타나게 하는 감지 영역 */}
       {!isMobile && headerTranslate < 0 && (
         <div
@@ -163,22 +173,29 @@ const AppContent: React.FC = () => {
       </div>
       
       <ScrollToTop />
-      <AnimatePresence mode='wait'>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<HomePage activeTab={activeTab} />} />
-          <Route path="/project/:projectId" element={<ProjectDetailPage />} />
-          <Route path="/resume-preview" element={<ResumePreviewPage />} />
-        </Routes>
-      </AnimatePresence>
+      {/* 페이지당 main 랜드마크는 하나. tabIndex=-1 은 skip link 로 포커스를 옮기기 위함 */}
+      <main id="main-content" tabIndex={-1} className="outline-none">
+        <AnimatePresence mode='wait'>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<HomePage activeTab={activeTab} />} />
+            <Route path="/project/:projectId" element={<ProjectDetailPage />} />
+            <Route path="/resume-preview" element={<ResumePreviewPage />} />
+          </Routes>
+        </AnimatePresence>
+      </main>
       <ContactModal isOpen={isContactModalOpen} onClose={closeContactModal} />
-    </main>
+    </div>
   );
 };
 
 const App: React.FC = () => {
   return (
     <Router>
-      <AppContent />
+      {/* reducedMotion="user": OS 의 '동작 줄이기' 설정을 켠 사용자에게는 framer-motion 의
+          transform/layout 애니메이션을 건너뛴다 (opacity 전환은 유지) */}
+      <MotionConfig reducedMotion="user">
+        <AppContent />
+      </MotionConfig>
     </Router>
   );
 };

@@ -10,6 +10,10 @@ export interface ModalShellProps {
   className?: string;
   /** Backdrop className override / additions. Appended after the default backdrop classes. */
   backdropClassName?: string;
+  /** 다이얼로그의 접근 가능한 이름 (WCAG 4.1.2). 패널 안 제목 요소의 id 를 넘긴다. */
+  ariaLabelledBy?: string;
+  /** 제목 요소가 없을 때 쓰는 문자열 이름. ariaLabelledBy 가 있으면 그쪽이 우선. */
+  ariaLabel?: string;
 }
 
 const DEFAULT_BACKDROP_CLASSES = 'fixed inset-0 z-50 bg-black/50';
@@ -30,6 +34,8 @@ const ModalShell: React.FC<ModalShellProps> = ({
   children,
   className,
   backdropClassName,
+  ariaLabelledBy,
+  ariaLabel,
 }) => {
   useBodyScrollLock(isOpen);
   useEscapeKey(isOpen ? onClose : null, isOpen);
@@ -45,7 +51,14 @@ const ModalShell: React.FC<ModalShellProps> = ({
 
   return (
     <div className={backdropClass} onClick={onClose}>
-      <div className={panelClass} onClick={(event) => event.stopPropagation()}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={ariaLabelledBy}
+        aria-label={ariaLabelledBy ? undefined : ariaLabel}
+        className={panelClass}
+        onClick={(event) => event.stopPropagation()}
+      >
         {children}
       </div>
     </div>
