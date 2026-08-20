@@ -1,7 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import { PROJECT_CARD_EASE } from '../hooks/useProjectGridEntrance';
+import { useMediaQuery } from '../hooks/useMediaQuery';
+import { collapseVerticalPreset } from '../utils/motionPresets';
 import type { ProjectDevKitCardData, ProjectDevKitId } from '../hooks/useProjectDevKitItems';
 import type { ProjectSummary } from '../types';
 import AiDevKitCard from './AiDevKitCard';
@@ -42,6 +44,12 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
     onToggleStack,
     stackFilterDefaultOpen = false,
 }) => {
+    // 기술 스택 필터가 펼쳐진 동안에는 데스크톱(lg, 사이드바가 sticky 인 레이아웃)에서
+    // 플립 프리뷰 카드를 접는다. 필터 칩 목록까지 편 사이드바가 뷰포트보다 길어져
+    // 하단 카드가 잘리는 것을 막고, 필터에 집중하게 한다. 작은 화면(세로 적층)은 그대로 둔다.
+    const [isStackFilterOpen, setIsStackFilterOpen] = useState(stackFilterDefaultOpen);
+    const isDesktop = useMediaQuery('(min-width: 1024px)'); // Tailwind lg
+    const showFlipPreview = projects.length > 0 && !(isDesktop && isStackFilterOpen);
     const devKitCardBlock = (
         <div className="rounded-card bg-surface p-4 shadow-lg sm:p-5">
             <div className="mb-4">
@@ -81,6 +89,7 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
                         selectedStacks={selectedStacks}
                         onToggleStack={onToggleStack}
                         defaultOpen={stackFilterDefaultOpen}
+                        onOpenChange={setIsStackFilterOpen}
                     />
                 </div>
             )}
@@ -90,17 +99,24 @@ const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({
 
     return (
         <StickySectionSidebar title={title} subtitle={subtitle}>
-            {projects.length > 0 && (
-                <motion.div
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={hasPlayedProjectEntrance ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-                    transition={{ duration: 0.45, ease: PROJECT_CARD_EASE }}
-                >
-                    <ProjectFlipPreviewCard projects={projects} />
-                </motion.div>
-            )}
+            <AnimatePresence initial={false}>
+                {showFlipPreview && (
+                    <motion.div key="flip-preview" {...collapseVerticalPreset()}>
+                        {/* 카드-필터 간격(pb-8)은 컬랩스 컨테이너 안에 둬야 높이와 함께 접힌다 */}
+                        <div className="pb-8">
+                            <motion.div
+                                initial={{ opacity: 0, y: 18 }}
+                                animate={hasPlayedProjectEntrance ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+                                transition={{ duration: 0.45, ease: PROJECT_CARD_EASE }}
+                            >
+                                <ProjectFlipPreviewCard projects={projects} />
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            <div className={projects.length > 0 ? "mt-8" : undefined}>
+            <div>
                 {toolCardsBlock}
             </div>
         </StickySectionSidebar>

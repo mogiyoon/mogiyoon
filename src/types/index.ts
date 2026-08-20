@@ -55,6 +55,8 @@ export interface ProjectSummary {
     stickerColor?: string;
     stickerIcon?: string;
     claudeInfo?: ClaudeInfo;
+    /** 대표 프로젝트 노출 순위 (1부터). 값이 있으면 프로젝트 탭 상단 "대표 프로젝트" 행에 배치됨 */
+    featured?: number;
 }
 
 // '개요' 섹션을 위한 타입
@@ -79,6 +81,8 @@ export interface ProjectData {
   title: string;
   subtitle: string;
   demoGifSrc: string;
+  /** 공유 미리보기용 1200x630 PNG (scripts/generate-og-images.sh 로 생성). 없으면 래스터 스크린샷 → 사이트 기본 이미지 순으로 대체 */
+  ogImage?: string;
   description: string;
   features: Feature[];
   screenshots: Screenshot[];

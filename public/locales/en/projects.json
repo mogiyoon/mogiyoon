@@ -1,6 +1,8 @@
 {
   "projectTitle": "Projects",
   "projectSubtitle": "",
+  "featuredTitle": "Featured Projects",
+  "otherProjectsTitle": "All Projects",
   "projectPreview": {
     "label": "Preview Card",
     "hint": "Flips every 2 seconds."

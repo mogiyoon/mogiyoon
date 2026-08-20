@@ -53,7 +53,12 @@
 ## 5. 이미지 추가
 - `public/images/{projectName}/Icon.png` — 프로젝트 썸네일
 - `public/images/{projectName}/appGif.gif` — 데모 GIF
+- `public/images/{projectName}/og.png` — 공유 미리보기(og:image)용 1200x630 PNG. `scripts/generate-og-images.sh` 실행으로 GIF 프레임에서 생성하고, 프로젝트 JSON의 `ogImage` 필드에 경로를 적는다 (GIF·SVG는 크롤러가 못 쓰므로 og:image로 쓰지 않음)
 - `public/images/{projectName}/overview/` — 상세 페이지용 이미지 (선택)
+
+## 5-1. 대표 프로젝트 지정 (선택)
+- `projects-list.json` 항목에 `"featured": N` (1부터 순위) 을 주면 프로젝트 탭 상단 "대표 프로젝트" 행에 배치됨. 2~5개 유지 (Josh Comeau, *Building an Effective Dev Portfolio* 기준). 현재: recho(1) · seoul-meari(2) · react-stable-timeline(3)
+- 프로젝트 상세 라우트(`/project/{id}`)는 `projects-list.json` 기준으로 빌드 시 자동 프리렌더 + sitemap.xml 에 포함되므로 별도 등록 불필요
 
 ## 6. 어투 가이드
 - 블로그 스타일의 구어체가 아닌 **공식적·기술적 어투**를 사용한다

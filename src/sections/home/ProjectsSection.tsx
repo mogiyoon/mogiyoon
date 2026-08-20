@@ -64,6 +64,24 @@ const ProjectsSection: React.FC = () => {
         );
     }, [projects, selectedStacks.ids]);
 
+    // 필터가 없을 때만 "대표 프로젝트" 행을 분리한다. 필터 중에는 결과를 한 그리드로 보여줘야
+    // 사용자가 "선택한 스택을 쓰는 프로젝트"를 한눈에 볼 수 있다.
+    const isFiltering = selectedStacks.ids.size > 0;
+    const featuredProjects = useMemo(
+        () =>
+            isFiltering
+                ? []
+                : projects
+                      .filter((project) => typeof project.featured === 'number')
+                      .sort((a, b) => (a.featured ?? 0) - (b.featured ?? 0)),
+        [projects, isFiltering],
+    );
+    const hasFeaturedRow = featuredProjects.length > 0;
+    const gridProjects = useMemo(
+        () => (hasFeaturedRow ? visibleProjects.filter((project) => typeof project.featured !== 'number') : visibleProjects),
+        [visibleProjects, hasFeaturedRow],
+    );
+
     // entrance 훅에는 실제로 렌더되는 목록을 넘긴다. 전체 목록을 넘기면 필터로
     // 렌더되지 않은 카드의 ref 를 기다리느라 offsets 계산이 끝나지 않아
     // 그리드와 플립 카드가 opacity 0 인 채로 남는다.
@@ -86,6 +104,29 @@ const ProjectsSection: React.FC = () => {
     };
 
     const activeDevKitItem = devKitItems.find((item) => item.id === selectedDevKitId) ?? null;
+
+    // 대표 행과 나머지 그리드가 같은 카드 마크업/애니메이션을 쓰도록 렌더러를 공유한다.
+    // index 는 entrance stagger 순서이므로 대표 행 → 나머지 순으로 이어서 매긴다.
+    const renderCard = (project: ProjectSummary, index: number) => (
+        <motion.div
+            key={project.id}
+            ref={(element) => {
+                projectCardRefs.current[project.id] = element;
+            }}
+            variants={cardVariants}
+            initial={false}
+            animate={hasPlayedProjectEntrance ? "animate" : "cluster"}
+            exit="exit"
+            custom={{ id: project.id, index }}
+            className="flex"
+        >
+            <PortfolioCard
+                project={project}
+                className="w-full"
+                onClick={() => handleCardClick(project.id)}
+            />
+        </motion.div>
+    );
 
     if (isLoading) {
         return (
@@ -130,27 +171,43 @@ const ProjectsSection: React.FC = () => {
                         </motion.div>
 
                         <div className="min-w-0">
+                            {/* entrance 훅은 이 wrapper 의 중심을 기준으로 카드 offset 을 계산하므로,
+                                대표 행과 나머지 그리드를 모두 한 wrapper 안에 둔다. */}
                             <div
                                 ref={projectsGridRef}
-                                className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:px-0 xl:grid-cols-3"
                                 style={{ opacity: projectCardOffsetsReady ? 1 : 0 }}
                             >
-                                {visibleProjects.map((project, index) => (
-                                    <motion.div
-                                        key={project.id}
-                                        ref={(element) => {
-                                            projectCardRefs.current[project.id] = element;
-                                        }}
-                                        variants={cardVariants}
-                                        initial={false}
-                                        animate={hasPlayedProjectEntrance ? "animate" : "cluster"}
-                                        exit="exit"
-                                        custom={{ id: project.id, index }}
-                                        className="flex"
+                                {/* 대표 프로젝트는 배지 대신 배경이 구분되는 패널로 감싼다 */}
+                                {hasFeaturedRow && (
+                                    <section
+                                        aria-labelledby="featured-projects-heading"
+                                        className="mb-10 rounded-card border border-accent-100 bg-gradient-to-br from-accent-50/80 via-accent-50/40 to-surface p-4 shadow-sm sm:p-6"
                                     >
-                                        <PortfolioCard project={project as ProjectSummary} className="w-full" onClick={() => handleCardClick(project.id)}/>
-                                    </motion.div>
-                                ))}
+                                        <h3
+                                            id="featured-projects-heading"
+                                            className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-accent-700"
+                                        >
+                                            {t('featuredTitle', { ns: 'projects' })}
+                                        </h3>
+                                        <div className="grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-3">
+                                            {featuredProjects.map((project, index) => renderCard(project, index))}
+                                        </div>
+                                    </section>
+                                )}
+                                {hasFeaturedRow && gridProjects.length > 0 && (
+                                    <h3
+                                        id="all-projects-heading"
+                                        className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-content-muted"
+                                    >
+                                        {t('otherProjectsTitle', { ns: 'projects' })}
+                                    </h3>
+                                )}
+                                <div
+                                    aria-labelledby={hasFeaturedRow ? 'all-projects-heading' : undefined}
+                                    className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:px-0 xl:grid-cols-3"
+                                >
+                                    {gridProjects.map((project, index) => renderCard(project, featuredProjects.length + index))}
+                                </div>
                             </div>
                             {visibleProjects.length === 0 && (
                                 <p className="py-10 text-center text-sm text-content-muted">

@@ -65,6 +65,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
       onClose={onClose}
       className="w-full max-w-sm p-8 relative"
       backdropClassName="flex items-center justify-center p-4"
+      ariaLabelledBy="contact-modal-title"
     >
       {/* Close button */}
       <button
@@ -77,7 +78,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         </svg>
       </button>
 
-      <h2 className="text-2xl font-bold mb-1 text-content">Info</h2>
+      <h2 id="contact-modal-title" className="text-2xl font-bold mb-1 text-content">Info</h2>
       <p className="text-sm text-content-muted mb-6">Giyoon Noh · FullStack Engineer</p>
 
       <div className="flex flex-col gap-2">

@@ -10,8 +10,8 @@ export const SEO_COPY = {
       resume: '이력서',
     },
     home: {
-      description: '개발자 mogiyoon의 포트폴리오. 앱·확장 프로그램·라이브러리 등 직접 만든 도구로 학습과 개발의 반복 문제를 해결합니다.',
-      keywords: 'mogiyoon, 개발자, 프론트엔드, 포트폴리오, React, TypeScript, React Native, Frontend Developer',
+      description: '개발자 mogiyoon의 포트폴리오. 앱·확장 프로그램·라이브러리 등 직접 만든 도구로 일상 속에서 반복되는 문제를 해결합니다.',
+      keywords: 'mogiyoon, 개발자, 프론트엔드, 포트폴리오, React, Next.js, TypeScript, React Native, Python, Frontend Developer',
     },
     resume: {
       description: '개발자 mogiyoon의 이력서. 경력, 프로젝트, 스킬, 학력, 수상 내역을 한 페이지에서 확인할 수 있습니다.',
@@ -34,8 +34,8 @@ export const SEO_COPY = {
       resume: 'Resume',
     },
     home: {
-      description: 'Portfolio of mogiyoon, a developer who ships apps, browser extensions, and libraries to remove repetitive friction in learning and development.',
-      keywords: 'mogiyoon, developer, frontend, portfolio, React, TypeScript, React Native, Frontend Developer',
+      description: 'Portfolio of mogiyoon, a developer who ships apps, browser extensions, and libraries to remove problems that repeat in everyday life.',
+      keywords: 'mogiyoon, developer, frontend, portfolio, React, Next.js, TypeScript, React Native, Python, Frontend Developer',
     },
     resume: {
       description: 'Resume of developer mogiyoon — career, projects, skills, education, and awards on a single page.',

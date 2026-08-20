@@ -3,6 +3,7 @@
   "title": "recho.title",
   "subtitle": "recho.subtitle",
   "demoGifSrc": "/images/recho/appGif.gif",
+  "ogImage": "/images/recho/og.png",
   "description": "recho.description",
   "overview": {
     "projectType": "recho.overview.projectType",

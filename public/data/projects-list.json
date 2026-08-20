@@ -27,6 +27,7 @@
   },
   {
     "id": "react-stable-timeline",
+    "featured": 3,
     "title": "react-stable-timeline.title",
     "subtitle": "react-stable-timeline.subtitle",
     "projectType": "react-stable-timeline.overview.projectType",
@@ -53,6 +54,7 @@
   },
   {
     "id": "seoul-meari",
+    "featured": 2,
     "title": "seoul-meari.title",
     "subtitle": "seoul-meari.subtitle",
     "projectType": "seoul-meari.overview.projectType",
@@ -64,6 +66,7 @@
   },
   {
     "id": "recho",
+    "featured": 1,
     "title": "recho.title",
     "subtitle": "recho.subtitle",
     "projectType": "recho.overview.projectType",

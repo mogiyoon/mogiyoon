@@ -28,6 +28,7 @@ const AiDevKitModal: React.FC<AiDevKitModalProps> = ({ item, onClose }) => {
       onClose={onClose}
       className="w-full max-w-5xl overflow-hidden border border-line"
       backdropClassName="flex items-end justify-center bg-black/55 p-4 backdrop-blur-sm sm:items-center sm:p-6"
+      ariaLabelledBy="ai-devkit-modal-title"
     >
       {item ? (
         <>

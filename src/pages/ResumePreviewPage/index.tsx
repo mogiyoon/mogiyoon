@@ -35,7 +35,8 @@ import ModalShell from "../../components/primitives/ModalShell";
 import { usePrerenderReadyEvent } from "../../hooks/usePrerenderReadyEvent";
 
 const ResumePreviewPage: React.FC = () => {
-  const { t, i18n } = useTranslation("common");
+  // ready: 번역 로드 여부 — 프리렌더 스냅샷이 raw i18n 키로 찍히지 않게 게이트
+  const { t, i18n, ready } = useTranslation("common");
   const seoLocale = pickSeoLocale(i18n.language);
   const seo = SEO_COPY[seoLocale].resume;
   const resumeSection = SEO_COPY[seoLocale].sections.resume;
@@ -96,7 +97,7 @@ const ResumePreviewPage: React.FC = () => {
     };
   }, [i18n.language, i18n.resolvedLanguage, resetIncludedProjectIds, resetSelectedBlockIds, t]);
 
-  usePrerenderReadyEvent(!isLoading);
+  usePrerenderReadyEvent(!isLoading && ready);
 
   const resetDraft = () => {
     if (!sourceData) return;
@@ -992,9 +993,10 @@ const ResumePreviewPage: React.FC = () => {
         isOpen={!canShowSidebar && isEditorModalOpen}
         onClose={closeEditorModal}
         className="fixed inset-x-3 bottom-3 top-24 mx-auto max-w-xl flex flex-col overflow-hidden"
+        ariaLabelledBy="resume-editor-modal-title"
       >
         <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-3.5 py-3">
-          <h2 className="text-lg font-bold text-slate-950">{t("resume.editDraft")}</h2>
+          <h2 id="resume-editor-modal-title" className="text-lg font-bold text-slate-950">{t("resume.editDraft")}</h2>
           <button
             type="button"
             onClick={closeEditorModal}

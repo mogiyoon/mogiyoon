@@ -46,12 +46,15 @@ const PageHeader: React.FC<PageHeaderProps> = ({ onOpenContactModal, activeTab, 
           </span>
         </Link>
 
-        <nav className="flex items-center gap-4 sm:gap-6 md:gap-10">
+        <nav aria-label={t('mainNavigation')} className="flex items-center gap-4 sm:gap-6 md:gap-10">
           {tabs.map(tab => (
             <Link
               key={tab.id}
               to="/"
               onClick={() => setActiveTab(tab.id)}
+              // 모바일에서는 라벨 대신 "-" 만 보이므로 접근 가능한 이름을 따로 준다 (WCAG 4.1.2)
+              aria-label={tab.label}
+              aria-current={activeTab === tab.id ? 'page' : undefined}
               className={`flex justify-center items-center w-8 h-8 md:w-28 md:h-auto md:py-2 text-base font-medium transition-colors duration-200 rounded-card ${
                 activeTab === tab.id
                   ? 'text-white bg-slate-900'
@@ -59,34 +62,53 @@ const PageHeader: React.FC<PageHeaderProps> = ({ onOpenContactModal, activeTab, 
               }`}
             >
               <span className="hidden md:inline">{tab.label}</span>
-              <span className="md:hidden">-</span>
+              <span className="md:hidden" aria-hidden="true">-</span>
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-4">
-          <button onClick={onOpenContactModal} className="text-content-secondary hover:text-white hover:bg-slate-900 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center">
+          <button
+            onClick={onOpenContactModal}
+            aria-haspopup="dialog"
+            aria-label={t('contactInfo')}
+            className="text-content-secondary hover:text-white hover:bg-slate-900 px-1 py-2 rounded-lg transition-colors duration-300 flex items-center"
+          >
             Info
           </button>
           
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={toggleDropdown}
+              aria-haspopup="menu"
+              aria-expanded={isDropdownOpen}
+              aria-controls="language-menu"
+              aria-label={t('language')}
               className="text-content-secondary px-1 py-2 rounded-lg transition-colors duration-300 flex items-center hover:bg-surface-muted"
             >
-              <span className="hidden lg:inline">{t('language')}</span>&nbsp;🌐
+              <span className="hidden lg:inline">{t('language')}</span>&nbsp;<span aria-hidden="true">🌐</span>
               <RotatingChevron isRotated={isDropdownOpen} className="ml-1" />
             </button>
             
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-32 bg-surface rounded-card shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5">
+              <div
+                id="language-menu"
+                role="menu"
+                className="absolute right-0 mt-2 w-32 bg-surface rounded-card shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5"
+              >
                 <button
+                  role="menuitemradio"
+                  lang="ko"
+                  aria-checked={i18n.language.startsWith('ko')}
                   onClick={() => handleLanguageChange('ko')}
                   className={`block w-full text-left px-4 py-2 text-sm text-content-secondary hover:bg-surface-muted ${i18n.language.startsWith('ko') ? 'font-bold text-accent-600' : ''}`}
                 >
                   한국어
                 </button>
                 <button
+                  role="menuitemradio"
+                  lang="en"
+                  aria-checked={i18n.language.startsWith('en')}
                   onClick={() => handleLanguageChange('en')}
                   className={`block w-full text-left px-4 py-2 text-sm text-content-secondary hover:bg-surface-muted ${i18n.language.startsWith('en') ? 'font-bold text-accent-600' : ''}`}
                 >

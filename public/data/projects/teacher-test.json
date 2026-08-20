@@ -3,6 +3,7 @@
   "title": "teacher-test.title",
   "subtitle": "teacher-test.subtitle",
   "demoGifSrc": "/images/teacherTest/appGif.gif",
+  "ogImage": "/images/teacherTest/og.png",
   "description": "teacher-test.description",
   "overview": {
     "projectType": "teacher-test.overview.projectType",

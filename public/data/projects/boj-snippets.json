@@ -3,6 +3,7 @@
   "title": "boj-snippets.title",
   "subtitle": "boj-snippets.subtitle",
   "demoGifSrc": "/images/bojSnippets/appGif.gif",
+  "ogImage": "/images/bojSnippets/og.png",
   "description": "boj-snippets.description",
   "overview": {
     "projectType": "boj-snippets.overview.projectType",
