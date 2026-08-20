@@ -102,6 +102,7 @@ import ModalShell from '@/components/primitives/ModalShell';
 - `isOpen=false` 면 아무것도 렌더링하지 않음 (포털 없이 inline 렌더)
 - 열려 있는 동안 `useBodyScrollLock` + `useEscapeKey` 자동 적용
 - 백드롭 클릭 → `onClose`. 패널 클릭은 `stopPropagation` 처리됨
+- 패널은 `role="dialog" aria-modal="true"`. 이름은 `ariaLabelledBy`(패널 안 제목 요소 id — 권장) 또는 `ariaLabel` 로 넘긴다 (WCAG 4.1.2)
 - 헤더 / 콘텐츠 마크업은 `children` 슬롯으로 호출자가 직접 제공
 
 **자주 하는 실수**
@@ -109,6 +110,7 @@ import ModalShell from '@/components/primitives/ModalShell';
 - 백드롭 div 와 panel div 를 직접 작성하면서 `useBodyScrollLock` / `useEscapeKey` 를 빼먹음 → ModalShell 이 두 훅을 묶어서 보장해 준다
 - 패널 클릭이 백드롭으로 전파되어 모달이 닫히는 버그 → ModalShell 은 이미 `stopPropagation` 처리됨. 직접 만들면 잊기 쉬움
 - `className` 에 `fixed inset-0` 을 다시 넣음 → backdrop 이 이미 fixed 이고, `className` 은 panel 에 붙는다. 백드롭 커스터마이즈는 `backdropClassName` 을 사용
+- `ariaLabelledBy` 없이 열기 → 스크린리더가 이름 없는 dialog 로 읽음. 제목 `<h2 id="...">` 를 두고 그 id 를 넘길 것
 
 ---
 
