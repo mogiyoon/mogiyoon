@@ -3,6 +3,7 @@
   "title": "mrnsg.title",
   "subtitle": "mrnsg.subtitle",
   "demoGifSrc": "/images/mrnsg/appGif.gif",
+  "ogImage": "/images/mrnsg/og.png",
   "description": "mrnsg.description",
   "overview": {
     "projectType": "mrnsg.overview.projectType",

@@ -3,6 +3,7 @@
   "title": "stock-compass.title",
   "subtitle": "stock-compass.subtitle",
   "demoGifSrc": "/images/stockCompass/appGif.gif",
+  "ogImage": "/images/stockCompass/og.png",
   "description": "stock-compass.description",
   "overview": {
     "projectType": "stock-compass.overview.projectType",

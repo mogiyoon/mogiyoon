@@ -4,6 +4,7 @@
   "title": "test-maker.title",
   "subtitle": "test-maker.subtitle",
   "demoGifSrc": "/images/testMaker/appGif.gif",
+  "ogImage": "/images/testMaker/og.png",
   "description": "test-maker.description",
   "overview": {
     "projectType": "test-maker.overview.projectType",

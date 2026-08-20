@@ -25,6 +25,8 @@ export interface SeoProps {
   locale?: SeoLocale;
   keywords?: string;
   noindex?: boolean;
+  /** og:image 대체 텍스트. 생략 시 페이지 title 사용 */
+  imageAlt?: string;
 }
 
 const Seo: React.FC<SeoProps> = ({
@@ -36,14 +38,16 @@ const Seo: React.FC<SeoProps> = ({
   locale = 'ko',
   keywords,
   noindex = false,
+  imageAlt,
 }) => {
   const title = formatSectionTitle(section, locale, SITE_NAME);
   const canonical = `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`;
   const ogImage = toAbsoluteUrl(image, SITE_URL) ?? DEFAULT_OG_IMAGE;
   const ogLocale = localeToOg(locale);
 
+  // defer=false: prerender 가 render-event 직후 DOM 을 스냅샷하므로 head 갱신을 rAF 로 미루지 않는다.
   return (
-    <Helmet>
+    <Helmet defer={false}>
       <title>{title}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
@@ -53,10 +57,12 @@ const Seo: React.FC<SeoProps> = ({
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content={ogLocale} />
+      <meta property="og:locale:alternate" content={locale === 'en' ? 'ko_KR' : 'en_US'} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={ogImage} />
+      <meta property="og:image:alt" content={imageAlt ?? title} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />

@@ -3,6 +3,7 @@
   "title": "seoul-meari.title",
   "subtitle": "seoul-meari.subtitle",
   "demoGifSrc": "/images/seoulMeari/appGif.gif",
+  "ogImage": "/images/seoulMeari/og.png",
   "description": "seoul-meari.description",
   "overview": {
     "projectType": "seoul-meari.overview.projectType",
