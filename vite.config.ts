@@ -1,9 +1,8 @@
 /// <reference types="vitest/config" />
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
-import { join, relative, resolve } from 'node:path'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import prerender from '@prerenderer/rollup-plugin'
 
 const SITE_URL = 'https://mogiyoon.com'
 
@@ -17,40 +16,6 @@ const readProjectRoutes = (): string[] => {
 }
 
 const STATIC_ROUTES = ['/', '/resume-preview']
-
-// @prerenderer/rollup-plugin 은 generateBundle 단계에서 "rollup 번들 안에 있는 파일"만 서빙하고
-// 나머지는 index.html 로 fallback 한다. public/ 의 locales·data JSON 은 Vite 가 번들 밖에서 복사하므로
-// 프리렌더 중 fetch 가 전부 index.html 을 받아 번역·프로젝트 데이터가 빈 채로 스냅샷됐다.
-// 프리렌더 플러그인보다 먼저(order: 'pre') 해당 JSON 들을 번들 asset 으로 넣어 서빙되게 한다.
-// (같은 경로로 public 복사본이 덮어써도 내용이 동일하므로 결과물은 변하지 않는다)
-const PRERENDER_PUBLIC_DIRS = ['locales', 'data']
-
-const listFilesRecursive = (dir: string): string[] =>
-  readdirSync(dir).flatMap((name) => {
-    const full = join(dir, name)
-    return statSync(full).isDirectory() ? listFilesRecursive(full) : [full]
-  })
-
-const exposePublicJsonToPrerender = (): Plugin => ({
-  name: 'mogiyoon-expose-public-json-to-prerender',
-  apply: 'build',
-  generateBundle: {
-    order: 'pre',
-    handler() {
-      const publicRoot = resolve(__dirname, 'public')
-      for (const dir of PRERENDER_PUBLIC_DIRS) {
-        for (const file of listFilesRecursive(join(publicRoot, dir))) {
-          if (!file.endsWith('.json')) continue
-          this.emitFile({
-            type: 'asset',
-            fileName: relative(publicRoot, file).split('\\').join('/'),
-            source: readFileSync(file),
-          })
-        }
-      }
-    },
-  },
-})
 
 // 상세 페이지로 가는 링크가 JS 내비게이션뿐이라 "내부 링크로 모두 닿는 사이트" 조건을 만족하지 못하므로
 // sitemap.xml 을 빌드 시 dist 에 함께 쓴다. (robots.txt 의 Sitemap: 지시어가 이 파일을 가리킨다)
@@ -67,25 +32,76 @@ const sitemapPlugin = (routes: string[]): Plugin => ({
   },
 })
 
+// 프리렌더는 @prerenderer/rollup-plugin 대신 빌드 완료 후(closeBundle) 직접 실행한다. 이유:
+// 1) rollup-plugin 은 "번들 안의 파일"만 서빙하고 나머지는 index.html 로 fallback 하므로,
+//    public/ 의 locales·data JSON 이 빈 채로 스냅샷되는 문제가 있었다. dist 를 통째로
+//    정적 서빙하면 해결된다 (별도 JSON 번들 주입 핵 불필요).
+// 2) puppeteer 의 page.evaluate 가 pending promise 를 기다리는 동안 V8 GC 가 promise 를
+//    수집하면 "Protocol error (Runtime.callFunctionOn): Promise was collected" 로 간헐
+//    실패한다. 계측 결과 페이지 crash/reload 는 없었고(두 번째 framenavigated 는 react-router
+//    초기화의 same-document replaceState), renderAfterTime 제거·GIF 차단으로도 재현되어
+//    CDP 수준 flake 로 판단 — 실패 시 전체 라우트를 최대 3회 재시도한다 (1회 ~6초).
+const prerenderPlugin = (routes: string[]): Plugin => ({
+  name: 'mogiyoon-prerender',
+  apply: 'build',
+  enforce: 'post',
+  closeBundle: {
+    sequential: true,
+    order: 'post',
+    async handler() {
+      const distDir = resolve(__dirname, 'dist')
+      const { default: Prerenderer } = await import('@prerenderer/prerenderer')
+      const { default: PuppeteerRenderer } = await import('@prerenderer/renderer-puppeteer')
+
+      const MAX_ATTEMPTS = 3
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+        const prerenderer = new Prerenderer({
+          staticDir: distDir,
+          renderer: new PuppeteerRenderer({
+            renderAfterDocumentEvent: 'render-event',
+            timeout: 20000,
+            maxConcurrentRoutes: 1,
+            // 데모 GIF(6~36MB, 총 ~180MB)는 프리렌더 HTML 에 영향이 없으므로 차단 (속도·메모리).
+            // renderer 가 이미 setRequestInterception(true) + continue-all 리스너를 걸어두므로
+            // 리스너를 교체하는 방식으로만 안전하게 개입할 수 있다.
+            pageSetup: async (page) => {
+              page.removeAllListeners('request')
+              page.on('request', (req) => {
+                if (/\.gif(\?|$)/i.test(req.url())) return void req.abort()
+                return void req.continue()
+              })
+            },
+          }),
+        })
+        try {
+          await prerenderer.initialize()
+          const rendered = await prerenderer.renderRoutes([...routes])
+          for (const route of rendered) {
+            const out = join(distDir, route.originalRoute.replace(/^\//, ''), 'index.html')
+            mkdirSync(dirname(out), { recursive: true })
+            writeFileSync(out, route.html.trim() + '\n')
+          }
+          console.log(`[prerender] ${rendered.length} routes prerendered (attempt ${attempt})`)
+          return
+        } catch (error) {
+          console.warn(`[prerender] attempt ${attempt}/${MAX_ATTEMPTS} failed:`, (error as Error).message)
+          if (attempt === MAX_ATTEMPTS) throw error
+        } finally {
+          await prerenderer.destroy()
+        }
+      }
+    },
+  },
+})
+
 export default defineConfig(({ command }) => {
   const routes = command === 'build' ? [...STATIC_ROUTES, ...readProjectRoutes()] : STATIC_ROUTES
 
   return {
     plugins: [
       react(),
-      command === 'build' && exposePublicJsonToPrerender(),
-      command === 'build' && prerender({
-        routes,
-        renderer: '@prerenderer/renderer-puppeteer',
-        rendererOptions: {
-          renderAfterDocumentEvent: 'render-event',
-          renderAfterTime: 15000,
-          // 2 로 두면 puppeteer 가 간헐적으로 "Promise was collected" 로 죽는다 (탭 동시 종료 race).
-          // 라우트당 1~2초라 직렬화해도 빌드 시간 영향은 몇 초 수준.
-          maxConcurrentRoutes: 1,
-        },
-      }),
       command === 'build' && sitemapPlugin(routes),
+      command === 'build' && prerenderPlugin(routes),
     ].filter(Boolean),
     test: {
       environment: 'jsdom',

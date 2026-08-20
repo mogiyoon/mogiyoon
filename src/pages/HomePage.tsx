@@ -13,13 +13,15 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ activeTab }) => {
-  const { i18n } = useTranslation();
+  // main.tsx 가 i18n 초기 로드 후 마운트하므로 첫 렌더부터 번역이 적용돼 있다.
+  // ready 게이트는 언어 전환 등 엣지 케이스 방어용으로만 유지.
+  const { i18n, ready } = useTranslation();
   const seoLocale = pickSeoLocale(i18n.language);
   const seo = SEO_COPY[seoLocale].home;
   const sections = SEO_COPY[seoLocale].sections;
   const sectionLabel = (sections as Record<string, string>)[activeTab] ?? sections.about;
 
-  usePrerenderReadyEvent();
+  usePrerenderReadyEvent(ready);
 
   useEffect(() => {
     const isAboutTab = activeTab === 'about';

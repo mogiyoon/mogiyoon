@@ -3,7 +3,10 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpApi from 'i18next-http-backend';
 
-i18n
+// init() 은 backend 의 초기 네임스페이스 로드까지 끝난 뒤 resolve 된다.
+// main.tsx 가 이 promise 를 기다렸다가 마운트해, 첫 렌더부터 번역이 적용되게 한다
+// (raw i18n 키 플래시 제거 + 프리렌더 스냅샷이 항상 번역된 상태가 되도록 보장).
+export const i18nInitialized = i18n
   .use(HttpApi)
   .use(LanguageDetector)
   .use(initReactI18next)

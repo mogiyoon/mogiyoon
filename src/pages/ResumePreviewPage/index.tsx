@@ -35,7 +35,8 @@ import ModalShell from "../../components/primitives/ModalShell";
 import { usePrerenderReadyEvent } from "../../hooks/usePrerenderReadyEvent";
 
 const ResumePreviewPage: React.FC = () => {
-  const { t, i18n } = useTranslation("common");
+  // ready: 번역 로드 여부 — 프리렌더 스냅샷이 raw i18n 키로 찍히지 않게 게이트
+  const { t, i18n, ready } = useTranslation("common");
   const seoLocale = pickSeoLocale(i18n.language);
   const seo = SEO_COPY[seoLocale].resume;
   const resumeSection = SEO_COPY[seoLocale].sections.resume;
@@ -96,7 +97,7 @@ const ResumePreviewPage: React.FC = () => {
     };
   }, [i18n.language, i18n.resolvedLanguage, resetIncludedProjectIds, resetSelectedBlockIds, t]);
 
-  usePrerenderReadyEvent(!isLoading);
+  usePrerenderReadyEvent(!isLoading && ready);
 
   const resetDraft = () => {
     if (!sourceData) return;
