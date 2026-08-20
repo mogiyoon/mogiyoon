@@ -112,6 +112,55 @@ describe('PortfolioCard', () => {
     expect(inner.style.transform).toBe('rotateY(0deg)');
   });
 
+  it('renders as a real anchor to /project/:id so crawlers can discover the detail page', () => {
+    renderCard();
+
+    const link = screen.getByRole('link');
+    expect(link.getAttribute('href')).toBe('/project/sample');
+    // 접근 가능한 이름에 제목과 부제가 들어간다
+    expect(link.getAttribute('aria-label')).toBe('sample.title — sample.subtitle');
+  });
+
+  it('prevents default navigation on a plain left click and calls onClick instead', () => {
+    const onClick = vi.fn();
+    renderCard({}, onClick);
+
+    const link = screen.getByRole('link');
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 });
+    link.dispatchEvent(event);
+
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('lets modifier clicks (cmd/ctrl) fall through to the browser for open-in-new-tab', () => {
+    const onClick = vi.fn();
+    renderCard({}, onClick);
+
+    const link = screen.getByRole('link');
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0, metaKey: true });
+    link.dispatchEvent(event);
+
+    expect(onClick).not.toHaveBeenCalled();
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('flips on keyboard focus and flips back on blur', () => {
+    const { container } = renderCard();
+
+    const link = screen.getByRole('link');
+    const perspectiveContainer = container.querySelector(
+      'div[style*="perspective"]',
+    ) as HTMLElement;
+    const inner = perspectiveContainer.firstElementChild as HTMLElement;
+
+    fireEvent.focus(link);
+    expect(inner.style.transform).toBe('rotateY(180deg)');
+
+    fireEvent.blur(link);
+    expect(inner.style.transform).toBe('rotateY(0deg)');
+  });
+
   it('renders the Vibe sparkle badge only when claudeInfo is truthy', () => {
     const { rerender } = renderCard();
     expect(screen.queryByText('Vibe')).toBeNull();

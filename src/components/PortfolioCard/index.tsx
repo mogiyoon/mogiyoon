@@ -30,7 +30,14 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
     fallbackSrc: PLACEHOLDER_NOT_FOUND_300x200,
   });
 
-  const handleCardClick = () => {
+  // 실제 <a href> 로 렌더해 크롤러가 상세 페이지를 발견할 수 있게 하되,
+  // 클릭은 SPA 내비게이션(선택 애니메이션 후 navigate) 으로 처리한다.
+  const handleCardClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    // 새 탭 열기(cmd/ctrl/중클릭)는 브라우저 기본 동작에 맡긴다.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) {
+      return;
+    }
+    event.preventDefault();
     onClick();
     close();
   };
@@ -133,9 +140,13 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
   );
 
   return (
-    <div
+    <a
+      href={`/project/${project.id}`}
       onClick={handleCardClick}
-      className={`relative block cursor-pointer ${className || ""}`}
+      onFocus={open}
+      onBlur={close}
+      aria-label={`${t(project.title || "")} — ${t(project.subtitle || "")}`}
+      className={`relative block cursor-pointer rounded-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 ${className || ""}`}
     >
       <FlippableCard
         isFlipped={isFlipped}
@@ -184,7 +195,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
           <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-glow-accent-xs" />
         </div>
       )}
-    </div>
+    </a>
   );
 };
 

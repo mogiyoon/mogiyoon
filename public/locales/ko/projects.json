@@ -1,6 +1,8 @@
 {
   "projectTitle": "프로젝트",
   "projectSubtitle": "",
+  "featuredTitle": "대표 프로젝트",
+  "otherProjectsTitle": "전체 프로젝트",
   "projectPreview": {
     "label": "예시 카드",
     "hint": "2초 간격 앞뒤 회전"
