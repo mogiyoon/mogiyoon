@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
+import Chip from '../../../../components/primitives/Chip';
 import RotatingChevron from '../../../../components/primitives/RotatingChevron';
 import { useToggleSet } from '../../../../hooks/useToggleSet';
 import { collapseVerticalPreset } from '../../../../utils/motionPresets';
@@ -70,6 +71,22 @@ const WorkBlock: React.FC<{ data: WorkItem[] }> = ({ data }) => {
                 )}
               </div>
             </button>
+
+            {/* 주력 스택 요약 — 카드가 닫혀 있을 때만 표시. 아코디언을 열면
+                프로젝트별 스택·하이라이트가 보이므로 요약 칩은 접는다 */}
+            <AnimatePresence initial={false}>
+              {(item.summary?.length ?? 0) > 0 && !isWorkOpen && (
+                <motion.div key="stack-summary" {...collapseVerticalPreset(0.22)}>
+                  <div className="flex flex-wrap gap-1.5 px-6 pb-5">
+                    {[...new Set(item.summary!.flatMap((line) => line.stacks))].map((stack) => (
+                      <Chip key={stack} tone="accentSoft" size="sm">
+                        {stack}
+                      </Chip>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Projects accordion */}
             <AnimatePresence initial={false}>

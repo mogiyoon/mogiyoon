@@ -2,6 +2,12 @@
   "workExperience": [
     {
       "id": "deeptrade",
+      "summary": [
+        { "id": "perf", "stacks": ["React Native", "TanStack Query"] },
+        { "id": "data", "stacks": ["Python", "MySQL"] },
+        { "id": "web", "stacks": ["Next.js"] },
+        { "id": "quality", "stacks": ["Jest", "Detox", "Claude Code"] }
+      ],
       "projects": [
         {
           "id": "pension",

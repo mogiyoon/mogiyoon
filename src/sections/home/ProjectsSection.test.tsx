@@ -353,4 +353,74 @@ describe('ProjectsSection', () => {
     expect(updatedModal.getAttribute('data-has-item')).toBe('true');
     expect(updatedModal.textContent).toBe('mcp');
   });
+
+  describe('featured row', () => {
+    it('renders featured projects first (by rank) inside a distinct panel, then the rest', () => {
+      useProjectListsMock.mockReturnValue({
+        projects: [
+          baseProject('newest'),
+          { ...baseProject('third'), featured: 3 },
+          baseProject('middle'),
+          { ...baseProject('first'), featured: 1 },
+          { ...baseProject('second'), featured: 2 },
+          baseProject('oldest'),
+        ],
+        preparingProjects: [],
+        isLoading: false,
+      });
+
+      renderSection();
+
+      expect(screen.getByText('featuredTitle')).toBeInTheDocument();
+      expect(screen.getByText('otherProjectsTitle')).toBeInTheDocument();
+
+      const cards = screen.getAllByTestId('portfolio-card');
+      expect(cards.map((c) => c.getAttribute('data-id'))).toEqual([
+        'first',
+        'second',
+        'third',
+        'newest',
+        'middle',
+        'oldest',
+      ]);
+
+      // 대표 카드 3장은 배경이 구분되는 패널(section) 안에, 나머지는 밖에 렌더된다
+      const panel = document.querySelector('section[aria-labelledby="featured-projects-heading"]') as HTMLElement;
+      expect(panel).not.toBeNull();
+      expect(panel.className).toContain('bg-gradient-to-br');
+      const inPanel = [...panel.querySelectorAll('[data-testid="portfolio-card"]')].map(
+        (c) => c.getAttribute('data-id'),
+      );
+      expect(inPanel).toEqual(['first', 'second', 'third']);
+    });
+
+    it('does not render the featured panel when no project is featured', () => {
+      useProjectListsMock.mockReturnValue({
+        projects: [baseProject('a'), baseProject('b')],
+        preparingProjects: [],
+        isLoading: false,
+      });
+
+      renderSection();
+
+      expect(screen.queryByText('featuredTitle')).toBeNull();
+      expect(screen.queryByText('otherProjectsTitle')).toBeNull();
+      expect(document.querySelector('section[aria-labelledby="featured-projects-heading"]')).toBeNull();
+    });
+
+    it('keeps the featured projects in the entrance hook list so offsets are computed for every card', () => {
+      useProjectListsMock.mockReturnValue({
+        projects: [{ ...baseProject('f'), featured: 1 }, baseProject('g')],
+        preparingProjects: [],
+        isLoading: false,
+      });
+
+      renderSection();
+
+      const lastArgs = useProjectGridEntranceMock.mock.calls.at(-1)?.[0] as {
+        projects: { id: string }[];
+      };
+      expect(lastArgs.projects.map((p) => p.id)).toEqual(['f', 'g']);
+    });
+  });
 });

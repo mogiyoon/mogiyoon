@@ -6,6 +6,9 @@
   "period": "Period",
   "position": "Position",
   "profile": "Profile",
+  "skipToContent": "Skip to content",
+  "mainNavigation": "Main navigation",
+  "contactInfo": "Contact info",
   "highlight": {
     "problem": "Problem",
     "analysis": "Analysis",
@@ -40,7 +43,7 @@
     "eyebrow": "FROM FRICTION TO FLOW",
     "headlineLine1": "Tools that helped me study and pass—",
     "headlineLine2": "now I make them.",
-    "subBefore": "To reduce repetitive problems in learning and development, I build and run ",
+    "subBefore": "To reduce problems that repeat in everyday life, I build and use ",
     "subAccent": "apps, extensions, and libraries",
     "subAfter": ".",
     "scrollCue": "scroll to start"

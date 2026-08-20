@@ -3,6 +3,7 @@
   "title": "storytect.title",
   "subtitle": "storytect.subtitle",
   "demoGifSrc": "/images/storytect/appGif.gif",
+  "ogImage": "/images/storytect/og.png",
   "description": "storytect.description",
   "overview": {
     "projectType": "storytect.overview.projectType",

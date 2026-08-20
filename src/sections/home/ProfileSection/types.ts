@@ -18,7 +18,9 @@ export type AiHighlightItem = {
 };
 
 export type WorkProject = { id: string; tech: string[] };
-export type WorkItem = { id: string; projects: WorkProject[] };
+/** 회사 카드 상단에 항상 노출되는 핵심 성과 요약 한 줄. 문구는 i18n work.{company}.summary.{id} */
+export type WorkSummaryItem = { id: string; stacks: string[] };
+export type WorkItem = { id: string; projects: WorkProject[]; summary?: WorkSummaryItem[] };
 export type EducationItem = { id: string };
 export type AwardItem = { id: string };
 export type CertItem = { id: string };

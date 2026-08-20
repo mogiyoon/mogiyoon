@@ -23,7 +23,8 @@ const pageTransition = animation.page.transition;
 
 const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
-  const { t, i18n } = useTranslation([`projects/project-${projectId}`, 'common']);
+  // ready: useSuspense=false 환경에서 번역 네임스페이스 로드 여부. prerender 신호를 번역 로드 뒤로 미룬다.
+  const { t, i18n, ready } = useTranslation([`projects/project-${projectId}`, 'common']);
   const seoLocale = pickSeoLocale(i18n.language);
   const notFoundCopy = SEO_COPY[seoLocale].notFound;
   const fallbackDescription = SEO_COPY[seoLocale].projectDetail.fallbackDescription;
@@ -48,7 +49,7 @@ const ProjectDetailPage: React.FC = () => {
     onAfter: () => setIsLoaded(true),
   });
 
-  usePrerenderReadyEvent(!isLoading);
+  usePrerenderReadyEvent(!isLoading && ready);
 
   if (isLoading) {
     return (
@@ -99,7 +100,10 @@ const ProjectDetailPage: React.FC = () => {
   const seoDescription = projectSubtitle && projectSubtitle !== project.subtitle
     ? projectSubtitle
     : fallbackDescription;
-  const seoImage = project.demoGifSrc ?? project.screenshots?.[0]?.src;
+  // og:image 는 GIF(6~36MB, 크롤러 용량 초과)·SVG(대부분 미지원)를 피하고
+  // 전용 og.png → 래스터 스크린샷 → 사이트 기본 이미지(Seo 내부) 순으로 고른다.
+  const rasterScreenshot = project.screenshots?.find((shot) => /\.(png|jpe?g|webp)$/i.test(shot.src))?.src;
+  const seoImage = project.ogImage ?? rasterScreenshot;
 
   return (
     <motion.div

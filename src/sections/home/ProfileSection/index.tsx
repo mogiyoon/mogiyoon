@@ -70,6 +70,7 @@ const ProfileSection: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
+              aria-pressed={activeTab === tab.id}
               className="relative flex-1 rounded-card px-2 py-2.5 text-xs font-semibold overflow-hidden transition-colors duration-150"
             >
               {activeTab === tab.id && (
@@ -96,6 +97,7 @@ const ProfileSection: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
+                aria-pressed={activeTab === tab.id}
                 className="relative text-left rounded-modal px-6 py-5 text-sm font-semibold overflow-hidden transition-colors duration-150"
               >
                 {activeTab === tab.id && (
