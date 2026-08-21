@@ -45,3 +45,9 @@ lerna-debug.log*
 *.docx
 # Blog drafts (local only)
 /blog/
+
+NohGiYoon.jpg
+
+# Resume personal data (presets contain phone/photo)
+docs/resume-presets/
+docs/resume-*.pdf
