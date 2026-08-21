@@ -628,7 +628,8 @@ const ResumePreviewPage: React.FC = () => {
     <>
     {resumeSeo}
     <section className="min-h-screen bg-[#dfe5ec] print:bg-white">
-      <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 print:px-0 print:pt-0">
+      {/* pb-24: xl 미만에서 편집 플로팅 버튼(fixed bottom-5)이 이력서 하단을 가리지 않도록 여백 확보 */}
+      <div className="mx-auto max-w-7xl px-4 pt-28 pb-24 xl:pb-10 print:px-0 print:pt-0 print:pb-10">
         <div data-print-hidden="true" className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-3xl font-bold text-slate-950">{t("resume.heading")}</h1>

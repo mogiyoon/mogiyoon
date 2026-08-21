@@ -12,7 +12,8 @@
     "title": "Tech Stack Filter",
     "searchPlaceholder": "Search stacks",
     "empty": "No matching stacks",
-    "noProjects": "No projects use the selected stacks"
+    "noProjects": "No projects use the selected stacks",
+    "close": "Close filter"
   },
   "aiDevKit": {
     "title": "AI DevKit",
