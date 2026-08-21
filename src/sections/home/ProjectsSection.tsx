@@ -146,7 +146,8 @@ const ProjectsSection: React.FC = () => {
     return (
         <>
             <section id="projects" className="min-h-screen pt-20">
-                <div className="mx-auto w-full max-w-7xl px-3 py-6 md:px-5 lg:px-8 animate-fade-in">
+                {/* pb-24: lg 미만에서 필터 플로팅 버튼(fixed bottom-5)이 마지막 카드 행을 가리지 않도록 여백 확보 */}
+                <div className="mx-auto w-full max-w-7xl px-3 pt-6 pb-24 md:px-5 lg:px-8 lg:pb-6 animate-fade-in">
                     <div className="lg:grid lg:grid-cols-[minmax(220px,280px)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(240px,320px)_minmax(0,1fr)] xl:gap-14">
                         <motion.div
                             exit={sectionExitAnimation}
@@ -161,6 +162,7 @@ const ProjectsSection: React.FC = () => {
                                 devKitItems={devKitItems}
                                 onSelectDevKit={setSelectedDevKitId}
                                 stackFilterTitle={t('techFilter.title', { ns: 'projects' })}
+                                stackFilterCloseLabel={t('techFilter.close', { ns: 'projects' })}
                                 stackSearchPlaceholder={t('techFilter.searchPlaceholder', { ns: 'projects' })}
                                 stackEmptyText={t('techFilter.empty', { ns: 'projects' })}
                                 stacks={stackOptions}

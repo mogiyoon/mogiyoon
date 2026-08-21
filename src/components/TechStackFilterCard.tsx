@@ -6,18 +6,84 @@ import { collapseVerticalPreset } from '../utils/motionPresets';
 import Chip from './primitives/Chip';
 import RotatingChevron from './primitives/RotatingChevron';
 
-interface TechStackFilterCardProps {
-    title: string;
+export interface TechStackFilterPanelProps {
     searchPlaceholder: string;
     emptyText: string;
     stacks: string[];
     selectedStacks: Set<string>;
     onToggleStack: (stack: string) => void;
+    /** 칩 목록 스크롤 영역의 max-height 클래스. 사이드바 카드는 기본값, 모바일 모달은 더 크게 override */
+    listMaxHeightClassName?: string;
+}
+
+interface TechStackFilterCardProps extends TechStackFilterPanelProps {
+    title: string;
     /** true 면 펼친 상태로 시작 (예: 스킬 칩에서 필터가 선택된 채 진입한 경우) */
     defaultOpen?: boolean;
     /** 아코디언 펼침/접힘이 바뀔 때 알림 (사이드바가 플립 프리뷰 카드 숨김에 사용) */
     onOpenChange?: (isOpen: boolean) => void;
 }
+
+/** 필터 본문 (검색 입력 + 스택 칩 목록). 사이드바 아코디언과 모바일 모달이 공유한다. */
+export const TechStackFilterPanel: React.FC<TechStackFilterPanelProps> = ({
+    searchPlaceholder,
+    emptyText,
+    stacks,
+    selectedStacks,
+    onToggleStack,
+    listMaxHeightClassName = 'max-h-52',
+}) => {
+    const [query, setQuery] = useState('');
+    const normalizedQuery = query.trim().toLowerCase();
+
+    const visibleStacks = useMemo(
+        () =>
+            normalizedQuery
+                ? stacks.filter((stack) => stack.toLowerCase().includes(normalizedQuery))
+                : stacks,
+        [stacks, normalizedQuery],
+    );
+
+    return (
+        <>
+            <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={searchPlaceholder}
+                aria-label={searchPlaceholder}
+                className="mt-4 w-full rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm text-content-strong placeholder:text-content-muted focus:border-accent-500 focus:outline-none"
+            />
+            {/* 칩 목록이 프로젝트 수에 비례해 자라므로 내부 스크롤로 제한한다.
+                max-h 는 칩 줄 높이에 안 떨어지는 값으로 잡아 마지막 줄이 반쯤 걸쳐 보이게 해
+                스크롤 가능한 영역임이 눈에 보이도록 한다. (sticky 사이드바가 뷰포트를
+                넘어 AI DevKit 카드까지 밀어내던 문제의 해결) */}
+            <div className={`mt-3 overflow-y-auto overscroll-contain pr-1 ${listMaxHeightClassName}`}>
+                <div className="flex flex-wrap justify-center gap-1.5 lg:justify-start">
+                    {visibleStacks.map((stack) => (
+                        <button
+                            key={stack}
+                            type="button"
+                            onClick={() => onToggleStack(stack)}
+                            aria-pressed={selectedStacks.has(stack)}
+                            className="rounded-full"
+                        >
+                            <Chip
+                                tone={selectedStacks.has(stack) ? 'accentSolid' : 'outlined'}
+                                size="md"
+                            >
+                                {stack}
+                            </Chip>
+                        </button>
+                    ))}
+                    {visibleStacks.length === 0 && (
+                        <p className="text-xs text-content-muted">{emptyText}</p>
+                    )}
+                </div>
+            </div>
+        </>
+    );
+};
 
 const TechStackFilterCard: React.FC<TechStackFilterCardProps> = ({
     title,
@@ -36,16 +102,6 @@ const TechStackFilterCard: React.FC<TechStackFilterCardProps> = ({
         onOpenChange?.(!isOpen);
         toggle();
     };
-    const [query, setQuery] = useState('');
-    const normalizedQuery = query.trim().toLowerCase();
-
-    const visibleStacks = useMemo(
-        () =>
-            normalizedQuery
-                ? stacks.filter((stack) => stack.toLowerCase().includes(normalizedQuery))
-                : stacks,
-        [stacks, normalizedQuery],
-    );
 
     return (
         <div className="rounded-card bg-surface p-4 shadow-lg sm:p-5">
@@ -72,41 +128,13 @@ const TechStackFilterCard: React.FC<TechStackFilterCardProps> = ({
             <AnimatePresence initial={false}>
                 {isOpen && (
                     <motion.div key="body" {...collapseVerticalPreset()}>
-                        <input
-                            type="search"
-                            value={query}
-                            onChange={(event) => setQuery(event.target.value)}
-                            placeholder={searchPlaceholder}
-                            aria-label={searchPlaceholder}
-                            className="mt-4 w-full rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm text-content-strong placeholder:text-content-muted focus:border-accent-500 focus:outline-none"
+                        <TechStackFilterPanel
+                            searchPlaceholder={searchPlaceholder}
+                            emptyText={emptyText}
+                            stacks={stacks}
+                            selectedStacks={selectedStacks}
+                            onToggleStack={onToggleStack}
                         />
-                        {/* 칩 목록이 프로젝트 수에 비례해 자라므로 내부 스크롤로 제한한다.
-                            max-h 는 칩 줄 높이에 안 떨어지는 값으로 잡아 마지막 줄이 반쯤 걸쳐 보이게 해
-                            스크롤 가능한 영역임이 눈에 보이도록 한다. (sticky 사이드바가 뷰포트를
-                            넘어 AI DevKit 카드까지 밀어내던 문제의 해결) */}
-                        <div className="mt-3 max-h-52 overflow-y-auto overscroll-contain pr-1">
-                            <div className="flex flex-wrap justify-center gap-1.5 lg:justify-start">
-                                {visibleStacks.map((stack) => (
-                                    <button
-                                        key={stack}
-                                        type="button"
-                                        onClick={() => onToggleStack(stack)}
-                                        aria-pressed={selectedStacks.has(stack)}
-                                        className="rounded-full"
-                                    >
-                                        <Chip
-                                            tone={selectedStacks.has(stack) ? 'accentSolid' : 'outlined'}
-                                            size="md"
-                                        >
-                                            {stack}
-                                        </Chip>
-                                    </button>
-                                ))}
-                                {visibleStacks.length === 0 && (
-                                    <p className="text-xs text-content-muted">{emptyText}</p>
-                                )}
-                            </div>
-                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
