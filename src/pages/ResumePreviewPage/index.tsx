@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -7,6 +7,13 @@ import {
   type ResumeEditableBlock,
   type ResumeProjectEntry,
 } from "../../utils/resumePreview";
+import {
+  applyPresetToDraft,
+  buildPresetExport,
+  resolvePresetBlockIds,
+  resolvePresetProjectIds,
+  type ResumePreset,
+} from "../../utils/resumePreset";
 import Seo from "../../components/Seo";
 import { SEO_COPY, pickSeoLocale } from "../../seo-copy";
 import {
@@ -116,6 +123,40 @@ const ResumePreviewPage: React.FC = () => {
     reader.readAsDataURL(file);
     // 같은 파일을 다시 선택해도 change 가 발생하도록 입력값 초기화
     e.target.value = "";
+  };
+
+  // 프리셋 가져오기 — JSON 파일 하나로 블록 선택·문구·사진·연락처를 일괄 적용한다.
+  const presetInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handlePresetImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !sourceData) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const preset = JSON.parse(String(reader.result)) as ResumePreset;
+        setDraft((prev) => (prev ? applyPresetToDraft(prev, preset) : prev));
+        resetSelectedBlockIds(resolvePresetBlockIds(sourceData, preset));
+        resetIncludedProjectIds(resolvePresetProjectIds(sourceData, preset));
+        if (preset.photo !== undefined) setPhotoDataUrl(preset.photo || null);
+      } catch {
+        window.alert(t("resume.presetImportFailed"));
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  };
+
+  const handlePresetExport = () => {
+    if (!draft) return;
+    const preset = buildPresetExport(draft, selectedBlockIds.ids, includedProjectIds.ids, photoDataUrl);
+    const blob = new Blob([JSON.stringify(preset, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "resume-preset.json";
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const {
@@ -643,6 +684,27 @@ const ResumePreviewPage: React.FC = () => {
             >
               {t("resume.backToProfile")}
             </Link>
+            <input
+              ref={presetInputRef}
+              type="file"
+              accept="application/json"
+              className="hidden"
+              onChange={handlePresetImport}
+            />
+            <button
+              type="button"
+              onClick={() => presetInputRef.current?.click()}
+              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
+            >
+              {t("resume.importPreset")}
+            </button>
+            <button
+              type="button"
+              onClick={handlePresetExport}
+              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm"
+            >
+              {t("resume.exportPreset")}
+            </button>
             <button
               type="button"
               onClick={resetDraft}

@@ -176,6 +176,9 @@
       "blog": "기술 블로그",
       "github": "GitHub",
       "linkedin": "LinkedIn"
-    }
+    },
+    "importPreset": "프리셋 가져오기",
+    "exportPreset": "프리셋 내보내기",
+    "presetImportFailed": "프리셋 파일을 읽지 못했습니다"
   }
 }
