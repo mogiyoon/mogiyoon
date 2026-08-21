@@ -176,6 +176,9 @@
       "blog": "Blog",
       "github": "GitHub",
       "linkedin": "LinkedIn"
-    }
+    },
+    "importPreset": "Import preset",
+    "exportPreset": "Export preset",
+    "presetImportFailed": "Failed to read the preset file"
   }
 }
