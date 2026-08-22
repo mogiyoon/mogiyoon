@@ -7,7 +7,7 @@
         "perf": "Main screen load 3s → 0.6s, duplicate API calls from dozens → 3–4",
         "data": "Introduced a raw vendor layer for crawlers — zero external API calls in existing jobs, a 4-hour job → 30 min",
         "web": "Built the crawl-monitoring dashboard solo — first load 40s+ → 0.1s (SSR/CSR split + precomputed cache)",
-        "quality": "Jest tests 0 → 900+, plus 11 business-rule docs; designed and ran multi-agent harnesses"
+        "quality": "Jest tests 0 → 217 (app) + 260+ characterization (crawler), plus 11 business-rule docs; designed and ran multi-agent harnesses"
       },
       "projects": {
         "pension": {
