@@ -23,6 +23,13 @@ export type ResumePreset = {
   photo?: string;
   blocks?: { exact?: string[]; include?: string[]; exclude?: string[] };
   projects?: { exact?: string[]; include?: string[]; exclude?: string[] };
+  /** 카테고리별 유지할 항목 목록. null 이면 카테고리 제거. 키 순서가 출력 순서가 된다. */
+  skills?: Record<string, string[] | null>;
+  awards?: { exclude?: string[] };
+  certificates?: { exclude?: string[] };
+  education?: { exclude?: string[] };
+  /** 경력 하위 프로젝트(예: pension, crawlers) 자체를 지면에서 제거 */
+  workProjects?: { exclude?: string[] };
 };
 
 type FlatBlock = { id: string; title: string };
@@ -77,6 +84,48 @@ export const applyPresetToDraft = <T extends { profile: ResumeBuilderData["profi
   draft: T,
   preset: ResumePreset,
 ): T => {
+  let next: T = draft;
+  // 섹션 필터 — 스킬·수상·자격·학력·경력 하위 프로젝트를 프리셋으로 다듬는다.
+  const d = next as unknown as Record<string, unknown>;
+  if (preset.skills) {
+    const spec = preset.skills;
+    const groups = (d.skills as Array<{ category: string; items: string[]; primary: string[] }>) ?? [];
+    const order = Object.keys(spec);
+    d.skills = order
+      .map((cat) => {
+        const keep = spec[cat];
+        const group = groups.find((g) => g.category === cat);
+        if (!group || keep === null) return null;
+        const items = group.items.filter((it) => keep.includes(it));
+        const g = group as { resumeItems?: string[] };
+        const resumeItems = g.resumeItems?.filter((it) =>
+          items.some((kept) => it === kept || it.startsWith(kept + " ")),
+        );
+        return {
+          ...group,
+          items,
+          primary: group.primary.filter((it) => items.includes(it)),
+          ...(resumeItems ? { resumeItems } : {}),
+        };
+      })
+      .filter((g) => g && (g as { items: string[] }).items.length > 0);
+    next = { ...(d as unknown as T) };
+  }
+  for (const key of ["awards", "certificates", "education"] as const) {
+    const ex = preset[key]?.exclude;
+    if (ex?.length) {
+      d[key] = ((d[key] as Array<{ id: string }>) ?? []).filter((item) => !ex.includes(item.id));
+      next = { ...(d as unknown as T) };
+    }
+  }
+  if (preset.workProjects?.exclude?.length) {
+    const ex = preset.workProjects.exclude;
+    d.workExperience = ((d.workExperience as Array<{ projects: Array<{ id: string }> }>) ?? []).map(
+      (work) => ({ ...work, projects: work.projects.filter((p) => !ex.includes(p.id)) }),
+    );
+    next = { ...(d as unknown as T) };
+  }
+  draft = next;
   if (!preset.profile) return draft;
   const { intro: introPatch, ...profileRest } = preset.profile;
   const profile = { ...draft.profile, ...profileRest } as ResumeBuilderData["profile"];
